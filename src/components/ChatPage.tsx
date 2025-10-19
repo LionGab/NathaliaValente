@@ -34,15 +34,29 @@ export const ChatPage = () => {
   }, [user]);
 
   const getAIResponse = async (userMessage: string): Promise<string> => {
-    const responses = [
-      'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente.',
-      'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina!',
-      'Que benção poder conversar com você! Saiba que Deus conhece seu coração e vê todo seu esforço. Provérbios 31:28 diz: "Seus filhos se levantam e a elogiam."',
-      'É completamente normal sentir-se assim. Você está fazendo o seu melhor, e isso é mais do que suficiente. Permita-se descansar também.',
-      'Que inspiração! Continue assim, mãe guerreira. Cada pequeno passo é uma vitória. Você está escrevendo uma história linda.',
-    ];
+    try {
+      // Call Supabase Edge Function for AI chat
+      const { data, error } = await supabase.functions.invoke('chat-ai', {
+        body: { message: userMessage },
+      });
 
-    return responses[Math.floor(Math.random() * responses.length)];
+      if (error) {
+        console.error('Error calling chat-ai function:', error);
+        // Return fallback from error or default
+        return data?.fallback || 'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕';
+      }
+
+      return data?.message || data?.fallback || 'Obrigada por compartilhar! Estou aqui para ouvir e apoiar você. 💕';
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      // Fallback response if Edge Function fails
+      const fallbacks = [
+        'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕',
+        'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina! ✨',
+        'Que benção poder conversar com você! Saiba que você está fazendo o melhor que pode. Cada pequeno passo é uma vitória. 🌸',
+      ];
+      return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
