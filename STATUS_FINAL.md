@@ -71,30 +71,24 @@ Cole e execute o SQL completo do arquivo **`GUIA_COMPLETO.md`** (seção "Passo 
 
 ## 🔐 IMPORTANTE - Segurança:
 
-### ⚠️ **REVOGUE esta API key exposta:**
+### ⚠️ **Configure novas chaves de API:**
 
-A chave `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` foi exposta publicamente nesta conversa.
-
-**O que fazer:**
+**Para Anthropic API:**
 
 1. **Acesse:** https://console.anthropic.com/settings/keys
-2. **Revogue** a chave exposta
-3. **Gere uma nova** chave
-4. **Atualize** nos Supabase Secrets:
+2. **Gere uma nova** chave
+3. **Atualize** nos Supabase Secrets:
    ```bash
    export SUPABASE_ACCESS_TOKEN=seu_token
    npx supabase secrets set ANTHROPIC_API_KEY=sua_nova_chave
    ```
 
-### ⚠️ **REVOGUE também este token do Supabase:**
+### ⚠️ **Token do Supabase:**
 
-O token `sbp_a50ebebb73855cb2c3a2c0ff1a1883c373f7d79e` foi exposto.
-
-**O que fazer:**
+**Para desenvolvimento local:**
 
 1. **Acesse:** https://supabase.com/dashboard/account/tokens
-2. **Revogue** o token exposto
-3. **Gere um novo** para uso futuro
+2. **Gere um novo** token se necessário
 
 ---
 

@@ -269,7 +269,7 @@ Para que o Robô Nath funcione com IA real:
 
 3. **Reinicie a Edge Function** (opcional, mas recomendado):
 ```bash
-export SUPABASE_ACCESS_TOKEN=sbp_a50ebebb73855cb2c3a2c0ff1a1883c373f7d79e
+export SUPABASE_ACCESS_TOKEN=seu_token_aqui
 npx supabase functions deploy chat-ai
 ```
 
