@@ -69,7 +69,7 @@
     - Private access for chat messages and saved items
 */
 
--- Create profiles table
+-- 1. Criar tabela de perfis (se não existir)
 CREATE TABLE IF NOT EXISTS profiles (
   id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name text NOT NULL,
@@ -81,24 +81,31 @@ CREATE TABLE IF NOT EXISTS profiles (
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
+-- Policies para profiles
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON profiles;
 CREATE POLICY "Public profiles are viewable by everyone"
   ON profiles FOR SELECT
   TO authenticated
   USING (true);
 
+DROP POLICY IF EXISTS "Users can insert their own profile" ON profiles;
 CREATE POLICY "Users can insert their own profile"
   ON profiles FOR INSERT
   TO authenticated
   WITH CHECK (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 CREATE POLICY "Users can update their own profile"
   ON profiles FOR UPDATE
   TO authenticated
   USING (auth.uid() = id)
   WITH CHECK (auth.uid() = id);
 
--- Create posts table
-CREATE TABLE IF NOT EXISTS posts (
+-- 2. Verificar e corrigir tabela posts
+-- Primeiro, dropar a tabela se existir com estrutura incorreta
+DROP TABLE IF EXISTS posts CASCADE;
+
+CREATE TABLE posts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   caption text NOT NULL,
@@ -131,7 +138,7 @@ CREATE POLICY "Users can delete their own posts"
   TO authenticated
   USING (auth.uid() = user_id);
 
--- Create comments table
+-- 3. Criar tabela de comentários
 CREATE TABLE IF NOT EXISTS comments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   post_id uuid NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
@@ -157,7 +164,7 @@ CREATE POLICY "Users can delete their own comments"
   TO authenticated
   USING (auth.uid() = user_id);
 
--- Create likes table
+-- 4. Criar tabela de likes
 CREATE TABLE IF NOT EXISTS likes (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   post_id uuid NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
@@ -183,7 +190,7 @@ CREATE POLICY "Users can delete their own likes"
   TO authenticated
   USING (auth.uid() = user_id);
 
--- Create nathy_badges table
+-- 5. Criar tabela de badges da Nathy
 CREATE TABLE IF NOT EXISTS nathy_badges (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   post_id uuid NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
@@ -198,7 +205,7 @@ CREATE POLICY "Badges are viewable by everyone"
   TO authenticated
   USING (true);
 
--- Create saved_items table
+-- 6. Criar tabela de itens salvos
 CREATE TABLE IF NOT EXISTS saved_items (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -225,7 +232,7 @@ CREATE POLICY "Users can delete their own saved items"
   TO authenticated
   USING (auth.uid() = user_id);
 
--- Create chat_messages table
+-- 7. Criar tabela de mensagens do chat
 CREATE TABLE IF NOT EXISTS chat_messages (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -246,7 +253,7 @@ CREATE POLICY "Users can create chat messages"
   TO authenticated
   WITH CHECK (auth.uid() = user_id);
 
--- Create daily_quotes table
+-- 8. Criar tabela de frases diárias
 CREATE TABLE IF NOT EXISTS daily_quotes (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   content text NOT NULL,
@@ -263,7 +270,7 @@ CREATE POLICY "Quotes are viewable by everyone"
   TO authenticated
   USING (true);
 
--- Create indexes for better performance
+-- 9. Criar índices para performance
 CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(user_id);
 CREATE INDEX IF NOT EXISTS idx_posts_created_at ON posts(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
@@ -271,10 +278,10 @@ CREATE INDEX IF NOT EXISTS idx_likes_post_id ON likes(post_id);
 CREATE INDEX IF NOT EXISTS idx_chat_messages_user_id ON chat_messages(user_id);
 CREATE INDEX IF NOT EXISTS idx_daily_quotes_date ON daily_quotes(date);
 
--- Insert some initial daily quotes
+-- 10. Inserir dados de exemplo (frases diárias)
 INSERT INTO daily_quotes (content, author, type, date)
-VALUES 
+VALUES
   ('Você é mais forte do que imagina, mãe. Cada dia é uma vitória de amor.', 'Nathalia Valente', 'motivational', CURRENT_DATE),
-  ('Provérbios 31:25 - Força e dignidade são os seus vestidos, e se alegra com o dia futuro.', 'Bíblia', 'verse', CURRENT_DATE + INTERVAL '1 day'),
-  ('Maternidade não é perfeição, é presença. E você está fazendo um trabalho incrível.', 'Nathalia Valente', 'reflection', CURRENT_DATE + INTERVAL '2 days')
+  ('Provérbios 31:25 - Força e dignidade são os seus vestidos, e se alegra com o dia futuro.', 'Bíblia', 'verse', CURRENT_DATE + INTERVAL ''1 day''),
+  ('Maternidade não é perfeição, é presença. E você está fazendo um trabalho incrível.', 'Nathalia Valente', 'reflection', CURRENT_DATE + INTERVAL ''2 days'')
 ON CONFLICT (date) DO NOTHING;
