@@ -10,7 +10,9 @@
 
 **Uma plataforma de apoio e conexão para mães, com IA empática e comunidade acolhedora**
 
-[🚀 Começar](#-começar) • [📖 Documentação](#-documentação) • [🤖 Robô Nath](#-robô-nath) • [🔧 Configuração](#-configuração)
+[🚀 Deploy Rápido](./DEPLOY_RAPIDO.md) • [📖 Guia Completo](./DEPLOYMENT.md) • [🤖 Robô Nath](#-robô-nath) • [🔧 Configuração](#-configuração)
+
+**📦 Repositório:** [github.com/LionGab/boltnathH](https://github.com/LionGab/boltnathH)
 
 </div>
 
@@ -18,6 +20,7 @@
 
 ## 📋 Índice
 
+- [🚀 Deploy Rápido](#-deploy-no-netlify)
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias](#-tecnologias)
@@ -26,6 +29,24 @@
 - [Robô Nath](#-robô-nath)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Documentação](#-documentação)
+
+---
+
+## 🚀 Deploy no Netlify
+
+### Deploy em 3 Passos (5 minutos)
+
+1. **Acesse:** https://app.netlify.com/start
+2. **Importe:** Selecione `LionGab/boltnathH` do GitHub
+3. **Configure:** Adicione as variáveis de ambiente:
+   - `VITE_SUPABASE_URL=https://bbcwitnbnosyfpfjtzkr.supabase.co`
+   - `VITE_SUPABASE_ANON_KEY=[sua-chave-anon]`
+
+**Pronto!** Seu app estará no ar em ~3 minutos 🎉
+
+📖 **Guias detalhados:**
+- [⚡ Deploy Rápido (5 min)](./DEPLOY_RAPIDO.md)
+- [📚 Guia Completo de Deploy](./DEPLOYMENT.md)
 
 ---
 
