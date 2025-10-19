@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, Post } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Heart, MessageCircle, Award, Plus, Bookmark, BookmarkCheck } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark } from 'lucide-react';
 import { CreatePostModal } from './CreatePostModal';
 import { PostComments } from './PostComments';
 

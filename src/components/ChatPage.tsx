@@ -33,7 +33,8 @@ export const ChatPage = () => {
     fetchMessages();
   }, [user]);
 
-  const getAIResponse = async (userMessage: string): Promise<string> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const getAIResponse = async (_userMessage: string): Promise<string> => {
     const responses = [
       'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente.',
       'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina!',
