@@ -16,8 +16,11 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-peanut-cream dark:bg-peanut-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-peanut-coral border-t-transparent"></div>
+      <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-claude-orange-500 border-t-transparent"></div>
+          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">Carregando...</p>
+        </div>
       </div>
     );
   }
@@ -44,9 +47,9 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-peanut-cream dark:bg-peanut-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300">
       <Header onProfileClick={() => setCurrentPage('profile')} />
-      <main className="pt-2 pb-20">
+      <main className="pt-4 pb-24 animate-fade-in">
         {renderPage()}
       </main>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />

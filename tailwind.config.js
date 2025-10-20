@@ -5,24 +5,63 @@ export default {
   theme: {
     extend: {
       colors: {
-        peanut: {
-          coral: '#FF6B6B',
-          'coral-light': '#FE9797',
-          'coral-lighter': '#FFB5B5',
-          peach: '#FFD4C8',
-          cream: '#FFF9F5',
-          sand: '#F5F1ED',
+        // Anthropic-inspired color palette
+        claude: {
+          // Primary orange/coral tones (similar to Anthropic's brand)
+          orange: {
+            50: '#FFF7F5',
+            100: '#FFEDE8',
+            200: '#FFD7CC',
+            300: '#FFBCA8',
+            400: '#FF9B7A',
+            500: '#E77A5C', // Main accent
+            600: '#CC6B52',
+            700: '#B35A45',
+            800: '#8F4838',
+            900: '#6B362A',
+          },
+          // Neutral grays
           gray: {
-            50: '#FAFAFA',
-            100: '#F5F5F5',
-            200: '#E8E8E8',
-            300: '#D1D1D1',
-            400: '#A8A8A8',
-            500: '#7A7A7A',
-            600: '#5C5C5C',
-            700: '#3F3F3F',
-            800: '#2B2B2B',
-            900: '#1A1A1A',
+            50: '#FAFAF9',
+            100: '#F5F5F4',
+            200: '#E7E5E4',
+            300: '#D6D3D1',
+            400: '#A8A29E',
+            500: '#78716C',
+            600: '#57534E',
+            700: '#44403C',
+            800: '#292524',
+            900: '#1C1917',
+            950: '#0C0A09',
+          },
+          // Warm background tones
+          cream: {
+            50: '#FEFDFB',
+            100: '#FDF9F5',
+            200: '#FBF3EB',
+            300: '#F7EBE0',
+            400: '#F0DCC9',
+          },
+        },
+        // Legacy peanut colors for compatibility
+        peanut: {
+          coral: '#E77A5C',
+          'coral-light': '#FF9B7A',
+          'coral-lighter': '#FFBCA8',
+          peach: '#FFD7CC',
+          cream: '#FEFDFB',
+          sand: '#F7EBE0',
+          gray: {
+            50: '#FAFAF9',
+            100: '#F5F5F4',
+            200: '#E7E5E4',
+            300: '#D6D3D1',
+            400: '#A8A29E',
+            500: '#78716C',
+            600: '#57534E',
+            700: '#44403C',
+            800: '#292524',
+            900: '#1C1917',
           },
         },
       },
@@ -38,15 +77,49 @@ export default {
           'sans-serif',
         ],
       },
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],
+        'sm': ['0.875rem', { lineHeight: '1.6', letterSpacing: '0.01em' }],
+        'base': ['1rem', { lineHeight: '1.7', letterSpacing: '0' }],
+        'lg': ['1.125rem', { lineHeight: '1.7', letterSpacing: '0' }],
+        'xl': ['1.25rem', { lineHeight: '1.6', letterSpacing: '-0.01em' }],
+        '2xl': ['1.5rem', { lineHeight: '1.5', letterSpacing: '-0.02em' }],
+        '3xl': ['1.875rem', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
+        '4xl': ['2.25rem', { lineHeight: '1.3', letterSpacing: '-0.03em' }],
+      },
       borderRadius: {
         '2xl': '1rem',
         '3xl': '1.5rem',
         '4xl': '2rem',
       },
       boxShadow: {
-        'peanut-sm': '0 2px 8px rgba(0, 0, 0, 0.04)',
-        'peanut': '0 4px 16px rgba(0, 0, 0, 0.06)',
-        'peanut-lg': '0 8px 24px rgba(0, 0, 0, 0.08)',
+        'claude-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
+        'claude': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.04)',
+        'claude-md': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 8px 24px -4px rgba(0, 0, 0, 0.05)',
+        'claude-lg': '0 8px 32px -8px rgba(0, 0, 0, 0.08), 0 12px 48px -8px rgba(0, 0, 0, 0.06)',
+        // Legacy
+        'peanut-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
+        'peanut': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.04)',
+        'peanut-lg': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 8px 24px -4px rgba(0, 0, 0, 0.05)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.4s ease-out',
+        'slide-up': 'slideUp 0.4s ease-out',
+        'scale-in': 'scaleIn 0.3s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
       },
     },
   },

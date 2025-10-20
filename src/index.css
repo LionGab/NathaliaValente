@@ -9,10 +9,57 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply text-gray-900 dark:text-white;
+    @apply text-claude-gray-800 dark:text-claude-gray-100;
+    @apply bg-claude-cream-50 dark:bg-claude-gray-950;
+  }
+
+  /* Better focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-claude-orange-500/50 ring-offset-2 ring-offset-white dark:ring-offset-claude-gray-900;
+  }
+}
+
+@layer components {
+  /* Button base styles */
+  .btn-primary {
+    @apply bg-claude-orange-500 text-white px-6 py-3 rounded-2xl font-medium;
+    @apply hover:bg-claude-orange-600 active:bg-claude-orange-700;
+    @apply shadow-claude hover:shadow-claude-md;
+    @apply transition-all duration-200 ease-out;
+    @apply transform hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-claude-gray-800 text-claude-gray-700 dark:text-claude-gray-200;
+    @apply border border-claude-gray-200 dark:border-claude-gray-700;
+    @apply px-6 py-3 rounded-2xl font-medium;
+    @apply hover:bg-claude-gray-50 dark:hover:bg-claude-gray-700;
+    @apply shadow-claude-sm hover:shadow-claude;
+    @apply transition-all duration-200 ease-out;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white dark:bg-claude-gray-900 rounded-3xl shadow-claude;
+    @apply border border-claude-gray-100/50 dark:border-claude-gray-800/50;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-claude-md;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-2xl;
+    @apply bg-white dark:bg-claude-gray-800;
+    @apply border border-claude-gray-200 dark:border-claude-gray-700;
+    @apply text-claude-gray-900 dark:text-claude-gray-100;
+    @apply placeholder:text-claude-gray-400;
+    @apply focus:border-claude-orange-500 focus:ring-2 focus:ring-claude-orange-500/20;
+    @apply transition-all duration-200;
   }
 }
 
@@ -21,21 +68,20 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
+  /* Animation utilities */
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.4s ease-out;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
   }
 
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  /* Text clamp utilities */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -49,21 +95,52 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Gradient utilities */
+  .gradient-orange {
+    background: linear-gradient(135deg, #E77A5C 0%, #FF9B7A 100%);
+  }
+
+  .gradient-purple {
+    background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
+  }
+
+  .gradient-blue {
+    background: linear-gradient(135deg, #60A5FA 0%, #93C5FD 100%);
+  }
+
+  .gradient-green {
+    background: linear-gradient(135deg, #34D399 0%, #6EE7B7 100%);
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply backdrop-blur-xl bg-white/80 dark:bg-claude-gray-900/80;
+    @apply border border-claude-gray-200/50 dark:border-claude-gray-700/50;
+  }
 }
 
+/* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply bg-claude-gray-300 dark:bg-claude-gray-700 rounded-full;
+  @apply hover:bg-claude-gray-400 dark:hover:bg-claude-gray-600;
+  @apply transition-colors duration-200;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+/* Selection styles */
+::selection {
+  @apply bg-claude-orange-200 text-claude-gray-900;
+}
+
+::-moz-selection {
+  @apply bg-claude-orange-200 text-claude-gray-900;
 }
