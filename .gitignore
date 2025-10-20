@@ -21,3 +21,10 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.production
+
+# MCP Configuration (contains sensitive tokens)
+claude_desktop_config.json
+*.key
+*.pem
