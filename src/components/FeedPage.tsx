@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, Post } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Heart, MessageCircle, Award, Plus, Bookmark, BookmarkCheck } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark } from 'lucide-react';
 import { CreatePostModal } from './CreatePostModal';
 import { PostComments } from './PostComments';
 
@@ -87,64 +87,64 @@ export const FeedPage = () => {
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      'Look do dia': 'from-pink-400 to-rose-400',
-      'Desabafo': 'from-purple-400 to-indigo-400',
-      'Fé': 'from-blue-400 to-cyan-400',
-      'Dica de mãe': 'from-green-400 to-emerald-400',
+      'Look do dia': 'bg-peanut-coral text-white',
+      'Desabafo': 'bg-purple-400 text-white',
+      'Fé': 'bg-blue-400 text-white',
+      'Dica de mãe': 'bg-emerald-400 text-white',
     };
-    return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
+    return colors[category as keyof typeof colors] || 'bg-peanut-gray-400 text-white';
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-pink-400 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-peanut-coral border-t-transparent"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 pb-24">
+    <div className="max-w-2xl mx-auto px-4 py-4 pb-24">
       <button
         onClick={() => setShowCreatePost(true)}
-        className="w-full mb-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white py-4 px-6 rounded-2xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+        className="w-full mb-5 bg-peanut-coral text-white py-4 px-6 rounded-3xl font-semibold hover:bg-peanut-coral-light shadow-peanut hover:shadow-peanut-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
       >
-        <Plus className="w-5 h-5" />
+        <Plus className="w-5 h-5" strokeWidth={2.5} />
         Criar nova publicação
       </button>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {posts.map((post) => (
           <article
             key={post.id}
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+            className="bg-white dark:bg-peanut-gray-800 rounded-3xl shadow-peanut overflow-hidden transition-all duration-300 hover:shadow-peanut-lg"
           >
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-3">
+            <div className="p-5">
+              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {post.profiles?.avatar_url ? (
                     <img
                       src={post.profiles.avatar_url}
                       alt={post.profiles.full_name}
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-11 h-11 rounded-full object-cover ring-2 ring-peanut-gray-100 dark:ring-peanut-gray-700"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white font-medium">
+                    <div className="w-11 h-11 rounded-full bg-peanut-coral flex items-center justify-center text-white font-semibold text-base">
                       {post.profiles?.full_name.charAt(0)}
                     </div>
                   )}
                   <div>
-                    <p className="font-medium text-gray-800 dark:text-white">
+                    <p className="font-semibold text-peanut-gray-800 dark:text-white text-[15px]">
                       {post.profiles?.full_name}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-peanut-gray-400 dark:text-peanut-gray-500">
                       {new Date(post.created_at).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                 </div>
 
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getCategoryColor(
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getCategoryColor(
                     post.category
                   )}`}
                 >
@@ -156,47 +156,48 @@ export const FeedPage = () => {
                 <img
                   src={post.image_url}
                   alt="Post"
-                  className="w-full rounded-2xl mb-3 object-cover max-h-96"
+                  className="w-full rounded-2xl mb-4 object-cover max-h-96"
                 />
               )}
 
-              <p className="text-gray-700 dark:text-gray-300 mb-4">{post.caption}</p>
+              <p className="text-peanut-gray-700 dark:text-peanut-gray-300 mb-4 leading-relaxed">{post.caption}</p>
 
               {post.has_badge && (
-                <div className="flex items-center gap-2 mb-3 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 px-3 py-2 rounded-xl">
-                  <Award className="w-5 h-5 text-pink-500" />
-                  <span className="text-sm font-medium text-pink-600 dark:text-pink-400">
+                <div className="flex items-center gap-2 mb-4 bg-peanut-peach/30 dark:bg-peanut-coral/10 px-4 py-2.5 rounded-2xl">
+                  <Award className="w-5 h-5 text-peanut-coral" />
+                  <span className="text-sm font-semibold text-peanut-coral">
                     Nathy Aprovou
                   </span>
                 </div>
               )}
 
-              <div className="flex items-center gap-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-5 pt-3 border-t border-peanut-gray-100 dark:border-peanut-gray-700">
                 <button
                   onClick={() => handleLike(post.id, post.user_has_liked || false)}
-                  className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-pink-500 transition-colors"
+                  className="flex items-center gap-2 text-peanut-gray-500 dark:text-peanut-gray-400 hover:text-peanut-coral transition-colors"
                 >
                   <Heart
                     className={`w-5 h-5 ${
-                      post.user_has_liked ? 'fill-pink-500 text-pink-500' : ''
+                      post.user_has_liked ? 'fill-peanut-coral text-peanut-coral' : ''
                     }`}
+                    strokeWidth={2}
                   />
-                  <span className="text-sm font-medium">{post.likes_count}</span>
+                  <span className="text-sm font-semibold">{post.likes_count}</span>
                 </button>
 
                 <button
                   onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
-                  className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-500 transition-colors"
+                  className="flex items-center gap-2 text-peanut-gray-500 dark:text-peanut-gray-400 hover:text-peanut-coral transition-colors"
                 >
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="text-sm font-medium">{post.comments_count}</span>
+                  <MessageCircle className="w-5 h-5" strokeWidth={2} />
+                  <span className="text-sm font-semibold">{post.comments_count}</span>
                 </button>
 
                 <button
                   onClick={() => handleSavePost(post.id)}
-                  className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors ml-auto"
+                  className="flex items-center gap-2 text-peanut-gray-500 dark:text-peanut-gray-400 hover:text-peanut-coral transition-colors ml-auto"
                 >
-                  <Bookmark className="w-5 h-5" />
+                  <Bookmark className="w-5 h-5" strokeWidth={2} />
                 </button>
               </div>
             </div>

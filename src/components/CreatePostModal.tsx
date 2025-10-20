@@ -73,21 +73,21 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Nova publicação</h2>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-peanut-gray-800 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-peanut-lg">
+        <div className="sticky top-0 bg-white dark:bg-peanut-gray-800 border-b border-peanut-gray-100 dark:border-peanut-gray-700 p-5 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-peanut-gray-800 dark:text-white">Nova publicação</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+            className="p-2 hover:bg-peanut-sand dark:hover:bg-peanut-gray-700 rounded-2xl transition-colors"
           >
-            <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <X className="w-5 h-5 text-peanut-gray-600 dark:text-peanut-gray-400" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-peanut-gray-700 dark:text-peanut-gray-300 mb-3">
               Categoria
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -96,10 +96,10 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
-                  className={`py-2 px-4 rounded-xl font-medium transition-all ${
+                  className={`py-2.5 px-4 rounded-2xl font-semibold transition-all ${
                     category === cat
-                      ? 'bg-gradient-to-r from-pink-400 to-purple-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      ? 'bg-peanut-coral text-white shadow-peanut'
+                      : 'bg-peanut-sand dark:bg-peanut-gray-700 text-peanut-gray-700 dark:text-peanut-gray-300 hover:bg-peanut-gray-200 dark:hover:bg-peanut-gray-600'
                   }`}
                 >
                   {cat}
@@ -109,7 +109,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-peanut-gray-700 dark:text-peanut-gray-300 mb-3">
               O que você quer compartilhar?
             </label>
             <textarea
@@ -117,13 +117,13 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
               onChange={(e) => setCaption(e.target.value)}
               required
               rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-3 rounded-2xl border border-peanut-gray-200 dark:border-peanut-gray-700 bg-white dark:bg-peanut-gray-700 text-peanut-gray-900 dark:text-white focus:ring-2 focus:ring-peanut-coral focus:border-transparent transition-all resize-none placeholder:text-peanut-gray-400"
               placeholder="Compartilhe seu momento..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-peanut-gray-700 dark:text-peanut-gray-300 mb-3">
               Foto (opcional)
             </label>
             {imagePreview ? (
@@ -131,7 +131,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full rounded-xl object-cover max-h-64"
+                  className="w-full rounded-2xl object-cover max-h-64"
                 />
                 <button
                   type="button"
@@ -139,16 +139,16 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                     setImageFile(null);
                     setImagePreview('');
                   }}
-                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-peanut transition-colors"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4" strokeWidth={2.5} />
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-peanut-gray-300 dark:border-peanut-gray-600 rounded-2xl cursor-pointer hover:bg-peanut-sand/50 dark:hover:bg-peanut-gray-700/50 transition-colors">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <ImageIcon className="w-8 h-8 text-peanut-gray-400 mb-2" strokeWidth={2} />
+                  <p className="text-sm text-peanut-gray-500 dark:text-peanut-gray-400 font-medium">
                     Clique para adicionar uma foto
                   </p>
                 </div>
@@ -165,7 +165,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
           <button
             type="submit"
             disabled={loading || !caption}
-            className="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white py-3 px-6 rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+            className="w-full bg-peanut-coral text-white py-3.5 px-6 rounded-3xl font-semibold hover:bg-peanut-coral-light shadow-peanut hover:shadow-peanut-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -174,7 +174,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
               </>
             ) : (
               <>
-                <Upload className="w-5 h-5" />
+                <Upload className="w-5 h-5" strokeWidth={2.5} />
                 Publicar
               </>
             )}

@@ -16,8 +16,8 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-pink-400 border-t-transparent"></div>
+      <div className="min-h-screen bg-peanut-cream dark:bg-peanut-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-peanut-coral border-t-transparent"></div>
       </div>
     );
   }
@@ -44,9 +44,9 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-peanut-cream dark:bg-peanut-gray-900 transition-colors duration-300">
       <Header onProfileClick={() => setCurrentPage('profile')} />
-      <main className="pt-4">
+      <main className="pt-2 pb-20">
         {renderPage()}
       </main>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />

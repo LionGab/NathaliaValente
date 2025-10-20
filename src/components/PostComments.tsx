@@ -56,7 +56,7 @@ export const PostComments = ({ postId }: PostCommentsProps) => {
   };
 
   return (
-    <div className="border-t border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900/50">
+    <div className="border-t border-peanut-gray-100 dark:border-peanut-gray-700 p-5 bg-peanut-sand/30 dark:bg-peanut-gray-900/30">
       <div className="space-y-3 mb-4 max-h-64 overflow-y-auto">
         {comments.map((comment) => (
           <div key={comment.id} className="flex gap-3">
@@ -64,18 +64,18 @@ export const PostComments = ({ postId }: PostCommentsProps) => {
               <img
                 src={comment.profiles.avatar_url}
                 alt={comment.profiles.full_name}
-                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                className="w-8 h-8 rounded-full object-cover flex-shrink-0 ring-2 ring-peanut-gray-100 dark:ring-peanut-gray-700"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-peanut-coral flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
                 {comment.profiles?.full_name.charAt(0)}
               </div>
             )}
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-800 dark:text-white">
+            <div className="flex-1 bg-white dark:bg-peanut-gray-800 px-3 py-2 rounded-2xl">
+              <p className="text-sm font-semibold text-peanut-gray-800 dark:text-white mb-0.5">
                 {comment.profiles?.full_name}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{comment.content}</p>
+              <p className="text-sm text-peanut-gray-600 dark:text-peanut-gray-400 leading-relaxed">{comment.content}</p>
             </div>
           </div>
         ))}
@@ -87,14 +87,14 @@ export const PostComments = ({ postId }: PostCommentsProps) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Adicione um comentário..."
-          className="flex-1 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+          className="flex-1 px-4 py-2.5 rounded-full border border-peanut-gray-200 dark:border-peanut-gray-700 bg-white dark:bg-peanut-gray-800 text-peanut-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-peanut-coral focus:border-transparent transition-all placeholder:text-peanut-gray-400"
         />
         <button
           type="submit"
           disabled={loading || !newComment.trim()}
-          className="p-2 bg-gradient-to-r from-pink-400 to-purple-500 text-white rounded-full hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2.5 bg-peanut-coral text-white rounded-full hover:bg-peanut-coral-light shadow-peanut-sm hover:shadow-peanut transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send className="w-5 h-5" />
+          <Send className="w-5 h-5" strokeWidth={2} />
         </button>
       </form>
     </div>
