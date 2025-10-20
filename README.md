@@ -10,7 +10,7 @@
 
 **Uma plataforma de apoio e conexão para mães, com IA empática e comunidade acolhedora**
 
-[🚀 Deploy Rápido](./DEPLOY_RAPIDO.md) • [📖 Guia Completo](./DEPLOYMENT.md) • [🤖 Robô Nath](#-robô-nath) • [🔧 Configuração](#-configuração)
+[🚀 Deploy](./docs/DEPLOYMENT.md) • [� Setup](./docs/SETUP.md) • [🤖 Robô Nath](#-robô-nath) • [� Docs](#-documentação)
 
 **📦 Repositório:** [github.com/LionGab/boltnathH](https://github.com/LionGab/boltnathH)
 
@@ -308,28 +308,21 @@ boltnathH/
 
 ### Guias Disponíveis
 
-1. **[CHECKLIST.md](CHECKLIST.md)**
-   - ✅ Checklist passo a passo
-   - 📊 Tempo estimado: 15-20 minutos
-   - 🎯 Acompanhe seu progresso
+| Documento | Descrição | Link |
+|-----------|-----------|------|
+| � **Setup** | Configuração inicial e em nova máquina | [docs/SETUP.md](docs/SETUP.md) |
+| 🚀 **Deploy** | Guia completo de deploy no Netlify | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
+| 🤖 **MCP** | Configurar Model Context Protocol | [docs/MCP_SETUP.md](docs/MCP_SETUP.md) |
+| 🐛 **Troubleshooting** | Solução de problemas comuns | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) |
+| 🤖 **PR Automáticos** | Sistema de PRs automáticos | [.github/AUTO_PR_CONFIG.md](.github/AUTO_PR_CONFIG.md) |
 
-2. **[CONFIGURACAO.md](CONFIGURACAO.md)**
-   - 📖 Guia completo e detalhado
-   - 🔍 Solução de problemas
-   - 💡 Dicas de desenvolvimento
-   - 🔗 Links úteis
-
-3. **[SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md)**
-   - 📋 Instruções técnicas originais
-   - 🏗 Estrutura do projeto
-   - 🔐 Detalhes de segurança
-
-### Links Externos
+### Links Úteis
 
 - **Dashboard Supabase:** [Ver Projeto](https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr)
 - **Anthropic Console:** [Gerenciar API Keys](https://console.anthropic.com/)
 - **Documentação Supabase:** [Docs](https://supabase.com/docs)
 - **Documentação Claude:** [API Reference](https://docs.anthropic.com/)
+- **GitHub Actions:** [Ver Workflows](https://github.com/LionGab/boltnathH/actions)
 
 ---
 
@@ -420,9 +413,10 @@ Este projeto é privado e proprietário.
 
 Problemas ou dúvidas?
 
-1. Consulte a [documentação](CONFIGURACAO.md)
-2. Execute o verificador: `verificar-setup.bat`
+1. Consulte [Troubleshooting](docs/TROUBLESHOOTING.md)
+2. Veja [Guia de Setup](docs/SETUP.md)
 3. Verifique os logs: `supabase functions logs chat-ai`
+4. Crie uma [issue no GitHub](https://github.com/LionGab/boltnathH/issues)
 
 ---
 
