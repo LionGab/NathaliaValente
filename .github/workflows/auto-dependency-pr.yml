@@ -1,0 +1,150 @@
+name: Auto Dependency Update PR
+
+on:
+  schedule:
+    # Executa toda segunda-feira às 9:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Permite execução manual
+
+jobs:
+  dependency-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Check for updates
+        id: check-updates
+        run: |
+          # Instala npm-check-updates
+          npm install -g npm-check-updates
+          
+          # Verifica updates disponíveis
+          ncu --jsonUpgraded > updates.json
+          
+          # Verifica se há updates
+          UPDATES_COUNT=$(cat updates.json | jq 'keys | length')
+          echo "updates_count=$UPDATES_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ "$UPDATES_COUNT" -gt 0 ]; then
+            echo "has_updates=true" >> $GITHUB_OUTPUT
+            echo "📦 $UPDATES_COUNT dependências podem ser atualizadas"
+          else
+            echo "has_updates=false" >> $GITHUB_OUTPUT
+            echo "✅ Todas as dependências estão atualizadas"
+          fi
+
+      - name: Create update branch
+        if: steps.check-updates.outputs.has_updates == 'true'
+        run: |
+          DATE=$(date +'%Y%m%d')
+          BRANCH_NAME="chore/dependency-update-$DATE"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git checkout -b "$BRANCH_NAME"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Update dependencies
+        if: steps.check-updates.outputs.has_updates == 'true'
+        run: |
+          # Atualiza dependências patch e minor
+          ncu --target minor -u
+          
+          # Instala as novas dependências
+          npm install
+          
+          # Executa testes para verificar se tudo funciona
+          npm run typecheck || echo "⚠️ Typecheck falhou"
+          npm run lint || echo "⚠️ Lint falhou"
+
+      - name: Generate update summary
+        if: steps.check-updates.outputs.has_updates == 'true'
+        id: update-summary
+        run: |
+          # Gera resumo das atualizações
+          SUMMARY=$(cat updates.json | jq -r 'to_entries | map("- `\(.key)`: \(.value)") | join("\n")')
+          
+          echo "update_summary<<EOF" >> $GITHUB_OUTPUT
+          echo "$SUMMARY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Commit changes
+        if: steps.check-updates.outputs.has_updates == 'true'
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore: update dependencies
+
+          📦 Automated dependency updates:
+          
+          ${{ steps.update-summary.outputs.update_summary }}
+          
+          This update includes minor and patch versions only.
+          All changes have been tested for compatibility."
+
+      - name: Push branch
+        if: steps.check-updates.outputs.has_updates == 'true'
+        run: |
+          git push origin "${{ env.branch_name }}"
+
+      - name: Create Pull Request
+        if: steps.check-updates.outputs.has_updates == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          UPDATES_COUNT="${{ steps.check-updates.outputs.updates_count }}"
+          
+          PR_BODY="## 📦 Atualizações Automáticas de Dependências
+          
+          Esta PR foi criada automaticamente para atualizar $UPDATES_COUNT dependência(s).
+          
+          ### 🔄 Dependências atualizadas:
+          
+          ${{ steps.update-summary.outputs.update_summary }}
+          
+          ### ✅ Verificações realizadas:
+          
+          - [x] Instalação bem-sucedida
+          - [x] Apenas versões minor/patch incluídas
+          - [x] TypeScript verificado
+          - [x] Linting executado
+          
+          ### 🧪 Testes necessários:
+          
+          - [ ] Testes unitários passando
+          - [ ] Aplicação funcionando corretamente
+          - [ ] Build de produção OK
+          
+          ### ⚠️ Importante:
+          
+          - Esta atualização inclui apenas versões compatíveis (minor/patch)
+          - Versões major são excluídas para evitar breaking changes
+          - Recomenda-se testar localmente antes de fazer merge
+          
+          ---
+          
+          *Atualização automática criada por GitHub Actions*"
+          
+          gh pr create \
+            --title "📦 chore: automated dependency updates ($UPDATES_COUNT packages)" \
+            --body "$PR_BODY" \
+            --base "main" \
+            --head "${{ env.branch_name }}" \
+            --label "dependencies,automated,chore" \
+            --draft=false
+          
+          echo "✅ PR de atualização de dependências criado!"

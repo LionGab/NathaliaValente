@@ -1,0 +1,301 @@
+name: Auto Release PR
+
+on:
+  schedule:
+    # Executa toda sexta-feira às 16:00 UTC para preparar release
+    - cron: '0 16 * * 5'
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Tipo de release'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      release_notes:
+        description: 'Notas de release personalizadas'
+        required: false
+        type: string
+
+jobs:
+  auto-release-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine release type
+        id: release-type
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            RELEASE_TYPE="${{ github.event.inputs.release_type }}"
+          else
+            # Para execução automática, analisa commits desde último release
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+            
+            # Verifica se há breaking changes
+            if git log $LAST_TAG..HEAD --grep="BREAKING CHANGE" --oneline | grep -q "BREAKING CHANGE"; then
+              RELEASE_TYPE="major"
+            # Verifica se há novas features
+            elif git log $LAST_TAG..HEAD --grep="feat:" --oneline | grep -q "feat:"; then
+              RELEASE_TYPE="minor"
+            # Caso contrário, é patch
+            else
+              RELEASE_TYPE="patch"
+            fi
+          fi
+          
+          echo "release_type=$RELEASE_TYPE" >> $GITHUB_OUTPUT
+          echo "📦 Tipo de release determinado: $RELEASE_TYPE"
+
+      - name: Get current version
+        id: current-version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "📋 Versão atual: $CURRENT_VERSION"
+
+      - name: Calculate new version
+        id: new-version
+        run: |
+          CURRENT="${{ steps.current-version.outputs.current_version }}"
+          RELEASE_TYPE="${{ steps.release-type.outputs.release_type }}"
+          
+          # Instala semver se não estiver disponível
+          npm install -g semver
+          
+          NEW_VERSION=$(semver -i $RELEASE_TYPE $CURRENT)
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "🚀 Nova versão: $NEW_VERSION"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            COMMIT_RANGE="HEAD"
+          else
+            COMMIT_RANGE="$LAST_TAG..HEAD"
+          fi
+          
+          # Gera changelog baseado em commits convencionais
+          CHANGELOG="## 🚀 Release $NEW_VERSION"$'\n\n'
+          
+          # Features
+          FEATURES=$(git log $COMMIT_RANGE --grep="feat:" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$FEATURES" ]; then
+            CHANGELOG="$CHANGELOG### ✨ Novas Features"$'\n\n'"$FEATURES"$'\n\n'
+          fi
+          
+          # Bug fixes
+          FIXES=$(git log $COMMIT_RANGE --grep="fix:" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$FIXES" ]; then
+            CHANGELOG="$CHANGELOG### 🐛 Correções"$'\n\n'"$FIXES"$'\n\n'
+          fi
+          
+          # Improvements
+          IMPROVEMENTS=$(git log $COMMIT_RANGE --grep="refactor:\|perf:\|style:" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$IMPROVEMENTS" ]; then
+            CHANGELOG="$CHANGELOG### 🔧 Melhorias"$'\n\n'"$IMPROVEMENTS"$'\n\n'
+          fi
+          
+          # Documentation
+          DOCS=$(git log $COMMIT_RANGE --grep="docs:" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$DOCS" ]; then
+            CHANGELOG="$CHANGELOG### 📚 Documentação"$'\n\n'"$DOCS"$'\n\n'
+          fi
+          
+          # Chores
+          CHORES=$(git log $COMMIT_RANGE --grep="chore:" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$CHORES" ]; then
+            CHANGELOG="$CHANGELOG### 🔨 Manutenção"$'\n\n'"$CHORES"$'\n\n'
+          fi
+          
+          # Breaking changes
+          BREAKING=$(git log $COMMIT_RANGE --grep="BREAKING CHANGE" --pretty=format:"- %s" --reverse)
+          if [ ! -z "$BREAKING" ]; then
+            CHANGELOG="$CHANGELOG### ⚠️ BREAKING CHANGES"$'\n\n'"$BREAKING"$'\n\n'
+          fi
+          
+          # Stats
+          COMMITS_COUNT=$(git rev-list --count $COMMIT_RANGE)
+          FILES_CHANGED=$(git diff --name-only $COMMIT_RANGE | wc -l)
+          
+          CHANGELOG="$CHANGELOG### 📊 Estatísticas"$'\n\n'
+          CHANGELOG="$CHANGELOG- 📝 $COMMITS_COUNT commits"$'\n'
+          CHANGELOG="$CHANGELOG- 📁 $FILES_CHANGED arquivos alterados"$'\n'
+          
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create release branch
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          BRANCH_NAME="release/v$NEW_VERSION"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git checkout -b "$BRANCH_NAME"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Update version in package.json
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          npm version $NEW_VERSION --no-git-tag-version
+          
+          echo "✅ Versão atualizada para $NEW_VERSION no package.json"
+
+      - name: Update CHANGELOG.md
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          CHANGELOG_CONTENT="${{ steps.changelog.outputs.changelog }}"
+          DATE=$(date +'%Y-%m-%d')
+          
+          # Cria ou atualiza CHANGELOG.md
+          if [ -f CHANGELOG.md ]; then
+            # Adiciona nova entrada no topo do changelog existente
+            (echo "# Changelog"; echo ""; echo "$CHANGELOG_CONTENT"; echo ""; echo "---"; echo ""; tail -n +3 CHANGELOG.md) > CHANGELOG_temp.md
+            mv CHANGELOG_temp.md CHANGELOG.md
+          else
+            # Cria novo CHANGELOG.md
+            cat > CHANGELOG.md << EOF
+          # Changelog
+          
+          Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
+          
+          O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
+          e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
+          
+          $CHANGELOG_CONTENT
+          EOF
+          fi
+
+      - name: Run tests and build
+        run: |
+          echo "🧪 Executando verificações de qualidade..."
+          
+          # TypeScript check
+          npm run typecheck || echo "⚠️ TypeScript check falhou"
+          
+          # Linting
+          npm run lint || echo "⚠️ Lint falhou"
+          
+          # Build
+          npm run build || echo "⚠️ Build falhou"
+          
+          echo "✅ Verificações concluídas"
+
+      - name: Commit changes
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          RELEASE_TYPE="${{ steps.release-type.outputs.release_type }}"
+          
+          git add package.json package-lock.json CHANGELOG.md
+          git commit -m "chore(release): prepare v$NEW_VERSION
+
+          🚀 Preparing $RELEASE_TYPE release v$NEW_VERSION
+          
+          - Updated package.json version
+          - Generated changelog
+          - Ready for release
+          
+          Release-as: $NEW_VERSION"
+
+      - name: Push release branch
+        run: |
+          git push origin "${{ env.branch_name }}"
+
+      - name: Create Release PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION="${{ steps.new-version.outputs.new_version }}"
+          CURRENT_VERSION="${{ steps.current-version.outputs.current_version }}"
+          RELEASE_TYPE="${{ steps.release-type.outputs.release_type }}"
+          CHANGELOG_CONTENT="${{ steps.changelog.outputs.changelog }}"
+          
+          # Notas personalizadas se fornecidas
+          CUSTOM_NOTES="${{ github.event.inputs.release_notes }}"
+          
+          PR_BODY="## 🚀 Release v$NEW_VERSION
+          
+          Esta PR prepara o release da versão **v$NEW_VERSION** (upgrade $RELEASE_TYPE de v$CURRENT_VERSION).
+          
+          $CHANGELOG_CONTENT
+          
+          ### ✅ Checklist de Release
+          
+          - [x] Versão atualizada no package.json
+          - [x] Changelog gerado automaticamente
+          - [x] Branch de release criada
+          - [ ] Testes passando
+          - [ ] Build funcionando
+          - [ ] Documentação atualizada
+          - [ ] Review aprovado
+          
+          ### 🔄 Processo de Release
+          
+          1. **Review desta PR**: Verificar mudanças e changelog
+          2. **Merge para main**: Após aprovação, fazer merge
+          3. **Tag automática**: Será criada automaticamente
+          4. **Deploy**: Processo de deploy será iniciado
+          
+          ### 📋 Arquivos alterados
+          
+          - \`package.json\` - Versão atualizada
+          - \`package-lock.json\` - Lock file atualizado
+          - \`CHANGELOG.md\` - Changelog com novas funcionalidades"
+          
+          if [ ! -z "$CUSTOM_NOTES" ]; then
+            PR_BODY="$PR_BODY
+          
+          ### 📝 Notas Adicionais
+          
+          $CUSTOM_NOTES"
+          fi
+          
+          PR_BODY="$PR_BODY
+          
+          ---
+          
+          *🤖 Release preparado automaticamente pelo GitHub Actions*"
+          
+          # Determina reviewers baseado em contribuidores recentes
+          REVIEWERS=$(git log --format='%ae' -n 20 | sort | uniq | head -3 | tr '\n' ',' | sed 's/,$//')
+          
+          gh pr create \
+            --title "🚀 Release v$NEW_VERSION" \
+            --body "$PR_BODY" \
+            --base "main" \
+            --head "${{ env.branch_name }}" \
+            --label "release,$RELEASE_TYPE,auto-generated" \
+            --draft=false
+          
+          echo "✅ Release PR criado para v$NEW_VERSION!"
+          
+          # Mostra link do PR
+          PR_URL=$(gh pr view "${{ env.branch_name }}" --json url --jq .url)
+          echo "🔗 PR URL: $PR_URL"

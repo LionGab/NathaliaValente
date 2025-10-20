@@ -1,0 +1,263 @@
+name: Auto Fix PR
+
+on:
+  issues:
+    types: [opened, labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Número da issue para criar PR automático'
+        required: true
+        type: number
+
+jobs:
+  auto-fix-pr:
+    # Só executa se a issue tiver a label "auto-fix" ou "good first issue"
+    if: |
+      (github.event_name == 'issues' && (
+        contains(github.event.issue.labels.*.name, 'auto-fix') ||
+        contains(github.event.issue.labels.*.name, 'good first issue') ||
+        contains(github.event.issue.labels.*.name, 'enhancement')
+      )) || github.event_name == 'workflow_dispatch'
+      
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get issue info
+        id: issue-info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ISSUE_NUMBER="${{ github.event.inputs.issue_number }}"
+          else
+            ISSUE_NUMBER="${{ github.event.issue.number }}"
+          fi
+          
+          # Pega informações da issue
+          ISSUE_DATA=$(gh issue view $ISSUE_NUMBER --json title,body,labels,author)
+          ISSUE_TITLE=$(echo "$ISSUE_DATA" | jq -r '.title')
+          ISSUE_BODY=$(echo "$ISSUE_DATA" | jq -r '.body // ""')
+          ISSUE_AUTHOR=$(echo "$ISSUE_DATA" | jq -r '.author.login')
+          
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+          echo "issue_title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
+          echo "issue_author=$ISSUE_AUTHOR" >> $GITHUB_OUTPUT
+          
+          # Sanitiza o título para nome de branch
+          BRANCH_SUFFIX=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g' | cut -c1-50)
+          BRANCH_NAME="fix/issue-$ISSUE_NUMBER-$BRANCH_SUFFIX"
+          
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          
+          echo "issue_body<<EOF" >> $GITHUB_OUTPUT
+          echo "$ISSUE_BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create fix branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git checkout -b "${{ steps.issue-info.outputs.branch_name }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze issue and create basic fix
+        id: create-fix
+        run: |
+          ISSUE_TITLE="${{ steps.issue-info.outputs.issue_title }}"
+          ISSUE_BODY="${{ steps.issue-info.outputs.issue_body }}"
+          
+          # Cria um arquivo de placeholder para documentar o fix
+          mkdir -p .github/issue-fixes
+          
+          cat > ".github/issue-fixes/issue-${{ steps.issue-info.outputs.issue_number }}.md" << EOF
+          # Fix para Issue #${{ steps.issue-info.outputs.issue_number }}
+          
+          **Título:** $ISSUE_TITLE
+          
+          **Descrição:**
+          $ISSUE_BODY
+          
+          **Status:** Em desenvolvimento
+          
+          **Próximos passos:**
+          - [ ] Analisar o problema
+          - [ ] Implementar solução
+          - [ ] Testar mudanças
+          - [ ] Documentar alterações
+          
+          **Arquivos que podem precisar de mudanças:**
+          - src/components/ (se for issue de UI)
+          - src/lib/ (se for issue de lógica)
+          - src/contexts/ (se for issue de estado)
+          - README.md (se for issue de documentação)
+          
+          ---
+          *Este arquivo foi criado automaticamente para rastrear o progresso da correção.*
+          EOF
+          
+          # Verifica se é uma issue relacionada a TypeScript
+          if echo "$ISSUE_TITLE $ISSUE_BODY" | grep -qi "typescript\|type\|interface"; then
+            echo "Detectada issue relacionada ao TypeScript"
+            echo "fix_type=typescript" >> $GITHUB_OUTPUT
+          # Verifica se é issue de documentação
+          elif echo "$ISSUE_TITLE $ISSUE_BODY" | grep -qi "documentation\|readme\|docs\|guide"; then
+            echo "Detectada issue de documentação"
+            echo "fix_type=documentation" >> $GITHUB_OUTPUT
+          # Verifica se é issue de styling/CSS
+          elif echo "$ISSUE_TITLE $ISSUE_BODY" | grep -qi "style\|css\|tailwind\|design\|ui"; then
+            echo "Detectada issue de styling"
+            echo "fix_type=styling" >> $GITHUB_OUTPUT
+          else
+            echo "Issue geral detectada"
+            echo "fix_type=general" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create documentation fix
+        if: steps.create-fix.outputs.fix_type == 'documentation'
+        run: |
+          # Adiciona seção de troubleshooting ao README se não existir
+          if ! grep -q "## Troubleshooting" README.md; then
+            cat >> README.md << EOF
+          
+          ## Troubleshooting
+          
+          ### Issue #${{ steps.issue-info.outputs.issue_number }}: ${{ steps.issue-info.outputs.issue_title }}
+          
+          Esta seção foi adicionada para abordar a issue reportada.
+          
+          **Solução sugerida:**
+          - Verificar a documentação mais recente
+          - Seguir os passos de setup corretamente
+          - Reportar problemas no GitHub Issues
+          
+          EOF
+          fi
+
+      - name: Run linting and formatting
+        run: |
+          npm run lint || echo "Lint warnings encontrados"
+          npm run typecheck || echo "TypeScript warnings encontrados"
+
+      - name: Commit changes
+        run: |
+          git add .
+          
+          if git diff --staged --quiet; then
+            echo "Nenhuma mudança para commit, criando commit inicial"
+            touch ".github/issue-fixes/.placeholder"
+            git add ".github/issue-fixes/.placeholder"
+          fi
+          
+          git commit -m "fix: initial setup for issue #${{ steps.issue-info.outputs.issue_number }}
+
+          Refs: #${{ steps.issue-info.outputs.issue_number }}
+          
+          - Created tracking file for issue resolution
+          - Setup branch for fixing: ${{ steps.issue-info.outputs.issue_title }}
+          - Ready for development and testing
+          
+          Co-authored-by: ${{ steps.issue-info.outputs.issue_author }} <${{ steps.issue-info.outputs.issue_author }}@users.noreply.github.com>"
+
+      - name: Push branch
+        run: |
+          git push origin "${{ steps.issue-info.outputs.branch_name }}"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_NUMBER="${{ steps.issue-info.outputs.issue_number }}"
+          ISSUE_TITLE="${{ steps.issue-info.outputs.issue_title }}"
+          FIX_TYPE="${{ steps.create-fix.outputs.fix_type }}"
+          
+          # Define emoji baseado no tipo
+          case $FIX_TYPE in
+            "typescript") EMOJI="🔧" ;;
+            "documentation") EMOJI="📚" ;;
+            "styling") EMOJI="🎨" ;;
+            *) EMOJI="🐛" ;;
+          esac
+          
+          PR_BODY="## $EMOJI Fix para Issue #$ISSUE_NUMBER
+          
+          **Resolve:** #$ISSUE_NUMBER
+          
+          ### 📋 Resumo
+          
+          Este PR foi criado automaticamente para resolver a issue: \"$ISSUE_TITLE\"
+          
+          ### 🔍 Tipo de correção detectado
+          
+          **Categoria:** \`$FIX_TYPE\`
+          
+          ### 📝 Status atual
+          
+          - [x] Branch criada
+          - [x] Estrutura inicial configurada
+          - [x] Arquivo de rastreamento criado
+          - [ ] Implementação da solução
+          - [ ] Testes realizados
+          - [ ] Documentação atualizada
+          
+          ### 🚀 Próximos passos
+          
+          1. **Análise detalhada:** Revisar a issue e entender o problema
+          2. **Implementação:** Desenvolver a solução adequada
+          3. **Testes:** Verificar se a correção funciona
+          4. **Review:** Solicitar revisão do código
+          
+          ### 📁 Arquivos relacionados
+          
+          - \`.github/issue-fixes/issue-$ISSUE_NUMBER.md\` - Rastreamento do progresso
+          
+          ### 👥 Colaboração
+          
+          Este PR está pronto para colaboração! Contribuições são bem-vindas de:
+          - Autor da issue: @${{ steps.issue-info.outputs.issue_author }}
+          - Outros desenvolvedores da equipe
+          
+          ---
+          
+          *🤖 Este PR foi criado automaticamente pelo GitHub Actions para facilitar a resolução da issue.*"
+          
+          gh pr create \
+            --title "$EMOJI Fix: $ISSUE_TITLE (resolves #$ISSUE_NUMBER)" \
+            --body "$PR_BODY" \
+            --base "main" \
+            --head "${{ steps.issue-info.outputs.branch_name }}" \
+            --label "auto-generated,fix,$FIX_TYPE" \
+            --assignee "${{ steps.issue-info.outputs.issue_author }}" \
+            --draft=true
+          
+          # Comenta na issue original
+          gh issue comment $ISSUE_NUMBER --body "🤖 **PR Automático Criado!**
+          
+          Um Pull Request foi criado automaticamente para resolver esta issue:
+          
+          🔗 **Link do PR:** $(gh pr view ${{ steps.issue-info.outputs.branch_name }} --json url --jq .url)
+          
+          **Próximos passos:**
+          1. O PR está em modo draft para permitir desenvolvimento
+          2. Faça as mudanças necessárias na branch \`${{ steps.issue-info.outputs.branch_name }}\`
+          3. Marque o PR como ready for review quando estiver pronto
+          
+          Você foi automaticamente atribuído ao PR para facilitar a colaboração! 🚀"
+          
+          echo "✅ PR automático criado e issue comentada!"

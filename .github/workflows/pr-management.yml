@@ -1,0 +1,254 @@
+name: PR Management
+
+on:
+  schedule:
+    # Executa todo dia às 2:00 UTC para manutenção
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  manage-prs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Clean up stale auto PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🧹 Verificando PRs automáticos obsoletos..."
+          
+          # Lista PRs automáticos abertos há mais de 30 dias
+          STALE_PRS=$(gh pr list \
+            --label "auto-generated" \
+            --state "open" \
+            --json number,title,createdAt \
+            --jq '.[] | select(now - (.createdAt | fromdateiso8601) > 2592000) | .number')
+          
+          if [ ! -z "$STALE_PRS" ]; then
+            for PR_NUMBER in $STALE_PRS; do
+              echo "⚠️ Marcando PR #$PR_NUMBER como stale"
+              
+              gh pr comment $PR_NUMBER --body "🤖 **PR Stale Detectado**
+              
+              Este PR automático está aberto há mais de 30 dias sem atividade.
+              
+              **Ações recomendadas:**
+              - ✅ Fazer merge se estiver pronto
+              - 🔄 Atualizar com mudanças recentes
+              - ❌ Fechar se não for mais necessário
+              
+              Este PR será fechado automaticamente em 7 dias se não houver atividade.
+              
+              Para manter aberto, adicione um comentário ou remova a label \`stale\`."
+              
+              gh pr edit $PR_NUMBER --add-label "stale"
+            done
+          else
+            echo "✅ Nenhum PR stale encontrado"
+          fi
+
+      - name: Auto-close very old stale PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔒 Verificando PRs para fechamento automático..."
+          
+          # Lista PRs stale há mais de 7 dias
+          OLD_STALE_PRS=$(gh pr list \
+            --label "stale" \
+            --state "open" \
+            --json number,title,updatedAt \
+            --jq '.[] | select(now - (.updatedAt | fromdateiso8601) > 604800) | .number')
+          
+          if [ ! -z "$OLD_STALE_PRS" ]; then
+            for PR_NUMBER in $OLD_STALE_PRS; do
+              echo "🚪 Fechando PR #$PR_NUMBER (stale há mais de 7 dias)"
+              
+              gh pr comment $PR_NUMBER --body "🤖 **PR Fechado Automaticamente**
+              
+              Este PR foi fechado automaticamente devido à inatividade prolongada (37+ dias).
+              
+              **Para reabrir:**
+              1. Remova a label \`stale\`
+              2. Adicione comentário explicando a necessidade
+              3. Atualize o código se necessário
+              
+              **Razão:** Manutenção automática de PRs inativos."
+              
+              gh pr close $PR_NUMBER --comment "Fechado automaticamente - PR stale há mais de 37 dias"
+            done
+          else
+            echo "✅ Nenhum PR old-stale encontrado"
+          fi
+
+      - name: Update dependency PRs status
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "📦 Verificando status de PRs de dependências..."
+          
+          # Lista PRs de dependências abertos
+          DEP_PRS=$(gh pr list \
+            --label "dependencies" \
+            --state "open" \
+            --json number,title,headRefName)
+          
+          if [ "$(echo '$DEP_PRS' | jq length)" -gt 0 ]; then
+            echo "Encontrados $(echo '$DEP_PRS' | jq length) PRs de dependências"
+            
+            # Verifica conflitos
+            echo '$DEP_PRS' | jq -r '.[].number' | while read PR_NUMBER; do
+              if [ ! -z "$PR_NUMBER" ]; then
+                # Verifica se há conflitos
+                PR_STATUS=$(gh pr view $PR_NUMBER --json mergeable --jq .mergeable)
+                
+                if [ "$PR_STATUS" = "CONFLICTING" ]; then
+                  echo "⚠️ PR #$PR_NUMBER tem conflitos - adicionando comentário"
+                  
+                  gh pr comment $PR_NUMBER --body "🤖 **Conflitos Detectados**
+                  
+                  Este PR de dependências tem conflitos que precisam ser resolvidos.
+                  
+                  **Para resolver:**
+                  1. Atualize a branch com main: \`git merge main\`
+                  2. Resolva conflitos manualmente
+                  3. Commit e push das resoluções
+                  
+                  **Ou recrie o PR:**
+                  1. Feche este PR
+                  2. Execute manualmente: Actions → Auto Dependency Update PR
+                  
+                  Conflitos são comuns quando múltiplas atualizações acontecem."
+                  
+                  gh pr edit $PR_NUMBER --add-label "conflicts"
+                fi
+              fi
+            done
+          else
+            echo "✅ Nenhum PR de dependências ativo"
+          fi
+
+      - name: Sync auto-fix PRs with issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔗 Sincronizando PRs de fix com issues..."
+          
+          # Lista PRs com label auto-generated que referenciam issues
+          gh pr list \
+            --label "auto-generated" \
+            --state "open" \
+            --json number,title,body | \
+            jq -r '.[] | select(.body | test("#[0-9]+")) | .number' | \
+            while read PR_NUMBER; do
+              if [ ! -z "$PR_NUMBER" ]; then
+                # Extrai número da issue do corpo do PR
+                ISSUE_NUMBER=$(gh pr view $PR_NUMBER --json body --jq .body | grep -o '#[0-9]\+' | head -1 | sed 's/#//')
+                
+                if [ ! -z "$ISSUE_NUMBER" ]; then
+                  # Verifica se issue ainda está aberta
+                  ISSUE_STATE=$(gh issue view $ISSUE_NUMBER --json state --jq .state 2>/dev/null || echo "NOT_FOUND")
+                  
+                  if [ "$ISSUE_STATE" = "CLOSED" ]; then
+                    echo "📝 Issue #$ISSUE_NUMBER foi fechada - comentando no PR #$PR_NUMBER"
+                    
+                    gh pr comment $PR_NUMBER --body "🎉 **Issue Relacionada Foi Fechada**
+                    
+                    A issue #$ISSUE_NUMBER que este PR resolve foi fechada.
+                    
+                    **Próximos passos:**
+                    - ✅ Se o PR resolve a issue, pode fazer merge
+                    - 🔄 Se ainda há trabalho, considere reabrir a issue
+                    - ❌ Se não é mais necessário, pode fechar este PR
+                    
+                    Verifique se este PR ainda é relevante."
+                    
+                    gh pr edit $PR_NUMBER --add-label "issue-closed"
+                  fi
+                fi
+              fi
+            done
+
+      - name: Report PR statistics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "📊 Gerando relatório de PRs automáticos..."
+          
+          # Estatísticas gerais
+          TOTAL_AUTO_PRS=$(gh pr list --label "auto-generated" --state "all" --json number --jq '. | length')
+          OPEN_AUTO_PRS=$(gh pr list --label "auto-generated" --state "open" --json number --jq '. | length')
+          MERGED_AUTO_PRS=$(gh pr list --label "auto-generated" --state "merged" --json number --jq '. | length')
+          
+          # PRs por tipo
+          DEPENDENCY_PRS=$(gh pr list --label "dependencies" --state "open" --json number --jq '. | length')
+          FEATURE_PRS=$(gh pr list --label "feature" --state "open" --json number --jq '. | length')
+          BUGFIX_PRS=$(gh pr list --label "bugfix" --state "open" --json number --jq '. | length')
+          
+          # PRs com problemas
+          STALE_PRS=$(gh pr list --label "stale" --state "open" --json number --jq '. | length')
+          CONFLICT_PRS=$(gh pr list --label "conflicts" --state "open" --json number --jq '. | length')
+          
+          echo "
+          ## 📈 Relatório de PRs Automáticos
+          
+          **Data:** $(date +'%Y-%m-%d %H:%M UTC')
+          
+          ### 📊 Estatísticas Gerais
+          - 🤖 Total de PRs automáticos: $TOTAL_AUTO_PRS
+          - 📂 PRs abertos: $OPEN_AUTO_PRS
+          - ✅ PRs merged: $MERGED_AUTO_PRS
+          
+          ### 🏷️ Por Categoria (Abertos)
+          - 📦 Dependências: $DEPENDENCY_PRS
+          - ✨ Features: $FEATURE_PRS
+          - 🐛 Bug fixes: $BUGFIX_PRS
+          
+          ### ⚠️ Atenção Necessária
+          - 🕐 PRs stale: $STALE_PRS
+          - ⚔️ PRs com conflitos: $CONFLICT_PRS
+          
+          ---
+          *Relatório gerado automaticamente*
+          " > pr_report.md
+          
+          echo "✅ Relatório salvo em pr_report.md"
+          
+          # Se há muitos PRs com problemas, cria issue
+          PROBLEM_COUNT=$((STALE_PRS + CONFLICT_PRS))
+          
+          if [ $PROBLEM_COUNT -gt 5 ]; then
+            echo "⚠️ Muitos PRs com problemas ($PROBLEM_COUNT) - criando issue de alerta"
+            
+            gh issue create \
+              --title "🚨 Manutenção de PRs Necessária - $PROBLEM_COUNT PRs precisam de atenção" \
+              --body "$(cat pr_report.md)
+
+          ### 🔧 Ações Recomendadas
+          
+          1. **PRs Stale ($STALE_PRS):** Revisar e decidir merge/close
+          2. **PRs com Conflitos ($CONFLICT_PRS):** Resolver conflitos ou recriar
+          
+          ### 🔍 Como Investigar
+          
+          \`\`\`bash
+          # Ver PRs stale
+          gh pr list --label stale
+          
+          # Ver PRs com conflitos
+          gh pr list --label conflicts
+          
+          # Ver todos PRs automáticos
+          gh pr list --label auto-generated
+          \`\`\`
+          
+          **Esta issue foi criada automaticamente devido ao alto número de PRs problemáticos.**" \
+              --label "maintenance,auto-generated,high-priority"
+          fi

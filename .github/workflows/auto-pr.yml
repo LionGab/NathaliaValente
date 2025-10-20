@@ -1,0 +1,184 @@
+name: Auto Pull Request
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'bugfix/*'
+      - 'hotfix/*'
+      - 'develop'
+      - 'dev'
+    # Evita executar em pushes para main/master
+    branches-ignore:
+      - 'main'
+      - 'master'
+
+jobs:
+  auto-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get branch info
+        id: branch-info
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          
+          # Determina a branch base baseada no nome da branch
+          if [[ $BRANCH_NAME == hotfix/* ]]; then
+            BASE_BRANCH="main"
+          elif [[ $BRANCH_NAME == feature/* ]] || [[ $BRANCH_NAME == bugfix/* ]]; then
+            BASE_BRANCH="develop"
+          elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
+            BASE_BRANCH="main"
+          else
+            BASE_BRANCH="main"
+          fi
+          echo "base_branch=$BASE_BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Check if PR already exists
+        id: check-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.branch-info.outputs.branch_name }}"
+          BASE_BRANCH="${{ steps.branch-info.outputs.base_branch }}"
+          
+          # Verifica se já existe um PR para esta branch
+          PR_EXISTS=$(gh pr list --head "$BRANCH_NAME" --base "$BASE_BRANCH" --json number --jq '. | length')
+          echo "pr_exists=$PR_EXISTS" >> $GITHUB_OUTPUT
+
+      - name: Get commit info
+        id: commit-info
+        if: steps.check-pr.outputs.pr_exists == '0'
+        run: |
+          # Pega o último commit
+          LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an")
+          
+          # Gera título do PR baseado no nome da branch e último commit
+          BRANCH_NAME="${{ steps.branch-info.outputs.branch_name }}"
+          
+          if [[ $BRANCH_NAME == feature/* ]]; then
+            PR_TITLE="✨ Feature: ${BRANCH_NAME#feature/}"
+          elif [[ $BRANCH_NAME == bugfix/* ]]; then
+            PR_TITLE="🐛 Bug Fix: ${BRANCH_NAME#bugfix/}"
+          elif [[ $BRANCH_NAME == hotfix/* ]]; then
+            PR_TITLE="🚨 Hotfix: ${BRANCH_NAME#hotfix/}"
+          elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
+            PR_TITLE="🚀 Development Update"
+          else
+            PR_TITLE="📝 Update: $BRANCH_NAME"
+          fi
+          
+          echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
+          echo "last_commit_msg=$LAST_COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "last_commit_author=$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+
+      - name: Get changed files
+        id: changed-files
+        if: steps.check-pr.outputs.pr_exists == '0'
+        run: |
+          BASE_BRANCH="${{ steps.branch-info.outputs.base_branch }}"
+          
+          # Busca a branch base remota
+          git fetch origin $BASE_BRANCH
+          
+          # Lista arquivos alterados
+          CHANGED_FILES=$(git diff --name-only origin/$BASE_BRANCH..HEAD | head -20)
+          
+          # Conta o número de arquivos alterados
+          FILES_COUNT=$(echo "$CHANGED_FILES" | wc -l)
+          
+          # Converte para lista markdown
+          CHANGED_FILES_MD=""
+          while IFS= read -r file; do
+            if [ ! -z "$file" ]; then
+              CHANGED_FILES_MD="$CHANGED_FILES_MD- \`$file\`"$'\n'
+            fi
+          done <<< "$CHANGED_FILES"
+          
+          echo "changed_files_md<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_FILES_MD" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.check-pr.outputs.pr_exists == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.branch-info.outputs.branch_name }}"
+          BASE_BRANCH="${{ steps.branch-info.outputs.base_branch }}"
+          PR_TITLE="${{ steps.commit-info.outputs.pr_title }}"
+          LAST_COMMIT_MSG="${{ steps.commit-info.outputs.last_commit_msg }}"
+          LAST_COMMIT_AUTHOR="${{ steps.commit-info.outputs.last_commit_author }}"
+          CHANGED_FILES_MD="${{ steps.changed-files.outputs.changed_files_md }}"
+          FILES_COUNT="${{ steps.changed-files.outputs.files_count }}"
+          
+          # Cria o corpo do PR
+          PR_BODY="## 📋 Resumo
+          
+          Pull Request criado automaticamente para a branch \`$BRANCH_NAME\`.
+          
+          **Último commit:** $LAST_COMMIT_MSG
+          **Autor:** $LAST_COMMIT_AUTHOR
+          
+          ## 📁 Arquivos alterados ($FILES_COUNT arquivo(s))
+          
+          $CHANGED_FILES_MD
+          
+          ## ✅ Checklist
+          
+          - [ ] Código revisado
+          - [ ] Testes passando
+          - [ ] Documentação atualizada
+          - [ ] Build sem erros
+          
+          ## 🔍 Tipo de mudança
+          
+          - [ ] Bug fix (mudança que corrige um problema)
+          - [ ] Nova feature (mudança que adiciona funcionalidade)
+          - [ ] Breaking change (mudança que quebra compatibilidade)
+          - [ ] Documentação
+          - [ ] Refatoração
+          
+          ---
+          
+          *Este PR foi criado automaticamente pelo GitHub Actions.*"
+          
+          # Determina labels baseadas no tipo da branch
+          LABELS=""
+          if [[ $BRANCH_NAME == feature/* ]]; then
+            LABELS="--label enhancement,feature"
+          elif [[ $BRANCH_NAME == bugfix/* ]]; then
+            LABELS="--label bug,bugfix"
+          elif [[ $BRANCH_NAME == hotfix/* ]]; then
+            LABELS="--label bug,hotfix,urgent"
+          elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
+            LABELS="--label development"
+          fi
+          
+          # Cria o PR
+          gh pr create \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY" \
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH_NAME" \
+            $LABELS \
+            --draft=false
+          
+          echo "✅ Pull Request criado com sucesso!"
+          
+          # Mostra o link do PR criado
+          PR_URL=$(gh pr view "$BRANCH_NAME" --json url --jq .url)
+          echo "🔗 PR URL: $PR_URL"
