@@ -15,9 +15,9 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-peanut-gray-800 shadow-peanut z-50 transition-colors duration-300 safe-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 glass backdrop-blur-xl border-t border-claude-gray-200/50 dark:border-claude-gray-800/50 z-50 transition-colors duration-300 safe-bottom">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-around items-center h-16">
+        <div className="flex justify-around items-center h-20">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -26,14 +26,22 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`flex flex-col items-center justify-center gap-1.5 px-4 py-2 rounded-2xl transition-all duration-200 ${
+                className={`relative flex flex-col items-center justify-center gap-1.5 px-5 py-2 rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? 'text-peanut-coral'
-                    : 'text-peanut-gray-400 dark:text-peanut-gray-500 hover:text-peanut-gray-600 dark:hover:text-peanut-gray-300'
+                    ? 'text-claude-orange-600 dark:text-claude-orange-500'
+                    : 'text-claude-gray-500 dark:text-claude-gray-400 hover:text-claude-gray-700 dark:hover:text-claude-gray-300'
                 }`}
               >
-                <Icon className={`w-6 h-6 ${isActive ? 'fill-peanut-coral/10' : ''}`} strokeWidth={isActive ? 2.5 : 2} />
-                <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
+                {isActive && (
+                  <div className="absolute inset-0 bg-claude-orange-50 dark:bg-claude-orange-500/10 rounded-2xl animate-scale-in" />
+                )}
+                <Icon
+                  className={`relative w-6 h-6 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
+                  strokeWidth={isActive ? 2.5 : 2}
+                />
+                <span className={`relative text-xs ${isActive ? 'font-semibold' : 'font-medium'} transition-all duration-300`}>
+                  {item.label}
+                </span>
               </button>
             );
           })}
