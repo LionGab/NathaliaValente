@@ -32,9 +32,18 @@ export interface DemoComment {
   };
 }
 
+// Define the type for the demo user object
+export interface DemoUser {
+  id: string;
+  email: string;
+  user_metadata: {
+    full_name: string;
+  };
+}
+
 export const useDemoMode = () => {
   const [isDemoMode, setIsDemoMode] = useState(false);
-  const [demoUser, setDemoUser] = useState<any>(null);
+  const [demoUser, setDemoUser] = useState<DemoUser | null>(null);
 
   useEffect(() => {
     // Verificar se está em modo demo
