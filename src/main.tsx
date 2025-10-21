@@ -1,12 +1,19 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { initMonitoring } from './services/monitoring.service';
 import './index.css';
 import './styles/mobile-optimizations.css';
 
+// Initialize monitoring (Web Vitals, Error Tracking, Analytics)
+initMonitoring();
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>
 );
 
