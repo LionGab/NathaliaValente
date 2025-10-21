@@ -16,6 +16,11 @@ export type Profile = {
   bio?: string;
   created_at: string;
   updated_at: string;
+  onboarding_completed?: boolean;
+  goals?: string[];
+  life_phase?: string;
+  interests?: string[];
+  onboarding_completed_at?: string;
 };
 
 export type Post = {
