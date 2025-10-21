@@ -211,7 +211,9 @@ export function useLongPress(
   };
 
   const clear = () => {
-    timeout.current && clearTimeout(timeout.current);
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
   };
 
   return {

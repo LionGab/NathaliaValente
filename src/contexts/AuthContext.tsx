@@ -7,8 +7,8 @@ type AuthContextType = {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, fullName: string) => Promise<{ error: unknown }>;
+  signIn: (email: string, password: string) => Promise<{ error: unknown }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       });
       return { error };
-    } catch (error: any) {
+    } catch (error) {
       console.error('Signup error:', error);
       return { error };
     }

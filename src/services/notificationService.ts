@@ -44,7 +44,7 @@ export interface InAppNotification {
   deep_link: string | null;
   status: 'pending' | 'sent' | 'failed' | 'read';
   delivery_method: string;
-  data: Record<string, any> | null;
+  data: Record<string, unknown> | null;
   sent_at: string | null;
   read_at: string | null;
   created_at: string;
@@ -53,7 +53,7 @@ export interface InAppNotification {
 export interface SendNotificationRequest {
   user_id: string;
   template_key?: string;
-  template_data?: Record<string, any>;
+  template_data?: Record<string, unknown>;
   custom_title?: string;
   custom_body?: string;
   custom_deep_link?: string;
@@ -235,7 +235,7 @@ export class NotificationService {
   /**
    * Get all active push tokens for current user
    */
-  static async getActivePushTokens(): Promise<any[]> {
+  static async getActivePushTokens(): Promise<unknown[]> {
     try {
       const {
         data: { user },
@@ -470,7 +470,7 @@ export class NotificationService {
    */
   static async sendNotification(
     request: SendNotificationRequest
-  ): Promise<any> {
+  ): Promise<unknown> {
     try {
       const { data, error } = await supabase.functions.invoke(
         'send-notification',

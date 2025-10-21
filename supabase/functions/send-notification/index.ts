@@ -1,5 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.76.0';
+import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2.76.0';
 import type {
   SendNotificationRequest,
   SendNotificationResponse,
@@ -32,7 +32,7 @@ function getSupabaseClient() {
 /**
  * Replace template variables with actual values
  */
-function populateTemplate(template: string, data: Record<string, any>): string {
+function populateTemplate(template: string, data: Record<string, unknown>): string {
   let result = template;
 
   Object.keys(data).forEach((key) => {
@@ -48,7 +48,7 @@ function populateTemplate(template: string, data: Record<string, any>): string {
  * Check if user is currently in quiet hours
  */
 async function isInQuietHours(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string
 ): Promise<boolean> {
   const { data, error } = await supabase.rpc('is_in_quiet_hours', {
@@ -68,7 +68,7 @@ async function isInQuietHours(
  * Check if notification rate limit has been exceeded
  */
 async function checkRateLimit(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string,
   category: string,
   maxPerDay: number
@@ -91,7 +91,7 @@ async function checkRateLimit(
  * Get user notification preferences
  */
 async function getUserPreferences(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string
 ): Promise<NotificationPreferences | null> {
   const { data, error } = await supabase
@@ -112,7 +112,7 @@ async function getUserPreferences(
  * Get notification template
  */
 async function getTemplate(
-  supabase: any,
+  supabase: SupabaseClient,
   templateKey: string
 ): Promise<NotificationTemplate | null> {
   const { data, error } = await supabase
@@ -134,7 +134,7 @@ async function getTemplate(
  * Get user's active push tokens
  */
 async function getPushTokens(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string
 ): Promise<PushToken[]> {
   const { data, error } = await supabase
@@ -293,7 +293,8 @@ async function sendOneSignalNotification(
  */
 async function sendWebPushNotification(
   token: string,
-  payload: NotificationPayload
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _payload: NotificationPayload
 ): Promise<boolean> {
   const vapidPublicKey = Deno.env.get('VAPID_PUBLIC_KEY');
   const vapidPrivateKey = Deno.env.get('VAPID_PRIVATE_KEY');
@@ -313,7 +314,7 @@ async function sendWebPushNotification(
  * Send push notification to all user's devices
  */
 async function sendPushNotifications(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string,
   payload: NotificationPayload
 ): Promise<number> {
@@ -367,7 +368,7 @@ async function sendPushNotifications(
  * Log notification to history
  */
 async function logNotificationHistory(
-  supabase: any,
+  supabase: SupabaseClient,
   userId: string,
   templateKey: string | null,
   title: string,
@@ -375,7 +376,7 @@ async function logNotificationHistory(
   deepLink: string | null,
   deliveryMethod: string,
   status: string,
-  data: Record<string, any> | null,
+  data: Record<string, unknown> | null,
   rateLimitKey: string | null,
   errorMessage: string | null = null
 ): Promise<string> {

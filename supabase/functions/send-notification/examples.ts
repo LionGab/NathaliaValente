@@ -106,7 +106,8 @@ export async function sendMorningEncouragement(
 /**
  * Send reminder to journal emotions
  */
-export async function sendJournalReminder(userId: string, userName: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function sendJournalReminder(userId: string, _userName: string) {
   const request: SendNotificationRequest = {
     user_id: userId,
     template_key: 'journal_reminder',
@@ -285,7 +286,8 @@ export async function scheduleRecurringEncouragement(userId: string) {
 /**
  * Calculate user's preferred morning time
  */
-function calculateMorningTime(userId: string): string {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function calculateMorningTime(_userId: string): string {
   // This would fetch user's preferred_time_morning from notification_preferences
   // For now, return tomorrow at 8 AM
   const tomorrow = new Date();

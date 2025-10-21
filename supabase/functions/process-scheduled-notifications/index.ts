@@ -24,7 +24,7 @@ async function processScheduledNotifications(): Promise<{
   processed: number;
   sent: number;
   failed: number;
-  details: any[];
+  details: unknown[];
 }> {
   const supabase = getSupabaseClient();
   const now = new Date().toISOString();
@@ -56,7 +56,7 @@ async function processScheduledNotifications(): Promise<{
 
   let sent = 0;
   let failed = 0;
-  const details: any[] = [];
+  const details: unknown[] = [];
 
   // Process each notification
   for (const scheduled of scheduledNotifications as NotificationSchedule[]) {

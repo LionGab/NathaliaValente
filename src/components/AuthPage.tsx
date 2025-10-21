@@ -23,10 +23,14 @@ export const AuthPage = () => {
         const { error } = await signUp(email, password, fullName);
         if (error) {
           // Mensagem amigável para e-mail já cadastrado ou erro comum
-          if (error.message && error.message.toLowerCase().includes('user already registered')) {
+          const errorMessage = error && typeof error === 'object' && 'message' in error 
+            ? String(error.message) 
+            : 'Erro ao criar conta.';
+          
+          if (errorMessage.toLowerCase().includes('user already registered')) {
             setError('Este e-mail já está cadastrado. Tente fazer login ou recuperar a senha.');
           } else {
-            setError(error.message || 'Erro ao criar conta.');
+            setError(errorMessage);
           }
         } else {
           setSuccess(
@@ -39,15 +43,19 @@ export const AuthPage = () => {
       } else {
         const { error } = await signIn(email, password);
         if (error) {
-          if (error.message && error.message.toLowerCase().includes('invalid login credentials')) {
+          const errorMessage = error && typeof error === 'object' && 'message' in error 
+            ? String(error.message) 
+            : 'Erro ao entrar.';
+          
+          if (errorMessage.toLowerCase().includes('invalid login credentials')) {
             setError('E-mail ou senha incorretos.');
           } else {
-            setError(error.message || 'Erro ao entrar.');
+            setError(errorMessage);
           }
         }
       }
-    } catch (err: any) {
-      setError(err.message || 'Algo deu errado. Tente novamente.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Algo deu errado. Tente novamente.');
     } finally {
       setLoading(false);
     }
