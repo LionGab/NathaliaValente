@@ -1,50 +1,59 @@
 [build]
-  command = "npm run build"
+  # Directory to change to before starting a build
+  base = "."
+  
+  # Directory that contains the deploy-ready HTML files and assets
   publish = "dist"
+  
+  # Default build command
+  command = "npm run build"
 
-# Redirect all requests to index.html for SPA routing
+[build.environment]
+  # Node.js version
+  NODE_VERSION = "18"
+  
+  # Build environment variables
+  NODE_ENV = "production"
+
+# Redirect rules for SPA (Single Page Application)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Security headers
+# Headers for security and performance
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer-when-downgrade"
-    # Content Security Policy
-    Content-Security-Policy = "default-src 'self' https://*.supabase.co; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; media-src 'self' blob:; object-src 'none'; frame-src 'none'"
-    # Permissions Policy
+    Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Cache headers for static assets (hashed filenames)
+# Cache static assets
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache headers for HTML (no cache, always fresh)
+# PWA manifest and service worker
 [[headers]]
-  for = "/*.html"
+  for = "/manifest.webmanifest"
   [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Content-Type = "application/javascript"
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Cache headers for images
+# Security headers for API routes (if any)
 [[headers]]
-  for = "/*.{jpg,jpeg,png,gif,webp,svg,ico}"
+  for = "/api/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
-
-# Enable Brotli compression (better than Gzip, ~20% smaller)
-# Netlify automatically serves Brotli to compatible browsers
-# This is enabled by default, but we ensure it's prioritized
-
-# Preload critical resources
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Link = "</assets/index.css>; rel=preload; as=style, </assets/index.js>; rel=preload; as=script"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "no-cache, no-store, must-revalidate"

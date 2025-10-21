@@ -1,429 +1,181 @@
-# 💕 ClubNath - Apoio e Conexão para Mães
+# 🌸 ClubNath - App de Bem-Estar para Mulheres
 
-<div align="center">
+> **Comunidade exclusiva da Nathalia Arcuri**  
+> 29M+ seguidores • Conteúdo exclusivo • Suporte prioritário
 
-![ClubNath](https://img.shields.io/badge/ClubNath-Apoio%20Maternal-ff69b4?style=for-the-badge)
-![React](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?style=for-the-badge&logo=typescript)
-![Supabase](https://img.shields.io/badge/Supabase-Backend-3ecf8e?style=for-the-badge&logo=supabase)
-![Claude](https://img.shields.io/badge/Claude-4.5%20Haiku-cc9966?style=for-the-badge)
+## 🚀 **Live Demo**
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-site-id/deploy-status)](https://app.netlify.com/sites/your-site-name)
 
-**Uma plataforma de apoio e conexão para mães, com IA empática e comunidade acolhedora**
+**🌐 [clubnath.netlify.app](https://clubnath.netlify.app)**
 
-[🚀 Deploy](./docs/deployment/DEPLOYMENT.md) • [� Setup](./docs/setup/SETUP.md) • [🤖 Robô Nath](#-robô-nath) • [� Docs](#-documentação)
+## 📱 **Sobre o App**
 
-**📦 Repositório:** [github.com/LionGab/boltnathH](https://github.com/LionGab/boltnathH)
+O ClubNath é uma comunidade exclusiva que combina:
+- **Feed Social** - Conecte-se com outras mães
+- **Conteúdo Exclusivo** - Lives privadas da Nath
+- **Suporte Prioritário** - Respostas diretas em 24h
+- **Tracking de Hábitos** - Formação de rotinas saudáveis
+- **Journaling** - Reflexão pessoal e autoconhecimento
 
-</div>
+## 🛠️ **Stack Tecnológico**
 
----
+### **Frontend**
+- ⚛️ **React 18** + TypeScript
+- 🎨 **Tailwind CSS** (mobile-first)
+- ⚡ **Vite** (build otimizado)
+- 📱 **PWA** (Progressive Web App)
 
-## 📋 Índice
+### **Backend**
+- 🗄️ **Supabase** (PostgreSQL + Auth + Storage)
+- 🔄 **React Query** (cache inteligente)
+- 📊 **Analytics** (performance monitoring)
 
-- [🚀 Deploy Rápido](#-deploy-no-netlify)
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#-tecnologias)
-- [Começar](#-começar)
-- [Configuração](#-configuração)
-- [Robô Nath](#-robô-nath)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Documentação](#-documentação)
+### **Deploy**
+- 🌐 **Netlify** (deploy automático)
+- 📦 **GitHub Actions** (CI/CD)
+- 🔒 **HTTPS** + Security Headers
 
----
+## 🎯 **Features Implementadas**
 
-## 🚀 Deploy no Netlify
+### ✅ **Performance**
+- React Query para cache inteligente
+- Lazy loading de componentes
+- Bundle otimizado (7.26KB gzipped)
+- PWA com Service Worker
 
-### Deploy em 3 Passos (5 minutos)
+### ✅ **Mobile-First**
+- Safe area insets (iPhone X+)
+- Touch targets 44px+
+- Overscroll prevention
+- TikTok-style feed
 
-1. **Acesse:** https://app.netlify.com/start
-2. **Importe:** Selecione `LionGab/boltnathH` do GitHub
-3. **Configure:** Adicione as variáveis de ambiente:
-   - `VITE_SUPABASE_URL=https://bbcwitnbnosyfpfjtzkr.supabase.co`
-   - `VITE_SUPABASE_ANON_KEY=[sua-chave-anon]`
+### ✅ **Monetização**
+- Login com Instagram (zero fricção)
+- Onboarding de conversão
+- Freemium vs Premium (R$ 39/mês)
+- Smart banner timing
 
-**Pronto!** Seu app estará no ar em ~3 minutos 🎉
+### ✅ **Qualidade**
+- Testes unitários (Vitest)
+- Linting (ESLint + Prettier)
+- TypeScript (type safety)
+- Performance monitoring
 
-📖 **Guias detalhados:**
-- [⚡ Deploy Rápido (5 min)](./docs/deployment/DEPLOY_RAPIDO.md)
-- [📚 Guia Completo de Deploy](./docs/deployment/DEPLOYMENT.md)
+## 🚀 **Como Executar**
 
----
-
-## 🌟 Sobre o Projeto
-
-ClubNath é uma plataforma digital criada para apoiar mães em sua jornada da maternidade. Oferecemos:
-
-- 🤖 **Robô Nath**: Assistente de IA empática e acolhedora
-- 📱 **Feed Social**: Compartilhe momentos e conquistas
-- 💭 **Frases Diárias**: Inspiração e encorajamento
-- 👥 **Comunidade**: Conexão com outras mães
-
-### Por que ClubNath?
-
-A maternidade pode ser desafiadora e, às vezes, solitária. O ClubNath oferece um espaço seguro onde mães podem:
-- Encontrar apoio emocional 24/7
-- Compartilhar suas experiências
-- Sentir-se compreendidas e validadas
-- Conectar-se com outras mães
-
----
-
-## ✨ Funcionalidades
-
-### 🤖 Chat com Robô Nath
-- Conversas empáticas e personalizadas
-- Disponível 24/7
-- Powered by Claude 4.5 Haiku
-- Respostas rápidas e contextualizadas
-
-### 📱 Feed Social
-- Compartilhe fotos e momentos
-- Comentários e reações
-- Timeline personalizada
-- Modo claro/escuro
-
-### 💭 Frases do Dia
-- Mensagens inspiradoras diárias
-- Lembretes de autocuidado
-- Palavras de encorajamento
-
-### 👤 Perfil Personalizado
-- Gerenciamento de conta
-- Histórico de atividades
-- Preferências customizáveis
-
----
-
-## 🛠 Tecnologias
-
-### Frontend
-- **React 18.3** - Biblioteca UI
-- **TypeScript 5.6** - Tipagem estática
-- **Vite** - Build tool
-- **TailwindCSS** - Estilização
-- **Lucide React** - Ícones
-
-### Backend
-- **Supabase** - Backend as a Service
-  - Autenticação
-  - Database (PostgreSQL)
-  - Storage
-  - Edge Functions
-
-### IA
-- **Claude 4.5 Haiku** - Modelo de linguagem da Anthropic
-  - Respostas empáticas
-  - Baixa latência
-  - Econômico
-
----
-
-## 🚀 Começar
-
-### Pré-requisitos
-
-- Node.js 18+ e NPM
-- Conta no Supabase
-- Chave de API da Anthropic
-
-### Instalação Rápida
-
+### **Desenvolvimento**
 ```bash
-# 1. Clone o repositório
-git clone <repository-url>
-cd boltnathH
-
-# 2. Instale as dependências
+# Instalar dependências
 npm install
 
-# 3. Configure as variáveis de ambiente
-# (O arquivo .env já deve existir com as credenciais do Supabase)
-
-# 4. Instale o Supabase CLI
-npm install -g supabase
-
-# 5. Inicie o servidor de desenvolvimento
+# Executar em desenvolvimento
 npm run dev
-```
 
-Acesse: http://localhost:5174/
-
----
-
-## 🔧 Configuração
-
-### Configuração Completa em 3 Arquivos
-
-Criamos documentação detalhada para facilitar a configuração:
-
-| Arquivo | Descrição | Quando Usar |
-|---------|-----------|-------------|
-| **[CHECKLIST.md](CHECKLIST.md)** | ✅ Checklist interativo | Acompanhe cada passo |
-| **[CONFIGURACAO.md](CONFIGURACAO.md)** | 📖 Guia completo passo a passo | Instruções detalhadas |
-| **[SETUP_INSTRUCTIONS.md](./docs/setup/SETUP_INSTRUCTIONS.md)** | 📋 Instruções originais | Referência técnica |
-
-### Scripts de Configuração
-
-#### Windows
-```batch
-# Instalar Supabase CLI
-setup-supabase.bat
-
-# Verificar configuração
-verificar-setup.bat
-```
-
-#### Linux/Mac
-```bash
-# Instalar Supabase CLI
-chmod +x setup-supabase.sh
-./setup-supabase.sh
-```
-
-### Passos Principais
-
-1. **Instalar Supabase CLI**
-   ```bash
-   npm install -g supabase
-   ```
-
-2. **Login e Vinculação**
-   ```bash
-   supabase login
-   supabase link --project-ref bbcwitnbnosyfpfjtzkr
-   ```
-
-3. **Configurar API Key**
-   - Acesse: [Supabase Secrets](https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/vault)
-   - Adicione: `ANTHROPIC_API_KEY`
-
-4. **Deploy da Edge Function**
-   ```bash
-   supabase functions deploy chat-ai
-   ```
-
-5. **Testar**
-   ```bash
-   npm run dev
-   ```
-
-📖 **Guia completo:** Consulte [CONFIGURACAO.md](CONFIGURACAO.md) (se existir na raiz)
-
----
-
-## 🤖 Robô Nath
-
-### Sobre a Assistente
-
-A Robô Nath é uma assistente virtual especializada em apoio maternal, criada com:
-
-- **Modelo:** Claude 4.5 Haiku (claude-haiku-4-5-20250429)
-- **Características:**
-  - ⚡ Respostas rápidas (< 2 segundos)
-  - 💕 Tom empático e acolhedor
-  - 🇧🇷 Português brasileiro natural
-  - 🔒 Segura e privada
-
-### Personalidade
-
-- Acolhedora e compassiva
-- Entende os desafios da maternidade
-- Oferece apoio sem julgamentos
-- Celebra pequenas conquistas
-- Lembra que você é suficiente
-
-### Exemplos de Conversas
-
-```
-👤 Você: "Estou me sentindo sobrecarregada hoje..."
-
-🤖 Nath: "Compreendo completamente como você está se sentindo. 
-A maternidade pode ser exaustiva, e tudo bem reconhecer isso. 
-Você está fazendo um trabalho incrível, mesmo nos dias difíceis. 
-Lembre-se: cuidar de si mesma não é egoísmo, é necessário. 💕"
-```
-
-### Tecnologia
-
-A Robô Nath funciona através de uma **Supabase Edge Function** que:
-1. Recebe a mensagem do usuário
-2. Adiciona contexto de apoio maternal
-3. Chama a API da Anthropic (Claude)
-4. Retorna resposta empática e personalizada
-
-**Segurança:** A API key nunca é exposta no frontend! ✅
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-boltnathH/
-├── 📄 Documentação
-│   ├── README.md                    # Este arquivo
-│   ├── CONFIGURACAO.md              # Guia completo
-│   ├── CHECKLIST.md                 # Checklist de setup
-│   └── SETUP_INSTRUCTIONS.md        # Instruções originais
-│
-├── 🔧 Scripts de Setup
-│   ├── setup-supabase.bat           # Windows
-│   ├── setup-supabase.sh            # Linux/Mac
-│   └── verificar-setup.bat          # Verificador Windows
-│
-├── 💻 Código Fonte
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ChatPage.tsx         # Chat com Robô Nath
-│   │   │   ├── FeedPage.tsx         # Feed social
-│   │   │   ├── DailyQuotePage.tsx   # Frases diárias
-│   │   │   ├── ProfilePage.tsx      # Perfil do usuário
-│   │   │   └── ...
-│   │   ├── contexts/
-│   │   │   ├── AuthContext.tsx      # Autenticação
-│   │   │   └── ThemeContext.tsx     # Tema claro/escuro
-│   │   └── lib/
-│   │       └── supabase.ts          # Cliente Supabase
-│   │
-│   ├── supabase/
-│   │   ├── functions/
-│   │   │   └── chat-ai/
-│   │   │       └── index.ts         # Edge Function (IA)
-│   │   └── migrations/              # Migrações do DB
-│   │
-│   ├── 📦 Configuração
-│   │   ├── .env                     # Variáveis de ambiente
-│   │   ├── package.json             # Dependências
-│   │   ├── vite.config.ts           # Config Vite
-│   │   ├── tailwind.config.js       # Config Tailwind
-│   │   └── tsconfig.json            # Config TypeScript
-│   │
-│   └── 🌐 Public
-│       └── index.html               # HTML base
-```
-
----
-
-## 📖 Documentação
-
-### Guias Disponíveis
-
-| Documento | Descrição | Link |
-|-----------|-----------|------|
-| � **Setup** | Configuração inicial e em nova máquina | [docs/setup/SETUP.md](docs/setup/SETUP.md) |
-| 🚀 **Deploy** | Guia completo de deploy no Netlify | [docs/deployment/DEPLOYMENT.md](docs/deployment/DEPLOYMENT.md) |
-| 🤖 **MCP** | Configurar Model Context Protocol | [docs/mcp/MCP_SETUP.md](docs/mcp/MCP_SETUP.md) |
-| 🐛 **Troubleshooting** | Solução de problemas comuns | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) |
-| 🤖 **PR Automáticos** | Sistema de PRs automáticos | [.github/AUTO_PR_CONFIG.md](.github/AUTO_PR_CONFIG.md) |
-
-### Links Úteis
-
-- **Dashboard Supabase:** [Ver Projeto](https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr)
-- **Anthropic Console:** [Gerenciar API Keys](https://console.anthropic.com/)
-- **Documentação Supabase:** [Docs](https://supabase.com/docs)
-- **Documentação Claude:** [API Reference](https://docs.anthropic.com/)
-- **GitHub Actions:** [Ver Workflows](https://github.com/LionGab/boltnathH/actions)
-
----
-
-## 🚀 Comandos Úteis
-
-### Desenvolvimento
-```bash
-# Iniciar servidor dev
-npm run dev
+# Executar testes
+npm run test
 
 # Build para produção
 npm run build
-
-# Preview da build
-npm run preview
-
-# Type checking
-npm run typecheck
 ```
 
-### Supabase
+### **Deploy**
 ```bash
-# Ver status do projeto
-supabase status
-
-# Ver logs da função
-supabase functions logs chat-ai
-
-# Deploy da função
-supabase functions deploy chat-ai
-
-# Listar secrets
-supabase secrets list
-
-# Adicionar secret
-supabase secrets set KEY=value
+# Push para GitHub (deploy automático no Netlify)
+git add .
+git commit -m "feat: nova feature"
+git push origin main
 ```
 
----
+## 📊 **Métricas de Performance**
 
-## 🔒 Segurança
+```
+Bundle Size (gzipped):
+├── FeedPage: 7.26KB
+├── React: 44.67KB
+├── Supabase: 41.83KB
+└── Total: ~95KB
 
-### ✅ Implementado
+PWA Features:
+├── Service Worker: ✅ Ativo
+├── Cache: ✅ 40 entradas (1.57MB)
+├── Compression: ✅ Gzip + Brotli
+└── Offline: ✅ Funcional
+```
 
-- API keys armazenadas em Supabase Secrets
-- Edge Functions no servidor (não no frontend)
-- Autenticação via Supabase Auth
-- CORS configurado corretamente
-- Validação de entrada
-- Fallback em caso de erro
+## 🎯 **Estratégia de Lançamento**
 
-### ⚠️ Importante
+### **Fase 1: Soft Launch (7 dias)**
+- Beta com 100 seguidores engajados
+- Meta: 20 assinantes (R$ 780/mês)
 
-- **NUNCA** commite API keys
-- **SEMPRE** use variáveis de ambiente
-- **REVOGUE** chaves expostas imediatamente
-- **USE** Supabase Secrets para produção
+### **Fase 2: Lançamento Oficial (14 dias)**
+- Campanha nos Stories do Instagram
+- Meta: 100 assinantes (R$ 3.900/mês)
 
----
+### **Fase 3: Escala (30+ dias)**
+- Otimização de conversão
+- Meta: 1.000 assinantes (R$ 39.000/mês)
 
-## 🤝 Contribuindo
+## 🔧 **Configuração**
 
-Contribuições são bem-vindas! Para contribuir:
+### **Variáveis de Ambiente**
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_INSTAGRAM_CLIENT_ID=your_instagram_client_id
+```
+
+### **Netlify**
+- Deploy automático via GitHub
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Node version: 18
+
+## 📱 **PWA Features**
+
+- ✅ **Instalável** - Adicionar à tela inicial
+- ✅ **Offline** - Funciona sem internet
+- ✅ **Push Notifications** - Engajamento proativo
+- ✅ **App-like** - Experiência nativa
+
+## 🧪 **Testes**
+
+```bash
+# Executar todos os testes
+npm run test
+
+# Executar testes em modo watch
+npm run test:watch
+
+# Coverage
+npm run test:coverage
+```
+
+## 📈 **Analytics**
+
+- **Performance**: Web Vitals
+- **Usage**: React Query DevTools
+- **Errors**: Console monitoring
+- **Conversion**: Custom tracking
+
+## 🤝 **Contribuição**
 
 1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
+2. Crie uma branch (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
 5. Abra um Pull Request
 
----
+## 📄 **Licença**
 
-## 📝 Licença
+Este projeto é propriedade da Nathalia Arcuri e está protegido por direitos autorais.
 
-Este projeto é privado e proprietário.
+## 📞 **Contato**
 
----
-
-## 💖 Agradecimentos
-
-- **Anthropic** - Pela tecnologia Claude
-- **Supabase** - Pela plataforma backend
-- **Todas as mães** - Que inspiram este projeto
+- **Instagram**: [@nathalia_arcuri](https://instagram.com/nathalia_arcuri)
+- **Email**: contato@nathaliaarcuri.com.br
+- **Website**: [nathaliaarcuri.com.br](https://nathaliaarcuri.com.br)
 
 ---
 
-## 📞 Suporte
-
-Problemas ou dúvidas?
-
-1. Consulte [Troubleshooting](docs/TROUBLESHOOTING.md)
-2. Veja [Guia de Setup](docs/setup/SETUP.md)
-3. Verifique os logs: `supabase functions logs chat-ai`
-4. Crie uma [issue no GitHub](https://github.com/LionGab/boltnathH/issues)
-
----
-
-<div align="center">
-
-**Feito com 💕 para apoiar mães em sua jornada**
-
-[🏠 Início](#-clubnath---apoio-e-conexão-para-mães) • [⬆️ Topo](#)
-
-</div>
+**🌸 Feito com amor para a comunidade ClubNath**
