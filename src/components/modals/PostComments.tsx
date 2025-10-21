@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase, Comment } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
+import { supabase, Comment } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 import { Send } from 'lucide-react';
 
 type PostCommentsProps = {

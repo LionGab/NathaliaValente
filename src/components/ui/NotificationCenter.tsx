@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import NotificationService, {
   type InAppNotification,
-} from '../services/notificationService';
+} from '../../services/notificationService';
 
 export const NotificationCenter: React.FC = () => {
   const [notifications, setNotifications] = useState<InAppNotification[]>([]);

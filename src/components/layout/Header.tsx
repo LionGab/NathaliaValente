@@ -1,6 +1,6 @@
 import { Heart, Moon, Sun, LogOut, User } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 type HeaderProps = {
   onProfileClick: () => void;

@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import NotificationService, {
   type NotificationPreferences,
-} from '../services/notificationService';
+} from '../../services/notificationService';
 
 const POST_CATEGORIES = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Heart, MessageCircle, Bookmark, MoreVertical, Send } from 'lucide-react';
-import { useDemoMode, DemoPost, DemoComment } from '../hooks/useDemoMode';
+import { useDemoMode, DemoPost, DemoComment } from '../../../hooks/useDemoMode';
 
 export default function DemoFeedPage() {
   const { getDemoPosts, getDemoComments, simulateLike, simulateComment } = useDemoMode();

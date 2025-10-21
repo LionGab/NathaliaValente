@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthPage } from './components/AuthPage';
-import { Header } from './components/Header';
-import { Navigation } from './components/Navigation';
-import { FeedPage } from './components/FeedPage';
-import { ChatPage } from './components/ChatPage';
-import { SearchPage } from './components/SearchPage';
-import { DailyQuotePage } from './components/DailyQuotePage';
-import { ProfilePage } from './components/ProfilePage';
-import OnboardingFlow from './components/OnboardingFlow';
-import WelcomeTour from './components/WelcomeTour';
-import DemoModeToggle from './components/DemoModeToggle';
-import DemoBanner from './components/DemoBanner';
-import DemoFeedPage from './components/DemoFeedPage';
-import PWAUpdatePrompt from './components/PWAUpdatePrompt';
+import { AuthPage, FeedPage, ChatPage, SearchPage, DailyQuotePage, ProfilePage } from './pages';
+import { Header, Navigation } from './components/layout';
+import { OnboardingFlow, WelcomeTour, PWAUpdatePrompt } from './components/ui';
+import { DemoFeedPage, DemoBanner, DemoModeToggle } from './components/features/demo';
 import { useDemoMode } from './hooks/useDemoMode';
 
 function AppContent() {

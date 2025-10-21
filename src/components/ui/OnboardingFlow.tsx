@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Sparkles, Target, Users, BookHeart, TrendingUp, Award, CheckCircle2, ArrowRight, X } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 interface OnboardingStep {
   id: number;

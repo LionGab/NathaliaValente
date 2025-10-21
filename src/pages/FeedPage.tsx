@@ -4,8 +4,8 @@ import { usePosts, useOptimisticLike } from '../hooks';
 import { getCategoryGradient } from '../constants/colors';
 import { toggleSavePost } from '../services/savedItems.service';
 import { Heart, MessageCircle, Award, Plus, Bookmark } from 'lucide-react';
-import { CreatePostModal } from './CreatePostModal';
-import { PostComments } from './PostComments';
+import { CreatePostModal } from '../components/modals/CreatePostModal';
+import { PostComments } from '../components/modals/PostComments';
 
 export const FeedPage = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
