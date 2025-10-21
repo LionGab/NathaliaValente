@@ -14,6 +14,7 @@ import WelcomeTour from './components/WelcomeTour';
 import DemoModeToggle from './components/DemoModeToggle';
 import DemoBanner from './components/DemoBanner';
 import DemoFeedPage from './components/DemoFeedPage';
+import PWAUpdatePrompt from './components/PWAUpdatePrompt';
 import { useDemoMode } from './hooks/useDemoMode';
 
 function AppContent() {
@@ -110,6 +111,9 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300">
+      {/* PWA Update Prompt */}
+      <PWAUpdatePrompt />
+
       {/* Banner de modo demo */}
       {isDemoMode && <DemoBanner onDisableDemo={handleDisableDemo} />}
 

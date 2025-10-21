@@ -67,9 +67,9 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
         if (userPostsError) throw userPostsError;
         data = userPostsData;
       } else {
-        // Use optimized function for feed
+        // Use optimized function for feed (with materialized view)
         const { data: feedData, error: feedError } = await supabase.rpc(
-          'get_posts_with_user_likes',
+          'get_optimized_feed',
           {
             p_user_id: currentUserId || null,
             p_limit: limit,
@@ -77,8 +77,22 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
           }
         );
 
-        if (feedError) throw feedError;
-        data = feedData;
+        if (feedError) {
+          // Fallback to old function if new one doesn't exist yet
+          console.warn('get_optimized_feed not available, using fallback');
+          const { data: fallbackData, error: fallbackError } = await supabase.rpc(
+            'get_posts_with_user_likes',
+            {
+              p_user_id: currentUserId || null,
+              p_limit: limit,
+              p_offset: 0,
+            }
+          );
+          if (fallbackError) throw fallbackError;
+          data = fallbackData;
+        } else {
+          data = feedData;
+        }
       }
 
       setPosts(data || []);
