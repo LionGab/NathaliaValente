@@ -21,21 +21,27 @@ export const NotificationCenter: React.FC = () => {
     loadUnreadCount();
 
     // Subscribe to real-time notifications
-    const unsubscribe = NotificationService.subscribeToNotifications(
-      (newNotification) => {
-        setNotifications((prev) => [newNotification, ...prev]);
-        setUnreadCount((prev) => prev + 1);
+    let unsubscribe: (() => void) | null = null;
 
-        // Show browser notification if permission granted
-        if (NotificationService.isNotificationEnabled()) {
-          new Notification(newNotification.title, {
-            body: newNotification.body,
-            icon: '/logo-192.png',
-            badge: '/badge-72.png',
-          });
+    const setupSubscription = async () => {
+      unsubscribe = await NotificationService.subscribeToNotifications(
+        (newNotification) => {
+          setNotifications((prev) => [newNotification, ...prev]);
+          setUnreadCount((prev) => prev + 1);
+
+          // Show browser notification if permission granted
+          if (NotificationService.isNotificationEnabled()) {
+            new Notification(newNotification.title, {
+              body: newNotification.body,
+              icon: '/logo-192.png',
+              badge: '/badge-72.png',
+            });
+          }
         }
-      }
-    );
+      );
+    };
+
+    setupSubscription();
 
     return () => {
       if (unsubscribe) {

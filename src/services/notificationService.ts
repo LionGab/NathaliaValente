@@ -420,14 +420,15 @@ export class NotificationService {
 
   /**
    * Subscribe to new notifications in real-time
+   * Note: This will only work when user is authenticated
    */
-  static subscribeToNotifications(
+  static async subscribeToNotifications(
     onNotification: (notification: InAppNotification) => void
-  ): (() => void) | null {
+  ): Promise<(() => void) | null> {
     try {
       const {
         data: { user },
-      } = supabase.auth.getUser();
+      } = await supabase.auth.getUser();
 
       if (!user) {
         console.error('User not authenticated');
@@ -442,7 +443,7 @@ export class NotificationService {
             event: 'INSERT',
             schema: 'public',
             table: 'notification_history',
-            filter: `user_id=eq.${user}`,
+            filter: `user_id=eq.${user.id}`,
           },
           (payload) => {
             onNotification(payload.new);

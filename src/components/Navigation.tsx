@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { Home, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 
 type NavigationProps = {
