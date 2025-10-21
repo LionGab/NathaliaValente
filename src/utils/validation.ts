@@ -10,6 +10,8 @@ export const validateProfileUpdate = (data: any) => {
       errors.push('Nickname must be a string');
     } else if (data.preferred_nickname.length > 50) {
       errors.push('Nickname must be less than 50 characters');
+    } else if (data.preferred_nickname.trim().length === 0) {
+      // Skip empty nicknames
     } else {
       cleanData.preferred_nickname = data.preferred_nickname.trim();
     }
@@ -37,7 +39,10 @@ export const validateProfileUpdate = (data: any) => {
       const validGoals = data.onboarding_goals.filter((goal: any) => {
         return typeof goal === 'string' && goal.length > 0 && goal.length <= 100;
       });
-      cleanData.onboarding_goals = validGoals;
+      // Only add if there are valid goals
+      if (validGoals.length > 0) {
+        cleanData.onboarding_goals = validGoals;
+      }
     }
   }
 

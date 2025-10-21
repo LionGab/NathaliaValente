@@ -88,7 +88,8 @@ export const OnboardingFlow = () => {
 
       if (error) {
         console.error('Error completing onboarding:', error);
-        throw error;
+        // Don't throw error, just log it and continue
+        console.warn('Continuing without saving preferences due to error:', error.message);
       }
 
       // Refresh profile to trigger re-render in App.tsx
