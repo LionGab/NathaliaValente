@@ -205,13 +205,13 @@ Para que o login funcione corretamente após onboarding:
 
 2. **Site URL:**
    ```
-   https://SEU_SITE.netlify.app
+   https://clubnath.netlify.app
    ```
 
 3. **Redirect URLs (adicione):**
    ```
-   https://SEU_SITE.netlify.app
-   https://SEU_SITE.netlify.app/**
+   https://clubnath.netlify.app
+   https://clubnath.netlify.app/**
    http://localhost:5173
    http://localhost:5173/**
    ```
@@ -224,7 +224,7 @@ Para que o login funcione corretamente após onboarding:
 
 ### Teste 1: Novo Usuário
 
-1. Acesse seu site: `https://SEU_SITE.netlify.app`
+1. Acesse seu site: `https://clubnath.netlify.app`
 2. Clique em **Cadastrar**
 3. Crie uma conta nova com e-mail de teste
 4. **Verifique que aparece o onboarding:**

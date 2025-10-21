@@ -49,10 +49,10 @@ Use este checklist para garantir que o deploy do onboarding foi feito corretamen
 
 - [ ] Acessar: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/auth/url-configuration
 - [ ] **Site URL** configurada:
-  - [ ] `https://SEU_SITE.netlify.app`
+  - [ ] `https://clubnath.netlify.app`
 - [ ] **Redirect URLs** adicionadas:
-  - [ ] `https://SEU_SITE.netlify.app`
-  - [ ] `https://SEU_SITE.netlify.app/**`
+  - [ ] `https://clubnath.netlify.app`
+  - [ ] `https://clubnath.netlify.app/**`
   - [ ] `http://localhost:5173` (dev)
   - [ ] `http://localhost:5173/**` (dev)
 - [ ] Clicou em **Save** ✅
