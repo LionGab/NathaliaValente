@@ -1,0 +1,5 @@
+# Netlify Redirects for ClubNath SPA
+# https://docs.netlify.com/routing/redirects/
+
+# SPA fallback - must be last
+/*    /index.html   200
