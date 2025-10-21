@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase';
 import type { Post } from '../hooks';
 import type { Category } from '../constants';
 import { validatePost } from '../utils/validation';
+import { smartCompressImage } from '../utils/imageCompression';
 
 /**
  * Create a new post
@@ -101,21 +102,36 @@ export async function updatePost(
 
 /**
  * Upload image to Supabase Storage
+ * Automatically compresses images before upload to save bandwidth and storage
  */
 export async function uploadPostImage(
   file: File,
   userId: string
-): Promise<{ success: boolean; url?: string; error?: string }> {
+): Promise<{
+  success: boolean;
+  url?: string;
+  error?: string;
+  compressionStats?: { originalSize: number; compressedSize: number; savedPercentage: number };
+}> {
   try {
-    const fileExt = file.name.split('.').pop();
+    // Smart compress image before upload (only if needed)
+    const { file: compressedFile, compressed, stats } = await smartCompressImage(file, {
+      maxWidth: 1920,
+      maxHeight: 1080,
+      quality: 0.85,
+      format: 'image/jpeg',
+    });
+
+    const fileExt = 'jpg'; // Always use .jpg for compressed images
     const fileName = `${userId}-${Date.now()}.${fileExt}`;
     const filePath = `posts/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from('post-images')
-      .upload(filePath, file, {
-        cacheControl: '3600',
+      .upload(filePath, compressedFile, {
+        cacheControl: '31536000', // 1 year cache (images are immutable with hash in filename)
         upsert: false,
+        contentType: 'image/jpeg',
       });
 
     if (uploadError) throw uploadError;
@@ -124,7 +140,11 @@ export async function uploadPostImage(
       data: { publicUrl },
     } = supabase.storage.from('post-images').getPublicUrl(filePath);
 
-    return { success: true, url: publicUrl };
+    return {
+      success: true,
+      url: publicUrl,
+      compressionStats: compressed ? stats : undefined,
+    };
   } catch (error) {
     console.error('Error uploading image:', error);
     return { success: false, error: 'Erro ao fazer upload da imagem' };
