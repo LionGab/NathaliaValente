@@ -81,7 +81,7 @@ export interface NotificationHistory {
   deep_link: string | null;
   status: 'pending' | 'sent' | 'failed' | 'read';
   delivery_method: 'push' | 'email' | 'in_app';
-  data: Record<string, any> | null;
+  data: Record<string, unknown> | null;
   error_message: string | null;
   sent_at: string | null;
   read_at: string | null;
@@ -95,7 +95,7 @@ export interface NotificationSchedule {
   template_key: string;
   scheduled_for: string;
   recurrence: 'daily' | 'weekly' | 'monthly' | null;
-  template_data: Record<string, any>;
+  template_data: Record<string, unknown>;
   status: 'pending' | 'sent' | 'cancelled';
   sent_at: string | null;
   created_at: string;
@@ -109,7 +109,7 @@ export interface NotificationSchedule {
 export interface SendNotificationRequest {
   user_id: string;
   template_key: string;
-  template_data?: Record<string, any>;
+  template_data?: Record<string, unknown>;
   delivery_method?: 'push' | 'email' | 'in_app' | 'all';
   scheduled_for?: string; // ISO 8601 timestamp
   priority?: 'high' | 'normal' | 'low';
@@ -151,7 +151,7 @@ export interface NotificationPayload {
     deep_link?: string;
     notification_id?: string;
     category?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   priority?: 'high' | 'normal' | 'low';
   ttl?: number; // Time to live in seconds
@@ -207,7 +207,7 @@ export interface OneSignalPayload {
   include_player_ids?: string[];
   headings: { en: string; 'pt-BR': string };
   contents: { en: string; 'pt-BR': string };
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   priority?: number;
   ttl?: number;
   ios_badgeType?: string;
@@ -253,7 +253,7 @@ export type TemplateVariables =
   | DailyEncouragementVariables
   | NewContentVariables
   | HabitReminderVariables
-  | Record<string, any>;
+  | Record<string, unknown>;
 
 // ============================================================================
 // HELPER TYPES
@@ -320,7 +320,7 @@ export class NotificationError extends Error {
   constructor(
     message: string,
     public code: string,
-    public details?: any
+    public details?: unknown
   ) {
     super(message);
     this.name = 'NotificationError';
