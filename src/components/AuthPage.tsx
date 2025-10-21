@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Heart, Sparkles, Instagram } from 'lucide-react';
+import { Heart, Sparkles } from 'lucide-react';
 
-interface AuthPageProps {
-  onInstagramLogin?: () => void;
-}
-
-export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
+export const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -108,30 +104,6 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
               Cadastrar
             </button>
           </div>
-
-          {/* Instagram Login Button */}
-          {onInstagramLogin && (
-            <div className="mb-6">
-              <button
-                type="button"
-                onClick={onInstagramLogin}
-                className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-in-out touch-target"
-              >
-                <Instagram className="w-6 h-6" />
-                Entrar com Instagram
-              </button>
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-claude-gray-200 dark:border-claude-gray-700"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-claude-cream-50 dark:bg-claude-gray-950 text-claude-gray-500 dark:text-claude-gray-400">
-                    ou
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {isSignUp && (

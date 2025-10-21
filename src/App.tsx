@@ -4,14 +4,11 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
 import { useMonetization } from './hooks/useMonetization';
 import { AuthPage } from './components/AuthPage';
-import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PWANotifications } from './components/PWANotifications';
 import { PerformanceDebug } from './components/PerformanceDebug';
 import { MonetizationBanner } from './components/MonetizationBanner';
-import { InstagramAuth } from './components/InstagramAuth';
-import { ConversionOnboarding } from './components/ConversionOnboarding';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Lazy load heavy components for better performance
@@ -22,41 +19,9 @@ const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(mod
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
 
 function AppContent() {
-  const { user, profile, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
-  const [showInstagramAuth, setShowInstagramAuth] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [instagramUser, setInstagramUser] = useState(null);
-
-  // Show Instagram Auth if no user
-  if (showInstagramAuth) {
-    return (
-      <InstagramAuth 
-        onSuccess={(user) => {
-          setInstagramUser(user);
-          setShowInstagramAuth(false);
-          setShowOnboarding(true);
-        }} 
-      />
-    );
-  }
-
-  // Show Conversion Onboarding after Instagram login
-  if (showOnboarding) {
-    return (
-      <ConversionOnboarding 
-        onComplete={() => {
-          setShowOnboarding(false);
-          // User is now "logged in" to the app
-        }}
-        onSkip={() => {
-          setShowOnboarding(false);
-          // User skipped onboarding
-        }}
-      />
-    );
-  }
 
   if (loading) {
     return (
@@ -72,11 +37,7 @@ function AppContent() {
   }
 
   if (!user) {
-    return (
-      <AuthPage 
-        onInstagramLogin={() => setShowInstagramAuth(true)}
-      />
-    );
+    return <AuthPage />;
   }
 
   const renderPage = () => {
