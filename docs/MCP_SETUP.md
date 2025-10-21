@@ -2,6 +2,8 @@
 
 Guia para configurar o Model Context Protocol para trabalhar com Claude Desktop no ClubNath.
 
+> 📖 **Novo!** Consulte o [Guia Completo de Configuração dos MCPs](./MCP_CONFIG_GUIDE.md) para instruções detalhadas sobre todos os servidores MCP disponíveis.
+
 ## 📋 O que é MCP?
 
 O **Model Context Protocol (MCP)** permite que o Claude Desktop acesse:
@@ -15,6 +17,23 @@ Com MCP, o Claude pode:
 - Executar queries no Supabase
 - Testar funcionalidades
 - Fazer deploys
+
+## 🚀 MCPs Disponíveis para ClubNath
+
+| MCP | Prioridade | Descrição | Requer API Key |
+|-----|-----------|-----------|----------------|
+| 📁 **filesystem** | Essencial | Acesso aos arquivos do projeto | Não |
+| 🐙 **github** | Essencial | Integração com GitHub | Sim |
+| 🗄️ **postgres** | Essencial | Banco de dados Supabase | Sim (senha) |
+| 📦 **npm** | Essencial | Gerenciamento de pacotes | Não |
+| 🔍 **brave-search** | Recomendado | Busca na web | Sim |
+| 🌐 **fetch** | Recomendado | Requisições HTTP/API | Não |
+| 🧠 **sequential-thinking** | Recomendado | Raciocínio complexo | Não |
+| 💾 **memory** | Recomendado | Contexto persistente | Não |
+| 📦 **git** | Recomendado | Operações Git avançadas | Não |
+| 🌐 **netlify** | Opcional | Deploy e gerenciamento | Sim |
+| 🐛 **sentry** | Opcional | Monitoramento de erros | Sim |
+| 💬 **slack** | Opcional | Notificações | Sim |
 
 ## ⚡ Setup Rápido (5 minutos)
 
