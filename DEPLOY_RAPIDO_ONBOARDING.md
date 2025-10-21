@@ -43,8 +43,8 @@ supabase functions deploy chat-ai
 
 2. Adicione nas **Redirect URLs:**
    ```
-   https://SEU_SITE.netlify.app
-   https://SEU_SITE.netlify.app/**
+   https://clubnath.netlify.app
+   https://clubnath.netlify.app/**
    ```
 
 3. Clique **Save**
@@ -77,7 +77,7 @@ netlify deploy --prod
 
 ### 4️⃣ Testar
 
-1. Acesse seu site: `https://SEU_SITE.netlify.app`
+1. Acesse seu site: `https://clubnath.netlify.app`
 2. Cadastre nova conta
 3. **Deve aparecer:**
    - ✅ Tela 1: Welcome "Criado pela Nath"
