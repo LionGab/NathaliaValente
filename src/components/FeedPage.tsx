@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { usePosts, useOptimisticLike } from '../hooks';
+import { usePosts, useOptimisticLike, useWebShare } from '../hooks';
 import { getCategoryGradient } from '../constants/colors';
 import { toggleSavePost } from '../services/savedItems.service';
-import { Heart, MessageCircle, Award, Plus, Bookmark } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark, Share2 } from 'lucide-react';
 import { CreatePostModal } from './CreatePostModal';
 import { PostComments } from './PostComments';
 
@@ -15,6 +15,7 @@ export const FeedPage = () => {
   // Use optimized hooks for data fetching and optimistic updates
   const { posts: rawPosts, loading, refetch } = usePosts();
   const { toggleLike, applyOptimisticUpdates } = useOptimisticLike();
+  const { share, isSupported: isShareSupported } = useWebShare();
 
   // Apply optimistic updates to posts
   const posts = applyOptimisticUpdates(rawPosts);
@@ -43,6 +44,18 @@ export const FeedPage = () => {
 
     if (!result.success) {
       console.error('Failed to save post:', result.error);
+    }
+  };
+
+  const handleSharePost = async (post: { caption: string; full_name: string; id: string }) => {
+    try {
+      await share({
+        title: `Post de ${post.full_name} no ClubNath`,
+        text: post.caption,
+        url: window.location.origin + `/?post=${post.id}`,
+      });
+    } catch (error) {
+      console.error('Erro ao compartilhar:', error);
     }
   };
 
@@ -163,6 +176,19 @@ export const FeedPage = () => {
                   />
                   <span className="text-sm font-semibold">{post.comments_count}</span>
                 </button>
+
+                {isShareSupported && (
+                  <button
+                    onClick={() => handleSharePost(post)}
+                    className="flex items-center gap-2 text-claude-gray-600 dark:text-claude-gray-400 hover:text-claude-orange-600 dark:hover:text-claude-orange-500 transition-all duration-200 group"
+                    aria-label="Compartilhar post"
+                  >
+                    <Share2
+                      className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
+                      strokeWidth={2}
+                    />
+                  </button>
+                )}
 
                 <button
                   onClick={() => handleSavePost(post.id)}
