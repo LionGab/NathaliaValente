@@ -161,7 +161,18 @@ export default function WelcomeTour({ onComplete, onSkip }: WelcomeTourProps) {
   return (
     <div className="fixed inset-0 z-50 pointer-events-none">
       {/* Overlay escuro com destaque no elemento */}
-      <div className="absolute inset-0 bg-black/60 animate-fadeIn" onClick={handleSkipTour} />
+      <div
+        className="absolute inset-0 bg-black/60 animate-fadeIn"
+        onClick={handleSkipTour}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleSkipTour();
+          }
+        }}
+      />
 
       {/* Tooltip */}
       <div
