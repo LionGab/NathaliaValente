@@ -294,8 +294,33 @@ npx --version
 - `@modelcontextprotocol/server-filesystem` - Arquivos
 - `@modelcontextprotocol/server-postgres` - PostgreSQL
 - `@modelcontextprotocol/server-memory` - Memória persistente
-- `@modelcontextprotocol/server-github` - GitHub API
+- `@modelcontextprotocol/server-github` - GitHub API ⭐ **[Ver guia completo](./GITHUB_MCP_SETUP.md)**
 - `@modelcontextprotocol/server-fetch` - HTTP requests
+
+### 🚀 Setup Automatizado
+
+Para configurar rapidamente o GitHub MCP e outros servidores:
+
+**Linux/Mac:**
+```bash
+cd scripts
+chmod +x setup-github-mcp.sh
+./setup-github-mcp.sh
+```
+
+**Windows:**
+```batch
+cd scripts
+setup-github-mcp.bat
+```
+
+O script irá:
+- ✅ Verificar dependências (Node.js, npx)
+- ✅ Solicitar seu GitHub Personal Access Token
+- ✅ Testar o token
+- ✅ Configurar automaticamente o claude_desktop_config.json
+- ✅ Fazer backup da configuração existente
+- ✅ Configurar GitHub, Filesystem e Memory MCPs
 
 ### Links Úteis
 
@@ -303,6 +328,14 @@ npx --version
 - [MCP GitHub](https://github.com/modelcontextprotocol)
 - [Claude Desktop](https://claude.ai/desktop)
 - [Supabase Database Settings](https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/database)
+
+### 📖 Guias Específicos
+
+- **[GitHub MCP Setup](./GITHUB_MCP_SETUP.md)** - Guia completo de configuração do GitHub MCP
+  - Criar Personal Access Token
+  - Configurar permissões
+  - Casos de uso e exemplos
+  - Troubleshooting específico
 
 ## 🎯 Exemplo de Uso
 

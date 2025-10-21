@@ -313,6 +313,7 @@ boltnathH/
 | � **Setup** | Configuração inicial e em nova máquina | [docs/SETUP.md](docs/SETUP.md) |
 | 🚀 **Deploy** | Guia completo de deploy no Netlify | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
 | 🤖 **MCP** | Configurar Model Context Protocol | [docs/MCP_SETUP.md](docs/MCP_SETUP.md) |
+| 🐙 **GitHub MCP** | Setup automatizado do GitHub MCP | [docs/GITHUB_MCP_SETUP.md](docs/GITHUB_MCP_SETUP.md) |
 | 🐛 **Troubleshooting** | Solução de problemas comuns | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) |
 | 🤖 **PR Automáticos** | Sistema de PRs automáticos | [.github/AUTO_PR_CONFIG.md](.github/AUTO_PR_CONFIG.md) |
 
@@ -360,6 +361,31 @@ supabase secrets list
 # Adicionar secret
 supabase secrets set KEY=value
 ```
+
+### MCP (Model Context Protocol)
+
+Configure o Claude Code/Desktop para gerenciar o projeto via GitHub:
+
+**Linux/Mac:**
+```bash
+cd scripts
+./setup-github-mcp.sh
+```
+
+**Windows:**
+```batch
+cd scripts
+setup-github-mcp.bat
+```
+
+**Recursos do GitHub MCP:**
+- 📝 Gerenciar issues e pull requests
+- 🔍 Buscar código no repositório
+- 📊 Analisar commits e branches
+- 🏷️ Trabalhar com labels e milestones
+- 📁 Ler e criar arquivos remotamente
+
+📖 **Guia completo:** [docs/GITHUB_MCP_SETUP.md](docs/GITHUB_MCP_SETUP.md)
 
 ---
 
