@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import { usePosts } from '../hooks';
+import { ALL_CATEGORIES, getCategoryColor } from '../constants';
 import { Search, Filter } from 'lucide-react';
-
-const CATEGORIES = ['Todos', 'Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
 
 export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,16 +24,6 @@ export const SearchPage = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Search is handled automatically by useMemo
-  };
-
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      'Look do dia': 'from-pink-400 to-rose-400',
-      Desabafo: 'from-purple-400 to-indigo-400',
-      Fé: 'from-blue-400 to-cyan-400',
-      'Dica de mãe': 'from-green-400 to-emerald-400',
-    };
-    return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
   };
 
   return (
@@ -65,7 +54,7 @@ export const SearchPage = () => {
         </div>
 
         <div className="flex gap-2 overflow-x-auto pb-2">
-          {CATEGORIES.map((category) => (
+          {ALL_CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}

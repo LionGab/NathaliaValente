@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts, useOptimisticLike } from '../hooks';
+import { getCategoryGradient } from '../constants/colors';
+import { toggleSavePost } from '../services/savedItems.service';
 import { Heart, MessageCircle, Award, Plus, Bookmark } from 'lucide-react';
 import { CreatePostModal } from './CreatePostModal';
 import { PostComments } from './PostComments';
@@ -38,33 +39,11 @@ export const FeedPage = () => {
   const handleSavePost = async (postId: string) => {
     if (!user) return;
 
-    const { data: existing } = await supabase
-      .from('saved_items')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('post_id', postId)
-      .eq('type', 'post')
-      .maybeSingle();
+    const result = await toggleSavePost(user.id, postId);
 
-    if (existing) {
-      await supabase.from('saved_items').delete().eq('id', existing.id);
-    } else {
-      await supabase.from('saved_items').insert({
-        user_id: user.id,
-        post_id: postId,
-        type: 'post',
-      });
+    if (!result.success) {
+      console.error('Failed to save post:', result.error);
     }
-  };
-
-  const getCategoryGradient = (category: string) => {
-    const gradients = {
-      'Look do dia': 'gradient-orange',
-      Desabafo: 'gradient-purple',
-      Fé: 'gradient-blue',
-      'Dica de mãe': 'gradient-green',
-    };
-    return gradients[category as keyof typeof gradients] || 'bg-claude-gray-400';
   };
 
   if (loading) {
