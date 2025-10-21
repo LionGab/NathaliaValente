@@ -65,7 +65,7 @@ export async function sendMorningEncouragement(
 ) {
   // Fetch user's recent posts to personalize message
   let quoteContent = 'Você é mais forte do que imagina, mãe. Cada dia é uma vitória de amor.';
-  let quoteAuthor = 'ClubNath';
+  const quoteAuthor = 'ClubNath';
 
   // Personalize based on recent activity
   if (recentPostCategory === 'Desabafo') {

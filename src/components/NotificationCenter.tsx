@@ -21,7 +21,9 @@ export const NotificationCenter: React.FC = () => {
     loadUnreadCount();
 
     // Subscribe to real-time notifications
-    const unsubscribe = NotificationService.subscribeToNotifications(
+    let unsubscribe: (() => void) | null = null;
+
+    NotificationService.subscribeToNotifications(
       (newNotification) => {
         setNotifications((prev) => [newNotification, ...prev]);
         setUnreadCount((prev) => prev + 1);
@@ -35,7 +37,9 @@ export const NotificationCenter: React.FC = () => {
           });
         }
       }
-    );
+    ).then((unsub) => {
+      unsubscribe = unsub;
+    });
 
     return () => {
       if (unsubscribe) {

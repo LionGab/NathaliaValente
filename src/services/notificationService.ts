@@ -421,13 +421,13 @@ export class NotificationService {
   /**
    * Subscribe to new notifications in real-time
    */
-  static subscribeToNotifications(
+  static async subscribeToNotifications(
     onNotification: (notification: InAppNotification) => void
-  ): (() => void) | null {
+  ): Promise<(() => void) | null> {
     try {
       const {
         data: { user },
-      } = supabase.auth.getUser();
+      } = await supabase.auth.getUser();
 
       if (!user) {
         console.error('User not authenticated');

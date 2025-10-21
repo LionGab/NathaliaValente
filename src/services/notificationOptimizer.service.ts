@@ -11,6 +11,7 @@ import type {
   FrequencyAdjustment,
   SupportAssessment,
   SupportResource,
+  ResourceType,
   DiaryEntry,
   EmotionCategory,
   NotificationTone,
@@ -606,7 +607,7 @@ function formatTime(time: TimeSlot): string {
 
 function addHours(time: TimeSlot, hours: number): TimeSlot {
   let newHour = time.hour + hours;
-  let newMinute = time.minute;
+  const newMinute = time.minute;
 
   if (newHour >= 24) {
     newHour = newHour % 24;
@@ -643,7 +644,7 @@ function isInBlackoutPeriod(time: TimeSlot, startTime: string, endTime: string):
   }
 }
 
-function moveToNextAvailableSlot(time: TimeSlot, blackoutEnd: string): TimeSlot {
+function moveToNextAvailableSlot(_time: TimeSlot, blackoutEnd: string): TimeSlot {
   const end = parseTime(blackoutEnd);
   return addHours(end, 0.5); // 30 minutes after blackout ends
 }
