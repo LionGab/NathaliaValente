@@ -49,18 +49,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      }
-      setLoading(false);
-    });
+    console.log('🔧 AuthContext: Inicializando...');
+
+    supabase.auth.getSession()
+      .then(({ data: { session }, error }) => {
+        console.log('🔧 AuthContext: getSession retornou', { session, error });
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          fetchProfile(session.user.id);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('❌ AuthContext: Erro ao obter sessão:', error);
+        setLoading(false); // IMPORTANTE: sempre setar loading como false
+      });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('🔧 AuthContext: Auth state mudou', { event: _event, session });
       (async () => {
         setSession(session);
         setUser(session?.user ?? null);
