@@ -1,174 +1,106 @@
-/**
- * Input validation utilities
- * Provides type-safe validation for user inputs
- */
+// Validation utilities for Supabase data
 
-import { APP_CONFIG } from '../constants';
-import { isValidCategory } from '../constants/categories';
+export const validateProfileUpdate = (data: any) => {
+  const errors: string[] = [];
+  const cleanData: any = {};
 
-/**
- * Validation result type
- */
-export interface ValidationResult {
-  valid: boolean;
-  error?: string;
-}
-
-/**
- * Validate post caption
- */
-export function validatePostCaption(caption: string): ValidationResult {
-  if (!caption || caption.trim().length === 0) {
-    return { valid: false, error: 'A legenda não pode estar vazia' };
-  }
-
-  if (caption.length > APP_CONFIG.maxCaptionLength) {
-    return {
-      valid: false,
-      error: `A legenda deve ter no máximo ${APP_CONFIG.maxCaptionLength} caracteres`,
-    };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate post category
- */
-export function validatePostCategory(category: string): ValidationResult {
-  if (!isValidCategory(category)) {
-    return { valid: false, error: 'Categoria inválida' };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate image file
- */
-export function validateImageFile(file: File): ValidationResult {
-  // Check file type
-  if (!(APP_CONFIG.allowedImageTypes as readonly string[]).includes(file.type)) {
-    return {
-      valid: false,
-      error: 'Formato de imagem inválido. Use JPEG, PNG ou WebP',
-    };
-  }
-
-  // Check file size
-  if (file.size > APP_CONFIG.maxImageSize) {
-    const maxSizeMB = APP_CONFIG.maxImageSize / (1024 * 1024);
-    return {
-      valid: false,
-      error: `A imagem deve ter no máximo ${maxSizeMB}MB`,
-    };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate user bio
- */
-export function validateBio(bio: string): ValidationResult {
-  if (bio.length > APP_CONFIG.maxBioLength) {
-    return {
-      valid: false,
-      error: `A bio deve ter no máximo ${APP_CONFIG.maxBioLength} caracteres`,
-    };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate email format
- */
-export function validateEmail(email: string): ValidationResult {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!email || email.trim().length === 0) {
-    return { valid: false, error: 'O email não pode estar vazio' };
-  }
-
-  if (!emailRegex.test(email)) {
-    return { valid: false, error: 'Email inválido' };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate password strength
- */
-export function validatePassword(password: string): ValidationResult {
-  if (!password || password.length === 0) {
-    return { valid: false, error: 'A senha não pode estar vazia' };
-  }
-
-  if (password.length < 6) {
-    return {
-      valid: false,
-      error: 'A senha deve ter no mínimo 6 caracteres',
-    };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Validate full name
- */
-export function validateFullName(name: string): ValidationResult {
-  if (!name || name.trim().length === 0) {
-    return { valid: false, error: 'O nome não pode estar vazio' };
-  }
-
-  if (name.trim().length < 2) {
-    return { valid: false, error: 'O nome deve ter no mínimo 2 caracteres' };
-  }
-
-  return { valid: true };
-}
-
-/**
- * Sanitize HTML to prevent XSS
- * Basic implementation - for production, use a library like DOMPurify
- */
-export function sanitizeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
-}
-
-/**
- * Validate and sanitize post data
- */
-export function validatePost(data: {
-  caption: string;
-  category: string;
-  imageFile?: File;
-}): ValidationResult {
-  const captionValidation = validatePostCaption(data.caption);
-  if (!captionValidation.valid) {
-    return captionValidation;
-  }
-
-  const categoryValidation = validatePostCategory(data.category);
-  if (!categoryValidation.valid) {
-    return categoryValidation;
-  }
-
-  if (data.imageFile) {
-    const imageValidation = validateImageFile(data.imageFile);
-    if (!imageValidation.valid) {
-      return imageValidation;
+  // Validate nickname
+  if (data.preferred_nickname) {
+    if (typeof data.preferred_nickname !== 'string') {
+      errors.push('Nickname must be a string');
+    } else if (data.preferred_nickname.length > 50) {
+      errors.push('Nickname must be less than 50 characters');
+    } else {
+      cleanData.preferred_nickname = data.preferred_nickname.trim();
     }
   }
 
-  return { valid: true };
-}
+  // Validate avatar emoji
+  if (data.avatar_emoji) {
+    if (typeof data.avatar_emoji !== 'string') {
+      errors.push('Avatar emoji must be a string');
+    } else if (data.avatar_emoji.length > 10) {
+      errors.push('Avatar emoji must be less than 10 characters');
+    } else {
+      cleanData.avatar_emoji = data.avatar_emoji;
+    }
+  }
+
+  // Validate onboarding goals
+  if (data.onboarding_goals) {
+    if (!Array.isArray(data.onboarding_goals)) {
+      errors.push('Onboarding goals must be an array');
+    } else if (data.onboarding_goals.length > 10) {
+      errors.push('Maximum 10 goals allowed');
+    } else {
+      // Validate each goal
+      const validGoals = data.onboarding_goals.filter((goal: any) => {
+        return typeof goal === 'string' && goal.length > 0 && goal.length <= 100;
+      });
+      cleanData.onboarding_goals = validGoals;
+    }
+  }
+
+  // Validate boolean fields
+  if (data.onboarding_completed !== undefined) {
+    cleanData.onboarding_completed = Boolean(data.onboarding_completed);
+  }
+
+  // Validate timestamp
+  if (data.onboarding_completed_at) {
+    const date = new Date(data.onboarding_completed_at);
+    if (isNaN(date.getTime())) {
+      errors.push('Invalid date format');
+    } else {
+      cleanData.onboarding_completed_at = date.toISOString();
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    cleanData
+  };
+};
+
+export const validatePostData = (data: any) => {
+  const errors: string[] = [];
+  const cleanData: any = {};
+
+  // Validate caption
+  if (!data.caption || typeof data.caption !== 'string') {
+    errors.push('Caption is required and must be a string');
+  } else if (data.caption.length > 1000) {
+    errors.push('Caption must be less than 1000 characters');
+  } else {
+    cleanData.caption = data.caption.trim();
+  }
+
+  // Validate category
+  const validCategories = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
+  if (!data.category || !validCategories.includes(data.category)) {
+    errors.push('Category must be one of: ' + validCategories.join(', '));
+  } else {
+    cleanData.category = data.category;
+  }
+
+  // Validate image URL (optional)
+  if (data.image_url) {
+    if (typeof data.image_url !== 'string') {
+      errors.push('Image URL must be a string');
+    } else {
+      try {
+        new URL(data.image_url);
+        cleanData.image_url = data.image_url;
+      } catch {
+        errors.push('Invalid image URL format');
+      }
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    cleanData
+  };
+};

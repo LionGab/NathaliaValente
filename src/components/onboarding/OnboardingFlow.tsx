@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
+import { validateProfileUpdate } from '../../utils/validation';
 import { WelcomeScreen } from './WelcomeScreen';
 import { QuickProfile } from './QuickProfile';
 import { GoalsSelection } from './GoalsSelection';
@@ -55,16 +56,34 @@ export const OnboardingFlow = () => {
     setIsCompleting(true);
 
     try {
-      // Update profile with onboarding data
+      // Prepare update data
+      const updateData: any = {
+        onboarding_completed: true,
+        onboarding_completed_at: new Date().toISOString(),
+      };
+
+      // Only add fields if they have values
+      if (data.nickname) {
+        updateData.preferred_nickname = data.nickname;
+      }
+      if (data.avatarEmoji) {
+        updateData.avatar_emoji = data.avatarEmoji;
+      }
+      if (data.goals && data.goals.length > 0) {
+        updateData.onboarding_goals = data.goals;
+      }
+
+      // Validate data before sending to Supabase
+      const validation = validateProfileUpdate(updateData);
+      
+      if (!validation.isValid) {
+        console.error('Validation errors:', validation.errors);
+        throw new Error('Invalid data: ' + validation.errors.join(', '));
+      }
+
       const { error } = await supabase
         .from('profiles')
-        .update({
-          preferred_nickname: data.nickname,
-          avatar_emoji: data.avatarEmoji,
-          onboarding_goals: data.goals,
-          onboarding_completed: true,
-          onboarding_completed_at: new Date().toISOString(),
-        })
+        .update(validation.cleanData)
         .eq('id', user.id);
 
       if (error) {

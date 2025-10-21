@@ -226,6 +226,12 @@ export default defineConfig({
     include: ['react', 'react-dom', '@supabase/supabase-js'],
   },
 
+  // HTML optimization
+  define: {
+    // Disable preload warnings in production
+    __VUE_PROD_DEVTOOLS__: false,
+  },
+
   // Server configuration (for dev)
   server: {
     // Enable compression in dev mode
