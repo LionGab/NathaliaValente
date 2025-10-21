@@ -1,9 +1,15 @@
-import { expect, afterEach, vi } from 'vitest';
+import { expect, afterEach, vi, beforeAll } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
+
+// Setup environment variables before all tests
+beforeAll(() => {
+  process.env.VITE_SUPABASE_URL = 'https://test.supabase.co';
+  process.env.VITE_SUPABASE_ANON_KEY = 'test-anon-key';
+});
 
 // Cleanup after each test case
 afterEach(() => {

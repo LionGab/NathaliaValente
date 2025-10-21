@@ -10,7 +10,7 @@
 
 **Uma plataforma de apoio e conexão para mães, com IA empática e comunidade acolhedora**
 
-[🚀 Deploy](./docs/DEPLOYMENT.md) • [� Setup](./docs/SETUP.md) • [🤖 Robô Nath](#-robô-nath) • [� Docs](#-documentação)
+[🚀 Deploy](./docs/deployment/DEPLOYMENT.md) • [� Setup](./docs/setup/SETUP.md) • [🤖 Robô Nath](#-robô-nath) • [� Docs](#-documentação)
 
 **📦 Repositório:** [github.com/LionGab/boltnathH](https://github.com/LionGab/boltnathH)
 
@@ -45,8 +45,8 @@
 **Pronto!** Seu app estará no ar em ~3 minutos 🎉
 
 📖 **Guias detalhados:**
-- [⚡ Deploy Rápido (5 min)](./DEPLOY_RAPIDO.md)
-- [📚 Guia Completo de Deploy](./DEPLOYMENT.md)
+- [⚡ Deploy Rápido (5 min)](./docs/deployment/DEPLOY_RAPIDO.md)
+- [📚 Guia Completo de Deploy](./docs/deployment/DEPLOYMENT.md)
 
 ---
 
@@ -161,7 +161,7 @@ Criamos documentação detalhada para facilitar a configuração:
 |---------|-----------|-------------|
 | **[CHECKLIST.md](CHECKLIST.md)** | ✅ Checklist interativo | Acompanhe cada passo |
 | **[CONFIGURACAO.md](CONFIGURACAO.md)** | 📖 Guia completo passo a passo | Instruções detalhadas |
-| **[SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md)** | 📋 Instruções originais | Referência técnica |
+| **[SETUP_INSTRUCTIONS.md](./docs/setup/SETUP_INSTRUCTIONS.md)** | 📋 Instruções originais | Referência técnica |
 
 ### Scripts de Configuração
 
@@ -208,7 +208,7 @@ chmod +x setup-supabase.sh
    npm run dev
    ```
 
-📖 **Guia completo:** Consulte [CONFIGURACAO.md](CONFIGURACAO.md)
+📖 **Guia completo:** Consulte [CONFIGURACAO.md](CONFIGURACAO.md) (se existir na raiz)
 
 ---
 
@@ -310,9 +310,9 @@ boltnathH/
 
 | Documento | Descrição | Link |
 |-----------|-----------|------|
-| � **Setup** | Configuração inicial e em nova máquina | [docs/SETUP.md](docs/SETUP.md) |
-| 🚀 **Deploy** | Guia completo de deploy no Netlify | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
-| 🤖 **MCP** | Configurar Model Context Protocol | [docs/MCP_SETUP.md](docs/MCP_SETUP.md) |
+| � **Setup** | Configuração inicial e em nova máquina | [docs/setup/SETUP.md](docs/setup/SETUP.md) |
+| 🚀 **Deploy** | Guia completo de deploy no Netlify | [docs/deployment/DEPLOYMENT.md](docs/deployment/DEPLOYMENT.md) |
+| 🤖 **MCP** | Configurar Model Context Protocol | [docs/mcp/MCP_SETUP.md](docs/mcp/MCP_SETUP.md) |
 | 🐛 **Troubleshooting** | Solução de problemas comuns | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) |
 | 🤖 **PR Automáticos** | Sistema de PRs automáticos | [.github/AUTO_PR_CONFIG.md](.github/AUTO_PR_CONFIG.md) |
 
@@ -414,7 +414,7 @@ Este projeto é privado e proprietário.
 Problemas ou dúvidas?
 
 1. Consulte [Troubleshooting](docs/TROUBLESHOOTING.md)
-2. Veja [Guia de Setup](docs/SETUP.md)
+2. Veja [Guia de Setup](docs/setup/SETUP.md)
 3. Verifique os logs: `supabase functions logs chat-ai`
 4. Crie uma [issue no GitHub](https://github.com/LionGab/boltnathH/issues)
 
