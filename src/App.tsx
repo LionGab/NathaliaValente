@@ -12,6 +12,7 @@ import { PerformanceDebug } from './components/PerformanceDebug';
 import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
 import { ConversionOnboarding } from './components/ConversionOnboarding';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
@@ -152,13 +153,15 @@ function AppContent() {
 
 function App() {
   return (
-    <QueryProvider>
-      <ThemeProvider>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
-      </ThemeProvider>
-    </QueryProvider>
+    <ErrorBoundary>
+      <QueryProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </ThemeProvider>
+      </QueryProvider>
+    </ErrorBoundary>
   );
 }
 
