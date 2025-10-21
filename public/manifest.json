@@ -1,12 +1,17 @@
 {
-  "name": "ClubNath",
+  "name": "ClubNath - Comunidade de Mães",
   "short_name": "ClubNath",
   "description": "Comunidade de mães - Seu espaço de conexão e fé",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#FFF9F5",
   "theme_color": "#FF6B6B",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "categories": ["lifestyle", "social"],
+  "prefer_related_applications": false,
+  "dir": "ltr",
+  "lang": "pt-BR",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
