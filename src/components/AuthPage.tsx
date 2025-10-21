@@ -1,6 +1,8 @@
+
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Heart, Sparkles } from 'lucide-react';
+
 
 export const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -9,20 +11,40 @@ export const AuthPage = () => {
   const [fullName, setFullName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
   const { signIn, signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
       if (isSignUp) {
         const { error } = await signUp(email, password, fullName);
-        if (error) throw error;
+        if (error) {
+          // Mensagem amigável para e-mail já cadastrado ou erro comum
+          if (error.message && error.message.toLowerCase().includes('user already registered')) {
+            setError('Este e-mail já está cadastrado. Tente fazer login ou recuperar a senha.');
+          } else {
+            setError(error.message || 'Erro ao criar conta.');
+          }
+        } else {
+          setSuccess('Cadastro realizado! Verifique seu e-mail para confirmar sua conta antes de fazer login.');
+          setEmail('');
+          setPassword('');
+          setFullName('');
+        }
       } else {
         const { error } = await signIn(email, password);
-        if (error) throw error;
+        if (error) {
+          if (error.message && error.message.toLowerCase().includes('invalid login credentials')) {
+            setError('E-mail ou senha incorretos.');
+          } else {
+            setError(error.message || 'Erro ao entrar.');
+          }
+        }
       }
     } catch (err: any) {
       setError(err.message || 'Algo deu errado. Tente novamente.');
@@ -54,22 +76,20 @@ export const AuthPage = () => {
             <button
               type="button"
               onClick={() => setIsSignUp(false)}
-              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${
-                !isSignUp
+              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${!isSignUp
                   ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
                   : 'text-claude-gray-600 dark:text-claude-gray-300'
-              }`}
+                }`}
             >
               Entrar
             </button>
             <button
               type="button"
               onClick={() => setIsSignUp(true)}
-              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${
-                isSignUp
+              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${isSignUp
                   ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
                   : 'text-claude-gray-600 dark:text-claude-gray-300'
-              }`}
+                }`}
             >
               Cadastrar
             </button>
@@ -121,9 +141,15 @@ export const AuthPage = () => {
               />
             </div>
 
+
             {error && (
               <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-5 py-4 rounded-2xl text-sm font-medium border border-red-200 dark:border-red-800/50 animate-scale-in">
                 {error}
+              </div>
+            )}
+            {success && (
+              <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-5 py-4 rounded-2xl text-sm font-medium border border-green-200 dark:border-green-800/50 animate-scale-in">
+                {success}
               </div>
             )}
 
