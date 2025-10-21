@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts } from '../hooks';
+import { getCategoryColor } from '../constants/colors';
 import { Gem, Grid, Bookmark, Heart, MessageCircle } from 'lucide-react';
 
 export const ProfilePage = () => {
@@ -42,16 +43,6 @@ export const ProfilePage = () => {
   useEffect(() => {
     fetchSavedItems();
   }, [user]);
-
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      'Look do dia': 'from-pink-400 to-rose-400',
-      Desabafo: 'from-purple-400 to-indigo-400',
-      Fé: 'from-blue-400 to-cyan-400',
-      'Dica de mãe': 'from-green-400 to-emerald-400',
-    };
-    return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
-  };
 
   if (loading) {
     return (
