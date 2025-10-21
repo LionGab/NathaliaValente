@@ -1,14 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Send, Sparkles } from 'lucide-react';
+import { Send, Sparkles, Copy, ThumbsUp, ThumbsDown, RotateCcw, Lightbulb, Heart } from 'lucide-react';
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [typing, setTyping] = useState(false);
   const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const quickSuggestions = [
+    "Como lidar com birras?",
+    "Dicas para sono do bebê",
+    "Me sinto sobrecarregada",
+    "Como organizar a rotina?",
+    "Dicas de alimentação",
+    "Como lidar com culpa materna?"
+  ];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -34,10 +45,20 @@ export const ChatPage = () => {
   }, [user]);
 
   const getAIResponse = async (userMessage: string): Promise<string> => {
+    setTyping(true);
     try {
       // Call Supabase Edge Function for AI chat
       const { data, error } = await supabase.functions.invoke('chat-ai', {
-        body: { message: userMessage },
+        body: { 
+          message: userMessage,
+          context: {
+            user_id: user?.id,
+            previous_messages: messages.slice(-5).map(m => ({
+              message: m.message,
+              is_user: m.is_user
+            }))
+          }
+        },
       });
 
       if (error) {
@@ -63,6 +84,8 @@ export const ChatPage = () => {
         'Que benção poder conversar com você! Saiba que você está fazendo o melhor que pode. Cada pequeno passo é uma vitória. 🌸',
       ];
       return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    } finally {
+      setTyping(false);
     }
   };
 
@@ -95,6 +118,42 @@ export const ChatPage = () => {
     }
   };
 
+  const copyMessage = (message: string) => {
+    navigator.clipboard.writeText(message);
+  };
+
+  const regenerateResponse = async (lastUserMessage: string) => {
+    setLoading(true);
+    try {
+      // Remove last AI message
+      const lastAIMessage = messages[messages.length - 1];
+      if (lastAIMessage && !lastAIMessage.is_user) {
+        await supabase
+          .from('chat_messages')
+          .delete()
+          .eq('id', lastAIMessage.id);
+      }
+
+      // Generate new response
+      const aiResponse = await getAIResponse(lastUserMessage);
+      await supabase.from('chat_messages').insert({
+        user_id: user!.id,
+        message: aiResponse,
+        is_user: false,
+      });
+
+      fetchMessages();
+    } catch (error) {
+      console.error('Error regenerating response:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setNewMessage(suggestion);
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] max-w-4xl mx-auto">
       <div className="bg-gradient-to-r from-pink-400 to-purple-500 p-6 rounded-t-3xl text-white">
@@ -113,14 +172,28 @@ export const ChatPage = () => {
         {messages.length === 0 && (
           <div className="text-center py-12">
             <Sparkles className="w-12 h-12 text-pink-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               Olá! Eu sou a Robô Nath. Estou aqui para ouvir, apoiar e refletir com você. Como posso
               ajudar hoje?
             </p>
+            
+            {/* Quick Suggestions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-2xl mx-auto">
+              {quickSuggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="p-3 text-left bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg hover:from-pink-100 hover:to-purple-100 transition-all text-sm text-gray-700"
+                >
+                  <Lightbulb className="w-4 h-4 inline mr-2 text-pink-500" />
+                  {suggestion}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <div
             key={message.id}
             className={`flex ${message.is_user ? 'justify-end' : 'justify-start'}`}
@@ -139,9 +212,53 @@ export const ChatPage = () => {
                 </div>
               )}
               <p className="text-sm leading-relaxed">{message.message}</p>
+              
+              {/* Message Actions */}
+              {!message.is_user && (
+                <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                  <button
+                    onClick={() => copyMessage(message.message)}
+                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                    title="Copiar mensagem"
+                  >
+                    <Copy className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={() => regenerateResponse(messages[index - 1]?.message || '')}
+                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                    title="Regenerar resposta"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                  </button>
+                  <button
+                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                    title="Curtir"
+                  >
+                    <ThumbsUp className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
+
+        {/* Typing Indicator */}
+        {typing && (
+          <div className="flex justify-start">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-pink-500" />
+                <span className="text-xs font-medium text-pink-500">Robô Nath</span>
+              </div>
+              <div className="flex items-center gap-1 mt-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
 

@@ -14,6 +14,16 @@
   
   # Build environment variables
   NODE_ENV = "production"
+  
+  # Supabase environment variables (set in Netlify dashboard)
+  # VITE_SUPABASE_URL = "https://bbcwitnbnosyfpfjtzkr.supabase.co"
+  # VITE_SUPABASE_ANON_KEY = "your_anon_key_here"
+  
+  # Instagram OAuth (optional)
+  # VITE_INSTAGRAM_CLIENT_ID = "your_instagram_client_id"
+  
+  # Performance optimizations
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 # Redirect rules for SPA (Single Page Application)
 [[redirects]]

@@ -1,13 +1,13 @@
-import { Heart, Moon, Sun, LogOut, User } from 'lucide-react';
+import { Heart, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { ThemeToggle } from './ThemeToggle';
 
 type HeaderProps = {
   onProfileClick: () => void;
 };
 
 export const Header = ({ onProfileClick }: HeaderProps) => {
-  const { isDark, toggleTheme } = useTheme();
   const { profile, signOut } = useAuth();
 
   return (
@@ -44,17 +44,7 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
               </span>
             </button>
 
-            <button
-              onClick={toggleTheme}
-              className="p-2.5 rounded-2xl hover:bg-claude-gray-100/60 dark:hover:bg-claude-gray-800/60 transition-all duration-200"
-              aria-label="Toggle theme"
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5 text-amber-500" />
-              ) : (
-                <Moon className="w-5 h-5 text-claude-gray-600" />
-              )}
-            </button>
+            <ThemeToggle />
 
             <button
               onClick={signOut}

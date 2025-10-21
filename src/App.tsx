@@ -4,7 +4,6 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
 import { useMonetization } from './hooks/useMonetization';
 import { AuthPage } from './components/AuthPage';
-import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PWANotifications } from './components/PWANotifications';
@@ -13,6 +12,8 @@ import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
 import { ConversionOnboarding } from './components/ConversionOnboarding';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastProvider } from './components/Toast';
+import { AccessibilityProvider } from './components/AccessibilityProvider';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
@@ -22,19 +23,17 @@ const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(mod
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
 
 function AppContent() {
-  const { user, profile, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [showInstagramAuth, setShowInstagramAuth] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [instagramUser, setInstagramUser] = useState(null);
 
   // Show Instagram Auth if no user
   if (showInstagramAuth) {
     return (
       <InstagramAuth 
-        onSuccess={(user) => {
-          setInstagramUser(user);
+        onSuccess={() => {
           setShowInstagramAuth(false);
           setShowOnboarding(true);
         }} 
@@ -153,9 +152,13 @@ function App() {
     <ErrorBoundary>
       <QueryProvider>
         <ThemeProvider>
-          <AuthProvider>
-            <AppContent />
-          </AuthProvider>
+          <AccessibilityProvider>
+            <ToastProvider>
+              <AuthProvider>
+                <AppContent />
+              </AuthProvider>
+            </ToastProvider>
+          </AccessibilityProvider>
         </ThemeProvider>
       </QueryProvider>
     </ErrorBoundary>

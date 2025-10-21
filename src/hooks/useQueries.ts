@@ -14,42 +14,66 @@ export const queryKeys = {
   postLikes: (postId: string) => ['posts', postId, 'likes'] as const,
 } as const;
 
-// Posts Queries
-export const usePosts = () => {
+// Posts Queries with optimized performance
+export const usePosts = (page = 0, limit = 20) => {
   return useQuery({
-    queryKey: queryKeys.posts,
+    queryKey: [...queryKeys.posts, page, limit],
     queryFn: async (): Promise<Post[]> => {
       const { data, error } = await supabase
         .from('posts')
         .select(`
-          *,
+          id,
+          user_id,
+          caption,
+          category,
+          image_url,
+          created_at,
+          updated_at,
+          has_badge,
           profiles!posts_user_id_fkey (
             id,
             full_name,
-            avatar_url,
-            avatar_emoji
-          ),
-          post_likes!left (
-            user_id
+            avatar_url
           )
         `)
         .order('created_at', { ascending: false })
-        .limit(50);
+        .range(page * limit, (page + 1) * limit - 1);
 
       if (error) throw error;
 
+      // Get likes count separately for better performance
+      const postIds = data?.map(post => post.id) || [];
+      let likesData: any[] = [];
+      
+      if (postIds.length > 0) {
+        const { data: likes } = await supabase
+          .from('post_likes')
+          .select('post_id')
+          .in('post_id', postIds);
+        
+        likesData = likes || [];
+      }
+
       // Transform the data to match our Post type
-      return data?.map(post => ({
-        ...post,
-        profiles: post.profiles,
-        likes_count: post.post_likes?.length || 0,
-        user_has_liked: false, // Will be set by the component based on current user
-      })) || [];
+      return data?.map(post => {
+        const likesCount = likesData.filter(like => like.post_id === post.id).length;
+        return {
+          ...post,
+          profiles: post.profiles,
+          likes_count: likesCount,
+          comments_count: 0, // Will be loaded separately if needed
+          user_has_liked: false, // Will be set by the component based on current user
+        };
+      }) || [];
     },
-    // Cache posts for 2 minutes (they change frequently)
-    staleTime: 2 * 60 * 1000,
-    // Keep in cache for 5 minutes
-    gcTime: 5 * 60 * 1000,
+    // Cache posts for 1 minute (optimized for real-time feel)
+    staleTime: 1 * 60 * 1000,
+    // Keep in cache for 3 minutes
+    gcTime: 3 * 60 * 1000,
+    // Enable background refetch
+    refetchOnWindowFocus: true,
+    // Retry on failure
+    retry: 2,
   });
 };
 
@@ -64,8 +88,7 @@ export const usePost = (postId: string) => {
           profiles!posts_user_id_fkey (
             id,
             full_name,
-            avatar_url,
-            avatar_emoji
+            avatar_url
           ),
           post_likes!left (
             user_id
@@ -99,8 +122,7 @@ export const usePostComments = (postId: string) => {
           profiles!comments_user_id_fkey (
             id,
             full_name,
-            avatar_url,
-            avatar_emoji
+            avatar_url
           )
         `)
         .eq('post_id', postId)
