@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './components/AuthPage';
+import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { FeedPage } from './components/FeedPage';
@@ -11,7 +12,7 @@ import { DailyQuotePage } from './components/DailyQuotePage';
 import { ProfilePage } from './components/ProfilePage';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
 
   if (loading) {
@@ -29,6 +30,13 @@ function AppContent() {
 
   if (!user) {
     return <AuthPage />;
+  }
+
+  // Check if user needs onboarding
+  const needsOnboarding = user && !profile?.onboarding_completed;
+
+  if (needsOnboarding) {
+    return <OnboardingFlow />;
   }
 
   const renderPage = () => {
