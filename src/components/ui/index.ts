@@ -7,3 +7,4 @@ export { default as WelcomeTour } from './WelcomeTour';
 export { default as PWAUpdatePrompt } from './PWAUpdatePrompt';
 export { default as NotificationCenter } from './NotificationCenter';
 export { default as NotificationSettings } from './NotificationSettings';
+export { default as PullToRefreshIndicator } from './PullToRefreshIndicator';
