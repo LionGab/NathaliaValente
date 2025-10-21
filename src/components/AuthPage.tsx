@@ -1,8 +1,6 @@
-
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Heart, Sparkles } from 'lucide-react';
-
 
 export const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -31,7 +29,9 @@ export const AuthPage = () => {
             setError(error.message || 'Erro ao criar conta.');
           }
         } else {
-          setSuccess('Cadastro realizado! Verifique seu e-mail para confirmar sua conta antes de fazer login.');
+          setSuccess(
+            'Cadastro realizado! Verifique seu e-mail para confirmar sua conta antes de fazer login.'
+          );
           setEmail('');
           setPassword('');
           setFullName('');
@@ -76,20 +76,22 @@ export const AuthPage = () => {
             <button
               type="button"
               onClick={() => setIsSignUp(false)}
-              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${!isSignUp
+              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${
+                !isSignUp
                   ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
                   : 'text-claude-gray-600 dark:text-claude-gray-300'
-                }`}
+              }`}
             >
               Entrar
             </button>
             <button
               type="button"
               onClick={() => setIsSignUp(true)}
-              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${isSignUp
+              className={`flex-1 py-3 px-5 rounded-full font-semibold transition-all duration-300 ${
+                isSignUp
                   ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
                   : 'text-claude-gray-600 dark:text-claude-gray-300'
-                }`}
+              }`}
             >
               Cadastrar
             </button>
@@ -140,7 +142,6 @@ export const AuthPage = () => {
                 placeholder="••••••"
               />
             </div>
-
 
             {error && (
               <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-5 py-4 rounded-2xl text-sm font-medium border border-red-200 dark:border-red-800/50 animate-scale-in">

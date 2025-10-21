@@ -47,9 +47,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
 
         if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('posts')
-          .getPublicUrl(data.path);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from('posts').getPublicUrl(data.path);
 
         imageUrl = publicUrl;
       }
@@ -79,7 +79,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 glass backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 px-6 py-5 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-claude-gray-900 dark:text-white">Nova publicação</h2>
+          <h2 className="text-2xl font-bold text-claude-gray-900 dark:text-white">
+            Nova publicação
+          </h2>
           <button
             onClick={onClose}
             className="p-2.5 hover:bg-claude-gray-100 dark:hover:bg-claude-gray-800 rounded-2xl transition-all duration-200"
@@ -131,11 +133,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
             </label>
             {imagePreview ? (
               <div className="relative rounded-2xl overflow-hidden">
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="w-full object-cover max-h-80"
-                />
+                <img src={imagePreview} alt="Preview" className="w-full object-cover max-h-80" />
                 <button
                   type="button"
                   onClick={() => {
@@ -150,7 +148,10 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
             ) : (
               <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-claude-gray-300 dark:border-claude-gray-700 rounded-2xl cursor-pointer hover:bg-claude-gray-50 dark:hover:bg-claude-gray-800/50 transition-all duration-200 group">
                 <div className="flex flex-col items-center justify-center py-6">
-                  <ImageIcon className="w-10 h-10 text-claude-gray-400 mb-3 group-hover:text-claude-orange-500 transition-colors" strokeWidth={2} />
+                  <ImageIcon
+                    className="w-10 h-10 text-claude-gray-400 mb-3 group-hover:text-claude-orange-500 transition-colors"
+                    strokeWidth={2}
+                  />
                   <p className="text-sm text-claude-gray-600 dark:text-claude-gray-400 font-medium">
                     Clique para adicionar uma foto
                   </p>

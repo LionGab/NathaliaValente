@@ -1,78 +1,53 @@
 import { useState, useEffect } from 'react';
-import { supabase, Post, SavedItem } from '../lib/supabase';
+import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { usePosts } from '../hooks';
 import { Gem, Grid, Bookmark, Heart, MessageCircle } from 'lucide-react';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'posts' | 'saved'>('posts');
-  const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingSaved, setLoadingSaved] = useState(true);
   const { profile, user } = useAuth();
 
-  const fetchUserPosts = async () => {
-    if (!user) return;
+  // Use optimized hook for user posts
+  const { posts: userPosts, loading: loadingPosts } = usePosts({
+    userId: user?.id,
+    enabled: !!user,
+  });
 
-    const { data } = await supabase
-      .from('posts')
-      .select(`
-        *,
-        profiles(*)
-      `)
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (data) {
-      const postsWithStats = await Promise.all(
-        data.map(async (post) => {
-          const [likesResult, commentsResult] = await Promise.all([
-            supabase.from('likes').select('id', { count: 'exact' }).eq('post_id', post.id),
-            supabase.from('comments').select('id', { count: 'exact' }).eq('post_id', post.id),
-          ]);
-
-          return {
-            ...post,
-            likes_count: likesResult.count || 0,
-            comments_count: commentsResult.count || 0,
-          };
-        })
-      );
-
-      setUserPosts(postsWithStats);
-    }
-  };
+  const loading = loadingPosts || loadingSaved;
 
   const fetchSavedItems = async () => {
     if (!user) return;
 
+    setLoadingSaved(true);
     const { data } = await supabase
       .from('saved_items')
-      .select(`
+      .select(
+        `
         *,
         posts(*, profiles(*))
-      `)
+      `
+      )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
     if (data) {
       setSavedItems(data);
     }
+    setLoadingSaved(false);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      await Promise.all([fetchUserPosts(), fetchSavedItems()]);
-      setLoading(false);
-    };
-    fetchData();
+    fetchSavedItems();
   }, [user]);
 
   const getCategoryColor = (category: string) => {
     const colors = {
       'Look do dia': 'from-pink-400 to-rose-400',
-      'Desabafo': 'from-purple-400 to-indigo-400',
-      'Fé': 'from-blue-400 to-cyan-400',
+      Desabafo: 'from-purple-400 to-indigo-400',
+      Fé: 'from-blue-400 to-cyan-400',
       'Dica de mãe': 'from-green-400 to-emerald-400',
     };
     return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
@@ -105,17 +80,13 @@ export const ProfilePage = () => {
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
               {profile?.full_name}
             </h2>
-            {profile?.bio && (
-              <p className="text-gray-600 dark:text-gray-400 mt-1">{profile.bio}</p>
-            )}
+            {profile?.bio && <p className="text-gray-600 dark:text-gray-400 mt-1">{profile.bio}</p>}
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
           <div className="text-center">
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">
-              {userPosts.length}
-            </p>
+            <p className="text-2xl font-bold text-gray-800 dark:text-white">{userPosts.length}</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">Publicações</p>
           </div>
           <div className="text-center">
@@ -125,9 +96,7 @@ export const ProfilePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Curtidas</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">
-              {savedItems.length}
-            </p>
+            <p className="text-2xl font-bold text-gray-800 dark:text-white">{savedItems.length}</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">Salvos</p>
           </div>
         </div>
@@ -166,11 +135,7 @@ export const ProfilePage = () => {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all"
             >
               {post.image_url && (
-                <img
-                  src={post.image_url}
-                  alt="Post"
-                  className="w-full h-48 object-cover"
-                />
+                <img src={post.image_url} alt="Post" className="w-full h-48 object-cover" />
               )}
               <div className="p-4">
                 <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">
