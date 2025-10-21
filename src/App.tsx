@@ -42,7 +42,7 @@ function AppContent() {
     );
   }
 
-  // Show Onboarding after Instagram login
+  // Show Conversion Onboarding after Instagram login
   if (showOnboarding) {
     return (
       <ConversionOnboarding 
@@ -72,14 +72,11 @@ function AppContent() {
   }
 
   if (!user) {
-    return <AuthPage />;
-  }
-
-  // Check if user needs onboarding
-  const needsOnboarding = user && !profile?.onboarding_completed;
-
-  if (needsOnboarding) {
-    return <OnboardingFlow />;
+    return (
+      <AuthPage 
+        onInstagramLogin={() => setShowInstagramAuth(true)}
+      />
+    );
   }
 
   const renderPage = () => {
