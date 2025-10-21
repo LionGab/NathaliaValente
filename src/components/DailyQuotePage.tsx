@@ -107,9 +107,7 @@ export const DailyQuotePage = () => {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12 text-center">
         <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <p className="text-gray-600 dark:text-gray-400">
-          Nenhuma frase disponível no momento
-        </p>
+        <p className="text-gray-600 dark:text-gray-400">Nenhuma frase disponível no momento</p>
       </div>
     );
   }
@@ -119,13 +117,9 @@ export const DailyQuotePage = () => {
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-2 mb-4">
           <Sparkles className="w-8 h-8 text-pink-400" />
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Frase do Dia
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Frase do Dia</h2>
         </div>
-        <p className="text-gray-600 dark:text-gray-400">
-          Uma mensagem especial para você hoje
-        </p>
+        <p className="text-gray-600 dark:text-gray-400">Uma mensagem especial para você hoje</p>
       </div>
 
       <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-gray-800 rounded-3xl shadow-xl p-8 md:p-12 relative overflow-hidden">
@@ -187,10 +181,7 @@ export const DailyQuotePage = () => {
       </div>
 
       <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-        <p>
-          Esta frase é renovada diariamente para inspirar seu dia com amor,
-          fé e reflexão.
-        </p>
+        <p>Esta frase é renovada diariamente para inspirar seu dia com amor, fé e reflexão.</p>
       </div>
     </div>
   );

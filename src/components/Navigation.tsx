@@ -39,7 +39,9 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
                   className={`relative w-6 h-6 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
                   strokeWidth={isActive ? 2.5 : 2}
                 />
-                <span className={`relative text-xs ${isActive ? 'font-semibold' : 'font-medium'} transition-all duration-300`}>
+                <span
+                  className={`relative text-xs ${isActive ? 'font-semibold' : 'font-medium'} transition-all duration-300`}
+                >
                   {item.label}
                 </span>
               </button>

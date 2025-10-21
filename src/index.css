@@ -98,19 +98,19 @@
 
   /* Gradient utilities */
   .gradient-orange {
-    background: linear-gradient(135deg, #E77A5C 0%, #FF9B7A 100%);
+    background: linear-gradient(135deg, #e77a5c 0%, #ff9b7a 100%);
   }
 
   .gradient-purple {
-    background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
+    background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%);
   }
 
   .gradient-blue {
-    background: linear-gradient(135deg, #60A5FA 0%, #93C5FD 100%);
+    background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
   }
 
   .gradient-green {
-    background: linear-gradient(135deg, #34D399 0%, #6EE7B7 100%);
+    background: linear-gradient(135deg, #34d399 0%, #6ee7b7 100%);
   }
 
   /* Glass effect */

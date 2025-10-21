@@ -16,10 +16,12 @@ export const FeedPage = () => {
     setLoading(true);
     const { data: postsData } = await supabase
       .from('posts')
-      .select(`
+      .select(
+        `
         *,
         profiles(*)
-      `)
+      `
+      )
       .order('created_at', { ascending: false });
 
     if (postsData) {
@@ -29,7 +31,14 @@ export const FeedPage = () => {
             supabase.from('likes').select('id', { count: 'exact' }).eq('post_id', post.id),
             supabase.from('comments').select('id', { count: 'exact' }).eq('post_id', post.id),
             supabase.from('nathy_badges').select('id').eq('post_id', post.id).maybeSingle(),
-            user ? supabase.from('likes').select('id').eq('post_id', post.id).eq('user_id', user.id).maybeSingle() : null,
+            user
+              ? supabase
+                  .from('likes')
+                  .select('id')
+                  .eq('post_id', post.id)
+                  .eq('user_id', user.id)
+                  .maybeSingle()
+              : null,
           ]);
 
           return {
@@ -88,8 +97,8 @@ export const FeedPage = () => {
   const getCategoryGradient = (category: string) => {
     const gradients = {
       'Look do dia': 'gradient-orange',
-      'Desabafo': 'gradient-purple',
-      'Fé': 'gradient-blue',
+      Desabafo: 'gradient-purple',
+      Fé: 'gradient-blue',
       'Dica de mãe': 'gradient-green',
     };
     return gradients[category as keyof typeof gradients] || 'bg-claude-gray-400';
@@ -100,7 +109,9 @@ export const FeedPage = () => {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-claude-orange-500 border-t-transparent"></div>
-          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">Carregando posts...</p>
+          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">
+            Carregando posts...
+          </p>
         </div>
       </div>
     );
@@ -112,7 +123,10 @@ export const FeedPage = () => {
         onClick={() => setShowCreatePost(true)}
         className="btn-primary w-full mb-8 py-4 text-base flex items-center justify-center gap-2.5 group"
       >
-        <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" strokeWidth={2.5} />
+        <Plus
+          className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300"
+          strokeWidth={2.5}
+        />
         Criar nova publicação
       </button>
 
@@ -145,7 +159,7 @@ export const FeedPage = () => {
                       {new Date(post.created_at).toLocaleDateString('pt-BR', {
                         day: '2-digit',
                         month: 'short',
-                        year: 'numeric'
+                        year: 'numeric',
                       })}
                     </p>
                   </div>

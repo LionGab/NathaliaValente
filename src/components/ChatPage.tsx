@@ -43,10 +43,17 @@ export const ChatPage = () => {
       if (error) {
         console.error('Error calling chat-ai function:', error);
         // Return fallback from error or default
-        return data?.fallback || 'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕';
+        return (
+          data?.fallback ||
+          'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕'
+        );
       }
 
-      return data?.message || data?.fallback || 'Obrigada por compartilhar! Estou aqui para ouvir e apoiar você. 💕';
+      return (
+        data?.message ||
+        data?.fallback ||
+        'Obrigada por compartilhar! Estou aqui para ouvir e apoiar você. 💕'
+      );
     } catch (error) {
       console.error('Error getting AI response:', error);
       // Fallback response if Edge Function fails
@@ -107,8 +114,8 @@ export const ChatPage = () => {
           <div className="text-center py-12">
             <Sparkles className="w-12 h-12 text-pink-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400">
-              Olá! Eu sou a Robô Nath. Estou aqui para ouvir, apoiar e refletir com você.
-              Como posso ajudar hoje?
+              Olá! Eu sou a Robô Nath. Estou aqui para ouvir, apoiar e refletir com você. Como posso
+              ajudar hoje?
             </p>
           </div>
         )}

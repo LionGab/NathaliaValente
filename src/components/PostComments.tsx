@@ -16,10 +16,12 @@ export const PostComments = ({ postId }: PostCommentsProps) => {
   const fetchComments = async () => {
     const { data } = await supabase
       .from('comments')
-      .select(`
+      .select(
+        `
         *,
         profiles(*)
-      `)
+      `
+      )
       .eq('post_id', postId)
       .order('created_at', { ascending: true });
 

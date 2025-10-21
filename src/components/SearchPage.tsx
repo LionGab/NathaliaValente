@@ -14,10 +14,12 @@ export const SearchPage = () => {
     setLoading(true);
     let query = supabase
       .from('posts')
-      .select(`
+      .select(
+        `
         *,
         profiles(*)
-      `)
+      `
+      )
       .order('created_at', { ascending: false });
 
     if (selectedCategory !== 'Todos') {
@@ -48,8 +50,8 @@ export const SearchPage = () => {
   const getCategoryColor = (category: string) => {
     const colors = {
       'Look do dia': 'from-pink-400 to-rose-400',
-      'Desabafo': 'from-purple-400 to-indigo-400',
-      'Fé': 'from-blue-400 to-cyan-400',
+      Desabafo: 'from-purple-400 to-indigo-400',
+      Fé: 'from-blue-400 to-cyan-400',
       'Dica de mãe': 'from-green-400 to-emerald-400',
     };
     return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
@@ -111,11 +113,7 @@ export const SearchPage = () => {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all cursor-pointer"
             >
               {post.image_url && (
-                <img
-                  src={post.image_url}
-                  alt="Post"
-                  className="w-full h-48 object-cover"
-                />
+                <img src={post.image_url} alt="Post" className="w-full h-48 object-cover" />
               )}
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -153,9 +151,7 @@ export const SearchPage = () => {
           {posts.length === 0 && (
             <div className="col-span-full text-center py-12">
               <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">
-                Nenhuma publicação encontrada
-              </p>
+              <p className="text-gray-600 dark:text-gray-400">Nenhuma publicação encontrada</p>
             </div>
           )}
         </div>

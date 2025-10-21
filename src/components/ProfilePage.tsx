@@ -15,10 +15,12 @@ export const ProfilePage = () => {
 
     const { data } = await supabase
       .from('posts')
-      .select(`
+      .select(
+        `
         *,
         profiles(*)
-      `)
+      `
+      )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -47,10 +49,12 @@ export const ProfilePage = () => {
 
     const { data } = await supabase
       .from('saved_items')
-      .select(`
+      .select(
+        `
         *,
         posts(*, profiles(*))
-      `)
+      `
+      )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -71,8 +75,8 @@ export const ProfilePage = () => {
   const getCategoryColor = (category: string) => {
     const colors = {
       'Look do dia': 'from-pink-400 to-rose-400',
-      'Desabafo': 'from-purple-400 to-indigo-400',
-      'Fé': 'from-blue-400 to-cyan-400',
+      Desabafo: 'from-purple-400 to-indigo-400',
+      Fé: 'from-blue-400 to-cyan-400',
       'Dica de mãe': 'from-green-400 to-emerald-400',
     };
     return colors[category as keyof typeof colors] || 'from-gray-400 to-gray-500';
@@ -105,17 +109,13 @@ export const ProfilePage = () => {
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
               {profile?.full_name}
             </h2>
-            {profile?.bio && (
-              <p className="text-gray-600 dark:text-gray-400 mt-1">{profile.bio}</p>
-            )}
+            {profile?.bio && <p className="text-gray-600 dark:text-gray-400 mt-1">{profile.bio}</p>}
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
           <div className="text-center">
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">
-              {userPosts.length}
-            </p>
+            <p className="text-2xl font-bold text-gray-800 dark:text-white">{userPosts.length}</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">Publicações</p>
           </div>
           <div className="text-center">
@@ -125,9 +125,7 @@ export const ProfilePage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">Curtidas</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">
-              {savedItems.length}
-            </p>
+            <p className="text-2xl font-bold text-gray-800 dark:text-white">{savedItems.length}</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">Salvos</p>
           </div>
         </div>
@@ -166,11 +164,7 @@ export const ProfilePage = () => {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all"
             >
               {post.image_url && (
-                <img
-                  src={post.image_url}
-                  alt="Post"
-                  className="w-full h-48 object-cover"
-                />
+                <img src={post.image_url} alt="Post" className="w-full h-48 object-cover" />
               )}
               <div className="p-4">
                 <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">
