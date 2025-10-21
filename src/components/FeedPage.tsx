@@ -1,38 +1,35 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { usePosts, useOptimisticLike, useWebShare } from '../hooks';
+import { usePosts, useLikePost, useCreateComment, useSaveItem } from '../hooks/useQueries';
+import { useWebShare } from '../hooks';
 import { getCategoryGradient } from '../constants/colors';
-import { toggleSavePost } from '../services/savedItems.service';
 import { Heart, MessageCircle, Award, Plus, Bookmark, Share2 } from 'lucide-react';
-import { CreatePostModal } from './CreatePostModal';
 import { PostComments } from './PostComments';
+import { LoadingSpinner } from './LoadingSpinner';
+
+// Lazy load the CreatePostModal since it's only shown when needed
+const CreatePostModal = lazy(() => import('./CreatePostModal').then(module => ({ default: module.CreatePostModal })));
 
 export const FeedPage = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
   const { user } = useAuth();
 
-  // Use optimized hooks for data fetching and optimistic updates
-  const { posts: rawPosts, loading, refetch } = usePosts();
-  const { toggleLike, applyOptimisticUpdates } = useOptimisticLike();
+  // Use optimized React Query hooks
+  const { data: posts = [], isLoading: loading, refetch } = usePosts();
+  const likePostMutation = useLikePost();
+  const saveItemMutation = useSaveItem();
   const { share, isSupported: isShareSupported } = useWebShare();
-
-  // Apply optimistic updates to posts
-  const posts = applyOptimisticUpdates(rawPosts);
 
   const handleLike = async (postId: string, currentlyLiked: boolean) => {
     if (!user) return;
 
-    await toggleLike(
-      postId,
-      user.id,
-      currentlyLiked,
-      () => {
-        // On success, refetch to sync with server
-        refetch();
-      },
-      (error) => {
-        console.error('Failed to toggle like:', error);
+    likePostMutation.mutate(
+      { postId, isLiked: currentlyLiked },
+      {
+        onError: (error) => {
+          console.error('Failed to toggle like:', error);
+        },
       }
     );
   };
@@ -40,11 +37,14 @@ export const FeedPage = () => {
   const handleSavePost = async (postId: string) => {
     if (!user) return;
 
-    const result = await toggleSavePost(user.id, postId);
-
-    if (!result.success) {
-      console.error('Failed to save post:', result.error);
-    }
+    saveItemMutation.mutate(
+      { postId, type: 'post' },
+      {
+        onError: (error) => {
+          console.error('Failed to save post:', error);
+        },
+      }
+    );
   };
 
   const handleSharePost = async (post: { caption: string; full_name: string; id: string }) => {
@@ -62,27 +62,22 @@ export const FeedPage = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-claude-orange-500 border-t-transparent"></div>
-          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">
-            Carregando posts...
-          </p>
-        </div>
+        <LoadingSpinner text="Carregando posts..." />
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-6 pb-28">
+    <div className="max-w-full mx-auto px-4 py-4 pb-24 mobile-padding">
       <button
         onClick={() => setShowCreatePost(true)}
-        className="btn-primary w-full mb-8 py-4 text-base flex items-center justify-center gap-2.5 group"
+        className="btn-primary w-full mb-6 py-4 text-base flex items-center justify-center gap-2.5 group touch-target"
       >
         <Plus
           className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300"
           strokeWidth={2.5}
         />
-        Criar nova publicação
+        <span className="mobile-text-sm">Compartilhar sua jornada</span>
       </button>
 
       <div className="space-y-6">
@@ -208,13 +203,15 @@ export const FeedPage = () => {
       </div>
 
       {showCreatePost && (
-        <CreatePostModal
-          onClose={() => setShowCreatePost(false)}
-          onPostCreated={() => {
-            setShowCreatePost(false);
-            refetch();
-          }}
-        />
+        <Suspense fallback={<LoadingSpinner text="Carregando editor..." />}>
+          <CreatePostModal
+            onClose={() => setShowCreatePost(false)}
+            onPostCreated={() => {
+              setShowCreatePost(false);
+              refetch();
+            }}
+          />
+        </Suspense>
       )}
     </div>
   );

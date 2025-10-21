@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { supabase, Comment } from '../lib/supabase';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { usePostComments, useCreateComment } from '../hooks/useQueries';
 import { Send } from 'lucide-react';
 
 type PostCommentsProps = {
@@ -8,53 +8,28 @@ type PostCommentsProps = {
 };
 
 export const PostComments = ({ postId }: PostCommentsProps) => {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
-  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-
-  const fetchComments = async () => {
-    const { data } = await supabase
-      .from('comments')
-      .select(
-        `
-        *,
-        profiles(*)
-      `
-      )
-      .eq('post_id', postId)
-      .order('created_at', { ascending: true });
-
-    if (data) {
-      setComments(data);
-    }
-  };
-
-  useEffect(() => {
-    fetchComments();
-  }, [postId]);
+  
+  // Use React Query hooks
+  const { data: comments = [], isLoading } = usePostComments(postId);
+  const createCommentMutation = useCreateComment();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !newComment.trim()) return;
 
-    setLoading(true);
-    try {
-      const { error } = await supabase.from('comments').insert({
-        post_id: postId,
-        user_id: user.id,
-        content: newComment.trim(),
-      });
-
-      if (error) throw error;
-
-      setNewComment('');
-      fetchComments();
-    } catch (error) {
-      console.error('Error posting comment:', error);
-    } finally {
-      setLoading(false);
-    }
+    createCommentMutation.mutate(
+      { postId, content: newComment.trim() },
+      {
+        onSuccess: () => {
+          setNewComment('');
+        },
+        onError: (error) => {
+          console.error('Error posting comment:', error);
+        },
+      }
+    );
   };
 
   return (
@@ -105,7 +80,7 @@ export const PostComments = ({ postId }: PostCommentsProps) => {
         />
         <button
           type="submit"
-          disabled={loading || !newComment.trim()}
+          disabled={createCommentMutation.isPending || !newComment.trim()}
           className="p-3 bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white rounded-full hover:shadow-claude-md shadow-claude-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
         >
           <Send className="w-5 h-5" strokeWidth={2} />

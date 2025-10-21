@@ -1,19 +1,61 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { QueryProvider } from './contexts/QueryProvider';
+import { useMonetization } from './hooks/useMonetization';
 import { AuthPage } from './components/AuthPage';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
-import { FeedPage } from './components/FeedPage';
-import { ChatPage } from './components/ChatPage';
-import { SearchPage } from './components/SearchPage';
-import { DailyQuotePage } from './components/DailyQuotePage';
-import { ProfilePage } from './components/ProfilePage';
+import { PWANotifications } from './components/PWANotifications';
+import { PerformanceDebug } from './components/PerformanceDebug';
+import { MonetizationBanner } from './components/MonetizationBanner';
+import { InstagramAuth } from './components/InstagramAuth';
+import { ConversionOnboarding } from './components/ConversionOnboarding';
+
+// Lazy load heavy components for better performance
+const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
+const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
+const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
+const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
+const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
 
 function AppContent() {
   const { user, profile, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
+  const { showBanner, bannerVariant, closeBanner } = useMonetization();
+  const [showInstagramAuth, setShowInstagramAuth] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [instagramUser, setInstagramUser] = useState(null);
+
+  // Show Instagram Auth if no user
+  if (showInstagramAuth) {
+    return (
+      <InstagramAuth 
+        onSuccess={(user) => {
+          setInstagramUser(user);
+          setShowInstagramAuth(false);
+          setShowOnboarding(true);
+        }} 
+      />
+    );
+  }
+
+  // Show Onboarding after Instagram login
+  if (showOnboarding) {
+    return (
+      <ConversionOnboarding 
+        onComplete={() => {
+          setShowOnboarding(false);
+          // User is now "logged in" to the app
+        }}
+        onSkip={() => {
+          setShowOnboarding(false);
+          // User skipped onboarding
+        }}
+      />
+    );
+  }
 
   if (loading) {
     return (
@@ -40,38 +82,83 @@ function AppContent() {
   }
 
   const renderPage = () => {
+    const LoadingSpinner = () => (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-claude-orange-500 border-t-transparent"></div>
+          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">
+            Carregando...
+          </p>
+        </div>
+      </div>
+    );
+
     switch (currentPage) {
       case 'feed':
-        return <FeedPage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <FeedPage />
+          </Suspense>
+        );
       case 'chat':
-        return <ChatPage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ChatPage />
+          </Suspense>
+        );
       case 'search':
-        return <SearchPage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <SearchPage />
+          </Suspense>
+        );
       case 'daily':
-        return <DailyQuotePage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <DailyQuotePage />
+          </Suspense>
+        );
       case 'profile':
-        return <ProfilePage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProfilePage />
+          </Suspense>
+        );
       default:
-        return <FeedPage />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <FeedPage />
+          </Suspense>
+        );
     }
   };
 
   return (
-    <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300">
+    <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300 safe-area-inset">
+      <PWANotifications />
       <Header onProfileClick={() => setCurrentPage('profile')} />
-      <main className="pt-4 pb-24 animate-fade-in">{renderPage()}</main>
+      <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+      <PerformanceDebug />
+      {showBanner && (
+        <MonetizationBanner 
+          variant={bannerVariant} 
+          onClose={closeBanner} 
+        />
+      )}
     </div>
   );
 }
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </ThemeProvider>
+    <QueryProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryProvider>
   );
 }
 
