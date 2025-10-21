@@ -5,22 +5,85 @@ export default {
   theme: {
     extend: {
       colors: {
-        // NathClub - Paleta atualizada para bem-estar feminino
+        // Design System Colors
+        primary: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
+          950: '#500724'
+        },
+        secondary: {
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e9d5ff',
+          300: '#d8b4fe',
+          400: '#c084fc',
+          500: '#a855f7',
+          600: '#9333ea',
+          700: '#7c3aed',
+          800: '#6b21a8',
+          900: '#581c87',
+          950: '#3b0764'
+        },
+        neutral: {
+          0: '#ffffff',
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0a0a0a'
+        },
+        success: {
+          50: '#f0fdf4',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d'
+        },
+        warning: {
+          50: '#fffbeb',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309'
+        },
+        error: {
+          50: '#fef2f2',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c'
+        },
+        info: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8'
+        },
+        // NathClub - Paleta atualizada para bem-estar feminino (legacy)
         nath: {
-          // Rosa suave - Cor primária principal
           pink: {
             50: '#FFF1F4',
             100: '#FFE4E8',
             200: '#FECDD6',
             300: '#FCA5B4',
-            400: '#FB7185',  // Botões primários
-            500: '#F43F5E',  // Hover/ênfase
+            400: '#FB7185',
+            500: '#F43F5E',
             600: '#E11D48',
             700: '#BE123C',
             800: '#9F1239',
             900: '#881337',
           },
-          // Lilás/Lavanda - Bem-estar e espiritualidade
           lavender: {
             50: '#FAF5FF',
             100: '#F3E8FF',
@@ -30,7 +93,6 @@ export default {
             500: '#A855F7',
             600: '#9333EA',
           },
-          // Pêssego - Energia e motivação
           peach: {
             50: '#FFF7ED',
             100: '#FFEDD5',
@@ -40,7 +102,6 @@ export default {
             500: '#F97316',
             600: '#EA580C',
           },
-          // Neutros suaves
           cream: {
             50: '#FEFDFB',
             100: '#FDF9F5',

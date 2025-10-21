@@ -136,6 +136,10 @@
   padding-right: env(safe-area-inset-right);
 }
 
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* Touch-friendly interactions */
 .touch-target {
   min-height: 44px;

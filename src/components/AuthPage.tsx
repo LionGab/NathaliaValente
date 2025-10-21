@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Heart, Sparkles, Instagram } from 'lucide-react';
+import { Heart, Sparkles, Instagram, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 
 interface AuthPageProps {
   onInstagramLogin?: () => void;
@@ -14,6 +14,7 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { signIn, signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,48 +136,64 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {isSignUp && (
-              <div>
+              <div className="relative">
                 <label className="block text-sm font-semibold text-claude-gray-700 dark:text-claude-gray-300 mb-2.5">
                   Nome completo
                 </label>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  className="input"
-                  placeholder="Maria Silva"
-                />
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-claude-gray-400" />
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    className="input pl-12"
+                    placeholder="Maria Silva"
+                  />
+                </div>
               </div>
             )}
 
-            <div>
+            <div className="relative">
               <label className="block text-sm font-semibold text-claude-gray-700 dark:text-claude-gray-300 mb-2.5">
                 E-mail
               </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="input"
-                placeholder="seu@email.com"
-              />
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-claude-gray-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="input pl-12"
+                  placeholder="seu@email.com"
+                />
+              </div>
             </div>
 
-            <div>
+            <div className="relative">
               <label className="block text-sm font-semibold text-claude-gray-700 dark:text-claude-gray-300 mb-2.5">
                 Senha
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="input"
-                placeholder="••••••"
-              />
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-claude-gray-400" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="input pl-12 pr-12"
+                  placeholder="••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-claude-gray-400 hover:text-claude-gray-600 dark:hover:text-claude-gray-300 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
 
             {error && (

@@ -14,6 +14,7 @@ import { ConversionOnboarding } from './components/ConversionOnboarding';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
+import { LoadingScreen } from './components/LoadingScreen';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
@@ -28,12 +29,14 @@ function AppContent() {
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [showInstagramAuth, setShowInstagramAuth] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [mockUser, setMockUser] = useState(null);
 
   // Show Instagram Auth if no user
   if (showInstagramAuth) {
     return (
       <InstagramAuth 
-        onSuccess={() => {
+        onSuccess={(user) => {
+          setMockUser(user);
           setShowInstagramAuth(false);
           setShowOnboarding(true);
         }} 
@@ -58,24 +61,24 @@ function AppContent() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-claude-orange-500 border-t-transparent"></div>
-          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">
-            Carregando...
-          </p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen message="Carregando sua experiência..." />;
   }
 
-  if (!user) {
-    return (
-      <AuthPage 
-        onInstagramLogin={() => setShowInstagramAuth(true)}
-      />
-    );
+  if (!user && !mockUser) {
+    // Auto-login for testing with mock data
+    const testUser = {
+      id: '2',
+      full_name: 'Maria Silva',
+      email: 'maria@teste.com',
+      avatar_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+      bio: 'Mãe de 2 filhos, empreendedora e apaixonada por finanças pessoais. Aprendendo com a Nath todos os dias! 💕',
+      followers_count: 1250,
+      following_count: 890,
+      posts_count: 45,
+      verified: false
+    };
+    setMockUser(testUser);
+    return null; // Will re-render with mockUser
   }
 
   const renderPage = () => {
