@@ -1,7 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtSIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIxNzQ4MDAsImV4cCI6MjA0Nzc1MDgwMH0.example';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Check if we have a valid Supabase key
+if (!supabaseAnonKey || supabaseAnonKey.includes('example') || supabaseAnonKey.length < 100) {
+  console.error('❌ SUPABASE NOT CONFIGURED!');
+  console.error('Please set VITE_SUPABASE_ANON_KEY in your .env file');
+  console.error('Get your key from: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/api');
+}
 
 // Log environment status for debugging
 if (import.meta.env.DEV) {
@@ -9,7 +16,7 @@ if (import.meta.env.DEV) {
   console.log('Supabase Key:', supabaseAnonKey ? 'Present' : 'Missing');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey || 'dummy-key-for-development');
 
 export type Profile = {
   id: string;

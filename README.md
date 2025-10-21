@@ -119,11 +119,46 @@ PWA Features:
 ## 🔧 **Configuração**
 
 ### **Variáveis de Ambiente**
+
+**⚠️ IMPORTANTE: Configure as variáveis de ambiente antes de usar o app!**
+
+1. **Obter Chaves do Supabase:**
+   - Acesse: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/api
+   - Copie a URL e a chave anon
+
+2. **Criar arquivo `.env` na raiz do projeto:**
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_INSTAGRAM_CLIENT_ID=your_instagram_client_id
+VITE_SUPABASE_URL=https://bbcwitnbnosyfpfjtzkr.supabase.co
+VITE_SUPABASE_ANON_KEY=SUA_CHAVE_ANON_REAL_AQUI
+VITE_INSTAGRAM_CLIENT_ID=SEU_CLIENT_ID_AQUI
 ```
+
+3. **Configurar no Netlify:**
+   - Site Settings → Environment Variables
+   - Adicionar as mesmas variáveis
+
+### **Setup do Supabase**
+
+**⚠️ CRÍTICO: Execute as migrations do Supabase antes de usar o app!**
+
+1. **Acessar o Supabase:**
+   - URL: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr
+   - Vá para: SQL Editor
+
+2. **Executar Migrations:**
+   ```sql
+   -- Execute os arquivos em ordem:
+   -- 1. supabase/migrations/setup-database.sql
+   -- 2. supabase/migrations/setup_auth_trigger.sql
+   -- 3. supabase/migrations/20251021_onboarding_system.sql
+   ```
+
+3. **Verificar Configuração:**
+   - Authentication → Settings
+   - Site URL: https://clubnath.netlify.app
+   - Redirect URLs: https://clubnath.netlify.app/**
+
+**📖 Guia Completo:** [docs/setup/SUPABASE_SETUP.md](docs/setup/SUPABASE_SETUP.md)
 
 ### **Netlify**
 - Deploy automático via GitHub
