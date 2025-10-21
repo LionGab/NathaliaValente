@@ -44,9 +44,17 @@
 
 **Pronto!** Seu app estará no ar em ~3 minutos 🎉
 
-📖 **Guias detalhados:**
-- [⚡ Deploy Rápido (5 min)](./DEPLOY_RAPIDO.md)
-- [📚 Guia Completo de Deploy](./DEPLOYMENT.md)
+📖 **Guias de Deploy:**
+- [⚡ Quick Start (5 min)](./QUICK_START_NETLIFY.md) - Deploy rápido
+- [📚 Guia Completo](./NETLIFY_DEPLOY.md) - Documentação detalhada
+- [🔧 Troubleshooting](./NETLIFY_DEPLOY.md#-troubleshooting) - Solução de problemas
+
+**Configurações incluídas:**
+- ✅ Security headers (CSP, X-Frame-Options, etc.)
+- ✅ Cache otimizado para assets (1 ano)
+- ✅ Compression automática
+- ✅ SPA routing configurado
+- ✅ Performance otimizada (Lighthouse > 90)
 
 ---
 
