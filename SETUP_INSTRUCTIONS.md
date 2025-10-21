@@ -88,7 +88,7 @@ boltnathH/
 
 ## 🤖 Sobre o Robô Nath
 
-O chat agora usa **Claude 3.5 Haiku** (modelo `claude-3-5-haiku-20241022`), que é:
+O chat agora usa **Claude 4.5 Haiku** (modelo `claude-haiku-4-5-20250429`), que é:
 - ✅ Mais rápido e econômico
 - ✅ Perfeito para conversas em tempo real
 - ✅ Mantém alta qualidade de resposta

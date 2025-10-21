@@ -6,7 +6,7 @@
 ![React](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?style=for-the-badge&logo=typescript)
 ![Supabase](https://img.shields.io/badge/Supabase-Backend-3ecf8e?style=for-the-badge&logo=supabase)
-![Claude](https://img.shields.io/badge/Claude-3.5%20Haiku-cc9966?style=for-the-badge)
+![Claude](https://img.shields.io/badge/Claude-4.5%20Haiku-cc9966?style=for-the-badge)
 
 **Uma plataforma de apoio e conexão para mães, com IA empática e comunidade acolhedora**
 
@@ -74,7 +74,7 @@ A maternidade pode ser desafiadora e, às vezes, solitária. O ClubNath oferece 
 ### 🤖 Chat com Robô Nath
 - Conversas empáticas e personalizadas
 - Disponível 24/7
-- Powered by Claude 3.5 Haiku
+- Powered by Claude 4.5 Haiku
 - Respostas rápidas e contextualizadas
 
 ### 📱 Feed Social
@@ -112,7 +112,7 @@ A maternidade pode ser desafiadora e, às vezes, solitária. O ClubNath oferece 
   - Edge Functions
 
 ### IA
-- **Claude 3.5 Haiku** - Modelo de linguagem da Anthropic
+- **Claude 4.5 Haiku** - Modelo de linguagem da Anthropic
   - Respostas empáticas
   - Baixa latência
   - Econômico
@@ -218,7 +218,7 @@ chmod +x setup-supabase.sh
 
 A Robô Nath é uma assistente virtual especializada em apoio maternal, criada com:
 
-- **Modelo:** Claude 3.5 Haiku (claude-3-5-haiku-20241022)
+- **Modelo:** Claude 4.5 Haiku (claude-haiku-4-5-20250429)
 - **Características:**
   - ⚡ Respostas rápidas (< 2 segundos)
   - 💕 Tom empático e acolhedor

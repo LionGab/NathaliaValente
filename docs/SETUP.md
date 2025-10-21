@@ -186,7 +186,7 @@ Write-Host "✅ Setup concluído! Execute: npm run dev"
    Contexto:
    - Frontend: React 18 + TypeScript
    - Backend: Supabase (PostgreSQL + Edge Functions)
-   - IA: Claude 3.5 Haiku
+   - IA: Claude 4.5 Haiku
    - Repo: github.com/LionGab/boltnathH
    ```
 
