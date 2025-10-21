@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { Home, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 
 type NavigationProps = {
@@ -5,15 +6,15 @@ type NavigationProps = {
   onNavigate: (page: string) => void;
 };
 
-export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
-  const navItems = [
-    { id: 'feed', label: 'Feed', icon: Home },
-    { id: 'chat', label: 'Chat', icon: MessageCircle },
-    { id: 'search', label: 'Buscar', icon: Search },
-    { id: 'daily', label: 'Frase', icon: Sparkles },
-    { id: 'profile', label: 'Perfil', icon: User },
-  ];
+const navItems = [
+  { id: 'feed', label: 'Feed', icon: Home },
+  { id: 'chat', label: 'Chat', icon: MessageCircle },
+  { id: 'search', label: 'Buscar', icon: Search },
+  { id: 'daily', label: 'Frase', icon: Sparkles },
+  { id: 'profile', label: 'Perfil', icon: User },
+] as const;
 
+export const Navigation = memo(({ currentPage, onNavigate }: NavigationProps) => {
   return (
     <nav className="fixed bottom-0 left-0 right-0 glass backdrop-blur-xl border-t border-claude-gray-200/50 dark:border-claude-gray-800/50 z-50 transition-colors duration-300 safe-bottom">
       <div className="max-w-7xl mx-auto px-4">
@@ -51,4 +52,4 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
       </div>
     </nav>
   );
-};
+});

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Heart, Moon, Sun, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,7 +7,7 @@ type HeaderProps = {
   onProfileClick: () => void;
 };
 
-export const Header = ({ onProfileClick }: HeaderProps) => {
+export const Header = memo(({ onProfileClick }: HeaderProps) => {
   const { isDark, toggleTheme } = useTheme();
   const { profile, signOut } = useAuth();
 
@@ -68,4 +69,4 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
       </div>
     </header>
   );
-};
+});
