@@ -11,9 +11,14 @@ import { DailyQuotePage } from './components/DailyQuotePage';
 import { ProfilePage } from './components/ProfilePage';
 import OnboardingFlow from './components/OnboardingFlow';
 import WelcomeTour from './components/WelcomeTour';
+import DemoModeToggle from './components/DemoModeToggle';
+import DemoBanner from './components/DemoBanner';
+import DemoFeedPage from './components/DemoFeedPage';
+import { useDemoMode } from './hooks/useDemoMode';
 
 function AppContent() {
   const { user, loading, profile } = useAuth();
+  const { isDemoMode, enableDemoMode, disableDemoMode } = useDemoMode();
   const [currentPage, setCurrentPage] = useState('feed');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showTour, setShowTour] = useState(false);
@@ -62,8 +67,14 @@ function AppContent() {
     );
   }
 
-  if (!user) {
-    return <AuthPage />;
+  // Se não está autenticado e não está em modo demo, mostrar login
+  if (!user && !isDemoMode) {
+    return (
+      <>
+        <AuthPage />
+        <DemoModeToggle onEnableDemo={enableDemoMode} />
+      </>
+    );
   }
 
   if (showOnboarding) {
@@ -71,6 +82,11 @@ function AppContent() {
   }
 
   const renderPage = () => {
+    // Se está em modo demo, usar componente de feed demo
+    if (isDemoMode && currentPage === 'feed') {
+      return <DemoFeedPage />;
+    }
+
     switch (currentPage) {
       case 'feed':
         return <FeedPage />;
@@ -87,9 +103,21 @@ function AppContent() {
     }
   };
 
+  const handleDisableDemo = () => {
+    disableDemoMode();
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300">
-      <Header onProfileClick={() => setCurrentPage('profile')} />
+      {/* Banner de modo demo */}
+      {isDemoMode && <DemoBanner onDisableDemo={handleDisableDemo} />}
+
+      {/* Header com margem extra se demo banner estiver ativo */}
+      <div className={isDemoMode ? 'mt-16' : ''}>
+        <Header onProfileClick={() => setCurrentPage('profile')} />
+      </div>
+
       <main className="pt-4 pb-24 animate-fade-in">{renderPage()}</main>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
 
