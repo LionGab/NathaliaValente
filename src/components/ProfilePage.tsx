@@ -1,52 +1,27 @@
 import { useState, useEffect } from 'react';
-import { supabase, Post, SavedItem } from '../lib/supabase';
+import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { usePosts } from '../hooks';
 import { Gem, Grid, Bookmark, Heart, MessageCircle } from 'lucide-react';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'posts' | 'saved'>('posts');
-  const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingSaved, setLoadingSaved] = useState(true);
   const { profile, user } = useAuth();
 
-  const fetchUserPosts = async () => {
-    if (!user) return;
+  // Use optimized hook for user posts
+  const { posts: userPosts, loading: loadingPosts } = usePosts({
+    userId: user?.id,
+    enabled: !!user,
+  });
 
-    const { data } = await supabase
-      .from('posts')
-      .select(
-        `
-        *,
-        profiles(*)
-      `
-      )
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (data) {
-      const postsWithStats = await Promise.all(
-        data.map(async (post) => {
-          const [likesResult, commentsResult] = await Promise.all([
-            supabase.from('likes').select('id', { count: 'exact' }).eq('post_id', post.id),
-            supabase.from('comments').select('id', { count: 'exact' }).eq('post_id', post.id),
-          ]);
-
-          return {
-            ...post,
-            likes_count: likesResult.count || 0,
-            comments_count: commentsResult.count || 0,
-          };
-        })
-      );
-
-      setUserPosts(postsWithStats);
-    }
-  };
+  const loading = loadingPosts || loadingSaved;
 
   const fetchSavedItems = async () => {
     if (!user) return;
 
+    setLoadingSaved(true);
     const { data } = await supabase
       .from('saved_items')
       .select(
@@ -61,15 +36,11 @@ export const ProfilePage = () => {
     if (data) {
       setSavedItems(data);
     }
+    setLoadingSaved(false);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      await Promise.all([fetchUserPosts(), fetchSavedItems()]);
-      setLoading(false);
-    };
-    fetchData();
+    fetchSavedItems();
   }, [user]);
 
   const getCategoryColor = (category: string) => {

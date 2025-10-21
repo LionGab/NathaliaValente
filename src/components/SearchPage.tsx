@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { supabase, Post } from '../lib/supabase';
+import { useState, useMemo } from 'react';
+import { usePosts } from '../hooks';
 import { Search, Filter } from 'lucide-react';
 
 const CATEGORIES = ['Todos', 'Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
@@ -7,44 +7,24 @@ const CATEGORIES = ['Todos', 'Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
 export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  const searchPosts = async () => {
-    setLoading(true);
-    let query = supabase
-      .from('posts')
-      .select(
-        `
-        *,
-        profiles(*)
-      `
-      )
-      .order('created_at', { ascending: false });
+  // Use optimized hook for category filtering
+  const { posts: allPosts, loading } = usePosts({
+    category: selectedCategory,
+  });
 
-    if (selectedCategory !== 'Todos') {
-      query = query.eq('category', selectedCategory);
-    }
+  // Filter posts by search term locally (client-side)
+  const posts = useMemo(() => {
+    if (!searchTerm.trim()) return allPosts;
 
-    if (searchTerm) {
-      query = query.ilike('caption', `%${searchTerm}%`);
-    }
-
-    const { data } = await query;
-
-    if (data) {
-      setPosts(data);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    searchPosts();
-  }, [selectedCategory]);
+    return allPosts.filter((post) =>
+      post.caption.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allPosts, searchTerm]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    searchPosts();
+    // Search is handled automatically by useMemo
   };
 
   const getCategoryColor = (category: string) => {
@@ -117,19 +97,19 @@ export const SearchPage = () => {
               )}
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  {post.profiles?.avatar_url ? (
+                  {post.avatar_url ? (
                     <img
-                      src={post.profiles.avatar_url}
-                      alt={post.profiles.full_name}
+                      src={post.avatar_url}
+                      alt={post.full_name}
                       className="w-8 h-8 rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
-                      {post.profiles?.full_name.charAt(0)}
+                      {post.full_name.charAt(0)}
                     </div>
                   )}
                   <span className="text-sm font-medium text-gray-800 dark:text-white">
-                    {post.profiles?.full_name}
+                    {post.full_name}
                   </span>
                 </div>
 
