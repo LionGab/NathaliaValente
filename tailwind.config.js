@@ -5,7 +5,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Anthropic-inspired color palette
+        // NathClub - Paleta atualizada para bem-estar feminino
+        nath: {
+          // Rosa suave - Cor primária principal
+          pink: {
+            50: '#FFF1F4',
+            100: '#FFE4E8',
+            200: '#FECDD6',
+            300: '#FCA5B4',
+            400: '#FB7185',  // Botões primários
+            500: '#F43F5E',  // Hover/ênfase
+            600: '#E11D48',
+            700: '#BE123C',
+            800: '#9F1239',
+            900: '#881337',
+          },
+          // Lilás/Lavanda - Bem-estar e espiritualidade
+          lavender: {
+            50: '#FAF5FF',
+            100: '#F3E8FF',
+            200: '#E9D5FF',
+            300: '#D8B4FE',
+            400: '#C084FC',
+            500: '#A855F7',
+            600: '#9333EA',
+          },
+          // Pêssego - Energia e motivação
+          peach: {
+            50: '#FFF7ED',
+            100: '#FFEDD5',
+            200: '#FED7AA',
+            300: '#FDBA74',
+            400: '#FB923C',
+            500: '#F97316',
+            600: '#EA580C',
+          },
+          // Neutros suaves
+          cream: {
+            50: '#FEFDFB',
+            100: '#FDF9F5',
+            200: '#FBF3EB',
+            300: '#F7EBE0',
+            400: '#F0DCC9',
+          },
+        },
+        // Anthropic-inspired color palette (mantido para compatibilidade)
         claude: {
           // Primary orange/coral tones (similar to Anthropic's brand)
           orange: {
