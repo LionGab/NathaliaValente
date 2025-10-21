@@ -70,6 +70,48 @@ npm run build
 
 Build should complete successfully.
 
+## How to Apply This Fix to PR #20
+
+### Option 1: Cherry-pick the fix commit (if you have access to the PR branch)
+```bash
+# Fetch the latest changes
+git fetch origin
+
+# Checkout the PR #20 branch
+git checkout claude/auth-code-review-011CUKuWDq4KUGpJeFVVTRkv
+
+# Cherry-pick the fix commit from pr-20 branch
+git fetch origin
+git cherry-pick <commit-hash-of-fix>
+
+# Push the changes
+git push origin claude/auth-code-review-011CUKuWDq4KUGpJeFVVTRkv
+```
+
+### Option 2: Manually apply the changes (recommended)
+1. Open `src/services/monitoring.service.ts` in the PR #20 branch
+2. Apply all the changes listed above in the "Change Required" section
+3. Save the file
+4. Commit and push:
+   ```bash
+   git add src/services/monitoring.service.ts
+   git commit -m "Fix: Replace deprecated onFID with onINP in web-vitals"
+   git push
+   ```
+
+### Option 3: Close PR #20 and re-create from fixed code
+If PR #20 has other issues or merge conflicts, consider:
+1. Close PR #20
+2. Create a new branch from main
+3. Re-apply the changes with the fixed monitoring.service.ts
+
+## Verification
+The fix has been tested and confirmed to work:
+- ✅ Build completes successfully
+- ✅ No import errors
+- ✅ Web vitals monitoring works correctly with INP instead of FID
+
 ## References
 - [Web Vitals v4 Migration Guide](https://github.com/GoogleChrome/web-vitals/releases/tag/v4.0.0)
 - [INP Documentation](https://web.dev/inp/)
+- [FID Deprecation Announcement](https://web.dev/articles/inp-cwv)
