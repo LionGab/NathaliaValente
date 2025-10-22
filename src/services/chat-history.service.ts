@@ -355,7 +355,7 @@ export const chatHistoryService: ChatHistoryService = {
   // MÉTODOS PRIVADOS
   // =====================================================
 
-  private async createDefaultMemoryPreferences(userId: string): Promise<MemoryPreferences> {
+  async createDefaultMemoryPreferences(userId: string): Promise<MemoryPreferences> {
     const { data, error } = await supabase
       .from('memory_preferences')
       .insert({
@@ -373,7 +373,7 @@ export const chatHistoryService: ChatHistoryService = {
     return data;
   },
 
-  private buildSystemPrompt(useMemory: boolean): string {
+  buildSystemPrompt(useMemory: boolean): string {
     const basePrompt = `Você é o NathIA, assistente virtual do ClubNath, uma comunidade de mães.
 
 PERSONALIDADE:
@@ -405,7 +405,7 @@ MEMÓRIA:
     return basePrompt;
   },
 
-  private buildRecentMessagesText(messages: ChatMessage[]): string {
+  buildRecentMessagesText(messages: ChatMessage[]): string {
     if (messages.length === 0) return '';
 
     const recentMessages = messages.slice(0, 10).reverse(); // Últimas 10, em ordem cronológica
