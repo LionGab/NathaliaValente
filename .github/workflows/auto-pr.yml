@@ -6,6 +6,7 @@ on:
       - 'feature/*'
       - 'bugfix/*'
       - 'hotfix/*'
+      - 'claude/*'
       - 'develop'
       - 'dev'
     # Evita executar em pushes para main/master
@@ -38,6 +39,8 @@ jobs:
             BASE_BRANCH="main"
           elif [[ $BRANCH_NAME == feature/* ]] || [[ $BRANCH_NAME == bugfix/* ]]; then
             BASE_BRANCH="develop"
+          elif [[ $BRANCH_NAME == claude/* ]]; then
+            BASE_BRANCH="main"
           elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
             BASE_BRANCH="main"
           else
@@ -74,6 +77,8 @@ jobs:
             PR_TITLE="🐛 Bug Fix: ${BRANCH_NAME#bugfix/}"
           elif [[ $BRANCH_NAME == hotfix/* ]]; then
             PR_TITLE="🚨 Hotfix: ${BRANCH_NAME#hotfix/}"
+          elif [[ $BRANCH_NAME == claude/* ]]; then
+            PR_TITLE="🤖 Claude Code: ${BRANCH_NAME#claude/}"
           elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
             PR_TITLE="🚀 Development Update"
           else
@@ -164,6 +169,8 @@ jobs:
             LABELS="--label bug,bugfix"
           elif [[ $BRANCH_NAME == hotfix/* ]]; then
             LABELS="--label bug,hotfix,urgent"
+          elif [[ $BRANCH_NAME == claude/* ]]; then
+            LABELS="--label claude-code,auto-generated"
           elif [[ $BRANCH_NAME == "develop" ]] || [[ $BRANCH_NAME == "dev" ]]; then
             LABELS="--label development"
           fi

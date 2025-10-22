@@ -1,0 +1,244 @@
+name: Auto Merge PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  check_suite:
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to merge'
+        required: true
+        type: number
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get PR info
+        id: pr-info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Se for workflow_dispatch, usa o PR_NUMBER do input
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          else
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+          fi
+
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+          # Busca informações do PR
+          PR_INFO=$(gh pr view $PR_NUMBER --json labels,mergeable,state,isDraft,headRefName)
+
+          LABELS=$(echo "$PR_INFO" | jq -r '.labels[].name' | tr '\n' ',' | sed 's/,$//')
+          MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
+          STATE=$(echo "$PR_INFO" | jq -r '.state')
+          IS_DRAFT=$(echo "$PR_INFO" | jq -r '.isDraft')
+          HEAD_BRANCH=$(echo "$PR_INFO" | jq -r '.headRefName')
+
+          echo "labels=$LABELS" >> $GITHUB_OUTPUT
+          echo "mergeable=$MERGEABLE" >> $GITHUB_OUTPUT
+          echo "state=$STATE" >> $GITHUB_OUTPUT
+          echo "is_draft=$IS_DRAFT" >> $GITHUB_OUTPUT
+          echo "head_branch=$HEAD_BRANCH" >> $GITHUB_OUTPUT
+
+          echo "📊 PR Info:"
+          echo "  Number: $PR_NUMBER"
+          echo "  Labels: $LABELS"
+          echo "  Mergeable: $MERGEABLE"
+          echo "  State: $STATE"
+          echo "  Draft: $IS_DRAFT"
+          echo "  Branch: $HEAD_BRANCH"
+
+      - name: Check if auto-merge is enabled
+        id: check-auto-merge
+        run: |
+          LABELS="${{ steps.pr-info.outputs.labels }}"
+          HEAD_BRANCH="${{ steps.pr-info.outputs.head_branch }}"
+
+          # Auto-merge está habilitado se:
+          # 1. PR tem label "auto-merge" OU
+          # 2. PR é de branch claude/* com label "claude-code"
+          AUTO_MERGE=false
+
+          if [[ $LABELS == *"auto-merge"* ]]; then
+            AUTO_MERGE=true
+            echo "✅ Auto-merge habilitado via label"
+          elif [[ $HEAD_BRANCH == claude/* ]] && [[ $LABELS == *"claude-code"* ]]; then
+            AUTO_MERGE=true
+            echo "✅ Auto-merge habilitado para branch Claude Code"
+          else
+            echo "⚠️ Auto-merge não está habilitado para este PR"
+          fi
+
+          echo "auto_merge=$AUTO_MERGE" >> $GITHUB_OUTPUT
+
+      - name: Check CI status
+        id: check-ci
+        if: steps.check-auto-merge.outputs.auto_merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.pr-info.outputs.pr_number }}"
+
+          # Verifica status dos checks
+          CHECKS=$(gh pr checks $PR_NUMBER --json name,conclusion,status)
+
+          # Conta checks por status
+          PENDING=$(echo "$CHECKS" | jq '[.[] | select(.status == "IN_PROGRESS" or .status == "QUEUED")] | length')
+          FAILED=$(echo "$CHECKS" | jq '[.[] | select(.conclusion == "FAILURE")] | length')
+          SUCCESS=$(echo "$CHECKS" | jq '[.[] | select(.conclusion == "SUCCESS")] | length')
+
+          echo "pending=$PENDING" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "success=$SUCCESS" >> $GITHUB_OUTPUT
+
+          echo "📊 CI Status:"
+          echo "  ✅ Success: $SUCCESS"
+          echo "  ❌ Failed: $FAILED"
+          echo "  ⏳ Pending: $PENDING"
+
+          # Determina se pode fazer merge
+          CAN_MERGE=false
+          if [ "$FAILED" -eq 0 ] && [ "$PENDING" -eq 0 ]; then
+            CAN_MERGE=true
+            echo "✅ Todos os checks passaram"
+          elif [ "$FAILED" -gt 0 ]; then
+            echo "❌ Alguns checks falharam - não pode fazer merge"
+          elif [ "$PENDING" -gt 0 ]; then
+            echo "⏳ Alguns checks ainda estão rodando"
+          fi
+
+          echo "can_merge=$CAN_MERGE" >> $GITHUB_OUTPUT
+
+      - name: Wait for checks (if pending)
+        if: |
+          steps.check-auto-merge.outputs.auto_merge == 'true' &&
+          steps.check-ci.outputs.pending != '0'
+        run: |
+          echo "⏳ Aguardando checks completarem..."
+          echo "Este workflow irá tentar novamente quando os checks completarem"
+
+      - name: Verify merge conditions
+        id: verify-merge
+        if: |
+          steps.check-auto-merge.outputs.auto_merge == 'true' &&
+          steps.check-ci.outputs.can_merge == 'true'
+        run: |
+          MERGEABLE="${{ steps.pr-info.outputs.mergeable }}"
+          STATE="${{ steps.pr-info.outputs.state }}"
+          IS_DRAFT="${{ steps.pr-info.outputs.is_draft }}"
+
+          # Verifica condições para merge
+          CAN_PROCEED=true
+
+          if [ "$STATE" != "OPEN" ]; then
+            echo "❌ PR não está aberto (estado: $STATE)"
+            CAN_PROCEED=false
+          fi
+
+          if [ "$IS_DRAFT" = "true" ]; then
+            echo "❌ PR está em modo draft"
+            CAN_PROCEED=false
+          fi
+
+          if [ "$MERGEABLE" != "MERGEABLE" ]; then
+            echo "⚠️ PR não pode ser merged (mergeable: $MERGEABLE)"
+            CAN_PROCEED=false
+          fi
+
+          echo "can_proceed=$CAN_PROCEED" >> $GITHUB_OUTPUT
+
+          if [ "$CAN_PROCEED" = "true" ]; then
+            echo "✅ Todas as condições para merge foram atendidas"
+          else
+            echo "❌ Algumas condições para merge não foram atendidas"
+          fi
+
+      - name: Auto-merge PR
+        if: |
+          steps.check-auto-merge.outputs.auto_merge == 'true' &&
+          steps.check-ci.outputs.can_merge == 'true' &&
+          steps.verify-merge.outputs.can_proceed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.pr-info.outputs.pr_number }}"
+          HEAD_BRANCH="${{ steps.pr-info.outputs.head_branch }}"
+
+          echo "🚀 Fazendo auto-merge do PR #$PR_NUMBER..."
+
+          # Adiciona comentário antes do merge
+          gh pr comment $PR_NUMBER --body "🤖 **Auto-merge ativado**
+
+          Todas as verificações passaram. Fazendo merge automaticamente...
+
+          ✅ CI Status: Todos os checks passaram
+          ✅ Mergeable: Sim
+          ✅ State: OPEN
+          ✅ Draft: Não
+
+          ---
+          *Merge automático realizado pelo GitHub Actions.*"
+
+          # Faz o merge
+          gh pr merge $PR_NUMBER --auto --squash --delete-branch
+
+          echo "✅ Auto-merge configurado com sucesso!"
+          echo "O PR será merged automaticamente assim que todas as verificações passarem."
+
+      - name: Comment if auto-merge failed
+        if: |
+          steps.check-auto-merge.outputs.auto_merge == 'true' &&
+          (steps.check-ci.outputs.can_merge != 'true' || steps.verify-merge.outputs.can_proceed != 'true')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.pr-info.outputs.pr_number }}"
+
+          # Monta mensagem de erro
+          ERROR_MSG="🤖 **Auto-merge não pôde ser realizado**\n\n"
+
+          if [ "${{ steps.check-ci.outputs.failed }}" != "0" ]; then
+            ERROR_MSG="${ERROR_MSG}❌ Alguns checks falharam\n"
+          fi
+
+          if [ "${{ steps.check-ci.outputs.pending }}" != "0" ]; then
+            ERROR_MSG="${ERROR_MSG}⏳ Alguns checks ainda estão rodando\n"
+          fi
+
+          if [ "${{ steps.pr-info.outputs.is_draft }}" = "true" ]; then
+            ERROR_MSG="${ERROR_MSG}❌ PR está em modo draft\n"
+          fi
+
+          if [ "${{ steps.pr-info.outputs.mergeable }}" != "MERGEABLE" ]; then
+            ERROR_MSG="${ERROR_MSG}⚠️ PR tem conflitos que precisam ser resolvidos\n"
+          fi
+
+          ERROR_MSG="${ERROR_MSG}\n**Ações necessárias:**\n"
+          ERROR_MSG="${ERROR_MSG}- Resolva os problemas acima\n"
+          ERROR_MSG="${ERROR_MSG}- O auto-merge será tentado novamente automaticamente\n"
+
+          gh pr comment $PR_NUMBER --body "$ERROR_MSG"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Auto-merge Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR Number:** ${{ steps.pr-info.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ steps.pr-info.outputs.head_branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Auto-merge Enabled:** ${{ steps.check-auto-merge.outputs.auto_merge }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **CI Status:** ✅ ${{ steps.check-ci.outputs.success }} | ❌ ${{ steps.check-ci.outputs.failed }} | ⏳ ${{ steps.check-ci.outputs.pending }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Can Merge:** ${{ steps.check-ci.outputs.can_merge }}" >> $GITHUB_STEP_SUMMARY
