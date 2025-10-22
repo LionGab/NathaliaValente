@@ -5,6 +5,7 @@ import { Send, Sparkles, Copy, ThumbsUp, ThumbsDown, RotateCcw, Lightbulb, Heart
 import { useMockData } from '../hooks/useMockData';
 import { MemoryIndicator, MemoryIndicatorCompact } from './chat/MemoryIndicator';
 import { generateNathIAResponse } from '../services/chat-history.service';
+import { generateNathIAStudyResponse } from '../services/bible-studies.service';
 import { useQuery } from '@tanstack/react-query';
 import { chatHistoryService } from '../services/chat-history.service';
 
@@ -23,7 +24,11 @@ export const ChatPage = () => {
     "Me sinto sobrecarregada",
     "Como organizar a rotina?",
     "Dicas de alimentação",
-    "Como lidar com culpa materna?"
+    "Como lidar com culpa materna?",
+    "Quero um estudo bíblico",
+    "Versículo para hoje",
+    "Oração para mães",
+    "Reflexão espiritual"
   ];
 
   const scrollToBottom = () => {
@@ -56,12 +61,28 @@ export const ChatPage = () => {
         throw new Error('Usuário não autenticado');
       }
 
-      // Usar o novo serviço de memória conversacional
-      const response = await generateNathIAResponse(userMessage, user.id);
-      return response.message;
+      // Verificar se a mensagem é sobre estudos bíblicos
+      const isBibleStudyMessage = 
+        userMessage.toLowerCase().includes('estudo') ||
+        userMessage.toLowerCase().includes('bíblia') ||
+        userMessage.toLowerCase().includes('versículo') ||
+        userMessage.toLowerCase().includes('oração') ||
+        userMessage.toLowerCase().includes('deus') ||
+        userMessage.toLowerCase().includes('fé') ||
+        userMessage.toLowerCase().includes('espiritual');
+
+      if (isBibleStudyMessage) {
+        // Usar o serviço de estudos bíblicos
+        const studyResponse = await generateNathIAStudyResponse(userMessage, user.id);
+        return studyResponse.message;
+      } else {
+        // Usar o serviço de memória conversacional padrão
+        const response = await generateNathIAResponse(userMessage, user.id);
+        return response.message;
+      }
     } catch (error) {
       console.error('Error getting AI response:', error);
-      // Fallback response se o serviço de memória falhar
+      // Fallback response se os serviços falharem
       const fallbacks = [
         'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕',
         'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina! ✨',
