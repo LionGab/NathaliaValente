@@ -31,54 +31,54 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState('feed');
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
-  const [showInstagramAuth, setShowInstagramAuth] = useState(!user && !loading);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
 
-  // Show Instagram Auth if no user
-  if (showInstagramAuth) {
-    return (
-      <InstagramAuth
-        onSuccess={() => {
-          setShowInstagramAuth(false);
-          setShowOnboarding(true);
-        }}
-      />
-    );
-  }
+  // Control auth flow state
+  React.useEffect(() => {
+    if (loading) {
+      setAuthState('loading');
+    } else if (!user) {
+      setAuthState('instagram');
+    } else if (user && authState === 'instagram') {
+      setAuthState('onboarding');
+    } else if (user && authState === 'onboarding') {
+      setAuthState('app');
+    }
+  }, [user, loading, authState]);
 
-  // Show Conversion Onboarding after Instagram login
-  if (showOnboarding) {
-    return (
-      <ConversionOnboarding
-        onComplete={() => {
-          setShowOnboarding(false);
-          // User is now "logged in" to the app
-        }}
-        onSkip={() => {
-          setShowOnboarding(false);
-          // User skipped onboarding
-        }}
-      />
-    );
-  }
-
-  if (loading) {
+  // Show loading screen
+  if (authState === 'loading') {
     return <LoadingScreen message="Carregando sua experiência..." />;
   }
 
-  if (!user) {
-    // Show Instagram Auth for real authentication
+  // Show Instagram Auth
+  if (authState === 'instagram') {
     return (
       <InstagramAuth
         onSuccess={() => {
-          setShowInstagramAuth(false);
-          setShowOnboarding(true);
+          setAuthState('onboarding');
         }}
       />
     );
   }
 
-  const renderPage = () => {
+  // Show Conversion Onboarding
+  if (authState === 'onboarding') {
+    return (
+      <ConversionOnboarding
+        onComplete={() => {
+          setAuthState('app');
+        }}
+        onSkip={() => {
+          setAuthState('app');
+        }}
+      />
+    );
+  }
+
+  // Show main app
+  if (authState === 'app' && user) {
+    const renderPage = () => {
     const LoadingSpinner = () => (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex flex-col items-center gap-4">
@@ -145,22 +145,26 @@ function AppContent() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300 safe-area-inset">
-      <PWANotifications />
-      <PWAInstallPrompt />
-      <Header onProfileClick={() => setCurrentPage('profile')} />
-      <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
-      <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
-      <PerformanceDebug />
-      {showBanner && (
-        <MonetizationBanner 
-          variant={bannerVariant} 
-          onClose={closeBanner} 
-        />
-      )}
-    </div>
-  );
+    return (
+      <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300 safe-area-inset">
+        <PWANotifications />
+        <PWAInstallPrompt />
+        <Header onProfileClick={() => setCurrentPage('profile')} />
+        <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
+        <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+        <PerformanceDebug />
+        {showBanner && (
+          <MonetizationBanner 
+            variant={bannerVariant} 
+            onClose={closeBanner} 
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Fallback - should not reach here
+  return <LoadingScreen message="Carregando..." />;
 }
 
 function App() {

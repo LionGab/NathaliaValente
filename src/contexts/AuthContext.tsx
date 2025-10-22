@@ -69,7 +69,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } else {
           setProfile(null);
         }
-        setLoading(false);
+        // Only set loading to false if it was true
+        setLoading(prev => prev ? false : prev);
       })();
     });
 
