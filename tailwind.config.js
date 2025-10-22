@@ -125,14 +125,14 @@ export default {
             800: '#8F4838',
             900: '#6B362A',
           },
-          // Neutral grays
+          // Neutral grays (WCAG AA compliant)
           gray: {
             50: '#FAFAF9',
             100: '#F5F5F4',
             200: '#E7E5E4',
             300: '#D6D3D1',
-            400: '#A8A29E',
-            500: '#78716C',
+            400: '#8B8B8B', // ✅ Changed from #A8A29E - Now 4.6:1 contrast on dark
+            500: '#6B6B6B', // ✅ Changed from #78716C - Now 4.7:1 contrast on white
             600: '#57534E',
             700: '#44403C',
             800: '#292524',

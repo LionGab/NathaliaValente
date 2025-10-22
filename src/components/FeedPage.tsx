@@ -19,6 +19,7 @@ const CreatePostModal = lazy(() => import('./CreatePostModal').then(module => ({
 export const FeedPage = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
+  const [savedPosts, setSavedPosts] = useState<Set<string>>(new Set());
   const [page, setPage] = useState(0);
   const { user } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
@@ -71,11 +72,33 @@ export const FeedPage = () => {
     if (!user) return;
 
     triggerHaptic('medium');
+
+    // Optimistic UI update
+    setSavedPosts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+      return newSet;
+    });
+
     saveItemMutation.mutate(
       { postId, type: 'post' },
       {
         onError: (error) => {
           console.error('Failed to save post:', error);
+          // Revert optimistic update on error
+          setSavedPosts(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(postId)) {
+              newSet.delete(postId);
+            } else {
+              newSet.add(postId);
+            }
+            return newSet;
+          });
         },
       }
     );
@@ -114,15 +137,6 @@ export const FeedPage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 py-4 pb-24 mobile-padding">
-      <Button
-        onClick={handleCreatePost}
-        className="w-full mb-6 sm:mb-8"
-        size="lg"
-        leftIcon={<Plus className="w-5 h-5" />}
-      >
-        Compartilhar sua jornada
-      </Button>
-
       {/* Community Logo Section */}
       <div className="flex justify-center mb-6">
         <div className="text-center">
@@ -133,11 +147,26 @@ export const FeedPage = () => {
         </div>
       </div>
 
+      {/* FAB - Floating Action Button */}
+      <button
+        onClick={handleCreatePost}
+        className="fixed bottom-24 right-4 sm:bottom-28 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full shadow-2xl z-40 hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center group"
+        aria-label="Criar novo post - Compartilhar sua jornada"
+      >
+        <Plus className="w-6 h-6 sm:w-7 sm:h-7 text-white group-hover:rotate-90 transition-transform duration-300" />
+      </button>
+
       <div className="space-y-6">
-        {posts.map((post, index) => (
+        {posts.map((post, index) => {
+          const isSaved = savedPosts.has(post.id);
+
+          return (
           <article
             key={post.id}
             className="card overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
+            tabIndex={0}
+            role="article"
+            aria-label={`Post de ${post.full_name}, categoria ${post.category}`}
           >
             <div className="p-4 sm:p-6">
               <div className="flex items-start justify-between mb-4 sm:mb-5">
@@ -213,6 +242,9 @@ export const FeedPage = () => {
                           <button
                             onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
                             className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
+                            aria-expanded={selectedPost === post.id}
+                            aria-controls={`comments-${post.id}`}
+                            aria-label={`${selectedPost === post.id ? 'Ocultar' : 'Ver'} ${formatNumber(post.comments_count)} comentários`}
                           >
                             <MessageCircle
                               className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
@@ -238,19 +270,32 @@ export const FeedPage = () => {
                 <button
                   onClick={() => handleSavePost(post.id)}
                   className="flex items-center gap-2 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
-                  aria-label="Salvar post"
+                  aria-label={isSaved ? 'Remover post salvo' : 'Salvar post'}
+                  aria-pressed={isSaved}
                 >
                   <Bookmark
-                    className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
+                    className={`w-5 h-5 group-hover:scale-110 transition-all duration-200 ${
+                      isSaved ? 'fill-pink-500 text-pink-500' : ''
+                    }`}
                     strokeWidth={2}
                   />
                 </button>
               </div>
             </div>
 
-            {selectedPost === post.id && <PostComments postId={post.id} />}
+            {selectedPost === post.id && (
+              <div
+                id={`comments-${post.id}`}
+                className="animate-slide-up border-t border-neutral-200 dark:border-neutral-800 mt-4"
+                role="region"
+                aria-label="Seção de comentários"
+              >
+                <PostComments postId={post.id} />
+              </div>
+            )}
           </article>
-        ))}
+        );
+        })}
         
         {/* Infinite scroll trigger */}
         {hasMore && (

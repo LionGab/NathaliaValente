@@ -29,7 +29,13 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   text
 }) => {
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-3', className)}>
+    <div
+      className={cn('flex flex-col items-center justify-center gap-3', className)}
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      aria-label={text || "Carregando conteúdo"}
+    >
       <div
         className={cn(
           'border-2 border-current border-t-transparent rounded-full animate-spin',
@@ -42,6 +48,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           {text}
         </p>
       )}
+      {text && <span className="sr-only">{text}</span>}
     </div>
   );
 };
