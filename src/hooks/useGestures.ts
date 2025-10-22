@@ -1,5 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
-import { useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { useRef, useCallback, useEffect, useState } from 'react';
 
 interface GestureConfig {
   threshold?: number;
@@ -16,11 +15,8 @@ export const useSwipeGesture = (config: GestureConfig = {}) => {
     stiffness = 300
   } = config;
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const springX = useSpring(x, { damping, stiffness });
-  const springY = useSpring(y, { damping, stiffness });
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
 
   const onSwipeStart = useCallback((event: TouchEvent | MouseEvent) => {
     // Implementation for swipe start
@@ -35,8 +31,8 @@ export const useSwipeGesture = (config: GestureConfig = {}) => {
   }, []);
 
   return {
-    x: springX,
-    y: springY,
+    x,
+    y,
     onSwipeStart,
     onSwipeMove,
     onSwipeEnd
@@ -53,10 +49,8 @@ export const usePullToRefresh = (
     stiffness = 300
   } = config;
 
-  const y = useMotionValue(0);
-  const springY = useSpring(y, { damping, stiffness });
-  
-  const isRefreshing = useRef(false);
+  const [y, setY] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const startY = useRef(0);
 
   const handleTouchStart = useCallback((event: TouchEvent) => {
@@ -66,28 +60,26 @@ export const usePullToRefresh = (
   }, []);
 
   const handleTouchMove = useCallback((event: TouchEvent) => {
-    if (window.scrollY === 0 && !isRefreshing.current) {
+    if (window.scrollY === 0 && !isRefreshing) {
       const currentY = event.touches[0].clientY;
       const deltaY = currentY - startY.current;
       
       if (deltaY > 0) {
         event.preventDefault();
-        y.set(deltaY * 0.5); // Dampen the pull
+        setY(deltaY * 0.5); // Dampen the pull
       }
     }
-  }, [y]);
+  }, [isRefreshing]);
 
   const handleTouchEnd = useCallback(async () => {
-    const currentY = y.get();
-    
-    if (currentY > threshold && !isRefreshing.current) {
-      isRefreshing.current = true;
+    if (y > threshold && !isRefreshing) {
+      setIsRefreshing(true);
       await onRefresh();
-      isRefreshing.current = false;
+      setIsRefreshing(false);
     }
     
-    y.set(0);
-  }, [y, threshold, onRefresh]);
+    setY(0);
+  }, [y, threshold, onRefresh, isRefreshing]);
 
   useEffect(() => {
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -102,8 +94,8 @@ export const usePullToRefresh = (
   }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   return {
-    y: springY,
-    isRefreshing: isRefreshing.current
+    y,
+    isRefreshing
   };
 };
 

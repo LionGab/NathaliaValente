@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React from 'react';
 import { cn } from '../../lib/utils';
 
 interface AnimatedCardProps {
@@ -20,23 +19,21 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({
   onClick
 }) => {
   return (
-    <motion.div
+    <div
       className={cn(
-        "relative cursor-pointer",
+        "relative cursor-pointer transition-transform duration-200 ease-out hover:scale-105 active:scale-95",
         className
       )}
       onClick={onClick}
-      whileHover={{ scale: hoverScale }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      style={{
+        transform: `scale(${hoverScale})`,
+        transition: 'transform 0.2s ease-out'
+      }}
     >
       {/* Glow effect */}
       {glowEffect && (
-        <motion.div
-          className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/20 to-secondary-500/20 blur-xl"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+        <div
+          className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/20 to-secondary-500/20 blur-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
         />
       )}
       
@@ -44,6 +41,6 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({
       <div className="relative z-10">
         {children}
       </div>
-    </motion.div>
+    </div>
   );
 };
