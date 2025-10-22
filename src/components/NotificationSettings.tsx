@@ -1,439 +1,360 @@
-/**
- * ClubNath Notification Settings Component
- *
- * Example React component for managing notification preferences
- */
+// =====================================================
+// CLUBNATH NOTIFICATION SETTINGS
+// Configurações de Notificações Push
+// =====================================================
 
-import React, { useEffect, useState } from 'react';
-import NotificationService, {
-  type NotificationPreferences,
-} from '../services/notificationService';
+import React, { useState, useEffect } from 'react';
+import { 
+  Bell, 
+  BellOff, 
+  Clock, 
+  Heart, 
+  MessageCircle, 
+  BookOpen, 
+  Crown, 
+  Prayer, 
+  AlertTriangle,
+  CheckCircle,
+  Settings,
+  Moon,
+  Sun
+} from 'lucide-react';
+import { notificationsService, NotificationPreferences } from '../services/notifications.service';
+import { useAuth } from '../contexts/AuthContext';
+import { Button } from './ui/Button';
+import { LoadingSpinner } from './ui/LoadingSpinner';
 
-const POST_CATEGORIES = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
+interface NotificationSettingsProps {
+  onClose?: () => void;
+}
 
-export const NotificationSettings: React.FC = () => {
-  const [preferences, setPreferences] =
-    useState<NotificationPreferences | null>(null);
+export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onClose }) => {
+  const { user } = useAuth();
+  const [preferences, setPreferences] = useState<NotificationPreferences | null>(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState<{
-    type: 'success' | 'error';
-    text: string;
-  } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [permission, setPermission] = useState<NotificationPermission>('default');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
-    loadPreferences();
-  }, []);
+    if (user) {
+      loadPreferences();
+      checkPermission();
+    }
+  }, [user]);
 
   const loadPreferences = async () => {
-    setLoading(true);
-    const prefs = await NotificationService.getPreferences();
-    setPreferences(prefs);
-    setLoading(false);
-  };
+    if (!user) return;
 
-  const handleToggle = async (field: keyof NotificationPreferences) => {
-    if (!preferences) return;
-
-    const newValue = !preferences[field];
-    const success = await NotificationService.updatePreferences({
-      [field]: newValue,
-    });
-
-    if (success) {
-      setPreferences({ ...preferences, [field]: newValue });
-      showMessage('success', 'Preferência atualizada com sucesso!');
-    } else {
-      showMessage('error', 'Erro ao atualizar preferência');
+    try {
+      const prefs = await notificationsService.getNotificationPreferences(user.id);
+      setPreferences(prefs);
+    } catch (error) {
+      console.error('Erro ao carregar preferências:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleQuietHoursChange = async (
-    start: string | null,
-    end: string | null
-  ) => {
-    const success = await NotificationService.setQuietHours(start, end);
-
-    if (success) {
-      setPreferences((prev) =>
-        prev
-          ? { ...prev, quiet_hours_start: start, quiet_hours_end: end }
-          : null
-      );
-      showMessage('success', 'Horário de silêncio atualizado!');
-    } else {
-      showMessage('error', 'Erro ao atualizar horário de silêncio');
+  const checkPermission = async () => {
+    if ('Notification' in window) {
+      setPermission(Notification.permission);
     }
   };
 
-  const handleCategoryToggle = async (category: string) => {
-    if (!preferences) return;
-
-    const currentCategories = preferences.followed_categories || [];
-    const newCategories = currentCategories.includes(category)
-      ? currentCategories.filter((c) => c !== category)
-      : [...currentCategories, category];
-
-    const success = await NotificationService.updateFollowedCategories(
-      newCategories
-    );
-
-    if (success) {
-      setPreferences({ ...preferences, followed_categories: newCategories });
-      showMessage('success', 'Categorias atualizadas!');
-    } else {
-      showMessage('error', 'Erro ao atualizar categorias');
+  const requestPermission = async () => {
+    try {
+      const newPermission = await notificationsService.requestPermission();
+      setPermission(newPermission);
+      
+      if (newPermission === 'granted') {
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (error) {
+      console.error('Erro ao solicitar permissão:', error);
     }
   };
 
-  const handleRequestPermission = async () => {
-    const granted = await NotificationService.requestPermission();
+  const updatePreference = async (key: keyof NotificationPreferences, value: any) => {
+    if (!preferences || !user) return;
 
-    if (granted) {
-      showMessage('success', 'Permissão concedida! ✅');
-      await NotificationService.updatePreferences({ enable_push: true });
-      loadPreferences();
-    } else {
-      showMessage(
-        'error',
-        'Permissão negada. Habilite nas configurações do navegador.'
-      );
+    const updatedPreferences = {
+      ...preferences,
+      [key]: value
+    };
+
+    setPreferences(updatedPreferences);
+
+    try {
+      setSaving(true);
+      await notificationsService.updateNotificationPreferences({
+        user_id: user.id,
+        [key]: value
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar preferência:', error);
+      // Reverter mudança em caso de erro
+      setPreferences(preferences);
+    } finally {
+      setSaving(false);
     }
   };
 
-  const showMessage = (type: 'success' | 'error', text: string) => {
-    setMessage({ type, text });
-    setTimeout(() => setMessage(null), 3000);
+  const updateQuietHours = (start: string, end: string) => {
+    updatePreference('quiet_hours_start', start);
+    updatePreference('quiet_hours_end', end);
   };
 
   if (loading) {
     return (
-      <div className="notification-settings loading">
-        <p>Carregando preferências...</p>
+      <div className="flex items-center justify-center p-8">
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   if (!preferences) {
     return (
-      <div className="notification-settings error">
-        <p>Erro ao carregar preferências de notificação</p>
+      <div className="text-center p-8">
+        <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Erro ao carregar configurações
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar suas preferências de notificação.
+        </p>
+        <Button onClick={loadPreferences} variant="outline">
+          Tentar novamente
+        </Button>
       </div>
     );
   }
 
-  const permissionStatus = NotificationService.getPermissionStatus();
+  const notificationTypes = [
+    {
+      key: 'daily_quotes' as keyof NotificationPreferences,
+      title: 'Frase do Dia',
+      description: 'Receba sua dose diária de inspiração às 8h',
+      icon: <Sun className="w-5 h-5" />,
+      color: 'text-yellow-500'
+    },
+    {
+      key: 'feed_highlights' as keyof NotificationPreferences,
+      title: 'Destaques do Feed',
+      description: 'Veja o que está rolando no ClubNath às 20h',
+      icon: <MessageCircle className="w-5 h-5" />,
+      color: 'text-blue-500'
+    },
+    {
+      key: 'social_interactions' as keyof NotificationPreferences,
+      title: 'Interações Sociais',
+      description: 'Curtidas, comentários e novas conexões',
+      icon: <Heart className="w-5 h-5" />,
+      color: 'text-pink-500'
+    },
+    {
+      key: 'prayer_notifications' as keyof NotificationPreferences,
+      title: 'Orações Compartilhadas',
+      description: 'Quando alguém compartilha um pedido de oração',
+      icon: <Prayer className="w-5 h-5" />,
+      color: 'text-purple-500'
+    },
+    {
+      key: 'journal_reminders' as keyof NotificationPreferences,
+      title: 'Lembretes de Journaling',
+      description: 'Reflita sobre seu dia às 21h',
+      icon: <BookOpen className="w-5 h-5" />,
+      color: 'text-green-500'
+    },
+    {
+      key: 'engagement_reminders' as keyof NotificationPreferences,
+      title: 'Lembretes de Engajamento',
+      description: 'Sentimos sua falta quando você fica ausente',
+      icon: <Bell className="w-5 h-5" />,
+      color: 'text-orange-500'
+    },
+    {
+      key: 'sos_followup' as keyof NotificationPreferences,
+      title: 'Follow-up SOS',
+      description: 'Acompanhamento após usar o botão de crise',
+      icon: <AlertTriangle className="w-5 h-5" />,
+      color: 'text-red-500'
+    },
+    {
+      key: 'premium_offers' as keyof NotificationPreferences,
+      title: 'Ofertas Premium',
+      description: 'Promoções e benefícios exclusivos',
+      icon: <Crown className="w-5 h-5" />,
+      color: 'text-yellow-600'
+    }
+  ];
 
   return (
-    <div className="notification-settings">
-      <h2>Configurações de Notificações</h2>
-
-      {message && (
-        <div className={`message ${message.type}`}>
-          {message.text}
-        </div>
-      )}
-
-      {/* Browser Permission */}
-      {permissionStatus !== 'granted' && (
-        <div className="settings-section permission-request">
-          <h3>⚠️ Permissão de Notificações</h3>
-          <p>
-            {permissionStatus === 'denied'
-              ? 'Notificações estão bloqueadas. Habilite nas configurações do navegador.'
-              : 'Habilite notificações para receber alertas em tempo real.'}
-          </p>
-          {permissionStatus === 'default' && (
-            <button onClick={handleRequestPermission} className="primary-btn">
-              Habilitar Notificações
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* General Settings */}
-      <div className="settings-section">
-        <h3>Geral</h3>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Notificações Push</label>
-            <p>Receba notificações no seu dispositivo</p>
+    <div className="max-w-2xl mx-auto p-4 sm:p-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg">
+            <Settings className="w-6 h-6 text-pink-600 dark:text-pink-400" />
           </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_push}
-              onChange={() => handleToggle('enable_push')}
-              disabled={permissionStatus !== 'granted'}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Notificações no App</label>
-            <p>Veja notificações dentro do aplicativo</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_in_app}
-              onChange={() => handleToggle('enable_in_app')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Notificações por Email</label>
-            <p>Receba resumos diários por email</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_email}
-              onChange={() => handleToggle('enable_email')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      {/* Notification Categories */}
-      <div className="settings-section">
-        <h3>Tipos de Notificação</h3>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Atividade da Comunidade</label>
-            <p>Comentários e curtidas nos seus posts</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_community_activity}
-              onChange={() => handleToggle('enable_community_activity')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Novo Conteúdo</label>
-            <p>Posts nas categorias que você segue</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_new_content}
-              onChange={() => handleToggle('enable_new_content')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Encorajamento Diário</label>
-            <p>Mensagens motivacionais e reflexões</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_daily_encouragement}
-              onChange={() => handleToggle('enable_daily_encouragement')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Lembretes de Hábitos</label>
-            <p>Lembretes para diário e autocuidado</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_habit_reminders}
-              onChange={() => handleToggle('enable_habit_reminders')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Respostas do Robô Nath</label>
-            <p>Notificações do assistente virtual</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_chat_responses}
-              onChange={() => handleToggle('enable_chat_responses')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-info">
-            <label>Selos e Conquistas</label>
-            <p>Quando você recebe um selo Nathy</p>
-          </div>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={preferences.enable_badges}
-              onChange={() => handleToggle('enable_badges')}
-            />
-            <span className="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      {/* Followed Categories */}
-      {preferences.enable_new_content && (
-        <div className="settings-section">
-          <h3>Categorias Seguidas</h3>
-          <p className="section-description">
-            Receba notificações de novos posts nestas categorias
-          </p>
-
-          <div className="category-checkboxes">
-            {POST_CATEGORIES.map((category) => (
-              <label key={category} className="category-checkbox">
-                <input
-                  type="checkbox"
-                  checked={(preferences.followed_categories || []).includes(
-                    category
-                  )}
-                  onChange={() => handleCategoryToggle(category)}
-                />
-                <span>{category}</span>
-              </label>
-            ))}
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Notificações
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Personalize como você quer ser notificada
+            </p>
           </div>
         </div>
-      )}
-
-      {/* Quiet Hours */}
-      <div className="settings-section">
-        <h3>Horário de Silêncio</h3>
-        <p className="section-description">
-          Não receba notificações durante esses horários
-        </p>
-
-        <div className="time-inputs">
-          <div className="time-input-group">
-            <label>Início</label>
-            <input
-              type="time"
-              value={preferences.quiet_hours_start || ''}
-              onChange={(e) =>
-                handleQuietHoursChange(
-                  e.target.value || null,
-                  preferences.quiet_hours_end
-                )
-              }
-            />
-          </div>
-
-          <div className="time-input-group">
-            <label>Fim</label>
-            <input
-              type="time"
-              value={preferences.quiet_hours_end || ''}
-              onChange={(e) =>
-                handleQuietHoursChange(
-                  preferences.quiet_hours_start,
-                  e.target.value || null
-                )
-              }
-            />
-          </div>
-        </div>
-
-        {preferences.quiet_hours_start && preferences.quiet_hours_end && (
-          <p className="quiet-hours-info">
-            Silêncio ativo de {preferences.quiet_hours_start.slice(0, 5)} até{' '}
-            {preferences.quiet_hours_end.slice(0, 5)}
-          </p>
+        {onClose && (
+          <Button onClick={onClose} variant="ghost" size="sm">
+            ✕
+          </Button>
         )}
       </div>
 
-      {/* Frequency Limits */}
-      <div className="settings-section">
-        <h3>Limite de Notificações</h3>
-        <p className="section-description">
-          Máximo de notificações por dia em cada categoria
-        </p>
+      {/* Status da Permissão */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 mb-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {permission === 'granted' ? (
+              <CheckCircle className="w-6 h-6 text-green-500" />
+            ) : (
+              <BellOff className="w-6 h-6 text-gray-400" />
+            )}
+            <div>
+              <h3 className="font-semibold text-gray-900 dark:text-white">
+                {permission === 'granted' ? 'Notificações Ativadas' : 'Notificações Desativadas'}
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {permission === 'granted' 
+                  ? 'Você receberá notificações personalizadas'
+                  : 'Ative as notificações para não perder nada'
+                }
+              </p>
+            </div>
+          </div>
+          
+          {permission !== 'granted' && (
+            <Button 
+              onClick={requestPermission}
+              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
+            >
+              Ativar
+            </Button>
+          )}
+        </div>
 
-        <div className="frequency-controls">
-          <div className="frequency-item">
-            <label>Comunidade</label>
+        {showSuccess && (
+          <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-green-600" />
+              <span className="text-sm text-green-800 dark:text-green-200">
+                Notificações ativadas com sucesso! 🎉
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Configurações de Notificação */}
+      <div className="space-y-4">
+        {notificationTypes.map((type) => (
+          <div 
+            key={type.key}
+            className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-200 dark:border-gray-700"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg bg-gray-100 dark:bg-gray-700 ${type.color}`}>
+                  {type.icon}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    {type.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {type.description}
+                  </p>
+                </div>
+              </div>
+              
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={preferences[type.key] as boolean}
+                  onChange={(e) => updatePreference(type.key, e.target.checked)}
+                  disabled={saving}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-500"></div>
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Horário Silencioso */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 mt-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600">
+            <Moon className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">
+              Horário Silencioso
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Não receber notificações durante este período
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Início
+            </label>
             <input
-              type="number"
-              min="1"
-              max="50"
-              value={preferences.max_community_per_day}
-              onChange={async (e) => {
-                const value = parseInt(e.target.value);
-                await NotificationService.updatePreferences({
-                  max_community_per_day: value,
-                });
-                setPreferences({
-                  ...preferences,
-                  max_community_per_day: value,
-                });
-              }}
+              type="time"
+              value={preferences.quiet_hours_start}
+              onChange={(e) => updateQuietHours(e.target.value, preferences.quiet_hours_end)}
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent"
             />
           </div>
-
-          <div className="frequency-item">
-            <label>Conteúdo</label>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Fim
+            </label>
             <input
-              type="number"
-              min="1"
-              max="50"
-              value={preferences.max_content_per_day}
-              onChange={async (e) => {
-                const value = parseInt(e.target.value);
-                await NotificationService.updatePreferences({
-                  max_content_per_day: value,
-                });
-                setPreferences({ ...preferences, max_content_per_day: value });
-              }}
+              type="time"
+              value={preferences.quiet_hours_end}
+              onChange={(e) => updateQuietHours(preferences.quiet_hours_start, e.target.value)}
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:border-transparent"
             />
           </div>
+        </div>
+      </div>
 
-          <div className="frequency-item">
-            <label>Lembretes</label>
-            <input
-              type="number"
-              min="1"
-              max="10"
-              value={preferences.max_reminders_per_day}
-              onChange={async (e) => {
-                const value = parseInt(e.target.value);
-                await NotificationService.updatePreferences({
-                  max_reminders_per_day: value,
-                });
-                setPreferences({
-                  ...preferences,
-                  max_reminders_per_day: value,
-                });
-              }}
-            />
+      {/* Dicas */}
+      <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-4 mt-6">
+        <div className="flex items-start gap-3">
+          <div className="p-2 bg-pink-200 dark:bg-pink-800 rounded-lg">
+            <Bell className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-pink-900 dark:text-pink-100 mb-2">
+              💡 Dicas do ClubNath
+            </h3>
+            <ul className="text-sm text-pink-800 dark:text-pink-300 space-y-1">
+              <li>• As notificações são personalizadas e respeitam seu horário silencioso</li>
+              <li>• Você pode alterar essas configurações a qualquer momento</li>
+              <li>• As notificações ajudam você a se conectar com outras mães</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default NotificationSettings;
