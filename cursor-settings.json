@@ -1,0 +1,13 @@
+{
+  "claude": {
+    "autoAcceptChanges": true,
+    "autoApplyEdits": true,
+    "autoInstallDependencies": true,
+    "showWelcomeMessage": false
+  },
+  "editor": {
+    "autoSave": "afterDelay",
+    "autoSaveDelay": 500,
+    "formatOnSave": true
+  }
+}

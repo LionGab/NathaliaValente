@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { usePosts, useLikePost, useCreateComment, useSaveItem } from '../hooks/useQueries';
 import { useWebShare } from '../hooks';
 import { getCategoryGradient } from '../constants/colors';
-import { Heart, MessageCircle, Award, Plus, Bookmark, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles, Crown } from 'lucide-react';
 import { PostComments } from './PostComments';
 import { LoadingSpinner, PostSkeleton } from './ui/LoadingSpinner';
 import { useMockData } from '../hooks/useMockData';

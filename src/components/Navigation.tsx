@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Search, Sparkles, User, Users } from 'lucide-react';
+import { Home, MessageCircle, Search, Sparkles, User, Users, Heart } from 'lucide-react';
 
 type NavigationProps = {
   currentPage: string;
@@ -7,12 +7,12 @@ type NavigationProps = {
 
 export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   const navItems = [
-    { id: 'feed', label: 'Feed', icon: Home },
-    { id: 'groups', label: 'Grupos', icon: Users },
-    { id: 'chat', label: 'Chat', icon: MessageCircle },
-    { id: 'search', label: 'Buscar', icon: Search },
-    { id: 'daily', label: 'Frase', icon: Sparkles },
-    { id: 'profile', label: 'Perfil', icon: User },
+    { id: 'feed', label: 'Feed', icon: Home, badge: null },
+    { id: 'groups', label: 'Grupos', icon: Users, badge: null },
+    { id: 'chat', label: 'Nath', icon: MessageCircle, badge: 'AI' },
+    { id: 'search', label: 'Buscar', icon: Search, badge: null },
+    { id: 'daily', label: 'Frase', icon: Sparkles, badge: null },
+    { id: 'profile', label: 'Perfil', icon: User, badge: null },
   ];
 
   return (
@@ -43,6 +43,11 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
                     className={`w-5 h-5 sm:w-6 sm:h-6 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
+                  {item.badge && (
+                    <div className="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-lg animate-pulse">
+                      {item.badge}
+                    </div>
+                  )}
                 </div>
                 <span
                   className={`relative text-xs sm:text-xs ${isActive ? 'font-semibold' : 'font-medium'} transition-all duration-300 ${

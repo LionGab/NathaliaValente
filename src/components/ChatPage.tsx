@@ -28,6 +28,13 @@ export const ChatPage = () => {
     "Reflexão espiritual"
   ];
 
+  const premiumFeatures = [
+    { icon: "👶", label: "Consultoria Personalizada", desc: "Dicas exclusivas da Nath" },
+    { icon: "💝", label: "Produtos NAVA", desc: "Acesso antecipado" },
+    { icon: "🌟", label: "Comunidade VIP", desc: "Mães selecionadas" },
+    { icon: "📱", label: "App Exclusivo", desc: "Só para você" }
+  ];
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
