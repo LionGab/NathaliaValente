@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-export type LogoType = 'community' | 'nath' | 'clubnath';
+export type LogoType = 'community' | 'nath' | 'clubnath' | 'mother-baby';
 
 interface LogoProps {
   type: LogoType;
@@ -25,6 +25,11 @@ const logoConfig = {
     src: '/logos/clubnath-community.svg',
     alt: 'ClubNath',
     title: 'ClubNath'
+  },
+  'mother-baby': {
+    src: '/logos/clubnath-mother-baby.svg',
+    alt: 'ClubNath - Mãe e Bebê',
+    title: 'ClubNath - Mãe e Bebê'
   }
 };
 

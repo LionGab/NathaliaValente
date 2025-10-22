@@ -11,9 +11,9 @@
     <!-- Face -->
     <circle cx="100" cy="70" r="20" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
     
-    <!-- Eyes -->
-    <ellipse cx="92" cy="65" rx="3" ry="4" fill="#2C1810"/>
-    <ellipse cx="108" cy="65" rx="3" ry="4" fill="#2C1810"/>
+    <!-- Eyes - Closed with gentle smile -->
+    <path d="M 88 65 Q 100 68 112 65" stroke="#8B4513" stroke-width="2" fill="none"/>
+    <path d="M 88 67 Q 100 70 112 67" stroke="#8B4513" stroke-width="2" fill="none"/>
     
     <!-- Eyebrows -->
     <path d="M 85 58 Q 92 55 99 58" stroke="#8B4513" stroke-width="2" fill="none"/>
@@ -22,90 +22,126 @@
     <!-- Nose -->
     <path d="M 100 70 L 98 75 L 100 75 L 102 75 Z" fill="#E8A598"/>
     
-    <!-- Smile -->
+    <!-- Gentle smile -->
     <path d="M 88 80 Q 100 85 112 80" stroke="#E8A598" stroke-width="2" fill="none"/>
     
-    <!-- Body - White tank top -->
-    <rect x="80" y="90" width="40" height="50" rx="8" fill="white" stroke="#E0E0E0" stroke-width="2"/>
+    <!-- Body - Dark gray dress -->
+    <rect x="80" y="90" width="40" height="60" rx="8" fill="#4A4A4A" stroke="#2C2C2C" stroke-width="2"/>
     
     <!-- Arms -->
     <ellipse cx="70" cy="110" rx="10" ry="25" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
     <ellipse cx="130" cy="110" rx="10" ry="25" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
     
-    <!-- Rose tattoos on arms -->
-    <g id="rose-tattoo-left">
-      <circle cx="65" cy="105" r="4" fill="none" stroke="#D4AF37" stroke-width="2"/>
-      <path d="M 65 101 Q 62 99 59 101 Q 62 103 65 101" fill="#D4AF37"/>
-      <path d="M 65 101 Q 68 99 71 101 Q 68 103 65 101" fill="#D4AF37"/>
-      <path d="M 65 101 Q 63 98 65 95 Q 67 98 65 101" fill="#D4AF37"/>
+    <!-- Cherub tattoo on left arm -->
+    <g id="cherub-tattoo">
+      <circle cx="65" cy="105" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+      <!-- Cherub body -->
+      <circle cx="65" cy="107" r="3" fill="#D4AF37"/>
+      <!-- Wings -->
+      <path d="M 60 105 Q 58 103 60 101 Q 62 103 60 105" fill="#D4AF37"/>
+      <path d="M 70 105 Q 72 103 70 101 Q 68 103 70 105" fill="#D4AF37"/>
     </g>
     
-    <g id="rose-tattoo-right">
-      <circle cx="135" cy="105" r="4" fill="none" stroke="#D4AF37" stroke-width="2"/>
-      <path d="M 135 101 Q 132 99 129 101 Q 132 103 135 101" fill="#D4AF37"/>
-      <path d="M 135 101 Q 138 99 141 101 Q 138 103 135 101" fill="#D4AF37"/>
-      <path d="M 135 101 Q 133 98 135 95 Q 137 98 135 101" fill="#D4AF37"/>
+    <!-- Floral tattoo on right arm -->
+    <g id="floral-tattoo">
+      <circle cx="135" cy="105" r="5" fill="none" stroke="#D4AF37" stroke-width="2"/>
+      <!-- Flower petals -->
+      <path d="M 135 100 Q 132 98 129 100 Q 132 102 135 100" fill="#D4AF37"/>
+      <path d="M 135 100 Q 138 98 141 100 Q 138 102 135 100" fill="#D4AF37"/>
+      <path d="M 135 100 Q 133 97 135 94 Q 137 97 135 100" fill="#D4AF37"/>
+      <path d="M 135 100 Q 133 103 135 106 Q 137 103 135 100" fill="#D4AF37"/>
+      <!-- Stem -->
+      <path d="M 135 105 L 135 110" stroke="#D4AF37" stroke-width="2" fill="none"/>
     </g>
     
-    <!-- Rose tattoo on thigh -->
-    <g id="rose-tattoo-thigh">
-      <circle cx="120" cy="130" r="3" fill="none" stroke="#D4AF37" stroke-width="2"/>
-      <path d="M 120 127 Q 118 125 116 127 Q 118 129 120 127" fill="#D4AF37"/>
-      <path d="M 120 127 Q 122 125 124 127 Q 122 129 120 127" fill="#D4AF37"/>
-    </g>
+    <!-- Bare feet -->
+    <ellipse cx="90" cy="155" rx="8" ry="4" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
+    <ellipse cx="110" cy="155" rx="8" ry="4" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
   </g>
   
   <!-- Baby -->
   <g id="baby">
-    <!-- Baby head -->
-    <circle cx="100" cy="120" r="14" fill="#FDBCB4" stroke="#E8A598" stroke-width="2"/>
+    <!-- Baby head - darker skin tone -->
+    <circle cx="100" cy="120" r="14" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
     
-    <!-- Baby hair -->
+    <!-- Baby hair - dark -->
     <path d="M 86 108 Q 83 103 86 98 Q 93 93 100 98 Q 107 93 114 98 Q 117 103 114 108 Q 107 113 100 108 Q 93 113 86 108" 
-          fill="#8B4513" stroke="#654321" stroke-width="2"/>
+          fill="#2C1810" stroke="#1A0F0A" stroke-width="2"/>
     
     <!-- Baby eyes (closed - sleeping) -->
-    <path d="M 92 115 Q 100 113 108 115" stroke="#8B4513" stroke-width="2" fill="none"/>
-    <path d="M 92 117 Q 100 115 108 117" stroke="#8B4513" stroke-width="2" fill="none"/>
+    <path d="M 92 115 Q 100 113 108 115" stroke="#2C1810" stroke-width="2" fill="none"/>
+    <path d="M 92 117 Q 100 115 108 117" stroke="#2C1810" stroke-width="2" fill="none"/>
     
-    <!-- Baby body - Light blue/grey onesie -->
-    <ellipse cx="100" cy="150" rx="18" ry="25" fill="#E6F3FF" stroke="#B3D9FF" stroke-width="2"/>
+    <!-- Baby body - White blanket -->
+    <ellipse cx="100" cy="150" rx="18" ry="25" fill="white" stroke="#E0E0E0" stroke-width="2"/>
     
-    <!-- Baby pattern on onesie - white rose pattern -->
-    <circle cx="90" cy="145" r="1.5" fill="white"/>
-    <circle cx="110" cy="145" r="1.5" fill="white"/>
-    <circle cx="100" cy="155" r="1.5" fill="white"/>
-    <circle cx="95" cy="160" r="1" fill="white"/>
-    <circle cx="105" cy="160" r="1" fill="white"/>
+    <!-- Baby pattern on blanket - small dots -->
+    <circle cx="90" cy="145" r="1" fill="#E0E0E0"/>
+    <circle cx="110" cy="145" r="1" fill="#E0E0E0"/>
+    <circle cx="100" cy="155" r="1" fill="#E0E0E0"/>
+    <circle cx="95" cy="160" r="0.8" fill="#E0E0E0"/>
+    <circle cx="105" cy="160" r="0.8" fill="#E0E0E0"/>
   </g>
   
-  <!-- Dog -->
-  <g id="dog">
-    <!-- Dog head -->
-    <circle cx="140" cy="145" r="15" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- Left side decorations -->
+  <g id="left-decorations">
+    <!-- Table with flowers -->
+    <rect x="30" y="130" width="8" height="20" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <circle cx="34" cy="130" r="6" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <!-- Flowers in vase -->
+    <rect x="32" y="120" width="4" height="10" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <circle cx="34" cy="115" r="2" fill="white"/>
+    <circle cx="32" cy="117" r="1.5" fill="white"/>
+    <circle cx="36" cy="117" r="1.5" fill="white"/>
     
-    <!-- Dog ears -->
-    <ellipse cx="128" cy="135" rx="5" ry="10" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="2"/>
-    <ellipse cx="152" cy="135" rx="5" ry="10" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="2"/>
+    <!-- Teddy bear -->
+    <ellipse cx="34" cy="145" rx="4" ry="6" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+    <circle cx="32" cy="142" r="1" fill="#2C1810"/>
+    <circle cx="36" cy="142" r="1" fill="#2C1810"/>
+    <circle cx="34" cy="144" r="0.5" fill="#2C1810"/>
     
-    <!-- Dog eyes -->
-    <circle cx="133" cy="140" r="3" fill="#2C1810"/>
-    <circle cx="147" cy="140" r="3" fill="#2C1810"/>
-    
-    <!-- Dog nose -->
-    <circle cx="140" cy="148" r="2" fill="#2C1810"/>
-    
-    <!-- Dog body -->
-    <ellipse cx="140" cy="170" rx="25" ry="18" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="2"/>
-    
-    <!-- Dog hoodie - Bright blue -->
-    <rect x="115" y="155" width="50" height="25" rx="5" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
-    <rect x="110" y="160" width="15" height="20" rx="3" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
-    <rect x="155" y="160" width="15" height="20" rx="3" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
-    
-    <!-- Dog expression - slightly melancholic -->
-    <path d="M 135 155 Q 140 158 145 155" stroke="#2C1810" stroke-width="1" fill="none"/>
+    <!-- Suitcases -->
+    <rect x="25" y="155" width="12" height="8" fill="#F5E6D3" stroke="#E8D5C4" stroke-width="2"/>
+    <rect x="27" y="150" width="8" height="8" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <!-- Gold clasps -->
+    <rect x="29" y="152" width="1" height="2" fill="#FFD700"/>
+    <rect x="32" y="152" width="1" height="2" fill="#FFD700"/>
   </g>
+  
+  <!-- Right side decorations -->
+  <g id="right-decorations">
+    <!-- Golden balloons -->
+    <circle cx="160" cy="120" r="3" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+    <path d="M 160 123 L 160 130" stroke="#B8860B" stroke-width="1" fill="none"/>
+    
+    <!-- Star balloons -->
+    <path d="M 170 115 L 172 120 L 177 120 L 173 123 L 175 128 L 170 125 L 165 128 L 167 123 L 163 120 L 168 120 Z" 
+          fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+    <path d="M 170 128 L 170 135" stroke="#B8860B" stroke-width="1" fill="none"/>
+    
+    <!-- Table with lamp -->
+    <rect x="155" y="130" width="8" height="25" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <circle cx="159" cy="130" r="6" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <!-- Lamp -->
+    <rect x="157" y="125" width="4" height="8" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+    <ellipse cx="159" cy="125" rx="3" ry="2" fill="#F5E6D3" stroke="#E8D5C4" stroke-width="2"/>
+    
+    <!-- Hot air balloon -->
+    <ellipse cx="175" cy="140" rx="4" ry="6" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <rect x="174" y="146" width="2" height="8" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+    
+    <!-- Stool with flowers -->
+    <rect x="160" y="160" width="6" height="4" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <rect x="158" y="155" width="10" height="4" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
+    <!-- Flowers in vase -->
+    <rect x="161" y="145" width="4" height="10" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    <circle cx="163" cy="140" r="2" fill="white"/>
+    <circle cx="161" cy="142" r="1.5" fill="white"/>
+    <circle cx="165" cy="142" r="1.5" fill="white"/>
+  </g>
+  
+  <!-- Circular rug -->
+  <circle cx="100" cy="160" r="25" fill="#D2B48C" stroke="#CD853F" stroke-width="2"/>
   
   <!-- Text -->
   <text x="100" y="190" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#FF6B9D">
