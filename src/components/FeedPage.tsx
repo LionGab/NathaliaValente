@@ -81,12 +81,12 @@ export const FeedPage = () => {
     );
   }, [user, saveItemMutation, triggerHaptic]);
 
-  const handleSharePost = useCallback(async (post: { caption: string; full_name: string; id: string }) => {
+  const handleSharePost = useCallback(async (post: Post) => {
     triggerHaptic('light');
     
     try {
       await share({
-        title: `Post de ${post.full_name} no ClubNath`,
+        title: `Post de ${post.profiles?.full_name || 'Usuário'} no ClubNath`,
         text: post.caption,
         url: window.location.origin + `/?post=${post.id}`,
       });
@@ -142,20 +142,20 @@ export const FeedPage = () => {
             <div className="p-4 sm:p-6">
               <div className="flex items-start justify-between mb-4 sm:mb-5">
                 <div className="flex items-center gap-3 sm:gap-4">
-                  {post.avatar_url ? (
+                  {post.profiles?.avatar_url ? (
                     <img
-                      src={post.avatar_url}
-                      alt={post.full_name}
+                      src={post.profiles.avatar_url}
+                      alt={post.profiles.full_name}
                       className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-pink-100 dark:ring-pink-500/30"
                     />
                   ) : (
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm sm:text-lg shadow-lg">
-                      {post.full_name?.charAt(0) || 'U'}
+                      {post.profiles?.full_name?.charAt(0) || 'U'}
                     </div>
                   )}
                   <div>
                     <p className="font-semibold text-claude-gray-900 dark:text-white text-sm sm:text-base">
-                      {post.full_name}
+                      {post.profiles?.full_name || 'Usuário Desconhecido'}
                     </p>
                     <p className="text-xs text-claude-gray-500 dark:text-claude-gray-400 mt-0.5">
                       {formatDate(post.created_at)}
@@ -207,7 +207,7 @@ export const FeedPage = () => {
                       } transition-all duration-200`}
                       strokeWidth={2}
                     />
-                            <span className="text-sm font-semibold">{formatNumber(post.likes_count)}</span>
+                            <span className="text-sm font-semibold">{formatNumber(post.likes_count || 0)}</span>
                           </button>
 
                           <button
@@ -218,7 +218,7 @@ export const FeedPage = () => {
                               className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
                               strokeWidth={2}
                             />
-                            <span className="text-sm font-semibold">{formatNumber(post.comments_count)}</span>
+                            <span className="text-sm font-semibold">{formatNumber(post.comments_count || 0)}</span>
                           </button>
 
                   {isShareSupported && (
