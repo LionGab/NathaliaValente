@@ -1,4 +1,4 @@
-import { Heart, LogOut, User } from 'lucide-react';
+import { Heart, LogOut, User, Bell, Crown, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { ThemeToggle } from './ThemeToggle';

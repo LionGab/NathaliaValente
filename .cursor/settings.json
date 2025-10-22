@@ -1,0 +1,28 @@
+{
+  "claude": {
+    "autoAcceptChanges": true,
+    "autoApplyEdits": true,
+    "autoInstallDependencies": true,
+    "showWelcomeMessage": true
+  },
+  "editor": {
+    "autoSave": "afterDelay",
+    "autoSaveDelay": 1000,
+    "formatOnSave": true,
+    "codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true
+    }
+  },
+  "typescript": {
+    "preferences": {
+      "includePackageJsonAutoImports": "auto"
+    }
+  },
+  "emmet": {
+    "includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html"
+    }
+  }
+}
