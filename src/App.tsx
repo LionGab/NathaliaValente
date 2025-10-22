@@ -35,6 +35,8 @@ function AppContent() {
 
   // Control auth flow state
   React.useEffect(() => {
+    console.log('[AUTH] State change:', { loading, user: !!user, currentAuthState: authState });
+    
     if (loading) {
       setAuthState('loading');
     } else if (!user) {
@@ -44,7 +46,7 @@ function AppContent() {
     } else if (user && authState === 'onboarding') {
       setAuthState('app');
     }
-  }, [user, loading, authState]);
+  }, [user, loading]); // ✅ CORREÇÃO: Removido authState das dependências
 
   // Show loading screen
   if (authState === 'loading') {
