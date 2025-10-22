@@ -1,46 +1,55 @@
-import React from 'react';
+import { ReactNode, useState } from 'react';
 import { cn } from '../../lib/utils';
 
 interface AnimatedCardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  hoverScale?: number;
-  tiltIntensity?: number;
-  glowEffect?: boolean;
-  onClick?: () => void;
+  hover?: boolean;
+  tap?: boolean;
+  glow?: boolean;
+  delay?: number;
 }
 
-export const AnimatedCard: React.FC<AnimatedCardProps> = ({
-  children,
-  className,
-  hoverScale = 1.02,
-  tiltIntensity = 15,
-  glowEffect = true,
-  onClick
-}) => {
+export const AnimatedCard = ({ 
+  children, 
+  className, 
+  hover = true, 
+  tap = true, 
+  glow = false,
+  delay = 0 
+}: AnimatedCardProps) => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleMouseDown = () => {
+    if (tap) setIsPressed(true);
+  };
+
+  const handleMouseUp = () => {
+    if (tap) setIsPressed(false);
+  };
+
+  const handleMouseLeave = () => {
+    if (tap) setIsPressed(false);
+  };
+
   return (
     <div
       className={cn(
-        "relative cursor-pointer transition-transform duration-200 ease-out hover:scale-105 active:scale-95",
+        'transition-all duration-300 ease-out',
+        hover && 'hover:scale-[1.02] hover:shadow-xl',
+        tap && isPressed && 'scale-[0.98]',
+        glow && 'hover:shadow-pink-500/25',
         className
       )}
-      onClick={onClick}
-      style={{
-        transform: `scale(${hoverScale})`,
-        transition: 'transform 0.2s ease-out'
+      style={{ 
+        animationDelay: `${delay}ms`,
+        animation: 'fadeInUp 0.6s ease-out forwards'
       }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Glow effect */}
-      {glowEffect && (
-        <div
-          className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/20 to-secondary-500/20 blur-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
-        />
-      )}
-      
-      {/* Content */}
-      <div className="relative z-10">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };

@@ -125,12 +125,15 @@ export const FeedPage = () => {
         Compartilhar sua jornada
       </Button>
 
+      {/* Premium Features Banner */}
+      <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
+
       {/* Community Logo Section */}
       <div className="flex justify-center mb-6">
         <div className="text-center">
           <CommunityLogo className="mx-auto mb-2" />
           <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-            Comunidade de Mães ClubNath
+            Comunidade VIP da Nathália Valente
           </p>
         </div>
       </div>

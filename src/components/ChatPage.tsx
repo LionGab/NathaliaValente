@@ -86,11 +86,11 @@ export const ChatPage = () => {
       }
     } catch (error) {
       console.error('Error getting AI response:', error);
-      // Fallback response se os serviços falharem
+      // Fallback response premium da Nath
       const fallbacks = [
-        'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕',
-        'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina! ✨',
-        'Que benção poder conversar com você! Saiba que você está fazendo o melhor que pode. Cada pequeno passo é uma vitória. 🌸',
+        'Oi, querida! Que lindo compartilhar isso comigo! Como mãe, sei exatamente como você se sente. Você está fazendo um trabalho maravilhoso - lembre-se: você não precisa ser perfeita, apenas presente. 💕 - Nath',
+        'Entendo perfeitamente como você se sente! A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina! Se precisar de produtos NAVA para te ajudar, me chama! ✨ - Nath',
+        'Que benção poder conversar com você! Saiba que você está fazendo o melhor que pode. Cada pequeno passo é uma vitória. Estou aqui para te apoiar sempre! 🌸 - Nath',
       ];
       return fallbacks[Math.floor(Math.random() * fallbacks.length)];
     } finally {
