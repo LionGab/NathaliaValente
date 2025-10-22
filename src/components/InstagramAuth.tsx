@@ -11,59 +11,22 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
   const handleInstagramLogin = async () => {
     setIsLoading(true);
     
-    try {
-      // Instagram Basic Display API OAuth
-      const clientId = import.meta.env.VITE_INSTAGRAM_CLIENT_ID;
-      const redirectUri = `${window.location.origin}/auth/instagram/callback`;
+    // Simular login do Instagram (mock para demonstração)
+    setTimeout(() => {
+      const mockUser = {
+        id: '123456789',
+        username: 'nathalia_arcuri',
+        full_name: 'Nathalia Arcuri',
+        profile_picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        followers_count: 29000000,
+        following_count: 500,
+        access_token: 'mock_instagram_token_' + Date.now()
+      };
       
-      if (!clientId) {
-        // Fallback para mock se não tiver credenciais
-        setTimeout(() => {
-          const mockUser = {
-            id: '123456789',
-            username: 'nathalia_arcuri',
-            full_name: 'Nathalia Arcuri',
-            profile_picture_url: 'https://example.com/avatar.jpg',
-            followers_count: 29000000,
-            following_count: 500
-          };
-          
-          onSuccess(mockUser);
-          setIsLoading(false);
-        }, 2000);
-        return;
-      }
-
-      // Construir URL de autorização do Instagram
-      const authUrl = new URL('https://api.instagram.com/oauth/authorize');
-      authUrl.searchParams.set('client_id', clientId);
-      authUrl.searchParams.set('redirect_uri', redirectUri);
-      authUrl.searchParams.set('scope', 'user_profile,user_media');
-      authUrl.searchParams.set('response_type', 'code');
-      authUrl.searchParams.set('state', 'clubnath_auth');
-
-      // Redirecionar para Instagram OAuth
-      window.location.href = authUrl.toString();
-      
-    } catch (error) {
-      console.error('Erro no login Instagram:', error);
+      console.log('✅ Instagram login successful (mock)!', mockUser);
+      onSuccess(mockUser);
       setIsLoading(false);
-      
-      // Fallback para mock em caso de erro
-      setTimeout(() => {
-        const mockUser = {
-          id: '123456789',
-          username: 'nathalia_arcuri',
-          full_name: 'Nathalia Arcuri',
-          profile_picture_url: 'https://example.com/avatar.jpg',
-          followers_count: 29000000,
-          following_count: 500
-        };
-        
-        onSuccess(mockUser);
-        setIsLoading(false);
-      }, 1000);
-    }
+    }, 2000);
   };
 
   return (
@@ -135,6 +98,9 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           </p>
           <p className="text-xs text-gray-500 mt-1">
             ✅ 29M+ seguidores confiam na Nath
+          </p>
+          <p className="text-xs text-blue-500 mt-2 font-medium">
+            🚀 Demo Mode - Login simulado para teste
           </p>
         </div>
       </div>
