@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Send, Sparkles, Copy, ThumbsUp, ThumbsDown, RotateCcw, Lightbulb, Heart, Bot, User, Mic, Paperclip } from 'lucide-react';
+import { Send, Sparkles, Copy, ThumbsUp, ThumbsDown, RotateCcw, Lightbulb, Heart, Bot, User, Mic, Paperclip, Brain } from 'lucide-react';
 import { useMockData } from '../hooks/useMockData';
+import { MemoryIndicator, MemoryIndicatorCompact } from './chat/MemoryIndicator';
+import { generateNathIAResponse } from '../services/chat-history.service';
+import { useQuery } from '@tanstack/react-query';
+import { chatHistoryService } from '../services/chat-history.service';
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -48,37 +52,16 @@ export const ChatPage = () => {
   const getAIResponse = async (userMessage: string): Promise<string> => {
     setTyping(true);
     try {
-      // Call Supabase Edge Function for AI chat
-      const { data, error } = await supabase.functions.invoke('chat-ai', {
-        body: { 
-          message: userMessage,
-          context: {
-            user_id: user?.id,
-            previous_messages: messages.slice(-5).map(m => ({
-              message: m.message,
-              is_user: m.is_user
-            }))
-          }
-        },
-      });
-
-      if (error) {
-        console.error('Error calling chat-ai function:', error);
-        // Return fallback from error or default
-        return (
-          data?.fallback ||
-          'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕'
-        );
+      if (!user) {
+        throw new Error('Usuário não autenticado');
       }
 
-      return (
-        data?.message ||
-        data?.fallback ||
-        'Obrigada por compartilhar! Estou aqui para ouvir e apoiar você. 💕'
-      );
+      // Usar o novo serviço de memória conversacional
+      const response = await generateNathIAResponse(userMessage, user.id);
+      return response.message;
     } catch (error) {
       console.error('Error getting AI response:', error);
-      // Fallback response if Edge Function fails
+      // Fallback response se o serviço de memória falhar
       const fallbacks = [
         'Que lindo compartilhar isso comigo! Você está fazendo um trabalho maravilhoso como mãe. Lembre-se: você não precisa ser perfeita, apenas presente. 💕',
         'Entendo como você se sente. A maternidade traz desafios únicos, mas também tantas alegrias. Você é mais forte do que imagina! ✨',
@@ -159,14 +142,17 @@ export const ChatPage = () => {
     <div className="flex flex-col h-[calc(100vh-8rem)] max-w-4xl mx-auto">
       {/* Header Mobile-First */}
       <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-4 sm:p-6 rounded-t-2xl sm:rounded-t-3xl text-white">
-        <div className="flex items-center gap-3">
-          <div className="bg-white/20 p-2 sm:p-3 rounded-full">
-            <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-white/20 p-2 sm:p-3 rounded-full">
+              <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold">NathIA</h2>
+              <p className="text-xs sm:text-sm text-white/90">Seu assistente com memória 💜</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg sm:text-xl font-bold">Robô Nath</h2>
-            <p className="text-xs sm:text-sm text-white/90">Seu assistente de apoio e reflexão</p>
-          </div>
+          <MemoryIndicatorCompact />
         </div>
       </div>
 
@@ -183,11 +169,16 @@ export const ChatPage = () => {
             </div>
             
             <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-2">
-              Olá! Eu sou a Robô Nath 💕
+              Olá! Eu sou a NathIA 💕
             </h3>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6 px-4">
-              Estou aqui para ouvir, apoiar e refletir com você. Como posso ajudar hoje?
+              Estou aqui para ouvir, apoiar e refletir com você. Lembro das nossas conversas anteriores para te dar um apoio ainda mais personalizado. Como posso ajudar hoje?
             </p>
+            
+            {/* Memory Indicator */}
+            <div className="mb-6 px-4">
+              <MemoryIndicator compact={true} />
+            </div>
             
             {/* Quick Suggestions Mobile-First */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-2xl mx-auto px-4">
