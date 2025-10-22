@@ -1,17 +1,31 @@
 {
-  "name": "ClubNath - Comunidade de Mães",
-  "short_name": "ClubNath",
-  "description": "Comunidade de mães - Seu espaço de conexão e fé",
+  "name": "ClubNath VIP - Nathália Valente",
+  "short_name": "ClubNath VIP",
+  "description": "Comunidade exclusiva da Nathália Valente - IA personalizada, produtos NAVA e conteúdo premium",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#FFF9F5",
-  "theme_color": "#FF6B6B",
+  "theme_color": "#EC4899",
   "orientation": "portrait-primary",
-  "categories": ["lifestyle", "social"],
+  "categories": ["lifestyle", "social", "productivity"],
   "prefer_related_applications": false,
   "dir": "ltr",
   "lang": "pt-BR",
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/desktop-1.png", 
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",

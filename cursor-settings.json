@@ -1,14 +1,34 @@
 {
+  // === AUTO-ACCEPT AGRESSIVO CURSOR ===
   "claude": {
     "autoAcceptChanges": true,
     "autoApplyEdits": true,
     "autoInstallDependencies": true,
-    "showWelcomeMessage": false
+    "showWelcomeMessage": false,
+    "skipConfirmation": true,
+    "autoAccept": "always",
+    "autoAcceptDelay": 100,
+    "confirmBeforeAccept": false,
+    "autoAcceptThreshold": 0.3
   },
   "editor": {
     "autoSave": "afterDelay",
-    "autoSaveDelay": 500,
-    "formatOnSave": true
+    "autoSaveDelay": 100,
+    "formatOnSave": true,
+    "formatOnPaste": true,
+    "formatOnType": true,
+    "quickSuggestionsDelay": 0,
+    "suggestOnTriggerCharacters": true,
+    "suggestSelection": "first",
+    "acceptSuggestionOnCommitCharacter": true,
+    "acceptSuggestionOnEnter": "on"
+  },
+  "cursor": {
+    "autoAccept": "always",
+    "autoAcceptDelay": 100,
+    "confirmBeforeAccept": false,
+    "autoAcceptThreshold": 0.3,
+    "inlineSuggest.mode": "automatic"
   }
 }
 

@@ -3,8 +3,8 @@
  * Provides offline support, caching, and push notifications
  */
 
-const CACHE_NAME = 'clubnath-v1';
-const RUNTIME_CACHE = 'clubnath-runtime-v1';
+const CACHE_NAME = 'clubnath-vip-v2';
+const RUNTIME_CACHE = 'clubnath-runtime-vip-v2';
 
 // Assets to cache on install
 const STATIC_ASSETS = [
