@@ -12,15 +12,23 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
   const { profile, signOut } = useAuth();
 
   return (
-    <header className="glass sticky top-0 z-50 backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 safe-area-inset">
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-claude-gray-900/80 backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 safe-area-inset shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <HeaderLogo className="hover:scale-110 transition-transform duration-300" />
-            <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
-              ClubNath
-            </h1>
+            <div className="relative">
+              <HeaderLogo className="hover:scale-110 transition-transform duration-300" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full animate-pulse"></div>
+            </div>
+            <div>
+              <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
+                ClubNath
+              </h1>
+              <p className="text-xs text-claude-gray-500 dark:text-claude-gray-400 hidden sm:block">
+                Comunidade VIP
+              </p>
+            </div>
           </div>
 
           {/* Actions */}

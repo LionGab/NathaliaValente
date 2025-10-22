@@ -116,25 +116,53 @@ export const FeedPage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 py-4 pb-24 mobile-padding">
-      <Button
-        onClick={handleCreatePost}
-        className="w-full mb-6 sm:mb-8"
-        size="lg"
-        leftIcon={<Plus className="w-5 h-5" />}
-      >
-        Compartilhar sua jornada
-      </Button>
+      {/* Hero Section Premium */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 p-6 mb-6 text-white">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                <Crown className="w-4 h-4 text-yellow-300" />
+              </div>
+              <span className="text-sm font-semibold">ClubNath VIP</span>
+            </div>
+            <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full">
+              <Sparkles className="w-3 h-3" />
+              <span className="text-xs">Exclusivo</span>
+            </div>
+          </div>
+          <h2 className="text-xl font-bold mb-2">Bem-vinda à sua comunidade</h2>
+          <p className="text-sm opacity-90 mb-4">Conecte-se com outras mães e compartilhe sua jornada</p>
+          <Button
+            onClick={handleCreatePost}
+            className="bg-white text-purple-600 hover:bg-white/90 font-semibold"
+            size="sm"
+            leftIcon={<Plus className="w-4 h-4" />}
+          >
+            Compartilhar agora
+          </Button>
+        </div>
+        <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+        <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl"></div>
+      </div>
 
       {/* Premium Features Banner */}
       <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
 
-      {/* Community Logo Section */}
-      <div className="flex justify-center mb-6">
-        <div className="text-center">
-          <CommunityLogo className="mx-auto mb-2" />
-          <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-            Comunidade VIP da Nathália Valente
-          </p>
+      {/* Community Stats */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
+          <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
+          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Mães ativas</div>
+        </div>
+        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
+          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">15K</div>
+          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Posts hoje</div>
+        </div>
+        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
+          <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">98%</div>
+          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Satisfação</div>
         </div>
       </div>
 
@@ -142,7 +170,9 @@ export const FeedPage = () => {
         {posts.map((post, index) => (
           <article
             key={post.id}
-            className="card overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
+            className="group bg-white dark:bg-claude-gray-800 rounded-3xl shadow-sm border border-claude-gray-200/50 dark:border-claude-gray-700/50 overflow-hidden hover:shadow-xl hover:scale-[1.02] transition-all duration-300 animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+            ref={index === posts.length - 1 ? lastPostRef : null}
           >
             <div className="p-4 sm:p-6">
               <div className="flex items-start justify-between mb-4 sm:mb-5">

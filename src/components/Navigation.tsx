@@ -16,7 +16,7 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 glass backdrop-blur-xl border-t border-claude-gray-200/50 dark:border-claude-gray-800/50 z-50 transition-colors duration-300 safe-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-claude-gray-900/90 backdrop-blur-xl border-t border-claude-gray-200/50 dark:border-claude-gray-800/50 z-50 transition-colors duration-300 safe-bottom shadow-lg">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="flex justify-around items-center h-16 sm:h-20">
           {navItems.map((item) => {

@@ -38,7 +38,7 @@ export const PremiumFeatures = ({ onUpgrade }: PremiumFeaturesProps) => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-6 mb-6 border border-pink-200/50 dark:border-pink-800/50">
+    <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-3xl p-6 mb-6 border border-pink-200/50 dark:border-pink-800/50 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
