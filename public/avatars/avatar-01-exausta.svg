@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Avatar de mãe exausta">
+  <title>Avatar representando mãe em estado de exaustão</title>
+  
+  <!-- Face background circle -->
+  <circle cx="100" cy="100" r="90" fill="#F0C7A4"/>
+  
+  <!-- Hair - Messy bun -->
+  <path d="M 60 50 Q 70 30 80 40 Q 90 35 100 45 Q 110 35 120 40 Q 130 30 140 50 Q 135 60 130 55 Q 120 65 110 60 Q 100 70 90 60 Q 80 65 70 55 Q 65 60 60 50 Z" fill="#6F4E37"/>
+  
+  <!-- Eye bags -->
+  <ellipse cx="70" cy="95" rx="12" ry="6" fill="#D8BFD8" opacity="0.7"/>
+  <ellipse cx="130" cy="95" rx="12" ry="6" fill="#D8BFD8" opacity="0.7"/>
+  
+  <!-- Eyes - Half closed (tired) -->
+  <ellipse cx="70" cy="90" rx="8" ry="6" fill="#2C3E50"/>
+  <ellipse cx="130" cy="90" rx="8" ry="6" fill="#2C3E50"/>
+  
+  <!-- Eye highlights -->
+  <ellipse cx="72" cy="88" rx="2" ry="2" fill="#FFFFFF" opacity="0.8"/>
+  <ellipse cx="132" cy="88" rx="2" ry="2" fill="#FFFFFF" opacity="0.8"/>
+  
+  <!-- Eyebrows - slightly raised -->
+  <path d="M 60 80 Q 70 75 80 80" stroke="#6F4E37" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 120 80 Q 130 75 140 80" stroke="#6F4E37" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <ellipse cx="100" cy="105" rx="3" ry="4" fill="#E6B89C"/>
+  
+  <!-- Mouth - slightly open (sighing) -->
+  <ellipse cx="100" cy="125" rx="8" ry="4" fill="#8B4513"/>
+  
+  <!-- Sweat drop on forehead -->
+  <ellipse cx="100" cy="65" rx="3" ry="6" fill="#87CEEB" opacity="0.8"/>
+  <circle cx="100" cy="71" r="2" fill="#87CEEB"/>
+</svg>

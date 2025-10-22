@@ -18,7 +18,9 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "optimize-avatars": "node scripts/optimize-avatars.js",
+    "prebuild": "npm run optimize-avatars"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.76.0",

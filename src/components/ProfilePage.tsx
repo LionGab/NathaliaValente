@@ -3,13 +3,15 @@ import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts } from '../hooks';
 import { getCategoryColor } from '../constants/colors';
-import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar } from 'lucide-react';
+import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette } from 'lucide-react';
 import { useMockData } from '../hooks/useMockData';
+import { Avatar, AvatarType } from './ui/Avatar';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'posts' | 'saved'>('posts');
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
+  const [userAvatar, setUserAvatar] = useState<AvatarType>('radiante');
   const { profile, user } = useAuth();
 
   // Use mock data for better experience
@@ -66,17 +68,28 @@ export const ProfilePage = () => {
       <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
         {/* Profile Info */}
         <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
-          {profile?.avatar_url ? (
-            <img
-              src={profile.avatar_url}
-              alt={profile.full_name}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover ring-4 ring-white dark:ring-gray-700 shadow-lg"
+          <div className="relative">
+            <Avatar
+              type={userAvatar}
+              size="lg"
+              onClick={() => {
+                // TODO: Open avatar selector modal
+                console.log('Open avatar selector');
+              }}
+              className="ring-4 ring-white dark:ring-gray-700 shadow-lg"
+              aria-label={`Avatar de ${profile?.full_name || 'usuário'}`}
             />
-          ) : (
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white text-lg sm:text-2xl font-bold shadow-lg">
-              {profile?.full_name.charAt(0)}
-            </div>
-          )}
+            <button
+              onClick={() => {
+                // TODO: Open avatar selector modal
+                console.log('Open avatar selector');
+              }}
+              className="absolute -bottom-1 -right-1 w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center shadow-lg hover:bg-pink-600 transition-colors"
+              aria-label="Alterar avatar"
+            >
+              <Palette className="w-3 h-3 text-white" />
+            </button>
+          </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <h2 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
