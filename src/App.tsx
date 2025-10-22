@@ -68,20 +68,9 @@ function AppContent() {
   }
 
   if (!user && !mockUser) {
-    // Auto-login for testing with mock data
-    const testUser = {
-      id: '2',
-      full_name: 'Maria Silva',
-      email: 'maria@teste.com',
-      avatar_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
-      bio: 'Mãe de 2 filhos, empreendedora e apaixonada por finanças pessoais. Aprendendo com a Nath todos os dias! 💕',
-      followers_count: 1250,
-      following_count: 890,
-      posts_count: 45,
-      verified: false
-    };
-    setMockUser(testUser);
-    return null; // Will re-render with mockUser
+    // Show Instagram Auth for real authentication
+    setShowInstagramAuth(true);
+    return null;
   }
 
   const renderPage = () => {

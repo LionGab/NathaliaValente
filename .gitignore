@@ -29,5 +29,5 @@ claude_desktop_config.json
 *.key
 *.pem
 
-# Voxelize repository (not needed for ClubNath)
-voxelize/
+# Voxelize repository (removed - not needed for ClubNath)
+# voxelize/ - REMOVED
