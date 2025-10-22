@@ -12,6 +12,7 @@ import { Button } from './ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
 import { formatNumber, formatDate } from '../lib/utils';
 import { CommunityLogo } from './ui/Logo';
+import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
 const CreatePostModal = lazy(() => import('./CreatePostModal').then(module => ({ default: module.CreatePostModal })));

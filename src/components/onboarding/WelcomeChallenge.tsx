@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Star, Heart, BookOpen, Target, Sparkles } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 interface WelcomeChallengeProps {
   onComplete: () => void;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Eye, EyeOff, Users, UserX, Lock, Download, Trash2, Save } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 
 interface PrivacySettings {
   default_post_visibility: 'public' | 'followers_only' | 'private';

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, Calendar, User, Heart, MessageCircle, X } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import type { Post, Profile } from '@/lib/supabase';
+import { useState, useEffect } from 'react';
+import { Search, Heart, MessageCircle, X } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import type { Post } from '../lib/supabase';
 
 interface AdvancedSearchProps {
   onClose: () => void;

@@ -1,20 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Send, Sparkles, Copy, ThumbsUp, ThumbsDown, RotateCcw, Lightbulb, Heart, Bot, User, Mic, Paperclip, Brain } from 'lucide-react';
-import { useMockData } from '../hooks/useMockData';
+import { Send, Sparkles, Copy, ThumbsUp, RotateCcw, Lightbulb, Mic, Paperclip } from 'lucide-react';
 import { MemoryIndicator, MemoryIndicatorCompact } from './chat/MemoryIndicator';
 import { generateNathIAResponse } from '../services/chat-history.service';
 import { generateNathIAStudyResponse } from '../services/bible-studies.service';
-import { useQuery } from '@tanstack/react-query';
-import { chatHistoryService } from '../services/chat-history.service';
 import { NathLogo } from './ui/Logo';
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [typing, setTyping] = useState(false);
   const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -166,7 +162,7 @@ export const ChatPage = () => {
       <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-4 sm:p-6 rounded-t-2xl sm:rounded-t-3xl text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <NathLogo size="md" className="hover:scale-110 transition-transform duration-300" />
+            <NathLogo className="hover:scale-110 transition-transform duration-300" />
             <div>
               <h2 className="text-lg sm:text-xl font-bold">NathIA</h2>
               <p className="text-xs sm:text-sm text-white/90">Seu assistente com memória 💜</p>

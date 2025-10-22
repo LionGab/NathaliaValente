@@ -74,10 +74,10 @@ export const HeaderLogo: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 // Componente específico para a Nath
-export const NathLogo: React.FC<{ className?: string }> = ({ className }) => (
+export const NathLogo: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({ className, size = 'lg' }) => (
   <Logo 
     type="nath" 
-    size="lg" 
+    size={size} 
     className={cn('hover:scale-110 transition-transform duration-300', className)} 
   />
 );
