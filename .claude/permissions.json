@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Write(./production/**)",
+      "Write(./package.json)",
+      "Bash(git push origin main)",
+      "Bash(npm publish)"
+    ],
+    "allow": [
+      "Read(./src/**)",
+      "Write(./src/**)",
+      "Read(./tests/**)",
+      "Write(./tests/**)",
+      "Read(./public/**)",
+      "Write(./public/**)",
+      "Read(./.cursorrules)",
+      "Read(./CLAUDE.md)",
+      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(npm run type-check)"
+    ],
+    "ask": [
+      "Write(./package.json)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Write(./app.json)",
+      "Write(./vite.config.ts)",
+      "Write(./tailwind.config.js)"
+    ]
+  }
+}

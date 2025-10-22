@@ -1,183 +1,103 @@
-# ClubNath - Comunidade de Mães
-# React 18 + TypeScript + Vite + Supabase + Tailwind CSS
+# ClubNath VIP - React Native + Expo + Supabase + TypeScript
 
-## 🎯 Contexto do Projeto
-- **App**: ClubNath - Comunidade de mães brasileiras
-- **Influenciadora**: Nathalia Arcuri (29M seguidores)
-- **Stack**: React 18, TypeScript, Vite, Supabase, Tailwind CSS
-- **Deploy**: Netlify (clubnath.netlify.app)
-- **PWA**: Progressive Web App com Service Worker
+## 🎯 CONTEXTO DO PROJETO
+- **App**: ClubNath VIP - Comunidade exclusiva da Nathália Valente
+- **Influenciadora**: 35M seguidores, CEO NAVA, R$3-4M receita anual
+- **Estratégia**: Monetização passiva via licenciamento de imagem
+- **Target**: Mães, zero fricção de download (PWA), experiência premium
 
-## 📁 Estrutura de Pastas
-```
+## Stack Tecnológica
+- React Native 0.74+ / Expo SDK 51+
+- TypeScript (strict mode)
+- Supabase (auth, database, realtime, storage)
+- React Query (TanStack Query) para data fetching
+- NativeWind para styling
+- React Navigation 6.x
+- React Hook Form + Zod para validação
+- PWA (Progressive Web App) para zero fricção
+
+## Estrutura de Pastas
 src/
-├── components/          # Componentes React
-│   ├── onboarding/     # Fluxo de onboarding
-│   ├── ui/            # Componentes base (Button, Avatar, etc)
-│   └── *.tsx          # Páginas principais
-├── contexts/          # React Context (Auth, Theme, Query)
-├── hooks/             # Custom hooks
-├── services/          # Integrações (Supabase, APIs)
-├── types/             # TypeScript types
-├── utils/             # Utilitários
-├── constants/         # Constantes (cores, categorias)
-└── lib/              # Configurações (Supabase client)
-```
+├── api/           # React Query hooks
+├── components/ui/ # Design system components
+├── features/      # Feature-based modules
+├── lib/supabase/  # Supabase client e helpers
+├── navigation/    # Navigation config
+├── types/         # TypeScript types
+└── utils/         # Utility functions
 
-## 🚨 Regras CRÍTICAS
-- **NÃO criar** pastas duplicadas
-- **NÃO criar** arquivos .md no src/
-- **NÃO criar** componentes em pastas erradas
-- **SEMPRE usar** TypeScript com tipos explícitos
-- **SEMPRE seguir** convenção camelCase para arquivos
+## Regras CRÍTICAS (nunca viole)
 
-## 🎨 Convenções de Código
+### ANTES de criar QUALQUER arquivo novo
+1. SEMPRE busque arquivos similares em @components/, @hooks/, @services/
+2. Se encontrar código similar, REUTILIZE ou ESTENDA ao invés de duplicar
+3. NUNCA crie arquivos com nomes: Component2, utils-new, service-copy
+4. PERGUNTE se devo reutilizar código existente ou criar novo
 
-### Componentes
-- **Arquivo**: PascalCase (ex: `FeedPage.tsx`)
-- **Export**: Named export (ex: `export const FeedPage`)
-- **Props**: Interface com sufixo Props (ex: `FeedPageProps`)
-- **Hooks**: Sempre no topo do componente
+### Convenções de Código
+- Componentes funcionais com hooks (zero classes)
+- TypeScript strict, sem 'any'
+- Imports absolutos: @/components não ../../../
+- camelCase para funções/variáveis
+- PascalCase para componentes
+- Indentação: 2 espaços
+- Sempre use StyleSheet.create() para estilos
 
-### Services
-- **Arquivo**: camelCase (ex: `posts.service.ts`)
-- **Export**: Named export (ex: `export const postsService`)
-- **Tipos**: Sempre tipar retorno de funções
-- **Error handling**: Usar try/catch ou throw Error
+### React Native Específico
+- SafeAreaView para compatibilidade iOS
+- Platform.OS para código específico de plataforma
+- KeyboardAvoidingView para formulários
+- FlatList com windowSize otimizado para listas longas
+- Testes em iOS E Android obrigatórios
 
-### Hooks
-- **Arquivo**: camelCase com prefixo use (ex: `usePosts.ts`)
-- **Export**: Named export (ex: `export const usePosts`)
-- **React Query**: Usar para cache e mutations
-- **Dependencies**: Sempre no array de dependências
+### Supabase Patterns
+- Sempre use React Query para queries do Supabase
+- Políticas RLS documentadas em cada query
+- Erro handling consistente com try/catch
+- Auth state gerenciado por Context
+- AsyncStorage para session persistence
 
-## 🔧 Integração Supabase
+### Prevenção de Duplicatas
+- Antes de criar hook, verificar @hooks/
+- Antes de criar service, verificar @lib/supabase/
+- Antes de criar componente UI, verificar @components/ui/
+- Se similar existe, PARE e pergunte antes de criar novo
 
-### Cliente
-- **Configuração**: `src/lib/supabase.ts`
-- **Tipos**: Definidos no mesmo arquivo
-- **Environment**: Usar variáveis VITE_SUPABASE_*
+### Git Workflow
+- Branches: feature/TASK-123-descricao
+- Commits: [TASK-123] Descrição clara
+- SEMPRE rodar testes antes de commit
+- NUNCA commit com console.log em produção
 
-### Queries
-- **Hooks**: `src/hooks/useQueries.ts`
-- **Cache**: React Query com staleTime 5min
-- **Optimistic updates**: Para likes, comments
-- **Error handling**: Retry automático
+### Qualidade Obrigatória
+- Zero warnings do ESLint
+- Zero erros do TypeScript
+- Cobertura mínima de testes: 80%
+- Componentes novos = testes novos
+- Error boundaries em todas as screens
 
-### Migrations
-- **Localização**: `supabase/migrations/`
-- **Ordem**: Executar em sequência
-- **RLS**: Sempre habilitado
+## O que NÃO fazer
 
-## 🎨 Estilo e UI
+❌ Adicionar elementos de UI não solicitados
+❌ Modificar áreas de layout não mencionadas
+❌ Criar soluções complexas quando simples funciona
+❌ Duplicar código existente
+❌ Usar 'any' no TypeScript
+❌ Pular tratamento de erros
+❌ Esquecer acessibilidade (labels, roles)
+❌ Commitar código com placeholders/TODOs
 
-### Tailwind CSS
-- **Mobile-first**: Sempre usar breakpoints progressivos
-- **Classes**: Utility-first, evitar CSS customizado
-- **Cores**: Usar design system (claude-orange-500, etc)
-- **Responsive**: sm:, md:, lg: para breakpoints
+## Comandos de Desenvolvimento
+npm start              # Inicia Expo dev server
+npm run ios            # iOS simulator
+npm run android        # Android emulator
+npm test               # Roda testes
+npm run lint           # ESLint
+npm run type-check     # TypeScript check
 
-### Componentes UI
-- **Base**: `src/components/ui/`
-- **Variants**: Usar class-variance-authority
-- **Accessibility**: Sempre incluir aria-labels
-- **Touch targets**: Mínimo 44px
-
-## 📱 PWA Features
-- **Service Worker**: Configurado no vite.config.ts
-- **Manifest**: `public/manifest.json`
-- **Icons**: `public/icons/`
-- **Offline**: Cache strategies configuradas
-
-## 🚀 Performance
-- **Lazy loading**: Componentes pesados com React.lazy
-- **Code splitting**: Manual chunks no vite.config.ts
-- **Compression**: Gzip + Brotli habilitados
-- **Bundle size**: Target <200KB gzipped
-
-## 🧪 Testes
-- **Framework**: Vitest + Testing Library
-- **Coverage**: Mínimo 70%
-- **Estrutura**: `src/**/__tests__/`
-- **Mock**: Supabase client mockado
-
-## 🔐 Segurança
-- **RLS**: Row Level Security em todas as tabelas
-- **Validation**: Sempre validar input do usuário
-- **Environment**: Nunca commitar .env
-- **API Keys**: Usar placeholders em exemplos
-
-## 📊 Monetização
-- **Estratégia**: Freemium vs Premium (R$39/mês)
-- **Onboarding**: Conversion-optimized
-- **Instagram Auth**: Mock para demonstração
-- **Banners**: Smart timing baseado em comportamento
-
-## 🎯 Features Principais
-- **Feed**: Posts com likes, comments, shares
-- **Chat**: IA com emotional intelligence
-- **Grupos**: Sistema completo de grupos temáticos
-- **Orações**: Sistema de prayers
-- **Journaling**: Diário pessoal
-- **Badges**: Gamificação
-
-## 🚨 Problemas Conhecidos
-- **Supabase**: Chave anon precisa ser configurada
-- **Instagram API**: Usando mock (não configurado)
-- **TypeScript**: Alguns erros de tipos em componentes antigos
-- **Build**: Funciona localmente, deploy no Netlify
-
-## 📝 Comandos Úteis
-```bash
-# Desenvolvimento
-npm run dev
-
-# Build
-npm run build
-
-# Testes
-npm run test
-
-# Type check
-npm run typecheck
-
-# Deploy
-git push origin main
-```
-
-## 🎨 Design System
-- **Cores primárias**: claude-orange-500, claude-pink-500
-- **Cores neutras**: claude-gray-*, claude-cream-*
-- **Gradientes**: from-pink-500 to-purple-600
-- **Sombras**: shadow-claude-sm, shadow-claude-md
-- **Bordas**: rounded-2xl, rounded-3xl
-- **Espaçamento**: 4, 6, 8, 12, 16, 24px
-
-## 🔄 Estado Global
-- **Auth**: AuthContext (user, profile, loading)
-- **Theme**: ThemeContext (dark/light mode)
-- **Query**: QueryProvider (React Query)
-- **Local**: useState para estado de componente
-
-## 📱 Mobile-First
-- **Safe area**: safe-area-inset classes
-- **Touch targets**: touch-target class (44px min)
-- **Overscroll**: overscroll-none
-- **Responsive**: mobile-padding, mobile-text-sm
-
-## 🎯 Objetivos do Projeto
-- **Meta**: 1.000 assinantes (R$ 39.000/mês)
-- **Estratégia**: Soft launch → Lançamento oficial → Escala
-- **Conversão**: Instagram login → Onboarding → Premium
-- **Engajamento**: Feed social + IA + Grupos + Orações
-
-## 🚀 Próximos Passos
-1. Configurar Supabase (chave real)
-2. Implementar Instagram API real
-3. Aumentar cobertura de testes
-4. Implementar E2E tests
-5. Otimizar performance
-
----
-
-**Lembre-se**: Este é um projeto de monetização para influenciadora. Foque em conversão, UX mobile e performance!
+## Antes de Responder
+1. Analise código existente em @Codebase
+2. Verifique se funcionalidade já existe
+3. Identifique padrões estabelecidos no projeto
+4. Proponha solução que segue os padrões
+5. Mencione se está reutilizando ou criando código novo
