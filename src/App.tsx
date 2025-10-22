@@ -30,19 +30,17 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState('feed');
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
-  const [showInstagramAuth, setShowInstagramAuth] = useState(false);
+  const [showInstagramAuth, setShowInstagramAuth] = useState(!user && !loading);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [mockUser, setMockUser] = useState<any>(null);
 
   // Show Instagram Auth if no user
   if (showInstagramAuth) {
     return (
-      <InstagramAuth 
-        onSuccess={(user) => {
-          setMockUser(user);
+      <InstagramAuth
+        onSuccess={() => {
           setShowInstagramAuth(false);
           setShowOnboarding(true);
-        }} 
+        }}
       />
     );
   }
@@ -50,7 +48,7 @@ function AppContent() {
   // Show Conversion Onboarding after Instagram login
   if (showOnboarding) {
     return (
-      <ConversionOnboarding 
+      <ConversionOnboarding
         onComplete={() => {
           setShowOnboarding(false);
           // User is now "logged in" to the app
@@ -67,10 +65,16 @@ function AppContent() {
     return <LoadingScreen message="Carregando sua experiência..." />;
   }
 
-  if (!user && !mockUser) {
+  if (!user) {
     // Show Instagram Auth for real authentication
-    setShowInstagramAuth(true);
-    return null;
+    return (
+      <InstagramAuth
+        onSuccess={() => {
+          setShowInstagramAuth(false);
+          setShowOnboarding(true);
+        }}
+      />
+    );
   }
 
   const renderPage = () => {
