@@ -25,17 +25,34 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
 
           {/* Actions */}
           <div className="flex items-center gap-1 sm:gap-2">
+            {/* Premium Badge */}
+            <div className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+              <Crown className="w-3 h-3" />
+              <span>VIP</span>
+            </div>
+
+            {/* Notifications */}
+            <button className="relative p-2 sm:p-2.5 rounded-xl sm:rounded-2xl hover:bg-claude-gray-100/60 dark:hover:bg-claude-gray-800/60 transition-all duration-200 touch-target">
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-claude-gray-600 dark:text-claude-gray-400" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-pink-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">3</span>
+              </div>
+            </button>
+
             {/* Profile Button */}
             <button
               onClick={onProfileClick}
               className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl hover:bg-claude-gray-100/60 dark:hover:bg-claude-gray-800/60 transition-all duration-200 touch-target"
             >
               {profile?.avatar_url ? (
-                <img
-                  src={profile.avatar_url}
-                  alt={profile.full_name}
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-2 ring-pink-200/50 dark:ring-pink-500/30"
-                />
+                <div className="relative">
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.full_name}
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-2 ring-pink-200/50 dark:ring-pink-500/30"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
+                </div>
               ) : (
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg">
                   <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />

@@ -1,0 +1,9 @@
+{
+  "autoAcceptChanges": true,
+  "autoApplyEdits": true,
+  "autoInstallDependencies": true,
+  "showWelcomeMessage": false,
+  "skipConfirmation": true,
+  "autoSave": true,
+  "formatOnSave": true
+}

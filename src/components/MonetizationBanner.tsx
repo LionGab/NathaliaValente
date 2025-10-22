@@ -25,9 +25,9 @@ export const MonetizationBanner = ({
       case 'premium':
         return {
           icon: <Crown className="w-6 h-6 text-yellow-500" />,
-          title: "🌸 Club Nath Premium",
-          subtitle: "Conteúdo exclusivo da Nath",
-          features: ["Lives privadas", "Grupo VIP", "Conteúdo antecipado"],
+          title: "👑 ClubNath VIP",
+          subtitle: "Acesso exclusivo à Nathália Valente",
+          features: ["Produtos NAVA antecipados", "Comunidade VIP", "IA Nath personalizada"],
           cta: "Assinar por R$ 39/mês",
           gradient: "from-pink-500 to-purple-600"
         };

@@ -7,6 +7,7 @@ import { useMonetization } from './hooks/useMonetization';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PWANotifications } from './components/PWANotifications';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { PerformanceDebug } from './components/PerformanceDebug';
 import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
@@ -147,6 +148,7 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300 safe-area-inset">
       <PWANotifications />
+      <PWAInstallPrompt />
       <Header onProfileClick={() => setCurrentPage('profile')} />
       <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />

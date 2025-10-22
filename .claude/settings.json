@@ -41,8 +41,11 @@
   "preferences": {
     "autoInstallDependencies": true,
     "checkToolsOnStartup": true,
-    "showWelcomeMessage": true,
+    "showWelcomeMessage": false,
     "autoAcceptChanges": true,
-    "autoApplyEdits": true
+    "autoApplyEdits": true,
+    "skipConfirmation": true,
+    "autoSave": true,
+    "formatOnSave": true
   }
 }
