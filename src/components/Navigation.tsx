@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Search, Sparkles, User } from 'lucide-react';
+import { Home, MessageCircle, Search, Sparkles, User, Users } from 'lucide-react';
 
 type NavigationProps = {
   currentPage: string;
@@ -8,6 +8,7 @@ type NavigationProps = {
 export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   const navItems = [
     { id: 'feed', label: 'Feed', icon: Home },
+    { id: 'groups', label: 'Grupos', icon: Users },
     { id: 'chat', label: 'Chat', icon: MessageCircle },
     { id: 'search', label: 'Buscar', icon: Search },
     { id: 'daily', label: 'Frase', icon: Sparkles },

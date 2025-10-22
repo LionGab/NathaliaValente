@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
 import { useMonetization } from './hooks/useMonetization';
-import { AuthPage } from './components/AuthPage';
+// import { AuthPage } from './components/AuthPage';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PWANotifications } from './components/PWANotifications';
@@ -22,14 +22,17 @@ const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ de
 const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
 const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
+const GroupsList = lazy(() => import('./components/groups/GroupsList').then(module => ({ default: module.GroupsList })));
+const GroupDetail = lazy(() => import('./components/groups/GroupDetail').then(module => ({ default: module.GroupDetail })));
 
 function AppContent() {
   const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
+  const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [showInstagramAuth, setShowInstagramAuth] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [mockUser, setMockUser] = useState(null);
+  const [mockUser, setMockUser] = useState<any>(null);
 
   // Show Instagram Auth if no user
   if (showInstagramAuth) {
@@ -122,6 +125,21 @@ function AppContent() {
         return (
           <Suspense fallback={<LoadingSpinner />}>
             <ProfilePage />
+          </Suspense>
+        );
+      case 'groups':
+        return selectedGroup ? (
+          <Suspense fallback={<LoadingSpinner />}>
+            <GroupDetail 
+              groupId={selectedGroup.id} 
+              onBack={() => setSelectedGroup(null)}
+            />
+          </Suspense>
+        ) : (
+          <Suspense fallback={<LoadingSpinner />}>
+            <GroupsList 
+              onGroupSelect={setSelectedGroup}
+            />
           </Suspense>
         );
       default:
