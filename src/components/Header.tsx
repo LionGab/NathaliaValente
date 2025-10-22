@@ -2,6 +2,7 @@ import { Heart, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
+import { HeaderLogo } from './ui/Logo';
 
 type HeaderProps = {
   onProfileClick: () => void;
@@ -16,9 +17,7 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="bg-gradient-to-br from-pink-500 to-purple-600 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-lg">
-              <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-white" />
-            </div>
+            <HeaderLogo className="hover:scale-110 transition-transform duration-300" />
             <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
               ClubNath
             </h1>

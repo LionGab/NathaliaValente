@@ -11,6 +11,7 @@ import { useMockData } from '../hooks/useMockData';
 import { Button } from './ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
 import { formatNumber, formatDate } from '../lib/utils';
+import { CommunityLogo } from './ui/Logo';
 
 // Lazy load the CreatePostModal since it's only shown when needed
 const CreatePostModal = lazy(() => import('./CreatePostModal').then(module => ({ default: module.CreatePostModal })));
@@ -121,6 +122,16 @@ export const FeedPage = () => {
       >
         Compartilhar sua jornada
       </Button>
+
+      {/* Community Logo Section */}
+      <div className="flex justify-center mb-6">
+        <div className="text-center">
+          <CommunityLogo className="mx-auto mb-2" />
+          <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+            Comunidade de Mães ClubNath
+          </p>
+        </div>
+      </div>
 
       <div className="space-y-6">
         {posts.map((post, index) => (

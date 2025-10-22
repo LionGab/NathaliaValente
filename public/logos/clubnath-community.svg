@@ -1,0 +1,97 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#F5E6D3" stroke="#E8D5C4" stroke-width="2"/>
+  
+  <!-- Mother -->
+  <g id="mother">
+    <!-- Hair -->
+    <path d="M 60 45 Q 50 35 60 25 Q 70 20 80 25 Q 90 30 100 35 Q 110 30 120 25 Q 130 20 140 25 Q 150 35 140 45 Q 130 55 120 50 Q 110 45 100 50 Q 90 45 80 50 Q 70 55 60 45" 
+          fill="#8B4513" stroke="#654321" stroke-width="1"/>
+    
+    <!-- Face -->
+    <circle cx="100" cy="65" r="18" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    
+    <!-- Eyes -->
+    <circle cx="95" cy="60" r="2" fill="#2C1810"/>
+    <circle cx="105" cy="60" r="2" fill="#2C1810"/>
+    
+    <!-- Eyebrows -->
+    <path d="M 90 55 Q 95 52 100 55" stroke="#8B4513" stroke-width="2" fill="none"/>
+    <path d="M 100 55 Q 105 52 110 55" stroke="#8B4513" stroke-width="2" fill="none"/>
+    
+    <!-- Smile -->
+    <path d="M 90 70 Q 100 75 110 70" stroke="#E8A598" stroke-width="2" fill="none"/>
+    
+    <!-- Body -->
+    <rect x="85" y="83" width="30" height="40" rx="5" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+    
+    <!-- Arms -->
+    <ellipse cx="75" cy="100" rx="8" ry="20" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    <ellipse cx="125" cy="100" rx="8" ry="20" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    
+    <!-- Rose tattoos -->
+    <g id="rose-tattoo-1">
+      <circle cx="70" cy="95" r="3" fill="none" stroke="#D4AF37" stroke-width="1"/>
+      <path d="M 70 92 Q 68 90 66 92 Q 68 94 70 92" fill="#D4AF37"/>
+      <path d="M 70 92 Q 72 90 74 92 Q 72 94 70 92" fill="#D4AF37"/>
+    </g>
+    
+    <g id="rose-tattoo-2">
+      <circle cx="130" cy="95" r="3" fill="none" stroke="#D4AF37" stroke-width="1"/>
+      <path d="M 130 92 Q 128 90 126 92 Q 128 94 130 92" fill="#D4AF37"/>
+      <path d="M 130 92 Q 132 90 134 92 Q 132 94 130 92" fill="#D4AF37"/>
+    </g>
+  </g>
+  
+  <!-- Baby -->
+  <g id="baby">
+    <!-- Baby body -->
+    <ellipse cx="100" cy="140" rx="15" ry="20" fill="#E6F3FF" stroke="#B3D9FF" stroke-width="1"/>
+    
+    <!-- Baby head -->
+    <circle cx="100" cy="115" r="12" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    
+    <!-- Baby hair -->
+    <path d="M 88 105 Q 85 100 88 95 Q 95 90 100 95 Q 105 90 112 95 Q 115 100 112 105 Q 105 110 100 105 Q 95 110 88 105" 
+          fill="#8B4513" stroke="#654321" stroke-width="1"/>
+    
+    <!-- Baby eyes (closed - sleeping) -->
+    <path d="M 95 110 Q 100 108 105 110" stroke="#8B4513" stroke-width="1" fill="none"/>
+    <path d="M 95 112 Q 100 110 105 112" stroke="#8B4513" stroke-width="1" fill="none"/>
+    
+    <!-- Baby pattern on onesie -->
+    <circle cx="95" cy="135" r="1" fill="#FFB6C1"/>
+    <circle cx="105" cy="135" r="1" fill="#FFB6C1"/>
+    <circle cx="100" cy="145" r="1" fill="#FFB6C1"/>
+  </g>
+  
+  <!-- Dog -->
+  <g id="dog">
+    <!-- Dog body -->
+    <ellipse cx="140" cy="160" rx="20" ry="15" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="1"/>
+    
+    <!-- Dog head -->
+    <circle cx="140" cy="140" r="12" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="1"/>
+    
+    <!-- Dog ears -->
+    <ellipse cx="130" cy="130" rx="4" ry="8" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="1"/>
+    <ellipse cx="150" cy="130" rx="4" ry="8" fill="#F5F5DC" stroke="#E0E0E0" stroke-width="1"/>
+    
+    <!-- Dog eyes -->
+    <circle cx="135" cy="135" r="2" fill="#2C1810"/>
+    <circle cx="145" cy="135" r="2" fill="#2C1810"/>
+    
+    <!-- Dog nose -->
+    <circle cx="140" cy="142" r="1" fill="#2C1810"/>
+    
+    <!-- Dog hoodie -->
+    <rect x="125" y="145" width="30" height="20" rx="3" fill="#4169E1" stroke="#1E3A8A" stroke-width="1"/>
+    <rect x="120" y="150" width="10" height="15" rx="2" fill="#4169E1" stroke="#1E3A8A" stroke-width="1"/>
+    <rect x="150" y="150" width="10" height="15" rx="2" fill="#4169E1" stroke="#1E3A8A" stroke-width="1"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="190" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#FF6B9D">
+    ClubNath
+  </text>
+</svg>

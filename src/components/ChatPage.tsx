@@ -8,6 +8,7 @@ import { generateNathIAResponse } from '../services/chat-history.service';
 import { generateNathIAStudyResponse } from '../services/bible-studies.service';
 import { useQuery } from '@tanstack/react-query';
 import { chatHistoryService } from '../services/chat-history.service';
+import { NathLogo } from './ui/Logo';
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -165,9 +166,7 @@ export const ChatPage = () => {
       <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-4 sm:p-6 rounded-t-2xl sm:rounded-t-3xl text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-white/20 p-2 sm:p-3 rounded-full">
-              <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
-            </div>
+            <NathLogo size="md" className="hover:scale-110 transition-transform duration-300" />
             <div>
               <h2 className="text-lg sm:text-xl font-bold">NathIA</h2>
               <p className="text-xs sm:text-sm text-white/90">Seu assistente com memória 💜</p>
@@ -235,9 +234,7 @@ export const ChatPage = () => {
             >
               {!message.is_user && (
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
-                    <Bot className="w-3 h-3 text-white" />
-                  </div>
+                  <NathLogo size="sm" />
                   <span className="text-xs font-semibold text-pink-500">Robô Nath</span>
                 </div>
               )}

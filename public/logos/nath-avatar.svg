@@ -1,0 +1,84 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#F5E6D3" stroke="#E8D5C4" stroke-width="2"/>
+  
+  <!-- Nath -->
+  <g id="nath">
+    <!-- Hair -->
+    <path d="M 60 45 Q 50 35 60 25 Q 70 20 80 25 Q 90 30 100 35 Q 110 30 120 25 Q 130 20 140 25 Q 150 35 140 45 Q 130 55 120 50 Q 110 45 100 50 Q 90 45 80 50 Q 70 55 60 45" 
+          fill="#8B4513" stroke="#654321" stroke-width="1"/>
+    
+    <!-- Face -->
+    <circle cx="100" cy="70" r="22" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    
+    <!-- Blush -->
+    <circle cx="85" cy="75" r="3" fill="#FFB6C1" opacity="0.6"/>
+    <circle cx="115" cy="75" r="3" fill="#FFB6C1" opacity="0.6"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="92" cy="65" rx="4" ry="6" fill="#2C1810"/>
+    <ellipse cx="108" cy="65" rx="4" ry="6" fill="#2C1810"/>
+    
+    <!-- Eyebrows -->
+    <path d="M 85 58 Q 92 55 99 58" stroke="#8B4513" stroke-width="2" fill="none"/>
+    <path d="M 101 58 Q 108 55 115 58" stroke="#8B4513" stroke-width="2" fill="none"/>
+    
+    <!-- Eyelashes -->
+    <path d="M 88 60 L 90 55" stroke="#2C1810" stroke-width="1"/>
+    <path d="M 92 60 L 94 55" stroke="#2C1810" stroke-width="1"/>
+    <path d="M 104 60 L 106 55" stroke="#2C1810" stroke-width="1"/>
+    <path d="M 108 60 L 110 55" stroke="#2C1810" stroke-width="1"/>
+    
+    <!-- Nose -->
+    <path d="M 100 70 L 98 75 L 100 75 L 102 75 Z" fill="#E8A598"/>
+    
+    <!-- Mouth (big smile) -->
+    <path d="M 85 85 Q 100 95 115 85" stroke="#E8A598" stroke-width="2" fill="none"/>
+    <path d="M 85 85 Q 100 90 115 85" stroke="#E8A598" stroke-width="1" fill="none"/>
+    
+    <!-- Teeth -->
+    <rect x="95" y="85" width="2" height="3" fill="white"/>
+    <rect x="98" y="85" width="2" height="3" fill="white"/>
+    <rect x="101" y="85" width="2" height="3" fill="white"/>
+    <rect x="104" y="85" width="2" height="3" fill="white"/>
+    
+    <!-- Tongue -->
+    <ellipse cx="100" cy="88" rx="3" ry="2" fill="#FFB6C1"/>
+    
+    <!-- Body -->
+    <rect x="80" y="92" width="40" height="50" rx="8" fill="#DC143C" stroke="#B22222" stroke-width="1"/>
+    
+    <!-- Arms -->
+    <ellipse cx="70" cy="110" rx="8" ry="25" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    <ellipse cx="130" cy="110" rx="8" ry="25" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+    
+    <!-- Earring -->
+    <circle cx="125" cy="100" r="4" fill="none" stroke="#FFD700" stroke-width="2"/>
+    <circle cx="125" cy="100" r="2" fill="#FFD700"/>
+    
+    <!-- Choker necklace -->
+    <rect x="85" y="95" width="30" height="3" rx="1" fill="black"/>
+    <circle cx="90" cy="96.5" r="1" fill="white"/>
+    <circle cx="95" cy="96.5" r="1" fill="white"/>
+    <circle cx="100" cy="96.5" r="1" fill="white"/>
+    <circle cx="105" cy="96.5" r="1" fill="white"/>
+    <circle cx="110" cy="96.5" r="1" fill="white"/>
+    
+    <!-- Rose tattoo -->
+    <g id="rose-tattoo">
+      <circle cx="70" cy="105" r="4" fill="none" stroke="#D4AF37" stroke-width="1"/>
+      <path d="M 70 101 Q 67 99 64 101 Q 67 103 70 101" fill="#D4AF37"/>
+      <path d="M 70 101 Q 73 99 76 101 Q 73 103 70 101" fill="#D4AF37"/>
+      <path d="M 70 101 Q 68 98 70 95 Q 72 98 70 101" fill="#D4AF37"/>
+      <path d="M 70 101 Q 68 104 70 107 Q 72 104 70 101" fill="#D4AF37"/>
+    </g>
+    
+    <!-- Mole -->
+    <circle cx="100" cy="85" r="1" fill="#2C1810"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="190" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#FF6B9D">
+    Nath
+  </text>
+</svg>
