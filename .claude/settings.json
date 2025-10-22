@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/install-deps.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 Lembre-se: Consulte CLAUDE.md para comandos e guias de estilo'"
+          }
+        ]
+      }
+    ]
+  },
+  "networkAccess": {
+    "enabled": true,
+    "allowedDomains": [
+      "supabase.co",
+      "bbcwitnbnosyfpfjtzkr.supabase.co",
+      "github.com",
+      "npmjs.com",
+      "registry.npmjs.org"
+    ]
+  },
+  "environment": {
+    "NODE_ENV": "development",
+    "TERM": "xterm-256color"
+  },
+  "preferences": {
+    "autoInstallDependencies": true,
+    "checkToolsOnStartup": true,
+    "showWelcomeMessage": true
+  }
+}
