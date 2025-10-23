@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Instagram, ArrowRight, Users, Heart, Star, Shield, Sparkles, Mail, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useNotifications } from '../hooks/useNotifications';
+import { LoadingSpinner } from './LoadingSpinner';
 
 interface InstagramUser {
   id: string;
@@ -25,13 +27,40 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
     password: '',
     fullName: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { showSuccess, showError, handleApiError, handleValidationError } = useNotifications();
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.email) {
+      newErrors.email = 'Email é obrigatório';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Email inválido';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Senha é obrigatória';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+    }
+
+    if (authMode === 'signup' && !formData.fullName) {
+      newErrors.fullName = 'Nome completo é obrigatório';
+    } else if (authMode === 'signup' && formData.fullName.length < 2) {
+      newErrors.fullName = 'Nome deve ter pelo menos 2 caracteres';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSocialLogin = async (provider: 'google' | 'apple' | 'instagram') => {
     setIsLoading(true);
-
+    
     try {
       let authData;
-
+      
       if (provider === 'google') {
         authData = await supabase.auth.signInWithOAuth({
           provider: 'google',
@@ -58,21 +87,41 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
       if (authData?.error) {
         console.error(`Erro no login ${provider}:`, authData.error);
+        showError(
+          'Erro na autenticação',
+          `Não foi possível conectar com ${provider}. Usando modo demo.`
+        );
         // Fallback para demo
-        handleDemoLogin();
+        setTimeout(() => handleDemoLogin(), 1000);
+      } else {
+        showSuccess(
+          'Redirecionando...',
+          `Conectando com ${provider}...`
+        );
       }
     } catch (error) {
       console.error(`Erro no login ${provider}:`, error);
+      showError(
+        'Erro na autenticação',
+        `Erro inesperado ao conectar com ${provider}. Usando modo demo.`
+      );
       // Fallback para demo
-      handleDemoLogin();
+      setTimeout(() => handleDemoLogin(), 1000);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleEmailAuth = async () => {
-    setIsLoading(true);
+    if (!validateForm()) {
+      const errorMessages = Object.values(errors);
+      handleValidationError(errorMessages);
+      return;
+    }
 
+    setIsLoading(true);
+    setErrors({});
+    
     try {
       if (authMode === 'signup') {
         const { data, error } = await supabase.auth.signUp({
@@ -88,9 +137,14 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
         if (error) {
           console.error('Erro no cadastro:', error);
-          alert('Erro no cadastro: ' + error.message);
+          handleApiError(error, 'cadastro');
         } else {
           console.log('✅ Cadastro realizado com sucesso!');
+          showSuccess(
+            'Cadastro realizado!',
+            'Bem-vinda ao ClubNath VIP!'
+          );
+          
           // Usar dados do usuário criado
           const mockUser = {
             id: data.user?.id || 'demo-user-123',
@@ -101,7 +155,8 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             following_count: 0,
             access_token: 'email-token-' + Date.now()
           };
-          onSuccess(mockUser);
+          
+          setTimeout(() => onSuccess(mockUser), 1500);
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -111,9 +166,14 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
         if (error) {
           console.error('Erro no login:', error);
-          alert('Erro no login: ' + error.message);
+          handleApiError(error, 'login');
         } else {
           console.log('✅ Login realizado com sucesso!');
+          showSuccess(
+            'Login realizado!',
+            'Bem-vinda de volta ao ClubNath VIP!'
+          );
+          
           // Usar dados do usuário logado
           const mockUser = {
             id: data.user?.id || 'demo-user-123',
@@ -124,28 +184,36 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             following_count: 0,
             access_token: 'email-token-' + Date.now()
           };
-          onSuccess(mockUser);
+          
+          setTimeout(() => onSuccess(mockUser), 1500);
         }
       }
     } catch (error) {
       console.error('Erro na autenticação:', error);
-      alert('Erro na autenticação: ' + (error as Error).message);
+      handleApiError(error, 'autenticação');
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDemoLogin = () => {
-    const mockUser = {
-      id: 'demo-user-123',
-      username: 'nathalia_arcuri',
-      full_name: 'Nathalia Arcuri',
-      profile_picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-      followers_count: 29000000,
-      following_count: 500,
-      access_token: 'demo-token-' + Date.now()
-    };
-    onSuccess(mockUser);
+    showSuccess(
+      'Modo Demo Ativado',
+      'Entrando como Nathália Arcuri...'
+    );
+    
+    setTimeout(() => {
+      const mockUser = {
+        id: 'demo-user-123',
+        username: 'nathalia_arcuri',
+        full_name: 'Nathalia Arcuri',
+        profile_picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        followers_count: 29000000,
+        following_count: 500,
+        access_token: 'demo-token-' + Date.now()
+      };
+      onSuccess(mockUser);
+    }, 1500);
   };
 
   return (
@@ -255,10 +323,25 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
               <input
                 type="text"
                 value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full px-4 py-3 rounded-2xl border-2 border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:border-primary-500 focus:outline-none transition-colors"
+                onChange={(e) => {
+                  setFormData({ ...formData, fullName: e.target.value });
+                  if (errors.fullName) {
+                    setErrors({ ...errors, fullName: '' });
+                  }
+                }}
+                className={`w-full px-4 py-3 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                  errors.fullName 
+                    ? 'border-error-500 focus:border-error-500' 
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="Seu nome completo"
               />
+              {errors.fullName && (
+                <p className="text-error-600 dark:text-error-400 text-xs mt-1 flex items-center gap-1">
+                  <span>⚠️</span>
+                  {errors.fullName}
+                </p>
+              )}
             </div>
           )}
 
@@ -270,12 +353,29 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 pl-12 rounded-2xl border-2 border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:border-primary-500 focus:outline-none transition-colors"
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value });
+                  if (errors.email) {
+                    setErrors({ ...errors, email: '' });
+                  }
+                }}
+                className={`w-full px-4 py-3 pl-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                  errors.email 
+                    ? 'border-error-500 focus:border-error-500' 
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="seu@email.com"
               />
-              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Mail className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                errors.email ? 'text-error-500' : 'text-neutral-400'
+              }`} />
             </div>
+            {errors.email && (
+              <p className="text-error-600 dark:text-error-400 text-xs mt-1 flex items-center gap-1">
+                <span>⚠️</span>
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div>
@@ -286,18 +386,35 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 pr-12 rounded-2xl border-2 border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:border-primary-500 focus:outline-none transition-colors"
+                onChange={(e) => {
+                  setFormData({ ...formData, password: e.target.value });
+                  if (errors.password) {
+                    setErrors({ ...errors, password: '' });
+                  }
+                }}
+                className={`w-full px-4 py-3 pr-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                  errors.password 
+                    ? 'border-error-500 focus:border-error-500' 
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="Sua senha"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 ${
+                  errors.password ? 'text-error-500' : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
+                }`}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
+            {errors.password && (
+              <p className="text-error-600 dark:text-error-400 text-xs mt-1 flex items-center gap-1">
+                <span>⚠️</span>
+                {errors.password}
+              </p>
+            )}
           </div>
         </div>
 
@@ -308,10 +425,11 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-2xl font-bold shadow-large hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 touch-target disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
-            <div className="flex items-center gap-2">
-              <div className="spinner-modern w-5 h-5"></div>
-              <span>{authMode === 'signup' ? 'Criando conta...' : 'Entrando...'}</span>
-            </div>
+            <LoadingSpinner 
+              variant="minimal" 
+              size="sm" 
+              message={authMode === 'signup' ? 'Criando conta...' : 'Entrando...'}
+            />
           ) : (
             <>
               <Mail className="w-5 h-5" />

@@ -16,6 +16,8 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
+import { NotificationContainer } from './components/ErrorNotification';
+import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
@@ -32,6 +34,7 @@ function AppContent() {
   const [selectedGroup, setSelectedGroup] = useState<{ id: string; name: string } | null>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
+  const { notifications, removeNotification } = useNotifications();
 
   // Control auth flow state
   useEffect(() => {
@@ -152,11 +155,15 @@ function AppContent() {
           <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
           <PerformanceDebug />
           {showBanner && (
-            <MonetizationBanner
-              variant={bannerVariant}
-              onClose={closeBanner}
+            <MonetizationBanner 
+              variant={bannerVariant} 
+              onClose={closeBanner} 
             />
           )}
+          <NotificationContainer 
+            notifications={notifications} 
+            onClose={removeNotification} 
+          />
         </div>
       </div>
     );
