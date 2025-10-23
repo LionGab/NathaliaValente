@@ -209,7 +209,7 @@ export const FeedPage = () => {
       </motion.div>
 
       {/* Premium Features Banner */}
-      <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
+      <PremiumFeatures onUpgrade={() => {}} />
 
       {/* Community Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
