@@ -1,22 +1,39 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyODI3NjgsImV4cCI6MjA3NTg1ODc2OH0.a9g_JqrWWnLli_PV0sPikz8KPAWiKY81mQ1hJAbNtCo';
+// Configuração segura do Supabase
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Check if we have a valid Supabase key
-if (!supabaseAnonKey || supabaseAnonKey.includes('example') || supabaseAnonKey.length < 100) {
-  console.error('❌ SUPABASE NOT CONFIGURED!');
-  console.error('Please set VITE_SUPABASE_ANON_KEY in your .env file');
-  console.error('Get your key from: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/api');
+// Validação estrita das variáveis de ambiente
+if (!supabaseUrl || !supabaseAnonKey) {
+  const errorMessage = `
+    ❌ CONFIGURAÇÃO DO SUPABASE FALTANDO!
+    
+    Por favor, configure as seguintes variáveis no arquivo .env:
+    - VITE_SUPABASE_URL
+    - VITE_SUPABASE_ANON_KEY
+    
+    Veja o arquivo .env.example para referência.
+  `;
+  
+  if (import.meta.env.DEV) {
+    console.error(errorMessage);
+  }
+  
+  throw new Error('Supabase não configurado corretamente');
 }
 
-// Log environment status for debugging
+// Log apenas em desenvolvimento
 if (import.meta.env.DEV) {
-  console.log('Supabase URL:', supabaseUrl);
-  console.log('Supabase Key:', supabaseAnonKey ? 'Present' : 'Missing');
+  console.log('✅ Supabase configurado:', supabaseUrl);
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey || 'dummy-key-for-development');
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});
 
 export type Profile = {
   id: string;

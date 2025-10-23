@@ -84,7 +84,9 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
       setPosts(data || []);
     } catch (err) {
       setError(err as Error);
-      console.error('Error fetching posts:', err);
+      if (import.meta.env.DEV) {
+        console.error('Error fetching posts:', err);
+      }
     } finally {
       setLoading(false);
     }

@@ -62,7 +62,9 @@ export const FeedPage = () => {
         { postId, isLiked: currentlyLiked },
         {
           onError: (error) => {
-            console.error('Failed to toggle like:', error);
+            if (import.meta.env.DEV) {
+              console.error('Failed to toggle like:', error);
+            }
           },
         }
       );
@@ -77,7 +79,9 @@ export const FeedPage = () => {
       { postId, type: 'post' },
       {
         onError: (error) => {
-          console.error('Failed to save post:', error);
+          if (import.meta.env.DEV) {
+            console.error('Failed to save post:', error);
+          }
         },
       }
     );
@@ -93,7 +97,9 @@ export const FeedPage = () => {
         url: window.location.origin + `/?post=${post.id}`,
       });
     } catch (error) {
-      console.error('Erro ao compartilhar:', error);
+      if (import.meta.env.DEV) {
+        console.error('Erro ao compartilhar:', error);
+      }
     }
   }, [share, triggerHaptic]);
 

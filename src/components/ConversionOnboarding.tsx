@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Check, Crown, Users, Heart, Star, ArrowRight } from 'lucide-react';
 
 interface ConversionOnboardingProps {

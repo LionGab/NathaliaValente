@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Instagram, ArrowRight, Users, Heart, Star } from 'lucide-react';
 
+interface InstagramUser {
+  id: string;
+  username: string;
+  full_name: string;
+  profile_picture_url: string;
+  followers_count: number;
+  following_count: number;
+  access_token: string;
+}
+
 interface InstagramAuthProps {
-  onSuccess: (user: any) => void;
+  onSuccess: (user: InstagramUser) => void;
 }
 
 export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
@@ -23,7 +33,9 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         access_token: 'mock_instagram_token_' + Date.now()
       };
       
-      console.log('✅ Instagram login successful (mock)!', mockUser);
+      if (import.meta.env.DEV) {
+        console.log('✅ Instagram login successful (mock)!', mockUser);
+      }
       onSuccess(mockUser);
       setIsLoading(false);
     }, 2000);
