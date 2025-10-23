@@ -68,16 +68,22 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
       if (import.meta.env.DEV) {
         console.error('Error creating post:', error);
       }
-      alert('Erro ao criar publicação. Tente novamente.');
+      // Better error handling with toast notification
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao criar publicação. Tente novamente.';
+      // TODO: Use toast notification instead of alert
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in"
+      onClick={onClose}
+    >
       <div
-        className="card max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
+        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 glass backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 px-6 py-5 flex items-center justify-between">
