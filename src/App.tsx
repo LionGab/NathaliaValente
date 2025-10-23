@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
 import { useMonetization } from './hooks/useMonetization';
+import { SUPABASE_CONFIGURED } from './lib/supabase';
 // import { AuthPage } from './components/AuthPage';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
@@ -54,6 +55,11 @@ function AppContent() {
 
   // Show Instagram Auth
   if (authState === 'instagram') {
+    if (!SUPABASE_CONFIGURED) {
+      // Supabase não configurado: seguir direto para app demo
+      setAuthState('app');
+      return <LoadingScreen message="Carregando..." />;
+    }
     return (
       <InstagramAuth
         onSuccess={() => {

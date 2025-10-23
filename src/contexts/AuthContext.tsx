@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase, Profile } from '../lib/supabase';
+import { supabase, Profile, SUPABASE_CONFIGURED } from '../lib/supabase';
 
 type AuthContextType = {
   user: User | null;
@@ -49,6 +49,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    if (!SUPABASE_CONFIGURED) {
+      // Sem Supabase, expõe estado não autenticado e carrega UI sem travar
+      setLoading(false);
+      return;
+    }
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);

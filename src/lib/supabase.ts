@@ -3,13 +3,21 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Supabase environment variables not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.'
-  );
+export const SUPABASE_CONFIGURED = Boolean(supabaseUrl && supabaseAnonKey);
+
+if (!SUPABASE_CONFIGURED) {
+  // Log once in dev to orientar configuração, mas não quebrar a UI
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.error('[Supabase] Variáveis VITE_SUPABASE_URL/ANON_KEY ausentes. Rodando em modo limitado.');
+  }
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Usa valores seguros para evitar crash de import; chamadas reais falharão graciosamente quando não configurado
+const safeUrl = supabaseUrl || 'https://example.supabase.co';
+const safeKey = supabaseAnonKey || 'public-anon-key-missing';
+
+export const supabase = createClient(safeUrl, safeKey);
 
 export type Profile = {
   id: string;
