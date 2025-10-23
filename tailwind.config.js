@@ -82,6 +82,33 @@ export default {
           500: '#3b82f6',
           600: '#2563eb',
           700: '#1d4ed8'
+        },
+        // Special Colors for Maternity and Spirituality
+        spiritual: {
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e9d5ff',
+          300: '#d8b4fe',
+          400: '#c084fc',
+          500: '#a855f7',
+          600: '#9333ea',
+          700: '#7c3aed',
+          800: '#6b21a8',
+          900: '#581c87',
+          950: '#3b0764',
+        },
+        maternal: {
+          50: '#fefce8',
+          100: '#fef9c3',
+          200: '#fef08a',
+          300: '#fde047',
+          400: '#facc15',
+          500: '#eab308',
+          600: '#ca8a04',
+          700: '#a16207',
+          800: '#854d0e',
+          900: '#713f12',
+          950: '#422006',
         }
       },
       fontFamily: {
@@ -120,16 +147,42 @@ export default {
         'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
       },
       animation: {
+        // ClubNath Design System Animations
         'fade-in': 'fadeIn 0.4s ease-out',
         'fade-in-up': 'fadeInUp 0.6s ease-out',
+        'fade-in-down': 'fadeInDown 0.6s ease-out',
+        'fade-in-left': 'fadeInLeft 0.6s ease-out',
+        'fade-in-right': 'fadeInRight 0.6s ease-out',
         'slide-up': 'slideUp 0.4s ease-out',
+        'slide-down': 'slideDown 0.4s ease-out',
+        'slide-left': 'slideLeft 0.4s ease-out',
+        'slide-right': 'slideRight 0.4s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
+        'scale-out': 'scaleOut 0.3s ease-out',
         'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+        'bounce-in': 'bounceIn 0.6s ease-out',
+        'bounce-out': 'bounceOut 0.6s ease-out',
         'glow': 'glow 2s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
         'wiggle': 'wiggle 0.5s ease-in-out',
         'pulse-slow': 'pulseSlow 3s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'float': 'float 3s ease-in-out infinite',
+        'float-slow': 'floatSlow 4s ease-in-out infinite',
+        'float-fast': 'floatFast 2s ease-in-out infinite',
+        'shimmer': 'shimmer 2s ease-in-out infinite',
+        'shimmer-slow': 'shimmerSlow 3s ease-in-out infinite',
+        'gradient': 'gradient 3s ease-in-out infinite',
+        'gradient-slow': 'gradientSlow 5s ease-in-out infinite',
+        'shake': 'shake 0.5s ease-in-out',
+        'shake-vertical': 'shakeVertical 0.5s ease-in-out',
+        'wobble': 'wobble 1s ease-in-out',
+        'rotate-in': 'rotateIn 0.6s ease-out',
+        'rotate-out': 'rotateOut 0.6s ease-out',
+        'spin-reverse': 'spinReverse 1s linear infinite',
       },
       keyframes: {
+        // ClubNath Design System Keyframes
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -138,21 +191,64 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        fadeInDown: {
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeInLeft: {
+          '0%': { opacity: '0', transform: 'translateX(-20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        fadeInRight: {
+          '0%': { opacity: '0', transform: 'translateX(20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideLeft: {
+          '0%': { opacity: '0', transform: 'translateX(10px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideRight: {
+          '0%': { opacity: '0', transform: 'translateX(-10px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         scaleIn: {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
+        scaleOut: {
+          '0%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(0.95)' },
+        },
         bounceGentle: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },
         },
+        bounceIn: {
+          '0%': { opacity: '0', transform: 'scale(0.3)' },
+          '50%': { opacity: '1', transform: 'scale(1.05)' },
+          '70%': { transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        bounceOut: {
+          '20%': { transform: 'scale(1.1)' },
+          '50%, 55%': { opacity: '1', transform: 'scale(1.1)' },
+          '100%': { opacity: '0', transform: 'scale(0.3)' },
+        },
         glow: {
-          '0%, 100%': { boxShadow: '0 0 5px rgba(236, 72, 153, 0.3)' },
-          '50%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.6)' },
+          '0%, 100%': { boxShadow: '0 0 5px rgba(221, 87, 255, 0.3)' },
+          '50%': { boxShadow: '0 0 20px rgba(221, 87, 255, 0.6)' },
+        },
+        glowPulse: {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(221, 87, 255, 0.3)' },
+          '50%': { boxShadow: '0 0 60px rgba(221, 87, 255, 0.8)' },
         },
         wiggle: {
           '0%, 100%': { transform: 'rotate(0deg)' },
@@ -162,6 +258,77 @@ export default {
         pulseSlow: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
+        },
+        pulseGlow: {
+          '0%, 100%': { 
+            opacity: '1',
+            boxShadow: '0 0 20px rgba(221, 87, 255, 0.3)',
+          },
+          '50%': { 
+            opacity: '0.8',
+            boxShadow: '0 0 40px rgba(221, 87, 255, 0.6)',
+          },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        floatSlow: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        floatFast: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-30px)' },
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        shimmerSlow: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        gradientSlow: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-10px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(10px)' },
+        },
+        shakeVertical: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateY(-10px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateY(10px)' },
+        },
+        wobble: {
+          '0%': { transform: 'translateX(0%)' },
+          '15%': { transform: 'translateX(-25%) rotate(-5deg)' },
+          '30%': { transform: 'translateX(20%) rotate(3deg)' },
+          '45%': { transform: 'translateX(-15%) rotate(-3deg)' },
+          '60%': { transform: 'translateX(10%) rotate(2deg)' },
+          '75%': { transform: 'translateX(-5%) rotate(-1deg)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+        rotateIn: {
+          '0%': { opacity: '0', transform: 'rotate(-180deg)' },
+          '100%': { opacity: '1', transform: 'rotate(0deg)' },
+        },
+        rotateOut: {
+          '0%': { opacity: '1', transform: 'rotate(0deg)' },
+          '100%': { opacity: '0', transform: 'rotate(180deg)' },
+        },
+        spinReverse: {
+          '0%': { transform: 'rotate(360deg)' },
+          '100%': { transform: 'rotate(0deg)' },
         },
       },
     },
