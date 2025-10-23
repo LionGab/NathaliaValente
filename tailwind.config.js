@@ -5,46 +5,59 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Design System Colors
+        // Modern ClubNath Color System
         primary: {
-          50: '#fdf2f8',
-          100: '#fce7f3',
-          200: '#fbcfe8',
-          300: '#f9a8d4',
-          400: '#f472b6',
-          500: '#ec4899',
-          600: '#db2777',
-          700: '#be185d',
-          800: '#9d174d',
-          900: '#831843',
-          950: '#500724'
+          50: '#fef7ff',
+          100: '#fceeff',
+          200: '#f8ddff',
+          300: '#f2bbff',
+          400: '#e889ff',
+          500: '#dd57ff',
+          600: '#c935e8',
+          700: '#a621c4',
+          800: '#8a1fa0',
+          900: '#711e83',
+          950: '#4a0a5a'
         },
         secondary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87',
-          950: '#3b0764'
+          50: '#fff1f2',
+          100: '#ffe4e6',
+          200: '#ffcdd2',
+          300: '#ffa5ad',
+          400: '#ff6b7a',
+          500: '#ff3b4f',
+          600: '#ed1c3a',
+          700: '#c7142f',
+          800: '#a5152a',
+          900: '#8b1628',
+          950: '#4c0712'
+        },
+        accent: {
+          50: '#fff8f0',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c',
+          500: '#f97316',
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
+          950: '#431407'
         },
         neutral: {
           0: '#ffffff',
           50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#e5e5e5',
-          300: '#d4d4d4',
-          400: '#a3a3a3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
-          950: '#0a0a0a'
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
+          950: '#09090b'
         },
         success: {
           50: '#f0fdf4',
@@ -69,106 +82,7 @@ export default {
           500: '#3b82f6',
           600: '#2563eb',
           700: '#1d4ed8'
-        },
-        // NathClub - Paleta atualizada para bem-estar feminino (legacy)
-        nath: {
-          pink: {
-            50: '#FFF1F4',
-            100: '#FFE4E8',
-            200: '#FECDD6',
-            300: '#FCA5B4',
-            400: '#FB7185',
-            500: '#F43F5E',
-            600: '#E11D48',
-            700: '#BE123C',
-            800: '#9F1239',
-            900: '#881337',
-          },
-          lavender: {
-            50: '#FAF5FF',
-            100: '#F3E8FF',
-            200: '#E9D5FF',
-            300: '#D8B4FE',
-            400: '#C084FC',
-            500: '#A855F7',
-            600: '#9333EA',
-          },
-          peach: {
-            50: '#FFF7ED',
-            100: '#FFEDD5',
-            200: '#FED7AA',
-            300: '#FDBA74',
-            400: '#FB923C',
-            500: '#F97316',
-            600: '#EA580C',
-          },
-          cream: {
-            50: '#FEFDFB',
-            100: '#FDF9F5',
-            200: '#FBF3EB',
-            300: '#F7EBE0',
-            400: '#F0DCC9',
-          },
-        },
-        // Anthropic-inspired color palette (mantido para compatibilidade)
-        claude: {
-          // Primary orange/coral tones (similar to Anthropic's brand)
-          orange: {
-            50: '#FFF7F5',
-            100: '#FFEDE8',
-            200: '#FFD7CC',
-            300: '#FFBCA8',
-            400: '#FF9B7A',
-            500: '#E77A5C', // Main accent
-            600: '#CC6B52',
-            700: '#B35A45',
-            800: '#8F4838',
-            900: '#6B362A',
-          },
-          // Neutral grays
-          gray: {
-            50: '#FAFAF9',
-            100: '#F5F5F4',
-            200: '#E7E5E4',
-            300: '#D6D3D1',
-            400: '#A8A29E',
-            500: '#78716C',
-            600: '#57534E',
-            700: '#44403C',
-            800: '#292524',
-            900: '#1C1917',
-            950: '#0C0A09',
-          },
-          // Warm background tones
-          cream: {
-            50: '#FEFDFB',
-            100: '#FDF9F5',
-            200: '#FBF3EB',
-            300: '#F7EBE0',
-            400: '#F0DCC9',
-          },
-        },
-        // Legacy peanut colors for compatibility
-        peanut: {
-          coral: '#E77A5C',
-          'coral-light': '#FF9B7A',
-          'coral-lighter': '#FFBCA8',
-          peach: '#FFD7CC',
-          cream: '#FEFDFB',
-          sand: '#F7EBE0',
-          gray: {
-            50: '#FAFAF9',
-            100: '#F5F5F4',
-            200: '#E7E5E4',
-            300: '#D6D3D1',
-            400: '#A8A29E',
-            500: '#78716C',
-            600: '#57534E',
-            700: '#44403C',
-            800: '#292524',
-            900: '#1C1917',
-          },
-        },
+        }
       },
       fontFamily: {
         sans: [
@@ -198,14 +112,12 @@ export default {
         '4xl': '2rem',
       },
       boxShadow: {
-        'claude-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-        'claude': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.04)',
-        'claude-md': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 8px 24px -4px rgba(0, 0, 0, 0.05)',
-        'claude-lg': '0 8px 32px -8px rgba(0, 0, 0, 0.08), 0 12px 48px -8px rgba(0, 0, 0, 0.06)',
-        // Legacy
-        'peanut-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-        'peanut': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.04)',
-        'peanut-lg': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 8px 24px -4px rgba(0, 0, 0, 0.05)',
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'large': '0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+        'glow': '0 0 20px rgba(221, 87, 255, 0.3)',
+        'glow-pink': '0 0 20px rgba(255, 59, 79, 0.3)',
+        'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
       },
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',

@@ -1,46 +1,80 @@
-import { expect, afterEach, vi, beforeAll } from 'vitest';
-import { cleanup } from '@testing-library/react';
-import * as matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom'
+import { expect, afterEach, vi } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import * as matchers from '@testing-library/jest-dom/matchers'
 
 // Extend Vitest's expect with jest-dom matchers
-expect.extend(matchers);
+expect.extend(matchers)
 
-// Setup environment variables before all tests
-beforeAll(() => {
-  process.env.VITE_SUPABASE_URL = 'https://test.supabase.co';
-  process.env.VITE_SUPABASE_ANON_KEY = 'test-anon-key';
-});
-
-// Cleanup after each test case
+// Cleanup after each test
 afterEach(() => {
-  cleanup();
-});
-
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-});
+  cleanup()
+})
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  takeRecords() {
-    return [];
-  }
-  unobserve() {}
-} as unknown as typeof IntersectionObserver;
+  constructor() { }
+  disconnect() { }
+  observe() { }
+  unobserve() { }
+}
 
-// Suppress console errors in tests (optional)
-// global.console.error = vi.fn();
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  constructor() { }
+  disconnect() { }
+  observe() { }
+  unobserve() { }
+}
+
+// Mock matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => { },
+    removeListener: () => { },
+    addEventListener: () => { },
+    removeEventListener: () => { },
+    dispatchEvent: () => { },
+  }),
+})
+
+// Mock scrollTo
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: () => { },
+})
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+}
+global.localStorage = localStorageMock
+
+// Mock sessionStorage
+const sessionStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+}
+global.sessionStorage = sessionStorageMock
+
+// Mock fetch
+global.fetch = vi.fn()
+
+// Mock console methods to reduce noise in tests
+global.console = {
+  ...console,
+  log: vi.fn(),
+  debug: vi.fn(),
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+}

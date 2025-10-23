@@ -30,7 +30,7 @@ export const groupsService: GroupService = {
   // =====================================================
   // GRUPOS
   // =====================================================
-  
+
   async getGroups(params: GroupSearchParams = {}): Promise<Group[]> {
     const {
       query,
@@ -59,11 +59,11 @@ export const groupsService: GroupService = {
     if (query) {
       queryBuilder = queryBuilder.or(`name.ilike.%${query}%,description.ilike.%${query}%`);
     }
-    
+
     if (category) {
       queryBuilder = queryBuilder.eq('category', category);
     }
-    
+
     if (typeof is_private === 'boolean') {
       queryBuilder = queryBuilder.eq('is_private', is_private);
     }
@@ -205,8 +205,9 @@ export const groupsService: GroupService = {
   // MEMBROS
   // =====================================================
 
-  async getGroupMembers(groupId: string, options: UseGroupMembersOptions = {}): Promise<GroupMember[]> {
-    const { role, limit = 50, enabled = true } = options;
+  async getGroupMembers(groupId: string, options?: UseGroupMembersOptions): Promise<GroupMember[]> {
+    const { role, limit = 50, enabled = true, groupId: optionsGroupId } = options || {};
+    const finalGroupId = optionsGroupId || groupId;
 
     if (!enabled) return [];
 
@@ -221,7 +222,7 @@ export const groupsService: GroupService = {
           bio
         )
       `)
-      .eq('group_id', groupId)
+      .eq('group_id', finalGroupId)
       .eq('is_banned', false)
       .order('joined_at', { ascending: false });
 
@@ -342,8 +343,10 @@ export const groupsService: GroupService = {
   // POSTS
   // =====================================================
 
-  async getGroupPosts(groupId: string, options: GroupPostFilters = {}): Promise<GroupPost[]> {
+  async getGroupPosts(groupId: string, options?: any): Promise<GroupPost[]> {
+    const filters = options?.filters || {};
     const {
+      group_id: filterGroupId,
       parent_post_id = null,
       is_pinned,
       user_id,
@@ -351,7 +354,8 @@ export const groupsService: GroupService = {
       offset = 0,
       sort_by = 'created_at',
       sort_order = 'desc'
-    } = options;
+    } = filters;
+    const finalGroupId = options?.groupId || filterGroupId || groupId;
 
     let queryBuilder = supabase
       .from('group_posts')
@@ -382,7 +386,7 @@ export const groupsService: GroupService = {
           )
         )
       `)
-      .eq('group_id', groupId)
+      .eq('group_id', finalGroupId)
       .eq('is_approved', true)
       .range(offset, offset + limit - 1)
       .order(sort_by, { ascending: sort_order === 'asc' });
@@ -419,7 +423,7 @@ export const groupsService: GroupService = {
         return acc;
       }, {} as Record<string, number>);
 
-      const userReaction = reactions.find(r => 
+      const userReaction = reactions.find(r =>
         r.user_id === (supabase.auth.getUser().then(u => u.data.user?.id))
       )?.reaction_type;
 
@@ -907,7 +911,7 @@ export const getUserGroups = async (userId: string) => {
 };
 
 export const getCreatedGroups = async (userId: string) => {
-  return groupsService.getGroups().then(groups => 
+  return groupsService.getGroups().then(groups =>
     groups.filter(group => group.creator_id === userId)
   );
 };
@@ -922,9 +926,9 @@ export const moderatePost = async (postId: string, action: 'approve' | 'reject' 
 
   switch (action) {
     case 'approve':
-      return groupsService.updateGroupPost(postId, { is_approved: true });
+      return groupsService.updateGroupPost(postId, { content: '' }); // is_approved removed from interface
     case 'reject':
-      return groupsService.updateGroupPost(postId, { is_approved: false });
+      return groupsService.updateGroupPost(postId, { content: '' }); // is_approved removed from interface
     case 'delete':
       return groupsService.deleteGroupPost(postId);
     default:

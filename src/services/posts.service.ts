@@ -6,7 +6,7 @@
 import { supabase } from '../lib/supabase';
 import type { Post } from '../hooks';
 import type { Category } from '../constants';
-import { validatePost } from '../utils/validation';
+import { validatePostData } from '../utils/validation';
 import { smartCompressImage } from '../utils/imageCompression';
 
 /**
@@ -19,13 +19,14 @@ export async function createPost(data: {
   imageUrl?: string;
 }): Promise<{ success: boolean; post?: Post; error?: string }> {
   // Validate post data
-  const validation = validatePost({
+  const validation = validatePostData({
     caption: data.caption,
     category: data.category,
+    image_url: data.imageUrl,
   });
 
-  if (!validation.valid) {
-    return { success: false, error: validation.error };
+  if (!validation.isValid) {
+    return { success: false, error: validation.errors.join(', ') };
   }
 
   try {

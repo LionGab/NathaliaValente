@@ -59,7 +59,7 @@ export const usePosts = (page = 0, limit = 20) => {
         const likesCount = likesData.filter(like => like.post_id === post.id).length;
         return {
           ...post,
-          profiles: post.profiles,
+          profiles: Array.isArray(post.profiles) ? post.profiles[0] : post.profiles,
           likes_count: likesCount,
           comments_count: 0, // Will be loaded separately if needed
           user_has_liked: false, // Will be set by the component based on current user
@@ -309,14 +309,14 @@ export const useSaveItem = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async ({ postId, type }: { postId?: string; type: 'post' | 'quote' | 'verse'; content?: string }) => {
+    mutationFn: async ({ postId, type, content }: { postId?: string; type: 'post' | 'quote' | 'verse'; content?: string }) => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
         .from('saved_items')
         .insert({
           user_id: user.id,
-          post_id,
+          post_id: postId,
           type,
           content,
         })

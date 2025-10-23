@@ -5,13 +5,13 @@
 
 import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Users, 
-  Lock, 
-  Globe, 
+import {
+  Search,
+  Filter,
+  Plus,
+  Users,
+  Lock,
+  Globe,
   Star,
   Heart,
   MessageCircle,
@@ -25,9 +25,9 @@ import { GroupCard } from './GroupCard';
 import { CreateGroupModal } from './CreateGroupModal';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { Button } from '../ui/Button';
-import { 
-  GROUP_CATEGORIES, 
-  getCategoryColor, 
+import {
+  GROUP_CATEGORIES,
+  getCategoryColor,
   getCategoryIcon,
   formatGroupMemberCount,
   formatGroupAge
@@ -59,8 +59,8 @@ export const GroupsList: React.FC<GroupsListProps> = ({
   }), [selectedCategory, showPrivateOnly, searchQuery, initialFilters]);
 
   // Queries para diferentes tipos de grupos
-  const { 
-    data: discoverGroups = [], 
+  const {
+    data: discoverGroups = [],
     isLoading: discoverLoading,
     refetch: refetchDiscover
   } = useQuery({
@@ -74,18 +74,18 @@ export const GroupsList: React.FC<GroupsListProps> = ({
     enabled: activeTab === 'discover'
   });
 
-  const { 
-    data: popularGroups = [], 
-    isLoading: popularLoading 
+  const {
+    data: popularGroups = [],
+    isLoading: popularLoading
   } = useQuery({
     queryKey: ['groups', 'popular'],
     queryFn: getPopularGroups,
     enabled: activeTab === 'popular'
   });
 
-  const { 
-    data: recentGroups = [], 
-    isLoading: recentLoading 
+  const {
+    data: recentGroups = [],
+    isLoading: recentLoading
   } = useQuery({
     queryKey: ['groups', 'recent'],
     queryFn: getRecentGroups,
@@ -153,7 +153,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
               Encontre sua tribo de mães e compartilhe sua jornada
             </p>
           </div>
-          
+
           {showCreateButton && (
             <Button
               onClick={handleCreateGroup}
@@ -175,11 +175,10 @@ export const GroupsList: React.FC<GroupsListProps> = ({
             <button
               key={id}
               onClick={() => setActiveTab(id as any)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${
-                activeTab === id
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-              }`}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${activeTab === id
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
             >
               <Icon className="w-4 h-4" />
               {label}
@@ -221,17 +220,16 @@ export const GroupsList: React.FC<GroupsListProps> = ({
                   Categorias:
                 </span>
               </div>
-              
+
               <div className="flex flex-wrap gap-2">
                 {['Todos', ...GROUP_CATEGORIES].map((category) => (
                   <button
                     key={category}
                     onClick={() => handleCategoryFilter(category as any)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-full font-medium transition-all ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    }`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-full font-medium transition-all ${selectedCategory === category
+                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      }`}
                   >
                     {category !== 'Todos' && (
                       <span className="text-lg">{getCategoryIcon(category as GroupCategory)}</span>
@@ -297,7 +295,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
               Nenhum grupo encontrado
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              {activeTab === 'discover' 
+              {activeTab === 'discover'
                 ? 'Tente ajustar os filtros ou criar um novo grupo'
                 : 'Ainda não há grupos nesta categoria'
               }
@@ -332,133 +330,3 @@ export const GroupsList: React.FC<GroupsListProps> = ({
 // =====================================================
 // COMPONENTE GROUP CARD
 // =====================================================
-
-interface GroupCardProps {
-  group: Group;
-  onJoin?: (groupId: string) => void;
-  onLeave?: (groupId: string) => void;
-  onView?: (group: Group) => void;
-  showActions?: boolean;
-  compact?: boolean;
-}
-
-export const GroupCard: React.FC<GroupCardProps> = ({
-  group,
-  onJoin,
-  onLeave,
-  onView,
-  showActions = true,
-  compact = false
-}) => {
-  const handleView = () => {
-    onView?.(group);
-  };
-
-  const handleJoin = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onJoin?.(group.id);
-  };
-
-  const handleLeave = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onLeave?.(group.id);
-  };
-
-  return (
-    <div
-      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group ${
-        compact ? 'p-4' : 'p-6'
-      }`}
-      onClick={handleView}
-    >
-      {/* Header do Card */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-2xl">{getCategoryIcon(group.category)}</span>
-            <h3 className="font-bold text-gray-900 dark:text-white text-lg group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
-              {group.name}
-            </h3>
-          </div>
-          
-          <div className="flex items-center gap-2 mb-2">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getCategoryColor(group.category)}`}>
-              {group.category}
-            </span>
-            
-            {group.is_private ? (
-              <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                <Lock className="w-3 h-3" />
-                <span className="text-xs">Privado</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                <Globe className="w-3 h-3" />
-                <span className="text-xs">Público</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {group.user_role && (
-          <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-            group.user_role === 'admin' 
-              ? 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-              : group.user_role === 'moderator'
-              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
-              : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-          }`}>
-            {group.user_role === 'admin' ? 'Admin' : 
-             group.user_role === 'moderator' ? 'Mod' : 'Membro'}
-          </div>
-        )}
-      </div>
-
-      {/* Descrição */}
-      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
-        {group.description}
-      </p>
-
-      {/* Estatísticas */}
-      <div className="flex items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400">
-        <div className="flex items-center gap-1">
-          <Users className="w-4 h-4" />
-          <span>{formatGroupMemberCount(group.current_members)}</span>
-        </div>
-        
-        <div className="flex items-center gap-1">
-          <Calendar className="w-4 h-4" />
-          <span>{formatGroupAge(group.created_at)}</span>
-        </div>
-      </div>
-
-      {/* Ações */}
-      {showActions && (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {group.user_role ? (
-              <Button
-                onClick={handleLeave}
-                variant="outline"
-                size="sm"
-                className="text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
-              >
-                Sair
-              </Button>
-            ) : (
-              <Button
-                onClick={handleJoin}
-                size="sm"
-                disabled={group.current_members >= group.max_members}
-              >
-                {group.current_members >= group.max_members ? 'Cheio' : 'Entrar'}
-              </Button>
-            )}
-          </div>
-
-          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-pink-500 transition-colors" />
-        </div>
-      )}
-    </div>
-  );
-};

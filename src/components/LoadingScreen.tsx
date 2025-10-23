@@ -7,44 +7,52 @@ interface LoadingScreenProps {
   progress?: number;
 }
 
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({ 
-  message = "Carregando...", 
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({
+  message = "Carregando...",
   showProgress = false,
-  progress = 0 
+  progress = 0
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-6 p-8">
-        {/* Logo animado */}
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 flex items-center justify-center relative overflow-hidden">
+      {/* Modern Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <div className="flex flex-col items-center gap-8 p-8 relative z-10">
+        {/* Logo animado - Modern */}
         <div className="relative">
-          <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-2xl animate-pulse">
-            <Heart className="w-10 h-10 text-white fill-white" />
+          <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl flex items-center justify-center shadow-large mx-auto animate-float">
+            <Heart className="w-12 h-12 text-white fill-white" />
           </div>
-          <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce">
-            <Sparkles className="w-3 h-3 text-yellow-800" />
+          <div className="absolute -top-3 -right-3 w-8 h-8 bg-accent-500 rounded-full flex items-center justify-center animate-bounce shadow-lg">
+            <Sparkles className="w-4 h-4 text-white" />
           </div>
         </div>
 
         {/* Título */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            ClubNath
+          <h1 className="text-4xl sm:text-5xl font-bold gradient-text mb-3 tracking-tight">
+            ClubNath VIP
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg">
+          <p className="text-neutral-600 dark:text-neutral-300 text-lg font-medium">
             {message}
           </p>
         </div>
 
-        {/* Loading spinner */}
-        <div className="relative">
-          <div className="w-16 h-16 border-4 border-pink-200 dark:border-pink-800 rounded-full animate-spin border-t-pink-500"></div>
-          <div className="absolute inset-0 w-16 h-16 border-4 border-transparent rounded-full animate-spin border-t-purple-500" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+        {/* Loading spinner - Modern */}
+        <div className="relative w-20 h-20">
+          <div className="absolute inset-0 border-4 border-primary-200 dark:border-primary-800 rounded-full animate-spin border-t-transparent border-r-transparent"></div>
+          <div className="absolute inset-2 border-4 border-secondary-200 dark:border-secondary-800 rounded-full animate-spin border-t-transparent border-l-transparent" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+          <div className="absolute inset-4 border-4 border-accent-200 dark:border-accent-800 rounded-full animate-spin border-b-transparent border-r-transparent" style={{ animationDuration: '2s' }}></div>
         </div>
 
         {/* Progress bar */}
         {showProgress && (
           <div className="w-64 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-pink-500 to-purple-600 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             ></div>

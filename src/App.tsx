@@ -38,14 +38,13 @@ function AppContent() {
     if (import.meta.env.DEV) {
       console.log('[AUTH] State change:', { loading, user: !!user, currentAuthState: authState });
     }
-    
+
     if (loading) {
       setAuthState('loading');
     } else if (!user) {
       setAuthState('instagram');
-    } else if (user && authState === 'instagram') {
-      setAuthState('onboarding');
-    } else if (user && authState === 'onboarding') {
+    } else if (user && authState !== 'app') {
+      // Se temos usuário e não estamos no app, ir direto para o app
       setAuthState('app');
     }
   }, [user, loading, authState]);
@@ -60,21 +59,8 @@ function AppContent() {
     return (
       <InstagramAuth
         onSuccess={() => {
-          setAuthState('onboarding');
-        }}
-      />
-    );
-  }
-
-  // Show Conversion Onboarding
-  if (authState === 'onboarding') {
-    return (
-      <ConversionOnboarding
-        onComplete={() => {
-          setAuthState('app');
-        }}
-        onSkip={() => {
-          setAuthState('app');
+          // O AuthContext vai detectar o usuário e mudar para 'app' automaticamente
+          console.log('Instagram login successful, waiting for auth state change...');
         }}
       />
     );
@@ -83,86 +69,95 @@ function AppContent() {
   // Show main app
   if (authState === 'app' && user) {
     const renderPage = () => {
-    const LoadingSpinner = () => (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-claude-orange-500 border-t-transparent"></div>
-          <p className="text-sm text-claude-gray-500 dark:text-claude-gray-400 animate-pulse">
-            Carregando...
-          </p>
+      const LoadingSpinner = () => (
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="spinner-modern w-12 h-12"></div>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 animate-pulse">
+              Carregando...
+            </p>
+          </div>
         </div>
-      </div>
-    );
+      );
 
-    switch (currentPage) {
-      case 'feed':
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <FeedPage />
-          </Suspense>
-        );
-      case 'chat':
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <ChatPage />
-          </Suspense>
-        );
-      case 'search':
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <SearchPage />
-          </Suspense>
-        );
-      case 'daily':
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <DailyQuotePage />
-          </Suspense>
-        );
-      case 'profile':
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <ProfilePage />
-          </Suspense>
-        );
-      case 'groups':
-        return selectedGroup ? (
-          <Suspense fallback={<LoadingSpinner />}>
-            <GroupDetail 
-              groupId={selectedGroup.id} 
-              onBack={() => setSelectedGroup(null)}
-            />
-          </Suspense>
-        ) : (
-          <Suspense fallback={<LoadingSpinner />}>
-            <GroupsList 
-              onGroupSelect={setSelectedGroup}
-            />
-          </Suspense>
-        );
-      default:
-        return (
-          <Suspense fallback={<LoadingSpinner />}>
-            <FeedPage />
-          </Suspense>
-        );
-    }
-  };
+      switch (currentPage) {
+        case 'feed':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <FeedPage />
+            </Suspense>
+          );
+        case 'chat':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ChatPage />
+            </Suspense>
+          );
+        case 'search':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <SearchPage />
+            </Suspense>
+          );
+        case 'daily':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <DailyQuotePage />
+            </Suspense>
+          );
+        case 'profile':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProfilePage />
+            </Suspense>
+          );
+        case 'groups':
+          return selectedGroup ? (
+            <Suspense fallback={<LoadingSpinner />}>
+              <GroupDetail
+                groupId={selectedGroup.id}
+                onBack={() => setSelectedGroup(null)}
+              />
+            </Suspense>
+          ) : (
+            <Suspense fallback={<LoadingSpinner />}>
+              <GroupsList
+                onGroupSelect={setSelectedGroup}
+              />
+            </Suspense>
+          );
+        default:
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <FeedPage />
+            </Suspense>
+          );
+      }
+    };
 
     return (
-      <div className="min-h-screen bg-claude-cream-50 dark:bg-claude-gray-950 transition-colors duration-300 safe-area-inset">
-        <PWANotifications />
-        <PWAInstallPrompt />
-        <Header onProfileClick={() => setCurrentPage('profile')} />
-        <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
-        <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
-        <PerformanceDebug />
-        {showBanner && (
-          <MonetizationBanner 
-            variant={bannerVariant} 
-            onClose={closeBanner} 
-          />
-        )}
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 transition-colors duration-500 safe-area-inset relative overflow-hidden">
+        {/* Modern Background Elements */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse"></div>
+        </div>
+
+        <div className="relative z-10">
+          <PWANotifications />
+          <PWAInstallPrompt />
+          <Header onProfileClick={() => setCurrentPage('profile')} />
+          <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
+          <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+          <PerformanceDebug />
+          {showBanner && (
+            <MonetizationBanner
+              variant={bannerVariant}
+              onClose={closeBanner}
+            />
+          )}
+        </div>
       </div>
     );
   }

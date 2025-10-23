@@ -16,8 +16,8 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-claude-gray-900/90 backdrop-blur-xl border-t border-claude-gray-200/50 dark:border-claude-gray-800/50 z-50 transition-colors duration-300 safe-bottom shadow-lg">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border-t border-neutral-200/50 dark:border-neutral-800/50 z-50 transition-colors duration-300 safe-bottom shadow-large">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-around items-center h-16 sm:h-20">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -27,37 +27,38 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`relative flex flex-col items-center justify-center gap-1 px-2 sm:px-5 py-2 rounded-xl sm:rounded-2xl transition-all duration-300 touch-target ${
-                  isActive
-                    ? 'text-pink-600 dark:text-pink-400'
-                    : 'text-claude-gray-500 dark:text-claude-gray-400 hover:text-claude-gray-700 dark:hover:text-claude-gray-300'
-                }`}
+                className={`relative flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl transition-all duration-300 touch-target group ${isActive
+                    ? 'text-white'
+                    : 'text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
+                  }`}
               >
                 {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-pink-50 to-purple-50 dark:from-pink-500/10 dark:to-purple-500/10 rounded-xl sm:rounded-2xl animate-scale-in" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-500 to-secondary-500 rounded-2xl shadow-medium animate-scale-in" />
                 )}
-                <div className={`relative p-1.5 sm:p-2 rounded-lg transition-all duration-300 ${
-                  isActive ? 'bg-pink-100 dark:bg-pink-500/20' : ''
-                }`}>
+
+                <div className={`relative p-2 rounded-xl transition-all duration-300 ${isActive ? '' : 'group-hover:bg-primary-50 dark:group-hover:bg-primary-950/30'
+                  }`}>
                   <Icon
-                    className={`w-5 h-5 sm:w-6 sm:h-6 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
+                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
+                      }`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                   {item.badge && (
-                    <div className="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-lg animate-pulse">
+                    <div className="absolute -top-1 -right-1 bg-accent-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-lg">
                       {item.badge}
                     </div>
                   )}
                 </div>
+
                 <span
-                  className={`relative text-xs sm:text-xs ${isActive ? 'font-semibold' : 'font-medium'} transition-all duration-300 ${
-                    isActive ? 'text-pink-600 dark:text-pink-400' : ''
-                  }`}
+                  className={`relative text-[10px] sm:text-xs font-medium transition-all duration-300 ${isActive ? 'text-white' : 'group-hover:font-semibold'
+                    }`}
                 >
                   {item.label}
                 </span>
+
                 {isActive && (
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-pink-500 rounded-full animate-pulse" />
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full shadow-lg" />
                 )}
               </button>
             );

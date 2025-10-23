@@ -1,5 +1,48 @@
 // Validation utilities for Supabase data
 
+export const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+export const validatePassword = (password: string): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+  
+  if (password.length < 8) {
+    errors.push('A senha deve ter pelo menos 8 caracteres');
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra maiúscula');
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra minúscula');
+  }
+  if (!/[0-9]/.test(password)) {
+    errors.push('A senha deve conter pelo menos um número');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
+};
+
+export const validateFullName = (name: string): boolean => {
+  return name.trim().length >= 2 && name.trim().length <= 100;
+};
+
+export const validateBio = (bio: string): boolean => {
+  return bio.length <= 500;
+};
+
+export const sanitizeHtml = (html: string): string => {
+  // Simple HTML sanitization - remove script tags and dangerous attributes
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+="[^"]*"/gi, '')
+    .replace(/on\w+='[^']*'/gi, '');
+};
+
 export const validateProfileUpdate = (data: any) => {
   const errors: string[] = [];
   const cleanData: any = {};
@@ -66,6 +109,10 @@ export const validateProfileUpdate = (data: any) => {
     errors,
     cleanData
   };
+};
+
+export const validatePostCaption = (caption: string): boolean => {
+  return caption.trim().length > 0 && caption.length <= 1000;
 };
 
 export const validatePostData = (data: any) => {

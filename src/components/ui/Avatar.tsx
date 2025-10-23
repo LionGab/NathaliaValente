@@ -3,7 +3,7 @@
 // Sistema de Avatares Emoji Personalizáveis
 // =====================================================
 
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { cn } from '../../lib/utils';
 
 export type AvatarType =
@@ -21,12 +21,12 @@ export type AvatarType =
   | 'cadeirante';
 
 export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
-export type AvatarBadge = 'premium' | 'verified' | 'nathy' | null;
+export type AvatarBadge = 'premium' | 'verified' | 'nathy';
 
 interface AvatarProps {
   type: AvatarType;
   size?: AvatarSize;
-  badge?: AvatarBadge;
+  badge?: AvatarBadge | null;
   onClick?: () => void;
   className?: string;
   alt?: string;
@@ -55,11 +55,6 @@ const badgeConfig: Record<AvatarBadge, { icon: string; color: string; label: str
     icon: '💜',
     color: 'bg-pink-500',
     label: 'Nathy Aprovou'
-  },
-  null: {
-    icon: '',
-    color: '',
-    label: ''
   }
 };
 
@@ -87,7 +82,7 @@ export const Avatar: FC<AvatarProps> = ({
   alt,
   'aria-label': ariaLabel
 }) => {
-  const badgeInfo = badgeConfig[badge];
+  const badgeInfo = badge ? badgeConfig[badge] : null;
   const avatarLabel = avatarLabels[type];
   const finalAriaLabel = ariaLabel || alt || avatarLabel;
 
@@ -113,9 +108,9 @@ export const Avatar: FC<AvatarProps> = ({
         tabIndex={onClick ? 0 : -1}
         role={onClick ? 'button' : 'img'}
       />
-      
-      {badge && (
-        <div 
+
+      {badge && badgeInfo && (
+        <div
           className={cn(
             'absolute -bottom-1 -right-1 rounded-full p-1 text-white text-xs',
             'flex items-center justify-center min-w-[20px] min-h-[20px]',
@@ -187,8 +182,8 @@ export const AvatarGrid: FC<AvatarGridProps> = ({
             'relative cursor-pointer transition-all duration-200',
             'hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2',
             'rounded-2xl p-2',
-            selectedAvatar === avatar 
-              ? 'ring-4 ring-pink-500 bg-pink-50 dark:bg-pink-900/20' 
+            selectedAvatar === avatar
+              ? 'ring-4 ring-pink-500 bg-pink-50 dark:bg-pink-900/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-800'
           )}
           onClick={() => onSelect(avatar)}
@@ -203,8 +198,8 @@ export const AvatarGrid: FC<AvatarGridProps> = ({
           aria-label={`Selecionar avatar ${avatarLabels[avatar]}`}
         >
           <div className="flex flex-col items-center gap-2">
-            <Avatar 
-              type={avatar} 
+            <Avatar
+              type={avatar}
               size={size}
               aria-label={avatarLabels[avatar]}
             />
@@ -214,7 +209,7 @@ export const AvatarGrid: FC<AvatarGridProps> = ({
               </span>
             )}
           </div>
-          
+
           {selectedAvatar === avatar && (
             <div className="absolute top-1 right-1 w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center">
               <span className="text-white text-xs">✓</span>
@@ -247,8 +242,8 @@ export const AvatarPreview: FC<AvatarPreviewProps> = ({
 }) => {
   return (
     <div className={cn('flex flex-col items-center gap-3 p-4', className)}>
-      <Avatar 
-        type={type} 
+      <Avatar
+        type={type}
         size={size}
         badge={badge}
         aria-label={name || avatarLabels[type]}
@@ -299,7 +294,7 @@ export const useAvatar = () => {
       'breastfeeding': 'amamentando',
       'nursing': 'amamentando'
     };
-    
+
     return moodMap[mood.toLowerCase()] || getRandomAvatar();
   };
 
@@ -312,7 +307,7 @@ export const useAvatar = () => {
       'celebration': 'radiante',
       'reflection': 'pensativa'
     };
-    
+
     return contextMap[context.toLowerCase()] || getRandomAvatar();
   };
 

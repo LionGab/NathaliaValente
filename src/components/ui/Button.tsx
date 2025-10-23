@@ -4,28 +4,28 @@ import { cn } from '../../lib/utils';
 import { Loader2 } from 'lucide-react';
 
 const buttonVariants = cva(
-  // Base styles
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-semibold text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 touch-target",
+  // Base styles - Modern Design
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl font-semibold text-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-500/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 disabled:saturate-50 touch-target relative overflow-hidden",
   {
     variants: {
       variant: {
-        // Primary gradient button
-        primary: "bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]",
-        
-        // Secondary button
-        secondary: "bg-neutral-100 text-neutral-900 border border-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-700",
-        
-        // Ghost button
-        ghost: "text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800",
-        
-        // Destructive button
-        destructive: "bg-error-500 text-white hover:bg-error-600 shadow-lg hover:shadow-xl",
-        
-        // Outline button
-        outline: "border border-primary-500 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-950",
-        
-        // Link button
-        link: "text-primary-500 underline-offset-4 hover:underline"
+        // Primary gradient button - Modern
+        primary: "bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-large hover:shadow-glow hover:scale-[1.02] active:scale-[0.98]",
+
+        // Secondary button - Clean
+        secondary: "bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border-2 border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 shadow-soft hover:shadow-medium hover:scale-[1.01] active:scale-[0.99]",
+
+        // Ghost button - Subtle
+        ghost: "text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950/30 hover:text-primary-600 dark:hover:text-primary-400 hover:shadow-soft hover:scale-105",
+
+        // Destructive button - Attention
+        destructive: "bg-gradient-to-r from-error-500 to-error-600 text-white shadow-large hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]",
+
+        // Outline button - Clean
+        outline: "border-2 border-primary-500 dark:border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-500 hover:text-white hover:shadow-medium hover:scale-[1.01] dark:hover:bg-primary-600 active:scale-[0.99]",
+
+        // Link button - Minimal
+        link: "text-primary-600 dark:text-primary-400 underline-offset-4 hover:underline hover:text-primary-700 dark:hover:text-primary-300"
       },
       size: {
         sm: "h-8 px-3 text-xs",
@@ -47,7 +47,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   loading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;

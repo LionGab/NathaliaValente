@@ -5,7 +5,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
+import {
   ArrowLeft,
   Users,
   MessageCircle,
@@ -35,8 +35,8 @@ import { groupsService } from '../../services/groups.service';
 import { Group, GroupPost, ReactionType, GroupMember } from '../../types/groups';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { Button } from '../ui/Button';
-import { 
-  getCategoryColor, 
+import {
+  getCategoryColor,
   getCategoryIcon,
   formatGroupMemberCount,
   formatGroupAge,
@@ -78,12 +78,12 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
 
   const { data: posts = [], isLoading: postsLoading } = useQuery({
     queryKey: ['group-posts', groupId],
-    queryFn: () => groupsService.getGroupPosts(groupId, { limit: 50 })
+    queryFn: () => groupsService.getGroupPosts(groupId, { groupId, limit: 50 })
   });
 
   const { data: members = [] } = useQuery({
     queryKey: ['group-members', groupId],
-    queryFn: () => groupsService.getGroupMembers(groupId, { limit: 100 })
+    queryFn: () => groupsService.getGroupMembers(groupId, { groupId, limit: 100 })
   });
 
   // Mutations
@@ -132,7 +132,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
   const handleSendPost = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPost.trim() || createPostMutation.isPending) return;
-    
+
     await createPostMutation.mutateAsync(newPost.trim());
   };
 
@@ -217,7 +217,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                 <div className="w-2 h-2 bg-orange-500 rounded-full" />
               )}
             </div>
-            
+
             <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
               <span className="flex items-center gap-1">
                 <Users className="w-4 h-4" />
@@ -279,7 +279,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                 <p className="text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
                   {group.description}
                 </p>
-                
+
                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getCategoryColor(group.category)}`}>
                     {group.category}
@@ -313,7 +313,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                       Editar
                     </Button>
                   )}
-                  
+
                   <Button
                     onClick={handleLeaveGroup}
                     variant="outline"
@@ -377,7 +377,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                     }}
                   />
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <Button
                     type="button"
@@ -387,7 +387,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                   >
                     <Image className="w-5 h-5" />
                   </Button>
-                  
+
                   <Button
                     type="button"
                     variant="ghost"
@@ -396,7 +396,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                   >
                     <Smile className="w-5 h-5" />
                   </Button>
-                  
+
                   <Button
                     type="submit"
                     disabled={!newPost.trim() || createPostMutation.isPending}
@@ -429,7 +429,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                 </Button>
               </div>
             </div>
-            
+
             <div className="flex-1 overflow-y-auto p-4">
               <div className="space-y-3">
                 {members.map((member) => (
@@ -445,7 +445,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                         {member.user?.full_name?.charAt(0) || 'U'}
                       </div>
                     )}
-                    
+
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-gray-900 dark:text-white text-sm">
@@ -460,7 +460,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                       </div>
                       <span className="text-xs text-gray-500 dark:text-gray-400">
                         {member.role === 'admin' ? 'Administradora' :
-                         member.role === 'moderator' ? 'Moderadora' : 'Membro'}
+                          member.role === 'moderator' ? 'Moderadora' : 'Membro'}
                       </span>
                     </div>
                   </div>
@@ -530,7 +530,7 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
             {post.user?.full_name?.charAt(0) || 'U'}
           </div>
         )}
-        
+
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <span className="font-semibold text-gray-900 dark:text-white text-sm">
@@ -562,7 +562,7 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
           {post.content}
         </p>
-        
+
         {post.media_url && (
           <div className="mt-3 rounded-xl overflow-hidden">
             <img
@@ -582,18 +582,17 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
               <button
                 key={reaction}
                 onClick={() => handleReact(reaction as ReactionType)}
-                className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all ${
-                  post.user_reaction === reaction
-                    ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
-                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
+                className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all ${post.user_reaction === reaction
+                  ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
+                  : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
               >
                 <span>{REACTION_EMOJIS[reaction as ReactionType]}</span>
                 <span>{count}</span>
               </button>
             )
           ))}
-          
+
           <Button
             onClick={onShowReactions}
             variant="ghost"

@@ -31,3 +31,5 @@ claude_desktop_config.json
 
 # Voxelize repository (removed - not needed for ClubNath)
 # voxelize/ - REMOVED
+# Local Netlify folder
+.netlify

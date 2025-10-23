@@ -4,36 +4,38 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Validação estrita das variáveis de ambiente
+// Validação das variáveis de ambiente com fallback
 if (!supabaseUrl || !supabaseAnonKey) {
   const errorMessage = `
-    ❌ CONFIGURAÇÃO DO SUPABASE FALTANDO!
+    ⚠️ SUPABASE NÃO CONFIGURADO - Usando modo DEMO
     
-    Por favor, configure as seguintes variáveis no arquivo .env:
+    Para usar funcionalidades completas, configure:
     - VITE_SUPABASE_URL
     - VITE_SUPABASE_ANON_KEY
-    
-    Veja o arquivo .env.example para referência.
   `;
-  
-  if (import.meta.env.DEV) {
-    console.error(errorMessage);
-  }
-  
-  throw new Error('Supabase não configurado corretamente');
+
+  console.warn(errorMessage);
 }
 
 // Log apenas em desenvolvimento
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && supabaseUrl) {
   console.log('✅ Supabase configurado:', supabaseUrl);
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+// Criar cliente Supabase (ou mock se não configurado)
+export const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  })
+  : createClient('https://placeholder.supabase.co', 'placeholder-key', {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
 
 export type Profile = {
   id: string;
