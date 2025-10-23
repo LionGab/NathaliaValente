@@ -37,7 +37,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setProfile(data);
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error fetching profile:', error);
+      }
       // Silently fail - profile is optional
     }
   };
@@ -88,7 +90,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       return { error };
     } catch (error) {
-      console.error('Signup error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Signup error:', error);
+      }
       return { error };
     }
   };

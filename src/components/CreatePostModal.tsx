@@ -65,7 +65,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
 
       onPostCreated();
     } catch (error) {
-      console.error('Error creating post:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error creating post:', error);
+      }
       alert('Erro ao criar publicação. Tente novamente.');
     } finally {
       setLoading(false);

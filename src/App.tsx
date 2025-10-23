@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
@@ -29,13 +29,15 @@ const GroupDetail = lazy(() => import('./components/groups/GroupDetail').then(mo
 function AppContent() {
   const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
-  const [selectedGroup, setSelectedGroup] = useState<any>(null);
+  const [selectedGroup, setSelectedGroup] = useState<{ id: string; name: string } | null>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
 
   // Control auth flow state
-  React.useEffect(() => {
-    console.log('[AUTH] State change:', { loading, user: !!user, currentAuthState: authState });
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.log('[AUTH] State change:', { loading, user: !!user, currentAuthState: authState });
+    }
     
     if (loading) {
       setAuthState('loading');
@@ -46,7 +48,7 @@ function AppContent() {
     } else if (user && authState === 'onboarding') {
       setAuthState('app');
     }
-  }, [user, loading]); // ✅ CORREÇÃO: Removido authState das dependências
+  }, [user, loading, authState]);
 
   // Show loading screen
   if (authState === 'loading') {
