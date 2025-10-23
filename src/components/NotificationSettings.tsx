@@ -12,7 +12,7 @@ import {
   MessageCircle, 
   BookOpen, 
   Crown, 
-  Prayer, 
+  HeartHandshake, 
   AlertTriangle,
   CheckCircle,
   Settings,
@@ -157,7 +157,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
       key: 'prayer_notifications' as keyof NotificationPreferences,
       title: 'Orações Compartilhadas',
       description: 'Quando alguém compartilha um pedido de oração',
-      icon: <Prayer className="w-5 h-5" />,
+      icon: <HeartHandshake className="w-5 h-5" />,
       color: 'text-purple-500'
     },
     {

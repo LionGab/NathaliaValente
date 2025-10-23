@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, Suspense, lazy, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
@@ -34,8 +34,7 @@ function AppContent() {
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
 
   // Control auth flow state
-  React.useEffect(() => {
-    console.log('[AUTH] State change:', { loading, user: !!user, currentAuthState: authState });
+  useEffect(() => {
     
     if (loading) {
       setAuthState('loading');

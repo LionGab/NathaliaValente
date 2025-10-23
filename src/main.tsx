@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { registerSW } from 'virtual:pwa-register';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -9,21 +10,5 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );
 
-// Register Service Worker for PWA support
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((registration) => {
-        console.log('SW registered:', registration);
-
-        // Check for updates periodically
-        setInterval(() => {
-          registration.update();
-        }, 60000); // Check every minute
-      })
-      .catch((error) => {
-        console.log('SW registration failed:', error);
-      });
-  });
-}
+// Register Service Worker via VitePWA (autoUpdate)
+registerSW({ immediate: true });

@@ -1,22 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyODI3NjgsImV4cCI6MjA3NTg1ODc2OH0.a9g_JqrWWnLli_PV0sPikz8KPAWiKY81mQ1hJAbNtCo';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-// Check if we have a valid Supabase key
-if (!supabaseAnonKey || supabaseAnonKey.includes('example') || supabaseAnonKey.length < 100) {
-  console.error('❌ SUPABASE NOT CONFIGURED!');
-  console.error('Please set VITE_SUPABASE_ANON_KEY in your .env file');
-  console.error('Get your key from: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/api');
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Supabase environment variables not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.'
+  );
 }
 
-// Log environment status for debugging
-if (import.meta.env.DEV) {
-  console.log('Supabase URL:', supabaseUrl);
-  console.log('Supabase Key:', supabaseAnonKey ? 'Present' : 'Missing');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey || 'dummy-key-for-development');
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export type Profile = {
   id: string;

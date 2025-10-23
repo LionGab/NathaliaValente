@@ -40,11 +40,7 @@ export const QueryProvider = ({ children }: QueryProviderProps) => {
       {children}
       {/* Only show devtools in development */}
       {import.meta.env.DEV && (
-        <ReactQueryDevtools
-          initialIsOpen={false}
-          position="bottom-right"
-          buttonPosition="bottom-right"
-        />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
       )}
     </QueryClientProvider>
   );

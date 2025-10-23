@@ -1,3 +1,55 @@
+// Validation utilities
+
+export type ValidationResult = { valid: boolean; error?: string };
+
+export const validateEmail = (email: string): ValidationResult => {
+  const trimmed = (email || '').trim();
+  if (!trimmed) return { valid: false, error: 'Email é obrigatório' };
+  // Simplified RFC 5322-safe email regex
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  return re.test(trimmed)
+    ? { valid: true }
+    : { valid: false, error: 'Email inválido' };
+};
+
+export const validatePassword = (password: string): ValidationResult => {
+  if (typeof password !== 'string' || password.length < 6) {
+    return { valid: false, error: 'Senha deve ter no mínimo 6 caracteres' };
+  }
+  return { valid: true };
+};
+
+export const validatePostCaption = (caption: string): ValidationResult => {
+  const text = (caption ?? '').trim();
+  if (!text) return { valid: false, error: 'Legenda é obrigatória' };
+  if (text.length > 1000) return { valid: false, error: 'Legenda deve ter até 1000 caracteres' };
+  return { valid: true };
+};
+
+export const validateFullName = (name: string): ValidationResult => {
+  const n = (name ?? '').trim();
+  if (n.length < 2) return { valid: false, error: 'Nome muito curto' };
+  return { valid: true };
+};
+
+export const validateBio = (bio: string): ValidationResult => {
+  const text = (bio ?? '').trim();
+  if (text.length > 200) return { valid: false, error: 'Bio deve ter até 200 caracteres' };
+  return { valid: true };
+};
+
+export const sanitizeHtml = (input: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+  };
+  return String(input).replace(/[&<>"'/]/g, (s) => map[s]);
+};
+
 // Validation utilities for Supabase data
 
 export const validateProfileUpdate = (data: any) => {
@@ -108,4 +160,16 @@ export const validatePostData = (data: any) => {
     errors,
     cleanData
   };
+};
+
+// Backwards-compat wrapper expected by posts.service
+export const validatePost = (data: { caption: string; category: string }) => {
+  const cap = validatePostCaption(data.caption);
+  if (!cap.valid) return { valid: false, error: cap.error };
+
+  const validCategories = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
+  if (!validCategories.includes(data.category)) {
+    return { valid: false, error: 'Categoria inválida' };
+  }
+  return { valid: true };
 };

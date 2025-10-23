@@ -13,7 +13,7 @@ import {
   PlayCircle,
   MessageCircle,
   Lightbulb,
-  Prayer,
+  HeartHandshake,
   Target,
   ChevronRight,
   Bookmark,
@@ -295,7 +295,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
         {/* Oração */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Prayer className="w-5 h-5 text-purple-500" />
+            <HeartHandshake className="w-5 h-5 text-purple-500" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Oração</h3>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed italic">
