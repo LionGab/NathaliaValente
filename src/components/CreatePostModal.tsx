@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { X, Image as ImageIcon, Upload } from 'lucide-react';
@@ -75,21 +76,33 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
-      <div
-        className="card max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        className="card max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 glass backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 px-6 py-5 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-claude-gray-900 dark:text-white">
             Nova publicação
           </h2>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onClose}
             className="p-2.5 hover:bg-claude-gray-100 dark:hover:bg-claude-gray-800 rounded-2xl transition-all duration-200"
           >
             <X className="w-5 h-5 text-claude-gray-600 dark:text-claude-gray-400" />
-          </button>
+          </motion.button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
@@ -171,7 +184,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
             )}
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: loading || !caption ? 1 : 1.02 }}
+            whileTap={{ scale: loading || !caption ? 1 : 0.98 }}
             type="submit"
             disabled={loading || !caption}
             className="btn-primary w-full py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2.5"
@@ -187,9 +202,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                 Publicar
               </>
             )}
-          </button>
+          </motion.button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

@@ -19,6 +19,7 @@ import { LoadingScreen } from './components/LoadingScreen';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
+const EventsPage = lazy(() => import('./components/EventsPage').then(module => ({ default: module.EventsPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
 const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
 const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
@@ -101,6 +102,12 @@ function AppContent() {
             <FeedPage />
           </Suspense>
         );
+      case 'events':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <EventsPage />
+          </Suspense>
+        );
       case 'chat':
         return (
           <Suspense fallback={<LoadingSpinner />}>
@@ -128,14 +135,14 @@ function AppContent() {
       case 'groups':
         return selectedGroup ? (
           <Suspense fallback={<LoadingSpinner />}>
-            <GroupDetail 
-              groupId={selectedGroup.id} 
+            <GroupDetail
+              groupId={selectedGroup.id}
               onBack={() => setSelectedGroup(null)}
             />
           </Suspense>
         ) : (
           <Suspense fallback={<LoadingSpinner />}>
-            <GroupsList 
+            <GroupsList
               onGroupSelect={setSelectedGroup}
             />
           </Suspense>

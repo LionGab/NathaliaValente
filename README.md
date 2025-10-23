@@ -1,177 +1,348 @@
-# 🌸 ClubNath - App de Bem-Estar para Mulheres
+# 🌸 ClubNath VIP - Comunidade Premium para Mulheres
 
-> **Comunidade exclusiva da Nathalia Arcuri**  
-> 29M+ seguidores • Conteúdo exclusivo • Suporte prioritário
+> **Plataforma exclusiva da Nathalia Arcuri**
+> 35M+ seguidoras • Design Premium • Tecnologia de Ponta
 
 ## 🚀 **Live Demo**
 [![Netlify Status](https://api.netlify.com/api/v1/badges/your-site-id/deploy-status)](https://app.netlify.com/sites/your-site-name)
 
 **🌐 [clubnath.netlify.app](https://clubnath.netlify.app)**
 
-## 📱 **Sobre o App**
+---
 
-O ClubNath é uma comunidade exclusiva que combina:
-- **Feed Social** - Conecte-se com outras mães
-- **Conteúdo Exclusivo** - Lives privadas da Nath
-- **Suporte Prioritário** - Respostas diretas em 24h
-- **Tracking de Hábitos** - Formação de rotinas saudáveis
-- **Journaling** - Reflexão pessoal e autoconhecimento
+## ✨ **O que é o ClubNath VIP?**
+
+Uma comunidade premium para mulheres que buscam conexão, crescimento e transformação. Design de nível internacional, experiência mobile-first impecável, e funcionalidades exclusivas para uma comunidade engajada de mais de 35 milhões de seguidoras.
+
+---
+
+## 🎯 **Features Implementadas**
+
+### **🏠 Feed Social Premium**
+- Posts com imagens, categorias e badges
+- Sistema de likes e comentários em tempo real
+- Infinite scroll otimizado
+- Compartilhamento web nativo
+- Salvamento de posts
+- Animações Framer Motion suaves
+
+### **📅 Eventos & Calendário** ✨ NOVO
+- Calendário visual interativo
+- Workshops, lives, meetups, webinars e masterclasses
+- Sistema de registro com controle de vagas
+- Eventos online e presenciais
+- Eventos premium e gratuitos
+- Notificações de eventos
+
+### **👥 Sistema de Conexões** ✨ NOVO
+- Seguir/deixar de seguir membras
+- Contadores de seguidores/seguindo
+- Lista de seguidores mútuos
+- Sugestões de usuários para seguir
+- Perfis personalizáveis
+
+### **👫 Grupos Temáticos**
+- Círculos de interesse
+- Chat em grupo
+- Posts exclusivos do grupo
+- Sistema de moderação
+- Categorias organizadas
+
+### **💬 Chat Inteligente com IA**
+- Conversas com a Nath (AI-powered)
+- Histórico de conversas
+- Respostas contextualizadas
+- Interface moderna
+
+### **🎯 Badges & Conquistas**
+- Sistema de gamificação
+- Badges por participação
+- Progresso visual
+- Conquistas desbloqueáveis
+
+### **📔 Journaling**
+- Diário pessoal privado
+- Mood tracking
+- Reflexões diárias
+- Histórico completo
+
+### **🙏 Orações & Fé**
+- Pedidos de oração da comunidade
+- Respostas e testemunhos
+- Suporte espiritual mútuo
+
+### **📚 Estudos Bíblicos**
+- Conteúdo diário
+- Estudos temáticos
+- Progresso personalizado
+
+### **🎨 Design Premium**
+- Animações Framer Motion
+- Glassmorphism moderno
+- Gradientes suaves
+- Micro-interações delicadas
+- Paleta rosé, lilás e dourado
+- 100% responsivo (mobile-first)
+
+---
 
 ## 🛠️ **Stack Tecnológico**
 
 ### **Frontend**
-- ⚛️ **React 18** + TypeScript
-- 🎨 **Tailwind CSS** (mobile-first)
-- ⚡ **Vite** (build otimizado)
+- ⚛️ **React 18** + **TypeScript 5.3** (strict mode)
+- 🎨 **Tailwind CSS** + **NativeWind** (mobile-first design)
+- 🎭 **Framer Motion** (animações profissionais)
+- ⚡ **Vite 7** (build ultra-rápido)
 - 📱 **PWA** (Progressive Web App)
 
-### **Backend**
-- 🗄️ **Supabase** (PostgreSQL + Auth + Storage)
-- 🔄 **React Query** (cache inteligente)
-- 📊 **Analytics** (performance monitoring)
+### **Backend & Database**
+- 🗄️ **Supabase** (PostgreSQL + Auth + Storage + Realtime)
+- 🔐 **Row Level Security (RLS)** para segurança máxima
+- 📊 **React Query (TanStack)** para cache inteligente
+- 🔄 **Realtime subscriptions** para notificações instantâneas
 
-### **Deploy**
+### **Deploy & CI/CD**
 - 🌐 **Netlify** (deploy automático)
-- 📦 **GitHub Actions** (CI/CD)
+- 📦 **GitHub Actions** (CI/CD pipeline)
 - 🔒 **HTTPS** + Security Headers
+- 🗜️ **Gzip + Brotli** compression
 
-## 🎯 **Features Implementadas**
+---
 
-### ✅ **Performance**
-- React Query para cache inteligente
-- Lazy loading de componentes
-- Bundle otimizado (7.26KB gzipped)
-- PWA com Service Worker
-
-### ✅ **Mobile-First**
-- Safe area insets (iPhone X+)
-- Touch targets 44px+
-- Overscroll prevention
-- TikTok-style feed
-
-### ✅ **Monetização**
-- Login com Instagram (zero fricção)
-- Onboarding de conversão
-- Freemium vs Premium (R$ 39/mês)
-- Smart banner timing
-
-### ✅ **Qualidade**
-- Testes unitários (Vitest)
-- Linting (ESLint + Prettier)
-- TypeScript (type safety)
-- Performance monitoring
-
-## 🚀 **Como Executar**
-
-### **Desenvolvimento**
-```bash
-# Instalar dependências
-npm install
-
-# Executar em desenvolvimento
-npm run dev
-
-# Executar testes
-npm run test
-
-# Build para produção
-npm run build
-```
-
-### **Deploy**
-```bash
-# Push para GitHub (deploy automático no Netlify)
-git add .
-git commit -m "feat: nova feature"
-git push origin main
-```
-
-## 📊 **Métricas de Performance**
+## 📊 **Performance Metrics**
 
 ```
 Bundle Size (gzipped):
-├── FeedPage: 7.26KB
-├── React: 44.67KB
+├── EventsPage: 4.96KB ✨
+├── FeedPage: 5.22KB
+├── ChatPage: 10.20KB
+├── React: 44.99KB
 ├── Supabase: 41.83KB
-└── Total: ~95KB
+└── Total: ~107KB
 
 PWA Features:
 ├── Service Worker: ✅ Ativo
-├── Cache: ✅ 40 entradas (1.57MB)
+├── Cache: ✅ Otimizado
 ├── Compression: ✅ Gzip + Brotli
-└── Offline: ✅ Funcional
+├── Offline: ✅ Funcional
+└── Lighthouse: 🎯 90+ score
+
+Build Time: ⚡ ~8 segundos
 ```
 
-## 🎯 **Estratégia de Lançamento**
+---
 
-### **Fase 1: Soft Launch (7 dias)**
-- Beta com 100 seguidores engajados
-- Meta: 20 assinantes (R$ 780/mês)
+## 🚀 **Quick Start**
 
-### **Fase 2: Lançamento Oficial (14 dias)**
-- Campanha nos Stories do Instagram
-- Meta: 100 assinantes (R$ 3.900/mês)
+### **1. Instalar Dependências**
+```bash
+npm install
+```
 
-### **Fase 3: Escala (30+ dias)**
-- Otimização de conversão
-- Meta: 1.000 assinantes (R$ 39.000/mês)
+### **2. Configurar Supabase**
 
-## 🔧 **Configuração**
-
-### **Variáveis de Ambiente**
-
-**⚠️ IMPORTANTE: Configure as variáveis de ambiente antes de usar o app!**
-
-1. **Obter Chaves do Supabase:**
-   - Acesse: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr/settings/api
-   - Copie a URL e a chave anon
-
-2. **Criar arquivo `.env` na raiz do projeto:**
+Crie um arquivo `.env` na raiz:
 ```env
-VITE_SUPABASE_URL=https://bbcwitnbnosyfpfjtzkr.supabase.co
-VITE_SUPABASE_ANON_KEY=SUA_CHAVE_ANON_REAL_AQUI
-VITE_INSTAGRAM_CLIENT_ID=SEU_CLIENT_ID_AQUI
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua_chave_anon_aqui
+VITE_INSTAGRAM_CLIENT_ID=seu_instagram_client_id_aqui
+VITE_ENV=development
 ```
 
-3. **Configurar no Netlify:**
-   - Site Settings → Environment Variables
-   - Adicionar as mesmas variáveis
+**📖 Guia completo:** [docs/SUPABASE_SETUP_COMPLETE.md](docs/SUPABASE_SETUP_COMPLETE.md)
 
-### **Setup do Supabase**
+### **3. Executar Migrações**
 
-**⚠️ CRÍTICO: Execute as migrations do Supabase antes de usar o app!**
+No SQL Editor do Supabase, execute em ordem:
+```sql
+-- 1. Setup básico
+supabase/migrations/setup-database.sql
+supabase/migrations/setup_auth_trigger.sql
 
-1. **Acessar o Supabase:**
-   - URL: https://supabase.com/dashboard/project/bbcwitnbnosyfpfjtzkr
-   - Vá para: SQL Editor
+-- 2. Sistemas principais
+supabase/migrations/20250121_badges_system.sql
+supabase/migrations/20250121_groups_system.sql
+...
 
-2. **Executar Migrations:**
-   ```sql
-   -- Execute os arquivos em ordem:
-   -- 1. supabase/migrations/setup-database.sql
-   -- 2. supabase/migrations/setup_auth_trigger.sql
-   -- 3. supabase/migrations/20251021_onboarding_system.sql
-   ```
+-- 3. ✨ Novas features
+supabase/migrations/20251023_events_system.sql
+supabase/migrations/20251023_followers_system.sql
+```
 
-3. **Verificar Configuração:**
-   - Authentication → Settings
-   - Site URL: https://clubnath.netlify.app
-   - Redirect URLs: https://clubnath.netlify.app/**
+### **4. Iniciar Desenvolvimento**
+```bash
+npm run dev
+```
 
-**📖 Guia Completo:** [docs/setup/SUPABASE_SETUP.md](docs/setup/SUPABASE_SETUP.md)
+Abra [http://localhost:5173](http://localhost:5173) 🎉
 
-### **Netlify**
-- Deploy automático via GitHub
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Node version: 18
+---
+
+## 📦 **Comandos Disponíveis**
+
+```bash
+# Desenvolvimento
+npm run dev              # Inicia dev server (Vite)
+npm run preview          # Preview da build de produção
+
+# Build & Deploy
+npm run build            # Build otimizado para produção
+npm run typecheck        # Verificar erros TypeScript
+
+# Qualidade de Código
+npm run lint             # ESLint
+npm run format           # Prettier (auto-fix)
+npm run format:check     # Verificar formatação
+
+# Testes
+npm run test             # Executar testes (Vitest)
+npm run test:ui          # Interface visual de testes
+npm run test:coverage    # Coverage report
+
+# Otimizações
+npm run optimize-avatars # Otimizar imagens de avatares
+```
+
+---
+
+## 🌐 **Deploy no Netlify**
+
+### **Opção 1: Deploy Automático (Recomendado)**
+
+1. Conecte o repositório ao Netlify
+2. Configure as variáveis de ambiente:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_INSTAGRAM_CLIENT_ID`
+3. Build settings:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+   - **Node version:** 20
+4. Deploy! 🚀
+
+### **Opção 2: Deploy Manual**
+
+```bash
+# Build
+npm run build
+
+# Deploy com Netlify CLI
+npm install -g netlify-cli
+netlify deploy --prod
+```
+
+---
+
+## 🎨 **Design System**
+
+### **Cores**
+```javascript
+// Paleta Premium
+primary: {
+  50: '#fdf2f8',   // Rosa clarinho
+  500: '#ec4899',  // Rosa principal
+  600: '#db2777',  // Rosa escuro
+}
+
+secondary: {
+  50: '#faf5ff',   // Lilás clarinho
+  500: '#a855f7',  // Lilás principal
+  600: '#9333ea',  // Lilás escuro
+}
+
+// Gradientes
+from-pink-500 via-purple-600 to-indigo-700
+from-pink-500 to-purple-600
+```
+
+### **Animações Framer Motion**
+```javascript
+// Fade in com movimento
+initial={{ opacity: 0, y: 20 }}
+animate={{ opacity: 1, y: 0 }}
+transition={{ duration: 0.6, ease: 'easeOut' }}
+
+// Hover suave
+whileHover={{ y: -4, scale: 1.02 }}
+whileTap={{ scale: 0.98 }}
+
+// Pulso contínuo
+animate={{ scale: [1, 1.05, 1] }}
+transition={{ duration: 2, repeat: Infinity }}
+```
+
+### **Tipografia**
+- **Família:** Inter (moderna e legível)
+- **Tamanhos:** 0.75rem → 2.25rem (mobile-first)
+- **Pesos:** 400 (normal), 600 (semibold), 700 (bold)
+
+---
+
+## 📁 **Estrutura do Projeto**
+
+```
+src/
+├── components/
+│   ├── EventsPage.tsx           # ✨ Sistema de eventos
+│   ├── FeedPage.tsx             # Feed com Framer Motion
+│   ├── CreatePostModal.tsx      # Modal animado
+│   ├── Navigation.tsx           # Nav com animações
+│   ├── groups/                  # Grupos temáticos
+│   ├── badges/                  # Sistema de badges
+│   ├── ui/                      # Design system
+│   └── ...
+├── services/
+│   ├── events.service.ts        # ✨ API de eventos
+│   ├── followers.service.ts     # ✨ API de followers
+│   ├── posts.service.ts
+│   └── ...
+├── types/
+│   ├── events.ts                # ✨ Tipos de eventos
+│   ├── followers.ts             # ✨ Tipos de followers
+│   └── ...
+├── hooks/
+│   ├── useQueries.ts            # React Query hooks
+│   ├── useGestures.ts           # Gestos mobile
+│   └── ...
+├── contexts/
+│   ├── AuthContext.tsx
+│   ├── ThemeContext.tsx
+│   └── QueryProvider.tsx
+├── lib/
+│   ├── supabase/                # Cliente Supabase
+│   └── utils.ts                 # Utilidades
+└── App.tsx                      # App principal
+
+supabase/migrations/
+├── 20251023_events_system.sql      # ✨ Migração eventos
+├── 20251023_followers_system.sql   # ✨ Migração followers
+└── ...
+```
+
+---
+
+## 🔐 **Segurança**
+
+- ✅ **Row Level Security (RLS)** em todas as tabelas
+- ✅ **Políticas de acesso** granulares por usuário
+- ✅ **Autenticação JWT** via Supabase
+- ✅ **HTTPS** obrigatório em produção
+- ✅ **Security Headers** configurados
+- ✅ **Sanitização** de inputs
+- ✅ **Rate limiting** no backend
+
+---
 
 ## 📱 **PWA Features**
 
 - ✅ **Instalável** - Adicionar à tela inicial
-- ✅ **Offline** - Funciona sem internet
+- ✅ **Offline-first** - Funciona sem internet
 - ✅ **Push Notifications** - Engajamento proativo
-- ✅ **App-like** - Experiência nativa
+- ✅ **Service Worker** - Cache inteligente
+- ✅ **Manifest** - Ícones e splash screens
+- ✅ **App-like** - Experiência nativa no mobile
+
+---
 
 ## 🧪 **Testes**
 
@@ -179,38 +350,108 @@ VITE_INSTAGRAM_CLIENT_ID=SEU_CLIENT_ID_AQUI
 # Executar todos os testes
 npm run test
 
-# Executar testes em modo watch
-npm run test:watch
+# Testes com UI
+npm run test:ui
 
-# Coverage
+# Coverage completo
 npm run test:coverage
 ```
 
-## 📈 **Analytics**
+### **O que testamos:**
+- ✅ Componentes UI (React Testing Library)
+- ✅ Hooks customizados
+- ✅ Utilidades e helpers
+- ✅ Integração com Supabase
 
-- **Performance**: Web Vitals
-- **Usage**: React Query DevTools
-- **Errors**: Console monitoring
-- **Conversion**: Custom tracking
+---
 
-## 🤝 **Contribuição**
+## 🐛 **Troubleshooting**
+
+### **Erro: Cannot find module '@supabase/supabase-js'**
+```bash
+npm install
+```
+
+### **Erro: VITE_SUPABASE_URL is not defined**
+- Certifique-se de que o arquivo `.env` existe
+- Reinicie o servidor de desenvolvimento
+
+### **Build falha no Netlify**
+- Verifique as variáveis de ambiente no Netlify
+- Node version deve ser 20+
+- Verifique os logs de build
+
+### **Supabase RLS bloqueando queries**
+- Veja [docs/SUPABASE_SETUP_COMPLETE.md](docs/SUPABASE_SETUP_COMPLETE.md)
+- Teste as políticas no SQL Editor
+
+---
+
+## 📈 **Roadmap**
+
+### **Em Progresso** 🚧
+- [ ] Sistema de pagamentos (Stripe)
+- [ ] Notificações push nativas
+- [ ] App mobile nativo (React Native)
+
+### **Planejado** 🎯
+- [ ] Vídeo chamadas em grupo
+- [ ] Marketplace de produtos
+- [ ] Cursos online integrados
+- [ ] Dashboard de analytics
+
+### **Concluído** ✅
+- [x] Sistema de eventos e calendário
+- [x] Sistema de followers/conexões
+- [x] Animações Framer Motion
+- [x] Design premium glassmorphism
+- [x] Feed social completo
+- [x] Grupos temáticos
+- [x] Chat com IA
+- [x] Sistema de badges
+- [x] PWA funcional
+
+---
+
+## 🤝 **Contribuindo**
 
 1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-feature`)
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
 3. Commit suas mudanças (`git commit -m 'feat: adiciona nova feature'`)
 4. Push para a branch (`git push origin feature/nova-feature`)
 5. Abra um Pull Request
 
-## 📄 **Licença**
-
-Este projeto é propriedade da Nathalia Arcuri e está protegido por direitos autorais.
-
-## 📞 **Contato**
-
-- **Instagram**: [@nathalia_arcuri](https://instagram.com/nathalia_arcuri)
-- **Email**: contato@nathaliaarcuri.com.br
-- **Website**: [nathaliaarcuri.com.br](https://nathaliaarcuri.com.br)
+### **Padrões de Código**
+- ✅ TypeScript strict mode
+- ✅ ESLint + Prettier configurados
+- ✅ Commits semânticos (feat, fix, docs, refactor)
+- ✅ Testes para novas features
+- ✅ Mobile-first sempre
 
 ---
 
-**🌸 Feito com amor para a comunidade ClubNath**
+## 📄 **Licença**
+
+Este projeto é propriedade da **Nathalia Arcuri** e está protegido por direitos autorais.
+© 2025 ClubNath. Todos os direitos reservados.
+
+---
+
+## 📞 **Contato & Suporte**
+
+- 📧 **Email:** contato@nathaliaarcuri.com.br
+- 📱 **Instagram:** [@nathalia_arcuri](https://instagram.com/nathalia_arcuri)
+- 🌐 **Website:** [nathaliaarcuri.com.br](https://nathaliaarcuri.com.br)
+- 💬 **Suporte:** [discord.gg/clubnath](https://discord.gg/clubnath)
+
+---
+
+<div align="center">
+
+**🌸 Feito com amor para a comunidade ClubNath 🌸**
+
+*Design premium • Tecnologia de ponta • Experiência incomparável*
+
+[⭐ Star no GitHub](https://github.com/seu-usuario/clubnath) • [🐛 Report Bug](https://github.com/seu-usuario/clubnath/issues) • [✨ Request Feature](https://github.com/seu-usuario/clubnath/issues)
+
+</div>
