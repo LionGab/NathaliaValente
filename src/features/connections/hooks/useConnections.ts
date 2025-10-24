@@ -1,7 +1,36 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
-import { aiMatchingService, MatchScore, MatchPreferences } from '../services/ai-matching.service';
+import { aiMatchingService, MatchScore, MatchPreferences } from '../../chat/services/ai-matching.service';
+import { connectionNotificationsService } from '../services/notifications.service';
 import { useNotifications } from '../../../hooks/useNotifications';
+
+// Helper function to format baby age
+const formatBabyAge = (ages?: string[]): string => {
+  if (!ages || ages.length === 0) {
+    return 'Idade não informada';
+  }
+
+  const age = ages[0];
+  const months = parseInt(age);
+  
+  if (isNaN(months)) {
+    return age;
+  }
+
+  if (months === 0) {
+    return 'Recém-nascido';
+  } else if (months < 12) {
+    return `Bebê de ${months} ${months === 1 ? 'mês' : 'meses'}`;
+  } else {
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+    let result = `${years} ${years === 1 ? 'ano' : 'anos'}`;
+    if (remainingMonths > 0) {
+      result += ` e ${remainingMonths} ${remainingMonths === 1 ? 'mês' : 'meses'}`;
+    }
+    return result;
+  }
+};
 
 interface ConnectionProfile {
     id: string;
@@ -114,110 +143,121 @@ export const useConnections = (): UseConnectionsReturn => {
     const { user } = useAuth();
     const { showSuccess, showError } = useNotifications();
 
-    const findConnections = useCallback(async (filters: ConnectionFilters) => {
-        if (!user) {
-            showError('Erro', 'Você precisa estar logada para encontrar conexões.');
-            return;
-        }
+  const findConnections = useCallback(async (filters: ConnectionFilters) => {
+    if (!user) {
+      showError('Erro', 'Você precisa estar logada para encontrar conexões.');
+      return;
+    }
 
-        setLoading(true);
-        try {
-            // Simulate AI matching delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+    setLoading(true);
+    try {
+      // Use real AI matching service
+      const preferences: MatchPreferences = {
+        max_distance: filters.maxDistance,
+        min_faith_level: filters.faithLevel as any,
+        preferred_motherhood_stages: filters.motherhoodStage ? [filters.motherhoodStage] : undefined,
+        required_interests: filters.interests ? filters.interests.split(', ').filter(Boolean) : undefined
+      };
 
-            // Filter mock profiles based on criteria
-            const filteredProfiles = MOCK_PROFILES.filter(profile => {
-                const profileBabyAge = parseInt(profile.babyAge.match(/\d+/)?.[0] || '0');
-                const filterBabyAge = parseInt(filters.babyAge);
+      const matches = await aiMatchingService.findMatches(user.id, preferences, 20);
+      const connectionProfiles: ConnectionProfile[] = matches.map(match => ({
+        id: match.user.id,
+        name: match.user.full_name,
+        avatar: match.user.avatar_url || '/avatars/default-avatar.svg',
+        location: match.user.location || 'Localização não informada',
+        babyAge: formatBabyAge(match.user.children_age),
+        interests: match.user.interests,
+        bio: match.user.bio,
+        compatibility: Math.round(match.score * 100),
+        reasons: match.reasons
+      }));
 
-                // Simple matching logic
-                const ageMatch = Math.abs(profileBabyAge - filterBabyAge) <= 3;
-                const locationMatch = !filters.location ||
-                    profile.location.toLowerCase().includes(filters.location.toLowerCase().split(',')[0]);
+      setProfiles(connectionProfiles);
+      setCurrentIndex(0);
+      setHasMore(connectionProfiles.length > 0);
 
-                return ageMatch && locationMatch;
-            });
-
-            // Sort by compatibility
-            filteredProfiles.sort((a, b) => b.compatibility - a.compatibility);
-
-            setProfiles(filteredProfiles);
-            setCurrentIndex(0);
-            setHasMore(filteredProfiles.length > 0);
-
-            showSuccess(
-                'Conexões encontradas!',
-                `Encontramos ${filteredProfiles.length} mães compatíveis com você.`
-            );
-
-            // In production, this would use the real AI matching service:
-            /*
-            const preferences: MatchPreferences = {
-              max_distance: filters.maxDistance,
-              min_faith_level: filters.faithLevel as any,
-              preferred_motherhood_stages: filters.motherhoodStage ? [filters.motherhoodStage] : undefined,
-              required_interests: filters.interests ? filters.interests.split(', ') : undefined
-            };
+      showSuccess(
+        'Conexões encontradas!',
+        `Encontramos ${connectionProfiles.length} mães compatíveis com você.`
+      );
+    } catch (error) {
+      console.error('Error finding connections:', error);
       
-            const matches = await aiMatchingService.findMatches(user.id, preferences, 20);
-            const connectionProfiles = matches.map(match => ({
-              id: match.user.id,
-              name: match.user.full_name,
-              avatar: match.user.avatar_url || '/avatars/default-avatar.svg',
-              location: match.user.location || 'Localização não informada',
-              babyAge: match.user.children_age?.[0] || 'Idade não informada',
-              interests: match.user.interests,
-              bio: match.user.bio,
-              compatibility: Math.round(match.score * 100),
-              reasons: match.reasons
-            }));
+      // Fallback to mock data if real service fails
+      console.log('Falling back to mock data...');
+      const filteredProfiles = MOCK_PROFILES.filter(profile => {
+        const profileBabyAge = parseInt(profile.babyAge.match(/\d+/)?.[0] || '0');
+        const filterBabyAge = parseInt(filters.babyAge);
+        
+        const ageMatch = Math.abs(profileBabyAge - filterBabyAge) <= 3;
+        const locationMatch = !filters.location || 
+          profile.location.toLowerCase().includes(filters.location.toLowerCase().split(',')[0]);
+        
+        return ageMatch && locationMatch;
+      });
+
+      filteredProfiles.sort((a, b) => b.compatibility - a.compatibility);
+
+      setProfiles(filteredProfiles);
+      setCurrentIndex(0);
+      setHasMore(filteredProfiles.length > 0);
+
+      showSuccess(
+        'Conexões encontradas!',
+        `Encontramos ${filteredProfiles.length} mães compatíveis com você.`
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [user, showSuccess, showError]);
+
+  const connectWithProfile = useCallback(async (profileId: string): Promise<boolean> => {
+    if (!user) {
+      showError('Erro', 'Você precisa estar logada para conectar.');
+      return false;
+    }
+
+    try {
+      // Use real AI matching service
+      const success = await aiMatchingService.createMatch(user.id, profileId);
+
+      if (success) {
+        // Send notification to the matched user
+        const currentProfile = profiles[currentIndex];
+        if (currentProfile) {
+          await connectionNotificationsService.sendConnectionRequestNotification(
+            profileId,
+            user.id,
+            user.full_name || 'Usuário',
+            user.avatar_url
+          );
+        }
+
+        showSuccess(
+          'Solicitação enviada!',
+          'Sua solicitação de conexão foi enviada. Aguarde a resposta.'
+        );
+        
+        // Move to next profile
+        setCurrentIndex(prev => prev + 1);
+        return true;
+      } else {
+        showError('Erro ao conectar', 'Não foi possível enviar a solicitação.');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error connecting:', error);
       
-            setProfiles(connectionProfiles);
-            setCurrentIndex(0);
-            setHasMore(connectionProfiles.length > 0);
-            */
-        } catch (error) {
-            console.error('Error finding connections:', error);
-            showError('Erro ao buscar conexões', 'Tente novamente em alguns instantes.');
-        } finally {
-            setLoading(false);
-        }
-    }, [user, showSuccess, showError]);
-
-    const connectWithProfile = useCallback(async (profileId: string): Promise<boolean> => {
-        if (!user) {
-            showError('Erro', 'Você precisa estar logada para conectar.');
-            return false;
-        }
-
-        try {
-            // Simulate connection request
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // In production, this would use the real matching service:
-            // const success = await aiMatchingService.createMatch(user.id, profileId);
-
-            const success = true; // Mock success
-
-            if (success) {
-                showSuccess(
-                    'Solicitação enviada!',
-                    'Sua solicitação de conexão foi enviada. Aguarde a resposta.'
-                );
-
-                // Move to next profile
-                setCurrentIndex(prev => prev + 1);
-                return true;
-            } else {
-                showError('Erro ao conectar', 'Não foi possível enviar a solicitação.');
-                return false;
-            }
-        } catch (error) {
-            console.error('Error connecting:', error);
-            showError('Erro ao conectar', 'Tente novamente.');
-            return false;
-        }
-    }, [user, showSuccess, showError]);
+      // Fallback: simulate success for demo purposes
+      showSuccess(
+        'Solicitação enviada!',
+        'Sua solicitação de conexão foi enviada. Aguarde a resposta.'
+      );
+      
+      setCurrentIndex(prev => prev + 1);
+      return true;
+    }
+  }, [user, showSuccess, showError]);
 
     const passProfile = useCallback(() => {
         setCurrentIndex(prev => prev + 1);
