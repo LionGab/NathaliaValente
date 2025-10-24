@@ -78,11 +78,11 @@ export const HealthPage: React.FC = () => {
         }
     };
 
-  const handleScheduleTest = (testType: string) => {
-    // Direcionar para o checkout do OLLIN
-    const ollinCheckoutUrl = `https://www.babytest.com.br/checkout?test=${testType}`;
-    window.open(ollinCheckoutUrl, '_blank');
-  };
+    const handleScheduleTest = (testType: string) => {
+        // Direcionar para o checkout do OLLIN
+        const ollinCheckoutUrl = `https://www.babytest.com.br/checkout?test=${testType}`;
+        window.open(ollinCheckoutUrl, '_blank');
+    };
 
     const handleAddBaby = async (babyData: any) => {
         if (!user) return;
@@ -127,8 +127,8 @@ export const HealthPage: React.FC = () => {
                                 loadBabyData(baby.id);
                             }}
                             className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${selectedBaby?.id === baby.id
-                                    ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
-                                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                                ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
+                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                                 }`}
                         >
                             <div className="flex items-center justify-between">
@@ -169,10 +169,10 @@ export const HealthPage: React.FC = () => {
                     Testes Genéticos OLLIN
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Investigue mais de 600 doenças genéticas tratáveis com tecnologia de ponta. 
+                    Investigue mais de 600 doenças genéticas tratáveis com tecnologia de ponta.
                     O ideal é fazer o teste do 1º ao 20º dia de vida do bebê.
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                         <div className="text-center">
@@ -192,7 +192,7 @@ export const HealthPage: React.FC = () => {
                             </Button>
                         </div>
                     </div>
-                    
+
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                         <div className="text-center">
                             <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
@@ -213,15 +213,15 @@ export const HealthPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
                     <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
                         <Clock className="w-5 h-5" />
                         <span className="font-medium">Melhor momento para fazer o teste:</span>
                     </div>
                     <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
-                        1º ao 20º dia de vida - <strong>MELHOR MOMENTO</strong> | 
-                        Primeiro ano - <strong>BOM</strong> | 
+                        1º ao 20º dia de vida - <strong>MELHOR MOMENTO</strong> |
+                        Primeiro ano - <strong>BOM</strong> |
                         Maior que 1 ano - <strong>NÃO RECOMENDADO</strong>
                     </p>
                 </div>
@@ -253,8 +253,8 @@ export const HealthPage: React.FC = () => {
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
                                         <div className={`w-2 h-2 rounded-full ${rec.priority === 'urgent' ? 'bg-red-500' :
-                                                rec.priority === 'high' ? 'bg-orange-500' :
-                                                    rec.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                                            rec.priority === 'high' ? 'bg-orange-500' :
+                                                rec.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
                                             }`} />
                                         <span className="text-sm font-medium text-gray-900 dark:text-white">
                                             {rec.title}
@@ -375,74 +375,74 @@ export const HealthPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-        <div className="px-4 py-6">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Baby className="w-8 h-8" />
-              <h1 className="text-3xl font-bold">
-                Saúde do Bebê
-              </h1>
-            </div>
-            <p className="text-blue-100 text-lg">
-              Acompanhamento de saúde com tecnologia avançada
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* OLLIN Banner */}
-      <div className="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
-        <div className="px-4 py-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-green-200 dark:border-green-800">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                    <Heart className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                      Babytest by OLLIN
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      O melhor para o seu bebê desde os primeiros dias de vida
-                    </p>
-                    <div className="flex items-center gap-4 text-sm">
-                      <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
-                        <CheckCircle className="w-4 h-4" />
-                        600+ doenças analisadas
-                      </span>
-                      <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
-                        <Shield className="w-4 h-4" />
-                        Tecnologia confiável
-                      </span>
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                <div className="px-4 py-6">
+                    <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <Baby className="w-8 h-8" />
+                            <h1 className="text-3xl font-bold">
+                                Saúde do Bebê
+                            </h1>
+                        </div>
+                        <p className="text-blue-100 text-lg">
+                            Acompanhamento de saúde com tecnologia avançada
+                        </p>
                     </div>
-                  </div>
                 </div>
-                <div className="flex gap-3">
-                  <Button
-                    onClick={() => handleScheduleTest('babytest_plus')}
-                    className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3"
-                  >
-                    <Calendar className="w-5 h-5 mr-2" />
-                    Babytest Plus
-                  </Button>
-                  <Button
-                    onClick={() => handleScheduleTest('babytest_basic')}
-                    variant="outline"
-                    className="border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 px-6 py-3"
-                  >
-                    <FileText className="w-5 h-5 mr-2" />
-                    Babytest Basic
-                  </Button>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
+
+            {/* OLLIN Banner */}
+            <div className="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
+                <div className="px-4 py-6">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-green-200 dark:border-green-800">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+                                        <Heart className="w-8 h-8 text-white" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                                            Babytest by OLLIN
+                                        </h2>
+                                        <p className="text-gray-600 dark:text-gray-400 mb-2">
+                                            O melhor para o seu bebê desde os primeiros dias de vida
+                                        </p>
+                                        <div className="flex items-center gap-4 text-sm">
+                                            <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                                                <CheckCircle className="w-4 h-4" />
+                                                600+ doenças analisadas
+                                            </span>
+                                            <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
+                                                <Shield className="w-4 h-4" />
+                                                Tecnologia confiável
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3">
+                                    <Button
+                                        onClick={() => handleScheduleTest('babytest_plus')}
+                                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3"
+                                    >
+                                        <Calendar className="w-5 h-5 mr-2" />
+                                        Babytest Plus
+                                    </Button>
+                                    <Button
+                                        onClick={() => handleScheduleTest('babytest_basic')}
+                                        variant="outline"
+                                        className="border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 px-6 py-3"
+                                    >
+                                        <FileText className="w-5 h-5 mr-2" />
+                                        Babytest Basic
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Tab Navigation */}
             <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -455,8 +455,8 @@ export const HealthPage: React.FC = () => {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id
-                                            ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                                        ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                                        : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />
