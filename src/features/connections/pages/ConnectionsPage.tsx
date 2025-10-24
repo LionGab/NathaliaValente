@@ -133,20 +133,18 @@ export const ConnectionsPage: React.FC = () => {
                 <p className="text-gray-600 max-w-2xl mx-auto mb-4">
                     Use a IA para encontrar mães com perfis e interesses em comum.
                 </p>
-                
+
                 {/* Advanced Cards Toggle */}
                 <div className="flex items-center justify-center gap-2">
                     <span className="text-sm text-gray-600">Cards Simples</span>
                     <button
                         onClick={() => setUseAdvancedCards(!useAdvancedCards)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                            useAdvancedCards ? 'bg-pink-500' : 'bg-gray-300'
-                        }`}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${useAdvancedCards ? 'bg-pink-500' : 'bg-gray-300'
+                            }`}
                     >
                         <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                useAdvancedCards ? 'translate-x-6' : 'translate-x-1'
-                            }`}
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${useAdvancedCards ? 'translate-x-6' : 'translate-x-1'
+                                }`}
                         />
                     </button>
                     <span className="text-sm text-gray-600">Cards Avançados</span>
