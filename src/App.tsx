@@ -22,6 +22,9 @@ import { useNotifications } from './hooks/useNotifications';
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
 const ConnectionsPage = lazy(() => import('./features/connections/pages/ConnectionsPage').then(module => ({ default: module.ConnectionsPage })));
+const SafetyPage = lazy(() => import('./features/safety/pages/SafetyPage').then(module => ({ default: module.SafetyPage })));
+const VirtualTryOnPage = lazy(() => import('./features/virtual-tryon/pages/VirtualTryOnPage').then(module => ({ default: module.VirtualTryOnPage })));
+const HealthPage = lazy(() => import('./features/health/pages/HealthPage').then(module => ({ default: module.HealthPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
 const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
 const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
@@ -119,6 +122,24 @@ function AppContent() {
           return (
             <Suspense fallback={<LoadingSpinner />}>
               <ConnectionsPage />
+            </Suspense>
+          );
+        case 'safety':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <SafetyPage />
+            </Suspense>
+          );
+        case 'tryon':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <VirtualTryOnPage />
+            </Suspense>
+          );
+        case 'health':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <HealthPage />
             </Suspense>
           );
         case 'groups':

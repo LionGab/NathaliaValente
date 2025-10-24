@@ -97,9 +97,9 @@ class BabyTestIntegrationService {
             const isOptimalAge = this.isOptimalTestAge(ageInDays, testType);
 
             if (!isOptimalAge) {
-                return { 
-                    success: false, 
-                    message: 'Bebê fora da faixa etária recomendada para este teste' 
+                return {
+                    success: false,
+                    message: 'Bebê fora da faixa etária recomendada para este teste'
                 };
             }
 
@@ -135,10 +135,10 @@ class BabyTestIntegrationService {
             // Track engagement
             trackEngagement('babytest_scheduled', 'health', userId, 1);
 
-            return { 
-                success: true, 
-                appointmentId, 
-                message: 'Teste agendado com sucesso!' 
+            return {
+                success: true,
+                appointmentId,
+                message: 'Teste agendado com sucesso!'
             };
         } catch (error) {
             console.error('Error scheduling BabyTest:', error);
@@ -220,7 +220,7 @@ class BabyTestIntegrationService {
             const testResults = babyProfile.test_history;
             if (testResults.length > 0) {
                 const latestTest = testResults[testResults.length - 1];
-                
+
                 if (latestTest.results.diseases_detected.length > 0) {
                     insights.push({
                         category: 'genetic',
@@ -380,7 +380,7 @@ class BabyTestIntegrationService {
             // Mock API call to OLLIN
             // In real implementation, this would make actual API call
             console.log('Creating OLLIN appointment:', appointmentData);
-            
+
             // Simulate API response
             return crypto.randomUUID();
         } catch (error) {
@@ -451,7 +451,7 @@ class BabyTestIntegrationService {
         // Mock AI analysis - in real implementation, would use actual AI/ML models
         const diseasesDetected = results.diseases_detected || [];
         const riskLevel = diseasesDetected.length > 0 ? 'high' : 'low';
-        
+
         const recommendations = [];
         if (diseasesDetected.length > 0) {
             recommendations.push('Consulte um especialista em genética');
@@ -534,7 +534,7 @@ class BabyTestIntegrationService {
     private async analyzeGrowthPatterns(babyProfile: BabyProfile): Promise<HealthInsight | null> {
         // Mock growth analysis
         const ageInDays = this.calculateBabyAge(babyProfile.birth_date);
-        
+
         if (ageInDays > 30) { // Only analyze after first month
             return {
                 category: 'growth',
@@ -548,7 +548,7 @@ class BabyTestIntegrationService {
                 ]
             };
         }
-        
+
         return null;
     }
 
@@ -575,7 +575,7 @@ class BabyTestIntegrationService {
      */
     private async generatePreventiveInsights(babyProfile: BabyProfile): Promise<HealthInsight[]> {
         const insights: HealthInsight[] = [];
-        
+
         // Nutrition insight
         insights.push({
             category: 'nutrition',

@@ -4,8 +4,8 @@ import { Button } from '../../../components/ui/Button';
 import { AdvancedUserProfile, AdvancedMatchScore } from '../services/advanced-matching.service';
 
 interface AdvancedConnectionCardProps {
-    profile: AdvancedUserProfile & { 
-        compatibilityScore?: number; 
+    profile: AdvancedUserProfile & {
+        compatibilityScore?: number;
         compatibilityReasons?: string[];
         safetyScore?: number;
         sharedInterests?: string[];
@@ -62,7 +62,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                     alt={profile.full_name}
                     className="w-full h-80 object-cover"
                 />
-                
+
                 {/* Safety Score Badge */}
                 <div className="absolute top-4 right-4">
                     <div className={`flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm ${getSafetyColor(profile.safetyScore || 0)}`}>
@@ -107,7 +107,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                             <span className="text-sm">{profile.location}</span>
                         </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-1">
                         <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -223,7 +223,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                         <X className="w-4 h-4" />
                         Passar
                     </Button>
-                    
+
                     <Button
                         onClick={() => onMessage(profile.id)}
                         variant="outline"
@@ -232,7 +232,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                     >
                         <MessageCircle className="w-4 h-4" />
                     </Button>
-                    
+
                     <Button
                         onClick={() => onShare(profile.id)}
                         variant="outline"
@@ -241,7 +241,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                     >
                         <Share2 className="w-4 h-4" />
                     </Button>
-                    
+
                     <Button
                         onClick={() => onConnect(profile.id)}
                         className="flex-1 flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-600"
@@ -276,7 +276,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                                     {profile.lifestyle?.social_preference}
                                 </p>
                             </div>
-                            
+
                             <div>
                                 <h5 className="font-semibold text-gray-900 dark:text-white mb-1">
                                     Comunicação
@@ -297,7 +297,7 @@ export const AdvancedConnectionCard: React.FC<AdvancedConnectionCardProps> = ({
                                 <Shield className="w-4 h-4" />
                                 Informações de Segurança
                             </button>
-                            
+
                             {showSafetyInfo && (
                                 <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <div className="text-sm space-y-1">

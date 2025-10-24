@@ -163,12 +163,12 @@ class AdvancedMatchingService {
 
         if (error) {
             console.error('Error fetching advanced user profile:', error);
-            
+
             // Create demo profile with advanced data
             if (error.code === 'PGRST116') {
                 return await this.createAdvancedDemoProfile(userId);
             }
-            
+
             return null;
         }
 
@@ -300,18 +300,18 @@ class AdvancedMatchingService {
 
         // Generate compatibility reasons
         const compatibility_reasons = this.generateCompatibilityReasons(compatibility, userProfile, matchProfile);
-        
+
         // Calculate safety score
         const safety_score = this.calculateOverallSafetyScore(userProfile, matchProfile);
-        
+
         // Find shared interests
-        const shared_interests = userProfile.interests.filter(interest => 
+        const shared_interests = userProfile.interests.filter(interest =>
             matchProfile.interests.includes(interest)
         );
-        
+
         // Suggest potential activities
         const potential_activities = this.suggestActivities(userProfile, matchProfile);
-        
+
         // Identify risk factors
         const risk_factors = this.identifyRiskFactors(userProfile, matchProfile);
 
@@ -347,7 +347,7 @@ class AdvancedMatchingService {
             'experienced': { 'pregnant': 0.6, 'new_mom': 0.9, 'experienced': 1.0, 'grandmother': 0.8 },
             'grandmother': { 'pregnant': 0.4, 'new_mom': 0.7, 'experienced': 0.8, 'grandmother': 1.0 }
         };
-        
+
         return stageCompatibility[userStage as keyof typeof stageCompatibility]?.[matchStage as keyof typeof stageCompatibility[userStage]] || 0.5;
     }
 
@@ -376,11 +376,11 @@ class AdvancedMatchingService {
      */
     private calculateLocationCompatibility(userLocation?: string, matchLocation?: string, maxDistance?: number): number {
         if (!userLocation || !matchLocation) return 0.5;
-        
+
         // Simple location matching (in real app, would use geolocation API)
         const userCity = userLocation.split(',')[0].trim();
         const matchCity = matchLocation.split(',')[0].trim();
-        
+
         if (userCity === matchCity) return 1.0;
         if (userCity.includes(matchCity) || matchCity.includes(userCity)) return 0.8;
         return 0.3;
@@ -392,7 +392,7 @@ class AdvancedMatchingService {
     private calculateLifestyleCompatibility(userLifestyle: any, matchLifestyle: any): number {
         let score = 0;
         const factors = ['sleep_schedule', 'activity_level', 'social_preference', 'parenting_style'];
-        
+
         factors.forEach(factor => {
             if (userLifestyle[factor] === matchLifestyle[factor]) {
                 score += 1;
@@ -400,7 +400,7 @@ class AdvancedMatchingService {
                 score += 0.5;
             }
         });
-        
+
         return score / factors.length;
     }
 
@@ -409,11 +409,11 @@ class AdvancedMatchingService {
      */
     private calculateCommunicationCompatibility(userPrefs: any, matchPrefs: any): number {
         let score = 0;
-        
+
         if (userPrefs.communication_style === matchPrefs.communication_style) score += 0.4;
         if (userPrefs.meeting_preference === matchPrefs.meeting_preference) score += 0.3;
         if (userPrefs.group_size === matchPrefs.group_size) score += 0.3;
-        
+
         return score;
     }
 
@@ -430,31 +430,31 @@ class AdvancedMatchingService {
      */
     private generateCompatibilityReasons(compatibility: any, userProfile: AdvancedUserProfile, matchProfile: AdvancedUserProfile): string[] {
         const reasons: string[] = [];
-        
+
         if (compatibility.interests > 0.7) {
             reasons.push('Interesses muito similares');
         }
-        
+
         if (compatibility.motherhood_stage > 0.8) {
             reasons.push('Mesma fase da maternidade');
         }
-        
+
         if (compatibility.lifestyle > 0.8) {
             reasons.push('Estilo de vida compatível');
         }
-        
+
         if (compatibility.communication > 0.7) {
             reasons.push('Estilo de comunicação similar');
         }
-        
+
         if (compatibility.safety > 0.6) {
             reasons.push('Preocupações de segurança similares');
         }
-        
+
         if (compatibility.location > 0.8) {
             reasons.push('Mesma região');
         }
-        
+
         return reasons;
     }
 
@@ -463,19 +463,19 @@ class AdvancedMatchingService {
      */
     private calculateOverallSafetyScore(userProfile: AdvancedUserProfile, matchProfile: AdvancedUserProfile): number {
         let score = 0.5; // Base score
-        
+
         // Check for safety concerns alignment
-        const sharedSafetyConcerns = userProfile.safety_concerns.filter(concern => 
+        const sharedSafetyConcerns = userProfile.safety_concerns.filter(concern =>
             matchProfile.safety_concerns.includes(concern)
         );
-        
+
         if (sharedSafetyConcerns.length > 0) {
             score += 0.2;
         }
-        
+
         // Check for verified profile (would be implemented with real verification)
         // score += matchProfile.verified ? 0.3 : 0;
-        
+
         return Math.min(1, score);
     }
 
@@ -484,33 +484,33 @@ class AdvancedMatchingService {
      */
     private suggestActivities(userProfile: AdvancedUserProfile, matchProfile: AdvancedUserProfile): string[] {
         const activities: string[] = [];
-        
+
         // Based on shared interests
-        const sharedInterests = userProfile.interests.filter(interest => 
+        const sharedInterests = userProfile.interests.filter(interest =>
             matchProfile.interests.includes(interest)
         );
-        
+
         if (sharedInterests.includes('Yoga')) {
             activities.push('Aula de yoga em grupo');
         }
-        
+
         if (sharedInterests.includes('Parques')) {
             activities.push('Passeio no parque com os bebês');
         }
-        
+
         if (sharedInterests.includes('Culinária')) {
             activities.push('Workshop de culinária saudável');
         }
-        
+
         // Based on lifestyle compatibility
         if (userProfile.lifestyle.activity_level === 'moderate' && matchProfile.lifestyle.activity_level === 'moderate') {
             activities.push('Caminhada matinal');
         }
-        
+
         if (userProfile.preferences.group_size === 'small' && matchProfile.preferences.group_size === 'small') {
             activities.push('Encontro íntimo em café');
         }
-        
+
         return activities;
     }
 
@@ -519,24 +519,24 @@ class AdvancedMatchingService {
      */
     private identifyRiskFactors(userProfile: AdvancedUserProfile, matchProfile: AdvancedUserProfile): string[] {
         const risks: string[] = [];
-        
+
         // Check for conflicting safety concerns
         const userConcerns = userProfile.safety_concerns;
         const matchConcerns = matchProfile.safety_concerns;
-        
+
         if (userConcerns.includes('Encontros noturnos') && !matchConcerns.includes('Encontros noturnos')) {
             risks.push('Diferentes preferências para horários de encontro');
         }
-        
+
         if (userConcerns.includes('Locais isolados') && !matchConcerns.includes('Locais isolados')) {
             risks.push('Diferentes preferências de localização');
         }
-        
+
         // Check for lifestyle conflicts
         if (userProfile.lifestyle.sleep_schedule === 'early_bird' && matchProfile.lifestyle.sleep_schedule === 'night_owl') {
             risks.push('Horários de sono muito diferentes');
         }
-        
+
         return risks;
     }
 
@@ -550,16 +550,16 @@ class AdvancedMatchingService {
             'Organizada': 'Flexível',
             'Séria': 'Brilhante'
         };
-        
+
         const complementary: string[] = [];
-        
+
         userTraits.forEach(trait => {
             const complement = complementaryPairs[trait as keyof typeof complementaryPairs];
             if (complement && matchTraits.includes(complement)) {
                 complementary.push(complement);
             }
         });
-        
+
         return complementary;
     }
 
@@ -584,7 +584,7 @@ class AdvancedMatchingService {
                 'ambivert': ['introvert', 'extrovert']
             }
         };
-        
+
         return compatiblePairs[factor as keyof typeof compatiblePairs]?.[userValue as keyof typeof compatiblePairs[factor]]?.includes(matchValue) || false;
     }
 }

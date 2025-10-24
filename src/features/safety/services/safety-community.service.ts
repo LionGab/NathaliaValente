@@ -249,7 +249,7 @@ class SafetyCommunityService {
     ): Promise<string | null> {
         try {
             const trackingId = crypto.randomUUID();
-            
+
             // Create tracking session
             const { error } = await supabase
                 .from('safety_tracking')
@@ -366,9 +366,9 @@ class SafetyCommunityService {
         try {
             // In a real implementation, this would use geolocation queries
             // to find users within a certain radius and send push notifications
-            
+
             console.log(`Notifying nearby users about ${alertType} alert with ${severity} severity at ${location.address}`);
-            
+
             // This would integrate with push notification service
             // await pushNotificationService.sendToNearbyUsers(location, {
             //     title: 'Alerta de Segurança',
@@ -436,13 +436,13 @@ class SafetyCommunityService {
         // - Lighting conditions
         // - Population density
         // - Historical safety data
-        
+
         let totalScore = 0;
         for (const waypoint of waypoints) {
             // Mock safety rating based on waypoint data
             totalScore += waypoint.safety_rating || 0.7;
         }
-        
+
         return totalScore / waypoints.length;
     }
 
@@ -483,7 +483,7 @@ class SafetyCommunityService {
         try {
             // In a real implementation, this would integrate with emergency services API
             console.log(`Calling emergency services for ${emergencyType} at ${location.address}`);
-            
+
             // This could trigger:
             // - Automatic 911/190 calls
             // - SMS to emergency contacts

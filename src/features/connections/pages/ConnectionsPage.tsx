@@ -5,12 +5,14 @@ import { Button } from '../../../components/ui/Button';
 import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
 import { useNotifications } from '../../../hooks/useNotifications';
 import { ConnectionCard } from '../components/ConnectionCard';
+import { AdvancedConnectionCard } from '../components/AdvancedConnectionCard';
 import { ConnectionFilters, ConnectionFiltersData } from '../components/ConnectionFilters';
 import { useConnections } from '../hooks/useConnections';
 
 
 export const ConnectionsPage: React.FC = () => {
     const [showFilters, setShowFilters] = useState(false);
+    const [useAdvancedCards, setUseAdvancedCards] = useState(true);
     const [filters, setFilters] = useState<ConnectionFiltersData>({
         babyAge: '6',
         location: 'São Paulo, SP',
@@ -128,9 +130,27 @@ export const ConnectionsPage: React.FC = () => {
                         Encontrar Conexões
                     </h1>
                 </div>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <p className="text-gray-600 max-w-2xl mx-auto mb-4">
                     Use a IA para encontrar mães com perfis e interesses em comum.
                 </p>
+                
+                {/* Advanced Cards Toggle */}
+                <div className="flex items-center justify-center gap-2">
+                    <span className="text-sm text-gray-600">Cards Simples</span>
+                    <button
+                        onClick={() => setUseAdvancedCards(!useAdvancedCards)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                            useAdvancedCards ? 'bg-pink-500' : 'bg-gray-300'
+                        }`}
+                    >
+                        <span
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                useAdvancedCards ? 'translate-x-6' : 'translate-x-1'
+                            }`}
+                        />
+                    </button>
+                    <span className="text-sm text-gray-600">Cards Avançados</span>
+                </div>
             </div>
 
             {/* Filters Modal */}
@@ -145,11 +165,31 @@ export const ConnectionsPage: React.FC = () => {
             {/* Profile Card */}
             {currentProfile && (
                 <div className="max-w-sm mx-auto">
-                    <ConnectionCard
-                        profile={currentProfile}
-                        onConnect={handleConnect}
-                        onPass={handlePass}
-                    />
+                    {useAdvancedCards ? (
+                        <AdvancedConnectionCard
+                            profile={{
+                                ...currentProfile,
+                                compatibilityScore: Math.floor(Math.random() * 30) + 70, // Mock score
+                                compatibilityReasons: ['Interesses similares', 'Mesma fase da maternidade'],
+                                safetyScore: Math.random() * 0.3 + 0.7, // Mock safety score
+                                sharedInterests: currentProfile.interests?.slice(0, 3) || [],
+                                potentialActivities: ['Passeio no parque', 'Aula de yoga'],
+                                riskFactors: Math.random() > 0.7 ? ['Diferentes horários de sono'] : []
+                            }}
+                            onConnect={handleConnect}
+                            onPass={handlePass}
+                            onMessage={(profileId) => console.log('Message:', profileId)}
+                            onShare={(profileId) => console.log('Share:', profileId)}
+                            onReport={(profileId) => console.log('Report:', profileId)}
+                            isLoading={loading}
+                        />
+                    ) : (
+                        <ConnectionCard
+                            profile={currentProfile}
+                            onConnect={handleConnect}
+                            onPass={handlePass}
+                        />
+                    )}
 
                     {/* Progress Indicator */}
                     <div className="flex justify-center mt-6">

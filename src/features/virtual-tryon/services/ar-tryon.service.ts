@@ -87,7 +87,7 @@ class ARTryOnService {
     ): Promise<ARTryOnSession | null> {
         try {
             const sessionId = crypto.randomUUID();
-            
+
             const { data, error } = await supabase
                 .from('ar_tryon_sessions')
                 .insert({
@@ -135,13 +135,13 @@ class ARTryOnService {
 
             // Analyze fit using AI
             const fitAnalysis = await this.analyzeFit(product, userMeasurements, selectedSize);
-            
+
             // Analyze style compatibility
             const styleAnalysis = await this.analyzeStyle(product, userMeasurements, selectedColor);
-            
+
             // Generate AR preview
             const arPreview = await this.generateARPreview(product, userMeasurements, selectedSize, selectedColor);
-            
+
             // Get recommendations
             const recommendations = await this.getRecommendations(product, userMeasurements, fitAnalysis, styleAnalysis);
 
@@ -204,10 +204,10 @@ class ARTryOnService {
     ): Promise<VirtualTryOnResult['fit_analysis']> {
         // In a real implementation, this would use AI/ML models to analyze fit
         // For now, we'll use rule-based analysis
-        
+
         const sizeChart = this.getSizeChart(product.category);
         const sizeData = sizeChart[selectedSize];
-        
+
         if (!sizeData) {
             return {
                 overall_fit: 'poor',
@@ -224,7 +224,7 @@ class ARTryOnService {
         const hipsFit = this.calculateFitScore(measurements.hips, sizeData.hips);
 
         const overallFitScore = (bustFit + waistFit + hipsFit) / 3;
-        
+
         let overallFit: 'perfect' | 'good' | 'fair' | 'poor';
         if (overallFitScore >= 90) overallFit = 'perfect';
         else if (overallFitScore >= 75) overallFit = 'good';
@@ -255,13 +255,13 @@ class ARTryOnService {
     ): Promise<VirtualTryOnResult['style_analysis']> {
         // Analyze color harmony with skin tone
         const colorHarmony = this.analyzeColorHarmony(selectedColor, measurements.skin_tone);
-        
+
         // Analyze style match with body type
         const styleMatch = this.analyzeStyleMatch(product, measurements.body_type);
-        
+
         // Determine occasion suitability
         const occasionSuitability = this.determineOccasionSuitability(product);
-        
+
         // Generate styling suggestions
         const stylingSuggestions = this.generateStylingSuggestions(product, measurements, selectedColor);
 
@@ -284,7 +284,7 @@ class ARTryOnService {
     ): Promise<VirtualTryOnResult['ar_preview']> {
         // In a real implementation, this would use AR/3D rendering
         // For now, we'll return placeholder data
-        
+
         return {
             front_view: this.generatePlaceholderImage('front', product, selectedColor),
             side_view: this.generatePlaceholderImage('side', product, selectedColor),
@@ -304,10 +304,10 @@ class ARTryOnService {
     ): Promise<VirtualTryOnResult['recommendations']> {
         // Find similar products
         const similarProducts = await this.findSimilarProducts(product, measurements);
-        
+
         // Generate styling tips
         const stylingTips = this.generateStylingTips(product, measurements, fitAnalysis, styleAnalysis);
-        
+
         // Suggest size alternatives
         const sizeAlternatives = this.suggestSizeAlternatives(product, measurements, fitAnalysis);
 
@@ -324,7 +324,7 @@ class ARTryOnService {
     private calculateFitScore(measurement: number, sizeMeasurement: number): number {
         const difference = Math.abs(measurement - sizeMeasurement);
         const tolerance = sizeMeasurement * 0.1; // 10% tolerance
-        
+
         if (difference <= tolerance) {
             return 100 - (difference / tolerance) * 20; // 80-100 for good fit
         } else {
@@ -353,7 +353,7 @@ class ARTryOnService {
                 'XL': { bust: 94, waist: 74, hips: 102 }
             }
         };
-        
+
         return sizeCharts[category as keyof typeof sizeCharts] || sizeCharts.swimwear;
     }
 
@@ -370,7 +370,7 @@ class ARTryOnService {
             'tan': { 'black': 70, 'white': 75, 'navy': 85, 'red': 90, 'pink': 70 },
             'dark': { 'black': 65, 'white': 70, 'navy': 80, 'red': 85, 'pink': 65 }
         };
-        
+
         return colorHarmonyMap[skinTone]?.[color] || 75;
     }
 
@@ -386,7 +386,7 @@ class ARTryOnService {
             'rectangle': { 'swimwear': 75, 'activewear': 80, 'casual': 85, 'formal': 80 },
             'inverted_triangle': { 'swimwear': 80, 'activewear': 85, 'casual': 80, 'formal': 85 }
         };
-        
+
         return styleMatches[bodyType]?.[product.category] || 75;
     }
 
@@ -400,7 +400,7 @@ class ARTryOnService {
             'casual': ['everyday', 'shopping', 'lunch', 'weekend'],
             'formal': ['dinner', 'events', 'business', 'special occasions']
         };
-        
+
         return occasionMap[product.category as keyof typeof occasionMap] || ['casual'];
     }
 
@@ -409,25 +409,25 @@ class ARTryOnService {
      */
     private generateStylingSuggestions(product: Product, measurements: UserMeasurements, color: string): string[] {
         const suggestions: string[] = [];
-        
+
         // Body type specific suggestions
         if (measurements.body_type === 'pear') {
             suggestions.push('Adicione um cinto para definir a cintura');
             suggestions.push('Escolha tops mais chamativos para equilibrar');
         }
-        
+
         // Color specific suggestions
         if (color === 'black') {
             suggestions.push('Combine com acessórios coloridos');
             suggestions.push('Perfeito para ocasiões elegantes');
         }
-        
+
         // Category specific suggestions
         if (product.category === 'swimwear') {
             suggestions.push('Use protetor solar adequado');
             suggestions.push('Combine com um pareo para transições');
         }
-        
+
         return suggestions;
     }
 
@@ -486,18 +486,18 @@ class ARTryOnService {
      */
     private generateStylingTips(product: Product, measurements: UserMeasurements, fitAnalysis: any, styleAnalysis: any): string[] {
         const tips: string[] = [];
-        
+
         if (fitAnalysis.fit_score < 80) {
             tips.push('Considere um tamanho diferente para melhor ajuste');
         }
-        
+
         if (styleAnalysis.color_harmony < 80) {
             tips.push('Experimente outras cores que combinem melhor com seu tom de pele');
         }
-        
+
         tips.push('Combine com acessórios que complementem o estilo');
         tips.push('Considere a ocasião ao escolher este item');
-        
+
         return tips;
     }
 
@@ -507,7 +507,7 @@ class ARTryOnService {
     private suggestSizeAlternatives(product: Product, measurements: UserMeasurements, fitAnalysis: any): string[] {
         const currentSizeIndex = product.sizes.indexOf(fitAnalysis.size_recommendation);
         const alternatives: string[] = [];
-        
+
         // Suggest one size up and down
         if (currentSizeIndex > 0) {
             alternatives.push(product.sizes[currentSizeIndex - 1]);
@@ -515,7 +515,7 @@ class ARTryOnService {
         if (currentSizeIndex < product.sizes.length - 1) {
             alternatives.push(product.sizes[currentSizeIndex + 1]);
         }
-        
+
         return alternatives;
     }
 
