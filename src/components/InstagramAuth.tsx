@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Instagram, ArrowRight, Users, Heart, Star, Shield, Sparkles, Mail, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useNotifications } from '../hooks/useNotifications';
+import { useAuth } from '../contexts/AuthContext';
 import { LoadingSpinner } from './LoadingSpinner';
 
 interface InstagramUser {
@@ -29,6 +30,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { showSuccess, showError, handleApiError, handleValidationError } = useNotifications();
+  const { signInDemo } = useAuth();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -203,13 +205,19 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
     }
   };
 
-  const handleDemoLogin = () => {
-    showSuccess(
-      'Modo Demo Ativado',
-      'Entrando como Nathália Arcuri...'
-    );
+  const handleDemoLogin = async () => {
+    setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      showSuccess(
+        'Modo Demo Ativado',
+        'Entrando como Nathália Arcuri...'
+      );
+
+      // Usar o método signInDemo do AuthContext
+      await signInDemo();
+
+      // Criar o mockUser para compatibilidade com onSuccess
       const mockUser = {
         id: 'demo-user-123',
         username: 'nathalia_arcuri',
@@ -219,8 +227,16 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         following_count: 500,
         access_token: 'demo-token-' + Date.now()
       };
-      onSuccess(mockUser);
-    }, 1500);
+
+      setTimeout(() => {
+        onSuccess(mockUser);
+      }, 1000);
+    } catch (error) {
+      console.error('Erro no login demo:', error);
+      showError('Erro no login demo', 'Tente novamente em alguns instantes.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -337,8 +353,8 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                   }
                 }}
                 className={`w-full px-4 py-3 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.fullName
-                    ? 'border-error-500 focus:border-error-500'
-                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                  ? 'border-error-500 focus:border-error-500'
+                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
                   }`}
                 placeholder="Seu nome completo"
               />
@@ -366,8 +382,8 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                   }
                 }}
                 className={`w-full px-4 py-3 pl-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.email
-                    ? 'border-error-500 focus:border-error-500'
-                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                  ? 'border-error-500 focus:border-error-500'
+                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
                   }`}
                 placeholder="seu@email.com"
               />
@@ -397,8 +413,8 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                   }
                 }}
                 className={`w-full px-4 py-3 pr-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.password
-                    ? 'border-error-500 focus:border-error-500'
-                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                  ? 'border-error-500 focus:border-error-500'
+                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
                   }`}
                 placeholder="Sua senha"
               />

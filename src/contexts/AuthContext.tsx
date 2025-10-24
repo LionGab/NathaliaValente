@@ -9,8 +9,10 @@ type AuthContextType = {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  isDemoMode: boolean;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: unknown }>;
   signIn: (email: string, password: string) => Promise<{ error: unknown }>;
+  signInDemo: () => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -129,9 +132,54 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const signInDemo = async () => {
+    setIsDemoMode(true);
+    setLoading(false);
+
+    // Criar um usuário demo mock
+    const demoUser = {
+      id: 'demo-user-123',
+      email: 'demo@clubnath.com',
+      user_metadata: {
+        full_name: 'Nathalia Arcuri',
+        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
+      }
+    } as User;
+
+    const demoSession = {
+      user: demoUser,
+      access_token: 'demo-token',
+      refresh_token: 'demo-refresh-token',
+      expires_in: 3600,
+      expires_at: Date.now() + 3600000,
+      token_type: 'bearer'
+    } as Session;
+
+    setUser(demoUser);
+    setSession(demoSession);
+    setProfile({
+      id: 'demo-user-123',
+      full_name: 'Nathalia Arcuri',
+      username: 'nathalia_arcuri',
+      avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+      bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
+      followers_count: 29000000,
+      following_count: 500,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+  };
+
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setProfile(null);
+    if (isDemoMode) {
+      setIsDemoMode(false);
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+    } else {
+      await supabase.auth.signOut();
+      setProfile(null);
+    }
   };
 
   return (
@@ -141,8 +189,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         profile,
         session,
         loading,
+        isDemoMode,
         signUp,
         signIn,
+        signInDemo,
         signOut,
         refreshProfile,
       }}
