@@ -118,13 +118,13 @@ class AIMatchingService {
 
         if (error) {
             console.error('Error fetching user profile:', error);
-            
+
             // If profile doesn't exist, create a demo profile
             if (error.code === 'PGRST116') {
                 console.log('Creating demo profile for user:', userId);
                 return await this.createDemoProfile(userId);
             }
-            
+
             return null;
         }
 

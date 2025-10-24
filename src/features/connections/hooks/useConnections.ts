@@ -180,44 +180,44 @@ export const useConnections = (): UseConnectionsReturn => {
                 'Conexões encontradas!',
                 `Encontramos ${connectionProfiles.length} mães compatíveis com você.`
             );
-    } catch (error) {
-      console.error('Error finding connections:', error);
-      
-      // Check if it's a profile not found error
-      if (error instanceof Error && error.message.includes('User profile not found')) {
-        showError(
-          'Perfil necessário',
-          'Para encontrar conexões, você precisa completar seu perfil primeiro.'
-        );
-        return;
-      }
-      
-      // Fallback to mock data if real service fails
-      console.log('Falling back to mock data...');
-      const filteredProfiles = MOCK_PROFILES.filter(profile => {
-        const profileBabyAge = parseInt(profile.babyAge.match(/\d+/)?.[0] || '0');
-        const filterBabyAge = parseInt(filters.babyAge);
-        
-        const ageMatch = Math.abs(profileBabyAge - filterBabyAge) <= 3;
-        const locationMatch = !filters.location || 
-          profile.location.toLowerCase().includes(filters.location.toLowerCase().split(',')[0]);
-        
-        return ageMatch && locationMatch;
-      });
+        } catch (error) {
+            console.error('Error finding connections:', error);
 
-      filteredProfiles.sort((a, b) => b.compatibility - a.compatibility);
+            // Check if it's a profile not found error
+            if (error instanceof Error && error.message.includes('User profile not found')) {
+                showError(
+                    'Perfil necessário',
+                    'Para encontrar conexões, você precisa completar seu perfil primeiro.'
+                );
+                return;
+            }
 
-      setProfiles(filteredProfiles);
-      setCurrentIndex(0);
-      setHasMore(filteredProfiles.length > 0);
+            // Fallback to mock data if real service fails
+            console.log('Falling back to mock data...');
+            const filteredProfiles = MOCK_PROFILES.filter(profile => {
+                const profileBabyAge = parseInt(profile.babyAge.match(/\d+/)?.[0] || '0');
+                const filterBabyAge = parseInt(filters.babyAge);
 
-      showSuccess(
-        'Conexões encontradas!',
-        `Encontramos ${filteredProfiles.length} mães compatíveis com você.`
-      );
-    } finally {
-      setLoading(false);
-    }
+                const ageMatch = Math.abs(profileBabyAge - filterBabyAge) <= 3;
+                const locationMatch = !filters.location ||
+                    profile.location.toLowerCase().includes(filters.location.toLowerCase().split(',')[0]);
+
+                return ageMatch && locationMatch;
+            });
+
+            filteredProfiles.sort((a, b) => b.compatibility - a.compatibility);
+
+            setProfiles(filteredProfiles);
+            setCurrentIndex(0);
+            setHasMore(filteredProfiles.length > 0);
+
+            showSuccess(
+                'Conexões encontradas!',
+                `Encontramos ${filteredProfiles.length} mães compatíveis com você.`
+            );
+        } finally {
+            setLoading(false);
+        }
     }, [user, showSuccess, showError]);
 
     const connectWithProfile = useCallback(async (profileId: string): Promise<boolean> => {
