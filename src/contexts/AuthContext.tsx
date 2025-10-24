@@ -7,8 +7,11 @@ type AuthContextType = {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  isDemoMode: boolean;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: unknown }>;
   signIn: (email: string, password: string) => Promise<{ error: unknown }>;
+  signInDemo: () => Promise<void>;
+  signInSocial: (socialUser: any) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -28,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -105,9 +109,104 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { error };
   };
 
+  const signInDemo = async () => {
+    // Create mock user and session for demo mode
+    const mockUser: User = {
+      id: 'demo-user-123',
+      email: 'demo@clubnath.com',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      aud: 'authenticated',
+      role: 'authenticated',
+      app_metadata: {},
+      user_metadata: {
+        full_name: 'Nathalia Arcuri',
+        username: 'nathalia_arcuri'
+      },
+      identities: [],
+      factors: []
+    };
+
+    const mockSession: Session = {
+      access_token: 'demo-token-' + Date.now(),
+      refresh_token: 'demo-refresh-' + Date.now(),
+      expires_in: 3600,
+      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      token_type: 'bearer',
+      user: mockUser
+    };
+
+    const mockProfile: Profile = {
+      id: 'demo-user-123',
+      full_name: 'Nathalia Arcuri',
+      username: 'nathalia_arcuri',
+      avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+      bio: 'Mãe, empresária e inspiradora. Bem-vinda ao ClubNath VIP!',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    setUser(mockUser);
+    setSession(mockSession);
+    setProfile(mockProfile);
+    setIsDemoMode(true);
+    setLoading(false);
+  };
+
+  const signInSocial = async (socialUser: any) => {
+    // Create mock user and session for social login
+    const mockUser: User = {
+      id: socialUser.id,
+      email: `${socialUser.username}@clubnath.com`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      aud: 'authenticated',
+      role: 'authenticated',
+      app_metadata: {},
+      user_metadata: {
+        full_name: socialUser.full_name,
+        username: socialUser.username
+      },
+      identities: [],
+      factors: []
+    };
+
+    const mockSession: Session = {
+      access_token: socialUser.access_token,
+      refresh_token: 'social-refresh-' + Date.now(),
+      expires_in: 3600,
+      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      token_type: 'bearer',
+      user: mockUser
+    };
+
+    const mockProfile: Profile = {
+      id: socialUser.id,
+      full_name: socialUser.full_name,
+      username: socialUser.username,
+      avatar_url: socialUser.profile_picture_url,
+      bio: `Mãe ativa na comunidade ClubNath VIP! ${socialUser.followers_count} seguidores.`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    setUser(mockUser);
+    setSession(mockSession);
+    setProfile(mockProfile);
+    setIsDemoMode(false);
+    setLoading(false);
+  };
+
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setProfile(null);
+    if (isDemoMode) {
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      setIsDemoMode(false);
+    } else {
+      await supabase.auth.signOut();
+      setProfile(null);
+    }
   };
 
   return (
@@ -117,8 +216,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         profile,
         session,
         loading,
+        isDemoMode,
         signUp,
         signIn,
+        signInDemo,
+        signInSocial,
         signOut,
         refreshProfile,
       }}

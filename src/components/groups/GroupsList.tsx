@@ -19,7 +19,7 @@ import {
   ChevronRight,
   X
 } from 'lucide-react';
-import { groupsService, searchGroups, getPopularGroups, getRecentGroups } from '../../services/groups.service';
+import { groupsMockService } from '../../services/groups-mock.service';
 import { Group, GroupCategory, GroupFilters } from '../../types/groups';
 import { GroupCard } from './GroupCard';
 import { CreateGroupModal } from './CreateGroupModal';
@@ -65,12 +65,18 @@ export const GroupsList: React.FC<GroupsListProps> = ({
     refetch: refetchDiscover
   } = useQuery({
     queryKey: ['groups', 'discover', filters],
-    queryFn: () => groupsService.getGroups({
-      query: filters.search,
-      category: filters.category,
-      is_private: filters.is_private,
-      limit: 20
-    }),
+    queryFn: async () => {
+      if (filters.search) {
+        return await groupsMockService.searchGroups(filters.search);
+      }
+      if (filters.category && filters.category !== 'Todos') {
+        return await groupsMockService.getGroupsByCategory(filters.category);
+      }
+      if (filters.is_private) {
+        return await groupsMockService.getPrivateGroups();
+      }
+      return await groupsMockService.getAllGroups();
+    },
     enabled: activeTab === 'discover'
   });
 
@@ -79,7 +85,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
     isLoading: popularLoading
   } = useQuery({
     queryKey: ['groups', 'popular'],
-    queryFn: getPopularGroups,
+    queryFn: groupsMockService.getPopularGroups,
     enabled: activeTab === 'popular'
   });
 
@@ -88,7 +94,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
     isLoading: recentLoading
   } = useQuery({
     queryKey: ['groups', 'recent'],
-    queryFn: getRecentGroups,
+    queryFn: groupsMockService.getRecentGroups,
     enabled: activeTab === 'recent'
   });
 

@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Send, Sparkles, Copy, ThumbsUp, RotateCcw, Lightbulb, Mic, Paperclip } from 'lucide-react';
+import { Send, Sparkles, Copy, ThumbsUp, RotateCcw, Lightbulb, Mic, Paperclip, Heart } from 'lucide-react';
 import { MemoryIndicator, MemoryIndicatorCompact } from './chat/MemoryIndicator';
-import { generateNathIAResponse } from '../services/chat-history.service';
+import { generateNathIAResponse } from '../services/nathia-enhanced.service';
 import { generateNathIAStudyResponse } from '../services/bible-studies.service';
 import { NathLogo } from './ui/Logo';
 
@@ -66,7 +66,7 @@ export const ChatPage = () => {
       }
 
       // Verificar se a mensagem é sobre estudos bíblicos
-      const isBibleStudyMessage = 
+      const isBibleStudyMessage =
         userMessage.toLowerCase().includes('estudo') ||
         userMessage.toLowerCase().includes('bíblia') ||
         userMessage.toLowerCase().includes('versículo') ||
@@ -81,7 +81,7 @@ export const ChatPage = () => {
         return studyResponse.message;
       } else {
         // Usar o serviço de memória conversacional padrão
-        const response = await generateNathIAResponse(userMessage, user.id);
+        const response = await generateNathIAResponse(userMessage, user.id, messages);
         return response.message;
       }
     } catch (error) {
@@ -190,19 +190,19 @@ export const ChatPage = () => {
                 <Heart className="w-3 h-3 text-yellow-800" />
               </div>
             </div>
-            
+
             <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-2">
               Olá! Eu sou a NathIA 💕
             </h3>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6 px-4">
               Estou aqui para ouvir, apoiar e refletir com você. Lembro das nossas conversas anteriores para te dar um apoio ainda mais personalizado. Como posso ajudar hoje?
             </p>
-            
+
             {/* Memory Indicator */}
             <div className="mb-6 px-4">
               <MemoryIndicator compact={true} />
             </div>
-            
+
             {/* Quick Suggestions Mobile-First */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-2xl mx-auto px-4">
               {quickSuggestions.map((suggestion, index) => (
@@ -229,11 +229,10 @@ export const ChatPage = () => {
             className={`flex ${message.is_user ? 'justify-end' : 'justify-start'} mb-3`}
           >
             <div
-              className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-3 sm:py-4 ${
-                message.is_user
+              className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-3 sm:py-4 ${message.is_user
                   ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
                   : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow-md border border-gray-100 dark:border-gray-700'
-              }`}
+                }`}
             >
               {!message.is_user && (
                 <div className="flex items-center gap-2 mb-2">
@@ -242,7 +241,7 @@ export const ChatPage = () => {
                 </div>
               )}
               <p className="text-sm sm:text-base leading-relaxed">{message.message}</p>
-              
+
               {/* Message Actions */}
               {!message.is_user && (
                 <div className="flex items-center gap-1 sm:gap-2 mt-3 pt-2 border-t border-gray-200 dark:border-gray-600">
@@ -288,7 +287,7 @@ export const ChatPage = () => {
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -305,7 +304,7 @@ export const ChatPage = () => {
           >
             <Paperclip className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
-          
+
           {/* Message Input */}
           <input
             type="text"
@@ -315,7 +314,7 @@ export const ChatPage = () => {
             disabled={loading}
             className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all text-sm sm:text-base"
           />
-          
+
           {/* Voice Message Button */}
           <button
             type="button"
@@ -324,7 +323,7 @@ export const ChatPage = () => {
           >
             <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
-          
+
           {/* Send Button */}
           <button
             type="submit"
