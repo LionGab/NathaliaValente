@@ -4,6 +4,8 @@
  * Foco: Acolhimento, Conexão e Pertencentimento
  */
 
+import React from 'react';
+
 // Layout Components
 export { MobileLayout } from './MobileLayout';
 export { TabletLayout } from './TabletLayout';

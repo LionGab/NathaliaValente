@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
 import { MobileLayout } from './MobileLayout';
 import { TabletLayout } from './TabletLayout';
 import { DesktopLayout } from './DesktopLayout';
@@ -40,11 +39,15 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   showRightPanel = false,
 }) => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 768,
+    height: typeof window !== 'undefined' ? window.innerHeight : 1024,
+  });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const { width, height } = Dimensions.get('window');
+      const width = window.innerWidth;
+      const height = window.innerHeight;
       setDimensions({ width, height });
       
       // Determine breakpoint based on width
@@ -57,10 +60,10 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
       }
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    window.addEventListener('resize', updateDimensions);
     updateDimensions(); // Initial call
 
-    return () => subscription?.remove();
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   // Common props for all layouts
@@ -110,12 +113,16 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
 // Hook for responsive breakpoints
 export const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 768,
+    height: typeof window !== 'undefined' ? window.innerHeight : 1024,
+  });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const { width } = Dimensions.get('window');
-      setDimensions({ width, height: dimensions.height });
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setDimensions({ width, height });
       
       if (width < 768) {
         setBreakpoint('mobile');
@@ -126,11 +133,11 @@ export const useBreakpoint = () => {
       }
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    window.addEventListener('resize', updateDimensions);
     updateDimensions();
 
-    return () => subscription?.remove();
-  }, [dimensions.height]);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
 
   return {
     breakpoint,
@@ -161,7 +168,7 @@ export const responsiveUtils = {
   },
 
   // Responsive values
-  getResponsiveValue: <T>(
+  getResponsiveValue: <T,>(
     mobile: T,
     tablet: T,
     desktop: T,
