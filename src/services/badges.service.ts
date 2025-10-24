@@ -63,7 +63,7 @@ export interface BadgeStats {
 class BadgesService {
   private static instance: BadgesService;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): BadgesService {
     if (!BadgesService.instance) {
@@ -447,7 +447,7 @@ class BadgesService {
           .select('created_at')
           .eq('id', userId)
           .single();
-        
+
         if (userProfile) {
           const daysSinceJoin = Math.floor(
             (Date.now() - new Date(userProfile.created_at).getTime()) / (1000 * 60 * 60 * 24)
@@ -462,7 +462,7 @@ class BadgesService {
           .select('current_streak')
           .eq('user_id', userId)
           .single();
-        
+
         const currentStreak = streakData?.current_streak || 0;
         return Math.min(100, (currentStreak / requirement.value) * 100);
 
@@ -496,7 +496,7 @@ class BadgesService {
           .select('current_streak')
           .eq('user_id', userId)
           .single();
-        
+
         const journalCurrentStreak = journalStreak?.current_streak || 0;
         return Math.min(100, (journalCurrentStreak / requirement.value) * 100);
 
@@ -515,13 +515,13 @@ class BadgesService {
           .select('created_at')
           .eq('id', userId)
           .single();
-        
+
         if (userProfile) {
           const { count: earlierUsers } = await supabase
             .from('profiles')
             .select('id', { count: 'exact' })
             .lt('created_at', userProfile.created_at);
-          
+
           return (earlierUsers || 0) < 100 ? 100 : 0;
         }
         return 0;
@@ -544,7 +544,7 @@ class BadgesService {
 
     for (const badge of badges) {
       const progress = await this.calculateBadgeProgress(userId, badge);
-      
+
       if (progress >= 100) {
         const earned = await this.earnBadge(userId, badge.id);
         if (earned) {
@@ -599,7 +599,7 @@ class BadgesService {
     if (!badge) return;
 
     const { notificationsService } = await import('./notifications.service');
-    
+
     await notificationsService.sendNotification('badge_earned', userId, {
       badge_id: badgeId,
       badge_name: badge.name,
@@ -646,8 +646,8 @@ class BadgesService {
 
     data?.forEach(item => {
       const userId = item.user_id;
-      const rarity = item.badge?.rarity;
-      const fullName = item.user?.full_name || 'Usuário';
+      const rarity = (item.badge as any)?.rarity;
+      const fullName = (item.user as any)?.full_name || 'Usuário';
 
       if (!userStats.has(userId)) {
         userStats.set(userId, {

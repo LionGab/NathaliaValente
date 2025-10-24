@@ -5,12 +5,12 @@
 
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-  X, 
-  Users, 
-  Lock, 
-  Globe, 
-  Image, 
+import {
+  X,
+  Users,
+  Lock,
+  Globe,
+  Image,
   Upload,
   AlertCircle,
   CheckCircle,
@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { groupsService } from '../../services/groups.service';
 import { CreateGroupData, GroupCategory, GROUP_CATEGORIES } from '../../types/groups';
+import { uploadWithRetry } from '../../lib/apiClient';
+import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { getCategoryColor, getCategoryIcon } from '../../types/groups';
@@ -25,6 +27,35 @@ import { getCategoryColor, getCategoryIcon } from '../../types/groups';
 interface CreateGroupModalProps {
   onClose: () => void;
   onSuccess: () => void;
+}
+
+/**
+ * Upload cover image for group
+ */
+async function uploadCoverImage(file: File): Promise<string> {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+  const filePath = `group-covers/${fileName}`;
+
+  const result = await uploadWithRetry(
+    () => supabase.storage
+      .from('group-covers')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      }),
+    { feature: 'upload', retries: 2 }
+  );
+
+  if (!result.success) {
+    throw new Error('Failed to upload cover image');
+  }
+
+  const { data } = supabase.storage
+    .from('group-covers')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
 }
 
 export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
@@ -58,7 +89,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
 
   const handleInputChange = (field: keyof CreateGroupData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    
+
     // Limpar erro do campo quando usuário começar a digitar
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
@@ -81,14 +112,14 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       }
 
       setCoverImage(file);
-      
+
       // Criar preview
       const reader = new FileReader();
       reader.onload = (e) => {
         setCoverImagePreview(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-      
+
       setErrors(prev => ({ ...prev, coverImage: '' }));
     }
   };
@@ -135,16 +166,16 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     try {
-      // TODO: Upload da imagem de capa se necessário
-      // const coverImageUrl = coverImage ? await uploadCoverImage(coverImage) : undefined;
-      
+      // Upload da imagem de capa se necessário
+      const coverImageUrl = coverImage ? await uploadCoverImage(coverImage) : undefined;
+
       await createGroupMutation.mutateAsync({
         ...formData,
-        // cover_image_url: coverImageUrl
+        cover_image_url: coverImageUrl
       });
     } catch (error) {
       console.error('Erro ao criar grupo:', error);
@@ -180,7 +211,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               {getStepDescription()}
             </p>
           </div>
-          
+
           <Button
             onClick={onClose}
             variant="ghost"
@@ -196,17 +227,15 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
           <div className="flex items-center gap-4">
             {[1, 2].map((stepNumber) => (
               <div key={stepNumber} className="flex items-center gap-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step >= stepNumber
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= stepNumber
                     ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
-                }`}>
+                  }`}>
                   {stepNumber}
                 </div>
                 {stepNumber < 2 && (
-                  <div className={`w-8 h-0.5 ${
-                    step > stepNumber ? 'bg-gradient-to-r from-pink-500 to-purple-600' : 'bg-gray-200 dark:bg-gray-700'
-                  }`} />
+                  <div className={`w-8 h-0.5 ${step > stepNumber ? 'bg-gradient-to-r from-pink-500 to-purple-600' : 'bg-gray-200 dark:bg-gray-700'
+                    }`} />
                 )}
               </div>
             ))}
@@ -227,11 +256,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   placeholder="Ex: Mães em Fé, Amamentação com Amor..."
-                  className={`w-full px-4 py-3 rounded-xl border transition-all ${
-                    errors.name
+                  className={`w-full px-4 py-3 rounded-xl border transition-all ${errors.name
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 dark:border-gray-600 focus:ring-pink-500 focus:border-pink-500'
-                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -255,11 +283,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                       key={category}
                       type="button"
                       onClick={() => handleInputChange('category', category)}
-                      className={`p-3 rounded-xl border-2 transition-all text-left ${
-                        formData.category === category
+                      className={`p-3 rounded-xl border-2 transition-all text-left ${formData.category === category
                           ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
                           : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-lg">{getCategoryIcon(category)}</span>
@@ -282,11 +309,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   placeholder="Descreva o propósito e o que as mães podem esperar deste grupo..."
                   rows={4}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all resize-none ${
-                    errors.description
+                  className={`w-full px-4 py-3 rounded-xl border transition-all resize-none ${errors.description
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 dark:border-gray-600 focus:ring-pink-500 focus:border-pink-500'
-                  } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
                 />
                 {errors.description && (
                   <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -432,11 +458,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                     max="200"
                     value={formData.max_members}
                     onChange={(e) => handleInputChange('max_members', parseInt(e.target.value))}
-                    className={`flex-1 px-4 py-3 rounded-xl border transition-all ${
-                      errors.max_members
+                    className={`flex-1 px-4 py-3 rounded-xl border transition-all ${errors.max_members
                         ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                         : 'border-gray-300 dark:border-gray-600 focus:ring-pink-500 focus:border-pink-500'
-                    } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
                   />
                 </div>
                 {errors.max_members && (
@@ -522,7 +547,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             >
               Cancelar
             </Button>
-            
+
             {step === 1 ? (
               <Button
                 type="button"

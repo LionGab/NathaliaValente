@@ -17,8 +17,8 @@ import type {
   NathIAResponse,
   ChatHistoryService
 } from '../types/chat-history';
-import { 
-  NATHIA_PERSONALITY, 
+import {
+  NATHIA_PERSONALITY,
   DEFAULT_MEMORY_PREFERENCES,
   buildContextSummary,
   generateGreeting,
@@ -34,7 +34,7 @@ export const chatHistoryService: ChatHistoryService = {
   // =====================================================
   // MENSAGENS
   // =====================================================
-  
+
   async getChatHistory(filters: ChatHistoryFilters): Promise<ChatMessage[]> {
     const {
       user_id,
@@ -57,15 +57,15 @@ export const chatHistoryService: ChatHistoryService = {
     if (session_id) {
       queryBuilder = queryBuilder.eq('session_id', session_id);
     }
-    
+
     if (sender) {
       queryBuilder = queryBuilder.eq('sender', sender);
     }
-    
+
     if (start_date) {
       queryBuilder = queryBuilder.gte('created_at', start_date);
     }
-    
+
     if (end_date) {
       queryBuilder = queryBuilder.lte('created_at', end_date);
     }
@@ -239,7 +239,7 @@ export const chatHistoryService: ChatHistoryService = {
 
     // Se não existir, criar com valores padrão
     if (!data) {
-      return await this.createDefaultMemoryPreferences(userId);
+      return await createDefaultMemoryPreferences(userId);
     }
 
     return data;
@@ -284,23 +284,23 @@ export const chatHistoryService: ChatHistoryService = {
 
   async buildNathIAPrompt(userMessage: string, context: ChatContext): Promise<NathIAPrompt> {
     const { recent_messages, recent_summaries, user_preferences } = context;
-    
+
     // Verificar se deve usar memória
     const useMemory = user_preferences.memory_enabled && user_preferences.personalized_responses;
-    
+
     // Construir prompt do sistema
-    const systemPrompt = this.buildSystemPrompt(useMemory);
-    
+    const systemPrompt = buildSystemPrompt(useMemory);
+
     // Construir resumo do contexto
     const contextSummary = useMemory ? buildContextSummary(recent_summaries, recent_messages) : '';
-    
+
     // Construir mensagens recentes
-    const recentMessagesText = useMemory ? this.buildRecentMessagesText(recent_messages) : '';
-    
+    const recentMessagesText = useMemory ? buildRecentMessagesText(recent_messages) : '';
+
     // Detectar tópicos e humor
     const topics = getTopicsFromMessages(recent_messages);
     const moodIndicators = getMoodIndicators(recent_messages);
-    
+
     return {
       system_prompt: systemPrompt,
       context_summary: contextSummary,
@@ -308,7 +308,7 @@ export const chatHistoryService: ChatHistoryService = {
       current_message: userMessage,
       user_context: {
         topics,
-        mood_indicators,
+        mood_indicators: moodIndicators,
         has_memory: useMemory,
         last_interaction: recent_messages[0]?.created_at
       }
@@ -321,7 +321,7 @@ export const chatHistoryService: ChatHistoryService = {
 
   async exportChatHistory(userId: string, format: 'json' | 'csv' = 'json'): Promise<string> {
     const messages = await this.getChatHistory({ user_id: userId, limit: 1000 });
-    
+
     if (format === 'json') {
       return JSON.stringify(messages, null, 2);
     } else {
@@ -333,48 +333,50 @@ export const chatHistoryService: ChatHistoryService = {
         msg.message.replace(/"/g, '""'), // Escape quotes
         msg.message_type
       ]);
-      
+
       const csvContent = [headers, ...rows]
         .map(row => row.map(cell => `"${cell}"`).join(','))
         .join('\n');
-      
+
       return csvContent;
     }
   },
 
   async cleanupOldHistory(): Promise<void> {
     const { error } = await supabase.rpc('cleanup_old_chat_history');
-    
+
     if (error) {
       console.error('Error cleaning up old history:', error);
       throw new Error('Erro ao limpar histórico antigo');
     }
   },
 
-  // =====================================================
-  // MÉTODOS PRIVADOS
-  // =====================================================
+};
 
-  async createDefaultMemoryPreferences(userId: string): Promise<MemoryPreferences> {
-    const { data, error } = await supabase
-      .from('memory_preferences')
-      .insert({
-        user_id: userId,
-        ...DEFAULT_MEMORY_PREFERENCES
-      })
-      .select('*')
-      .single();
+// =====================================================
+// MÉTODOS PRIVADOS (fora do objeto para permitir private)
+// =====================================================
 
-    if (error) {
-      console.error('Error creating default memory preferences:', error);
-      throw new Error('Erro ao criar preferências padrão');
-    }
+async function createDefaultMemoryPreferences(userId: string): Promise<MemoryPreferences> {
+  const { data, error } = await supabase
+    .from('memory_preferences')
+    .insert({
+      user_id: userId,
+      ...DEFAULT_MEMORY_PREFERENCES
+    })
+    .select('*')
+    .single();
 
-    return data;
-  },
+  if (error) {
+    console.error('Error creating default memory preferences:', error);
+    throw new Error('Erro ao criar preferências padrão');
+  }
 
-  buildSystemPrompt(useMemory: boolean): string {
-    const basePrompt = `Você é o NathIA, assistente virtual do ClubNath, uma comunidade de mães.
+  return data;
+}
+
+function buildSystemPrompt(useMemory: boolean): string {
+  const basePrompt = `Você é o NathIA, assistente virtual do ClubNath, uma comunidade de mães.
 
 PERSONALIDADE:
 - Seja jovem, empática e validadora
@@ -391,8 +393,8 @@ DIRETRIZES:
 - Evite conselhos médicos específicos
 - Encoraje a buscar ajuda profissional quando necessário`;
 
-    if (useMemory) {
-      return basePrompt + `
+  if (useMemory) {
+    return basePrompt + `
 
 MEMÓRIA:
 - Você tem acesso ao histórico de conversas anteriores
@@ -400,22 +402,21 @@ MEMÓRIA:
 - Faça referências ao que foi discutido anteriormente
 - Personalize suas respostas baseadas no contexto
 - Seja consistente com informações já compartilhadas`;
-    }
-
-    return basePrompt;
-  },
-
-  buildRecentMessagesText(messages: ChatMessage[]): string {
-    if (messages.length === 0) return '';
-
-    const recentMessages = messages.slice(0, 10).reverse(); // Últimas 10, em ordem cronológica
-    
-    return recentMessages.map(msg => {
-      const sender = msg.sender === 'user' ? 'Usuária' : 'NathIA';
-      return `${sender}: ${msg.message}`;
-    }).join('\n');
   }
-};
+
+  return basePrompt;
+}
+
+function buildRecentMessagesText(messages: ChatMessage[]): string {
+  if (messages.length === 0) return '';
+
+  const recentMessages = messages.slice(0, 10).reverse(); // Últimas 10, em ordem cronológica
+
+  return recentMessages.map(msg => {
+    const sender = msg.sender === 'user' ? 'Usuária' : 'NathIA';
+    return `${sender}: ${msg.message}`;
+  }).join('\n');
+}
 
 // =====================================================
 // FUNÇÕES AUXILIARES PARA NATHIA
@@ -428,23 +429,23 @@ export const generateNathIAResponse = async (
   try {
     // Buscar contexto
     const context = await chatHistoryService.getChatContext(userId);
-    
+
     // Construir prompt
     const prompt = await chatHistoryService.buildNathIAPrompt(userMessage, context);
-    
+
     // Chamar API do Claude
     const response = await callClaudeAPI(prompt);
-    
+
     // Salvar mensagens no histórico
     const sessionId = crypto.randomUUID();
-    
+
     await chatHistoryService.createChatMessage({
       session_id: sessionId,
       message: userMessage,
       sender: 'user',
       message_type: 'text'
     });
-    
+
     await chatHistoryService.createChatMessage({
       session_id: sessionId,
       message: response.message,
@@ -456,12 +457,12 @@ export const generateNathIAResponse = async (
         context_used: prompt.context_summary.length > 0
       }
     });
-    
+
     // Criar resumo se necessário
     if (context.user_preferences.auto_summarize) {
       await createConversationSummary(sessionId, userMessage, response.message, context);
     }
-    
+
     return {
       message: response.message,
       context_used: prompt.context_summary.length > 0,
@@ -470,7 +471,7 @@ export const generateNathIAResponse = async (
       session_id: sessionId,
       metadata: response.metadata || {}
     };
-    
+
   } catch (error) {
     console.error('Error generating NathIA response:', error);
     throw new Error('Erro ao gerar resposta do NathIA');
@@ -479,11 +480,11 @@ export const generateNathIAResponse = async (
 
 const callClaudeAPI = async (prompt: NathIAPrompt): Promise<{ message: string; metadata?: any }> => {
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
-  
+
   if (!apiKey) {
     throw new Error('API key do Claude não configurada');
   }
-  
+
   const fullPrompt = `${prompt.system_prompt}
 
 ${prompt.context_summary ? `CONTEXTO:\n${prompt.context_summary}\n` : ''}
@@ -519,7 +520,7 @@ Responda com empatia e continuidade, considerando o contexto quando disponível.
   }
 
   const data = await response.json();
-  
+
   return {
     message: data.content[0].text,
     metadata: {
@@ -538,14 +539,14 @@ const createConversationSummary = async (
   try {
     const topics = getTopicsFromMessages([{ message: userMessage } as ChatMessage]);
     const moodIndicators = getMoodIndicators([{ message: userMessage } as ChatMessage]);
-    
+
     const summary = `Conversa sobre ${topics.join(', ') || 'maternidade'}. ${userMessage.substring(0, 100)}...`;
-    
+
     await chatHistoryService.createChatSummary({
       session_id: sessionId,
       summary,
       topics,
-      mood_indicators
+      mood_indicators: moodIndicators
     });
   } catch (error) {
     console.error('Error creating conversation summary:', error);

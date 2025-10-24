@@ -12,7 +12,7 @@ import { PerformanceDebug } from './components/PerformanceDebug';
 import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
 import { ConversionOnboarding } from './components/ConversionOnboarding';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { ErrorBoundary, FeedErrorBoundary, ChatErrorBoundary, GroupsErrorBoundary, ProfileErrorBoundary } from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -86,15 +86,19 @@ function AppContent() {
       switch (currentPage) {
         case 'feed':
           return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <FeedPage />
-            </Suspense>
+            <FeedErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <FeedPage />
+              </Suspense>
+            </FeedErrorBoundary>
           );
         case 'chat':
           return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <ChatPage />
-            </Suspense>
+            <ChatErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <ChatPage />
+              </Suspense>
+            </ChatErrorBoundary>
           );
         case 'search':
           return (
@@ -110,24 +114,30 @@ function AppContent() {
           );
         case 'profile':
           return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <ProfilePage />
-            </Suspense>
+            <ProfileErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <ProfilePage />
+              </Suspense>
+            </ProfileErrorBoundary>
           );
         case 'groups':
           return selectedGroup ? (
-            <Suspense fallback={<LoadingSpinner />}>
-              <GroupDetail
-                groupId={selectedGroup.id}
-                onBack={() => setSelectedGroup(null)}
-              />
-            </Suspense>
+            <GroupsErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <GroupDetail
+                  groupId={selectedGroup.id}
+                  onBack={() => setSelectedGroup(null)}
+                />
+              </Suspense>
+            </GroupsErrorBoundary>
           ) : (
-            <Suspense fallback={<LoadingSpinner />}>
-              <GroupsList
-                onGroupSelect={setSelectedGroup}
-              />
-            </Suspense>
+            <GroupsErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <GroupsList
+                  onGroupSelect={setSelectedGroup}
+                />
+              </Suspense>
+            </GroupsErrorBoundary>
           );
         default:
           return (
@@ -155,14 +165,14 @@ function AppContent() {
           <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
           <PerformanceDebug />
           {showBanner && (
-            <MonetizationBanner 
-              variant={bannerVariant} 
-              onClose={closeBanner} 
+            <MonetizationBanner
+              variant={bannerVariant}
+              onClose={closeBanner}
             />
           )}
-          <NotificationContainer 
-            notifications={notifications} 
-            onClose={removeNotification} 
+          <NotificationContainer
+            notifications={notifications}
+            onClose={removeNotification}
           />
         </div>
       </div>

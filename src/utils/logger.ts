@@ -40,10 +40,10 @@ class Logger {
   error(message: string, options?: LogOptions): void {
     // Errors are always logged, even in production
     console.error(this.formatMessage('error', message, options), options?.data || '');
-    
-    // TODO: Send to error tracking service (Sentry, etc) in production
+
+    // Send to error tracking service in production
     if (!this.isDev) {
-      // this.sendToErrorTracking(message, options);
+      this.sendToErrorTracking(message, options);
     }
   }
 
@@ -76,6 +76,34 @@ class Logger {
   timeEnd(label: string): void {
     if (this.isDev) {
       console.timeEnd(label);
+    }
+  }
+
+  /**
+   * Send error to tracking service
+   */
+  private sendToErrorTracking(message: string, options?: LogOptions): void {
+    try {
+      const errorData = {
+        message,
+        level: 'error',
+        timestamp: new Date().toISOString(),
+        url: typeof window !== 'undefined' ? window.location.href : undefined,
+        userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : undefined,
+        data: options?.data,
+        context: options?.context
+      };
+
+      // Send to error tracking endpoint
+      if (typeof window !== 'undefined' && window.navigator.sendBeacon) {
+        window.navigator.sendBeacon(
+          '/api/errors',
+          JSON.stringify(errorData)
+        );
+      }
+    } catch (trackingError) {
+      // Don't log tracking errors to avoid infinite loops
+      console.error('Failed to send error to tracking service:', trackingError);
     }
   }
 }

@@ -281,8 +281,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
               <GroupCard
                 key={group.id}
                 group={group}
-                onView={onGroupSelect}
-                showActions={true}
+                onSelect={(group) => onGroupSelect?.(group as Group)}
               />
             ))}
           </div>

@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
 import { MobileLayout } from './MobileLayout';
 import { TabletLayout } from './TabletLayout';
 import { DesktopLayout } from './DesktopLayout';
 
 interface ResponsiveLayoutProps {
-  children: React.ReactNode;
-  currentPage: string;
-  onNavigate: (page: string) => void;
-  onProfileClick: () => void;
-  showHeader?: boolean;
-  showNavigation?: boolean;
-  headerTitle?: string;
-  headerSubtitle?: string;
-  headerActions?: React.ReactNode;
-  className?: string;
-  sidebar?: React.ReactNode;
-  showSidebar?: boolean;
-  rightPanel?: React.ReactNode;
-  showRightPanel?: boolean;
+    children: React.ReactNode;
+    currentPage: string;
+    onNavigate: (page: string) => void;
+    onProfileClick: () => void;
+    showHeader?: boolean;
+    showNavigation?: boolean;
+    headerTitle?: string;
+    headerSubtitle?: string;
+    headerActions?: React.ReactNode;
+    className?: string;
+    sidebar?: React.ReactNode;
+    showSidebar?: boolean;
+    rightPanel?: React.ReactNode;
+    showRightPanel?: boolean;
 }
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop';
@@ -40,11 +39,11 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   showRightPanel = false,
 }) => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const { width, height } = Dimensions.get('window');
+      const { width, height } = { width: window.innerWidth, height: window.innerHeight };
       setDimensions({ width, height });
       
       // Determine breakpoint based on width
@@ -57,65 +56,65 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
       }
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    window.addEventListener('resize', updateDimensions);
     updateDimensions(); // Initial call
 
-    return () => subscription?.remove();
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Common props for all layouts
-  const commonProps = {
-    children,
-    currentPage,
-    onNavigate,
-    onProfileClick,
-    showHeader,
-    showNavigation,
-    headerTitle,
-    headerSubtitle,
-    headerActions,
-    className,
-  };
+    // Common props for all layouts
+    const commonProps = {
+        children,
+        currentPage,
+        onNavigate,
+        onProfileClick,
+        showHeader,
+        showNavigation,
+        headerTitle,
+        headerSubtitle,
+        headerActions,
+        className,
+    };
 
-  // Render appropriate layout based on breakpoint
-  switch (breakpoint) {
-    case 'mobile':
-      return <MobileLayout {...commonProps} />;
-    
-    case 'tablet':
-      return (
-        <TabletLayout 
-          {...commonProps}
-          sidebar={sidebar}
-          showSidebar={showSidebar}
-        />
-      );
-    
-    case 'desktop':
-      return (
-        <DesktopLayout 
-          {...commonProps}
-          sidebar={sidebar}
-          showSidebar={showSidebar}
-          rightPanel={rightPanel}
-          showRightPanel={showRightPanel}
-        />
-      );
-    
-    default:
-      return <MobileLayout {...commonProps} />;
-  }
+    // Render appropriate layout based on breakpoint
+    switch (breakpoint) {
+        case 'mobile':
+            return <MobileLayout {...commonProps} />;
+
+        case 'tablet':
+            return (
+                <TabletLayout
+                    {...commonProps}
+                    sidebar={sidebar}
+                    showSidebar={showSidebar}
+                />
+            );
+
+        case 'desktop':
+            return (
+                <DesktopLayout
+                    {...commonProps}
+                    sidebar={sidebar}
+                    showSidebar={showSidebar}
+                    rightPanel={rightPanel}
+                    showRightPanel={showRightPanel}
+                />
+            );
+
+        default:
+            return <MobileLayout {...commonProps} />;
+    }
 };
 
 // Hook for responsive breakpoints
 export const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const { width } = Dimensions.get('window');
-      setDimensions({ width, height: dimensions.height });
+      const { width, height } = { width: window.innerWidth, height: window.innerHeight };
+      setDimensions({ width, height });
       
       if (width < 768) {
         setBreakpoint('mobile');
@@ -126,11 +125,11 @@ export const useBreakpoint = () => {
       }
     };
 
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    window.addEventListener('resize', updateDimensions);
     updateDimensions();
 
-    return () => subscription?.remove();
-  }, [dimensions.height]);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
 
   return {
     breakpoint,
@@ -158,55 +157,6 @@ export const responsiveUtils = {
     desktop: '(min-width: 1024px)',
     mobileAndTablet: '(max-width: 1023px)',
     tabletAndDesktop: '(min-width: 768px)',
-  },
-
-  // Responsive values
-  getResponsiveValue: <T>(
-    mobile: T,
-    tablet: T,
-    desktop: T,
-    currentBreakpoint: Breakpoint
-  ): T => {
-    switch (currentBreakpoint) {
-      case 'mobile':
-        return mobile;
-      case 'tablet':
-        return tablet;
-      case 'desktop':
-        return desktop;
-      default:
-        return mobile;
-    }
-  },
-
-  // Responsive spacing
-  getResponsiveSpacing: (
-    mobile: string,
-    tablet: string,
-    desktop: string,
-    currentBreakpoint: Breakpoint
-  ): string => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
-  },
-
-  // Responsive typography
-  getResponsiveTypography: (
-    mobile: string,
-    tablet: string,
-    desktop: string,
-    currentBreakpoint: Breakpoint
-  ): string => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
-  },
-
-  // Responsive layout
-  getResponsiveLayout: (
-    mobile: React.ReactNode,
-    tablet: React.ReactNode,
-    desktop: React.ReactNode,
-    currentBreakpoint: Breakpoint
-  ): React.ReactNode => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
   },
 };
 

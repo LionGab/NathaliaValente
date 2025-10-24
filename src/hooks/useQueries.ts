@@ -44,13 +44,13 @@ export const usePosts = (page = 0, limit = 20) => {
       // Get likes count separately for better performance
       const postIds = data?.map(post => post.id) || [];
       let likesData: any[] = [];
-      
+
       if (postIds.length > 0) {
         const { data: likes } = await supabase
           .from('post_likes')
           .select('post_id')
           .in('post_id', postIds);
-        
+
         likesData = likes || [];
       }
 
@@ -63,7 +63,7 @@ export const usePosts = (page = 0, limit = 20) => {
           likes_count: likesCount,
           comments_count: 0, // Will be loaded separately if needed
           user_has_liked: false, // Will be set by the component based on current user
-        };
+        } as Post;
       }) || [];
     },
     // Cache posts for 1 minute (optimized for real-time feel)
@@ -143,7 +143,7 @@ export const usePostComments = (postId: string) => {
 // Profile Queries
 export const useCurrentProfile = () => {
   const { user } = useAuth();
-  
+
   return useQuery({
     queryKey: queryKeys.currentProfile,
     queryFn: async (): Promise<Profile | null> => {
@@ -202,7 +202,7 @@ export const useDailyQuotes = () => {
 // Saved Items Query
 export const useSavedItems = () => {
   const { user } = useAuth();
-  
+
   return useQuery({
     queryKey: queryKeys.savedItems(user?.id || ''),
     queryFn: async (): Promise<SavedItem[]> => {

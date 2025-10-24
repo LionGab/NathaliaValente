@@ -57,7 +57,7 @@ export interface JournalStreak {
 class JournalingService {
   private static instance: JournalingService;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): JournalingService {
     if (!JournalingService.instance) {
@@ -272,7 +272,7 @@ class JournalingService {
 
   async getDailyPrompt(): Promise<JournalPrompt | null> {
     const today = new Date().toISOString().split('T')[0];
-    
+
     // Buscar prompt do dia (baseado na data)
     const { data, error } = await supabase
       .from('journal_prompts')
@@ -325,7 +325,7 @@ class JournalingService {
       // Entradas desta semana
       const weekAgo = new Date();
       weekAgo.setDate(weekAgo.getDate() - 7);
-      
+
       const { count: entriesThisWeek } = await supabase
         .from('journal_entries')
         .select('id', { count: 'exact' })
@@ -337,7 +337,7 @@ class JournalingService {
       // Entradas deste mês
       const monthAgo = new Date();
       monthAgo.setMonth(monthAgo.getMonth() - 1);
-      
+
       const { count: entriesThisMonth } = await supabase
         .from('journal_entries')
         .select('id', { count: 'exact' })
@@ -489,7 +489,7 @@ class JournalingService {
 
   async sendJournalReminder(userId: string): Promise<void> {
     const { notificationsService } = await import('./notifications.service');
-    
+
     // Verificar se já escreveu hoje
     const today = new Date().toISOString().split('T')[0];
     const { data: todayEntry } = await supabase
@@ -506,7 +506,7 @@ class JournalingService {
 
     // Buscar streak atual
     const streak = await this.getUserStreak(userId);
-    
+
     let reminderMessage = 'Que tal refletir sobre seu dia?';
     if (streak.current_streak > 0) {
       reminderMessage = `Mantenha sua sequência de ${streak.current_streak} dias! Que tal refletir sobre seu dia?`;
@@ -563,11 +563,11 @@ class JournalingService {
   }
 
   async getJournalEntriesByDateRange(userId: string, startDate: string, endDate: string): Promise<JournalEntry[]> {
-    return this.getJournalEntries({ 
-      userId, 
-      dateFrom: startDate, 
+    return this.getJournalEntries({
+      userId,
+      dateFrom: startDate,
       dateTo: endDate,
-      limit: 100 
+      limit: 100
     });
   }
 
@@ -623,7 +623,7 @@ class JournalingService {
       .map(([prompt_id, count]) => ({
         prompt_id,
         count,
-        prompt: data?.find(d => d.prompt_id === prompt_id)?.prompt
+        prompt: data?.find(d => d.prompt_id === prompt_id)?.prompt as any
       }))
       .filter(item => item.prompt)
       .sort((a, b) => b.count - a.count)

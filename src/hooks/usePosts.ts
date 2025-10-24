@@ -81,7 +81,7 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
         data = feedData;
       }
 
-      setPosts(data || []);
+      setPosts((data || []) as Post[]);
     } catch (err) {
       setError(err as Error);
       if (import.meta.env.DEV) {

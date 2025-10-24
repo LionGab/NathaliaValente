@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '../lib/supabase';
+import { authWithRetry } from '../lib/apiClient';
+import { handleError } from '../lib/errorHandler';
 
 type AuthContextType = {
   user: User | null;
@@ -98,11 +100,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      const result = await authWithRetry(
+        () => supabase.auth.signInWithPassword({
+          email,
+          password,
+        }),
+        { feature: 'auth', retries: 2 }
+      );
+
+      if (!result.success) {
+        const errorDetails = handleError(
+          result.error || new Error('Authentication failed'),
+          { action: 'sign_in' },
+          'auth'
+        );
+        return { error: errorDetails.userFriendlyMessage };
+      }
+
+      return { error: null };
+    } catch (err) {
+      const errorDetails = handleError(
+        err as Error,
+        { action: 'sign_in' },
+        'auth'
+      );
+      return { error: errorDetails.userFriendlyMessage };
+    }
   };
 
   const signOut = async () => {

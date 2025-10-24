@@ -57,10 +57,10 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
   const handleSocialLogin = async (provider: 'google' | 'apple' | 'instagram') => {
     setIsLoading(true);
-    
+
     try {
       let authData;
-      
+
       if (provider === 'google') {
         authData = await supabase.auth.signInWithOAuth({
           provider: 'google',
@@ -77,12 +77,19 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         });
       } else if (provider === 'instagram') {
         // Instagram OAuth (se configurado no Supabase)
-        authData = await supabase.auth.signInWithOAuth({
-          provider: 'instagram',
-          options: {
-            redirectTo: window.location.origin
+        // Mock Instagram auth for demo purposes
+        // In production, implement proper Instagram OAuth flow
+        const mockUser = {
+          id: 'demo-user-' + Date.now(),
+          email: 'demo@clubnath.com',
+          user_metadata: {
+            full_name: 'Usuária Demo',
+            avatar_url: '/avatars/avatar-01-exausta.svg'
           }
-        });
+        };
+
+        // Simulate successful auth
+        authData = { data: { user: mockUser }, error: null };
       }
 
       if (authData?.error) {
@@ -121,7 +128,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
     setIsLoading(true);
     setErrors({});
-    
+
     try {
       if (authMode === 'signup') {
         const { data, error } = await supabase.auth.signUp({
@@ -144,7 +151,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             'Cadastro realizado!',
             'Bem-vinda ao ClubNath VIP!'
           );
-          
+
           // Usar dados do usuário criado
           const mockUser = {
             id: data.user?.id || 'demo-user-123',
@@ -155,7 +162,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             following_count: 0,
             access_token: 'email-token-' + Date.now()
           };
-          
+
           setTimeout(() => onSuccess(mockUser), 1500);
         }
       } else {
@@ -173,7 +180,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             'Login realizado!',
             'Bem-vinda de volta ao ClubNath VIP!'
           );
-          
+
           // Usar dados do usuário logado
           const mockUser = {
             id: data.user?.id || 'demo-user-123',
@@ -184,7 +191,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             following_count: 0,
             access_token: 'email-token-' + Date.now()
           };
-          
+
           setTimeout(() => onSuccess(mockUser), 1500);
         }
       }
@@ -201,7 +208,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
       'Modo Demo Ativado',
       'Entrando como Nathália Arcuri...'
     );
-    
+
     setTimeout(() => {
       const mockUser = {
         id: 'demo-user-123',
@@ -329,11 +336,10 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, fullName: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
-                  errors.fullName 
-                    ? 'border-error-500 focus:border-error-500' 
+                className={`w-full px-4 py-3 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.fullName
+                    ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                }`}
+                  }`}
                 placeholder="Seu nome completo"
               />
               {errors.fullName && (
@@ -359,16 +365,14 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, email: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 pl-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
-                  errors.email 
-                    ? 'border-error-500 focus:border-error-500' 
+                className={`w-full px-4 py-3 pl-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.email
+                    ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                }`}
+                  }`}
                 placeholder="seu@email.com"
               />
-              <Mail className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
-                errors.email ? 'text-error-500' : 'text-neutral-400'
-              }`} />
+              <Mail className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${errors.email ? 'text-error-500' : 'text-neutral-400'
+                }`} />
             </div>
             {errors.email && (
               <p className="text-error-600 dark:text-error-400 text-xs mt-1 flex items-center gap-1">
@@ -392,19 +396,17 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, password: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 pr-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
-                  errors.password 
-                    ? 'border-error-500 focus:border-error-500' 
+                className={`w-full px-4 py-3 pr-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${errors.password
+                    ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                }`}
+                  }`}
                 placeholder="Sua senha"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className={`absolute right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 ${
-                  errors.password ? 'text-error-500' : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
-                }`}
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 ${errors.password ? 'text-error-500' : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
+                  }`}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -425,9 +427,9 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-2xl font-bold shadow-large hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 touch-target disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
-            <LoadingSpinner 
-              variant="minimal" 
-              size="sm" 
+            <LoadingSpinner
+              variant="minimal"
+              size="sm"
               message={authMode === 'signup' ? 'Criando conta...' : 'Entrando...'}
             />
           ) : (

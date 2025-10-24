@@ -125,57 +125,27 @@ export const designSystem = {
 export const designSystemUtils = {
   // Color Utilities
   getColor: (color: string, shade: number = 500) => {
-    const colorMap: Record<string, any> = {
-      primary: colors.primary,
-      secondary: colors.secondary,
-      accent: colors.accent,
-      neutral: colors.neutral,
-      success: colors.success,
-      warning: colors.warning,
-      error: colors.error,
-      info: colors.info,
-      spiritual: colors.spiritual,
-      maternal: colors.maternal,
-    };
-    
-    return colorMap[color]?.[shade] || colors.neutral[500];
+    return `var(--color-${color}-${shade})`;
   },
 
   // Spacing Utilities
   getSpacing: (size: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const spacingMap: Record<string, any> = {
-      component: spacing.responsive[breakpoint].component,
-      layout: spacing.responsive[breakpoint].layout,
-      content: spacing.responsive[breakpoint].content,
-    };
-    
-    return spacingMap[size] || spacing.base[4];
+    return `var(--spacing-${size}-${breakpoint})`;
   },
 
   // Typography Utilities
   getTypography: (style: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const typographyMap: Record<string, any> = {
-      display: typography.responsive[breakpoint].display,
-      heading: typography.responsive[breakpoint].heading,
-      body: typography.responsive[breakpoint].body,
-    };
-    
-    return typographyMap[style] || typography.textStyles.body.base;
+    return `var(--typography-${style}-${breakpoint})`;
   },
 
   // Shadow Utilities
   getShadow: (type: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const shadowMap: Record<string, any> = {
-      component: shadows.responsive[breakpoint].component,
-      card: shadows.responsive[breakpoint].card,
-    };
-    
-    return shadowMap[type] || shadows.base.md;
+    return `var(--shadow-${type}-${breakpoint})`;
   },
 
   // Animation Utilities
   getAnimation: (preset: string) => {
-    return animations.presets[preset as keyof typeof animations.presets] || animations.presets.entrance.gentle;
+    return `var(--animation-${preset})`;
   },
 };
 
@@ -183,34 +153,13 @@ export const designSystemUtils = {
 export const validateDesignSystem = () => {
   const errors: string[] = [];
   
-  // Validate colors
-  if (!colors.primary[500]) {
-    errors.push('Primary color 500 is missing');
+  // Basic validation
+  if (!designSystem.brand.name) {
+    errors.push('Brand name is missing');
   }
   
-  // Validate typography
-  if (!typography.fontSize.base) {
-    errors.push('Base font size is missing');
-  }
-  
-  // Validate spacing
-  if (!spacing.base[4]) {
-    errors.push('Base spacing 4 is missing');
-  }
-  
-  // Validate shadows
-  if (!shadows.base.md) {
-    errors.push('Medium shadow is missing');
-  }
-  
-  // Validate borders
-  if (!borders.radius.md) {
-    errors.push('Medium border radius is missing');
-  }
-  
-  // Validate animations
-  if (!animations.duration.normal) {
-    errors.push('Normal animation duration is missing');
+  if (!designSystem.audience.primary) {
+    errors.push('Primary audience is missing');
   }
   
   return {
@@ -347,12 +296,6 @@ export const designSystemDocs = {
 
 // Export everything
 export default {
-  colors,
-  typography,
-  spacing,
-  shadows,
-  borders,
-  animations,
   designSystem,
   designSystemUtils,
   validateDesignSystem,
