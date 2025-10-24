@@ -1,46 +1,65 @@
 // Validation utilities for Supabase data
 
-export const validateEmail = (email: string): boolean => {
+export interface ValidationResult {
+  valid: boolean;
+  error?: string;
+  errors?: string[];
+}
+
+export const validateEmail = (email: string): ValidationResult => {
+  if (!email || email.trim().length === 0) {
+    return { valid: false, error: 'Email é obrigatório' };
+  }
+  
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-export const validatePassword = (password: string): { isValid: boolean; errors: string[] } => {
-  const errors: string[] = [];
-  
-  if (password.length < 8) {
-    errors.push('A senha deve ter pelo menos 8 caracteres');
-  }
-  if (!/[A-Z]/.test(password)) {
-    errors.push('A senha deve conter pelo menos uma letra maiúscula');
-  }
-  if (!/[a-z]/.test(password)) {
-    errors.push('A senha deve conter pelo menos uma letra minúscula');
-  }
-  if (!/[0-9]/.test(password)) {
-    errors.push('A senha deve conter pelo menos um número');
+  if (!emailRegex.test(email)) {
+    return { valid: false, error: 'Email inválido' };
   }
   
-  return {
-    isValid: errors.length === 0,
-    errors
-  };
+  return { valid: true };
 };
 
-export const validateFullName = (name: string): boolean => {
-  return name.trim().length >= 2 && name.trim().length <= 100;
+export const validatePassword = (password: string): ValidationResult => {
+  if (!password || password.length === 0) {
+    return { valid: false, error: 'Senha é obrigatória' };
+  }
+  
+  if (password.length < 6) {
+    return { valid: false, error: 'Senha deve ter no mínimo 6 caracteres' };
+  }
+  
+  return { valid: true };
 };
 
-export const validateBio = (bio: string): boolean => {
-  return bio.length <= 500;
+export const validateFullName = (name: string): ValidationResult => {
+  if (!name || name.trim().length < 2) {
+    return { valid: false, error: 'Nome deve ter pelo menos 2 caracteres' };
+  }
+  
+  if (name.trim().length > 100) {
+    return { valid: false, error: 'Nome deve ter no máximo 100 caracteres' };
+  }
+  
+  return { valid: true };
+};
+
+export const validateBio = (bio: string): ValidationResult => {
+  if (bio.length > 200) {
+    return { valid: false, error: 'Bio deve ter no máximo 200 caracteres' };
+  }
+  
+  return { valid: true };
 };
 
 export const sanitizeHtml = (html: string): string => {
-  // Simple HTML sanitization - remove script tags and dangerous attributes
+  // Escape HTML characters to prevent XSS
   return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/on\w+="[^"]*"/gi, '')
-    .replace(/on\w+='[^']*'/gi, '');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
 };
 
 export const validateProfileUpdate = (data: any) => {
@@ -111,8 +130,16 @@ export const validateProfileUpdate = (data: any) => {
   };
 };
 
-export const validatePostCaption = (caption: string): boolean => {
-  return caption.trim().length > 0 && caption.length <= 1000;
+export const validatePostCaption = (caption: string): ValidationResult => {
+  if (!caption || caption.trim().length === 0) {
+    return { valid: false, error: 'Legenda não pode estar vazia' };
+  }
+  
+  if (caption.length > 1000) {
+    return { valid: false, error: 'Legenda deve ter no máximo 1000 caracteres' };
+  }
+  
+  return { valid: true };
 };
 
 export const validatePostData = (data: any) => {

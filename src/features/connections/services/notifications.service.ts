@@ -314,7 +314,7 @@ class ConnectionNotificationsService {
             const registration = await navigator.serviceWorker.ready;
             const subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
-                applicationServerKey: process.env.VITE_VAPID_PUBLIC_KEY
+                applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
             });
 
             // Save subscription to database

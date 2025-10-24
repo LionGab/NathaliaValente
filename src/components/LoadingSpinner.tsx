@@ -60,9 +60,14 @@ export function LoadingSpinner({
 
   // Modern variant (default)
   return (
-    <div className={`flex flex-col items-center justify-center gap-6 ${className}`}>
+    <div 
+      role="status" 
+      aria-live="polite"
+      aria-label={message || "Carregando conteúdo"}
+      className={`flex flex-col items-center justify-center gap-6 ${className}`}
+    >
       {/* Modern Spinner */}
-      <div className="relative">
+      <div className="relative" aria-hidden="true">
         {/* Outer ring */}
         <div className={`${sizeClasses[size]} border-4 border-primary-200 dark:border-primary-800 rounded-full animate-spin border-t-transparent`}></div>
         
@@ -93,6 +98,9 @@ export function LoadingSpinner({
           </div>
         </div>
       )}
+      
+      {/* Screen reader only text */}
+      <span className="sr-only">{message || "Carregando conteúdo, por favor aguarde"}</span>
     </div>
   );
 }
