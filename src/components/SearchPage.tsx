@@ -8,6 +8,25 @@ export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
 
+  // Trending topics and suggestions
+  const trendingTopics = [
+    { topic: "birras", count: 234, icon: "😤" },
+    { topic: "sono do bebê", count: 189, icon: "😴" },
+    { topic: "amamentação", count: 156, icon: "🍼" },
+    { topic: "rotina", count: 143, icon: "📅" },
+    { topic: "culpa materna", count: 98, icon: "💔" },
+    { topic: "alimentação", count: 87, icon: "🥕" }
+  ];
+
+  const searchSuggestions = [
+    "Como lidar com birras?",
+    "Dicas para sono do bebê",
+    "Rotina para mães ocupadas",
+    "Alimentação saudável infantil",
+    "Como parar de sentir culpa",
+    "Amamentação: dicas práticas"
+  ];
+
   // Use mock data for better experience
   const { posts: mockPosts, loading: mockLoading } = useMockData();
   

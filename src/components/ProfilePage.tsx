@@ -8,11 +8,20 @@ import { useMockData } from '../hooks/useMockData';
 import { Avatar, AvatarType } from './ui/Avatar';
 
 export const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState<'posts' | 'saved'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'saved' | 'achievements'>('posts');
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
   const [userAvatar, setUserAvatar] = useState<AvatarType>('radiante');
   const { profile, user } = useAuth();
+
+  // Mock achievements data
+  const achievements = [
+    { id: 1, title: "Primeira Postagem", description: "Compartilhou sua primeira experiência", icon: "🌟", unlocked: true },
+    { id: 2, title: "Mãe Ativa", description: "5 posts sobre maternidade", icon: "💪", unlocked: true },
+    { id: 3, title: "Comunidade", description: "Interagiu com 10 posts", icon: "👥", unlocked: false },
+    { id: 4, title: "Inspiradora", description: "Recebeu 50 curtidas", icon: "✨", unlocked: false },
+    { id: 5, title: "Sábia", description: "Compartilhou 20 dicas úteis", icon: "🧠", unlocked: false }
+  ];
 
   // Use mock data for better experience
   const { posts: mockPosts, loading: mockLoading } = useMockData();

@@ -81,7 +81,7 @@ export const ChatPage = () => {
         return studyResponse.message;
       } else {
         // Usar o serviço de memória conversacional padrão
-        const response = await generateNathIAResponse(userMessage, user.id, messages);
+        const response = await generateNathIAResponse(userMessage, user.id);
         return response.message;
       }
     } catch (error) {
