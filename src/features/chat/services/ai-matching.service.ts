@@ -118,10 +118,55 @@ class AIMatchingService {
 
         if (error) {
             console.error('Error fetching user profile:', error);
+            
+            // If profile doesn't exist, create a demo profile
+            if (error.code === 'PGRST116') {
+                console.log('Creating demo profile for user:', userId);
+                return await this.createDemoProfile(userId);
+            }
+            
             return null;
         }
 
         return data as UserProfile;
+    }
+
+    /**
+     * Create a demo profile for users without profiles
+     */
+    private async createDemoProfile(userId: string): Promise<UserProfile | null> {
+        try {
+            const demoProfile: Partial<UserProfile> = {
+                id: userId,
+                full_name: 'Usuário Demo',
+                avatar_url: '/avatars/default-avatar.svg',
+                bio: 'Mãe dedicada buscando conexões e apoio na comunidade.',
+                interests: ['Yoga', 'Parques', 'Culinária', 'Fé'],
+                location: 'São Paulo, SP',
+                children_age: ['6'],
+                motherhood_stage: 'new_mom',
+                faith_level: 'intermediate',
+                personality_traits: ['Carinhosa', 'Determinada', 'Empática'],
+                goals: ['Conectar com outras mães', 'Compartilhar experiências', 'Aprender sobre maternidade']
+            };
+
+            const { data, error } = await supabase
+                .from('profiles')
+                .insert(demoProfile)
+                .select()
+                .single();
+
+            if (error) {
+                console.error('Error creating demo profile:', error);
+                return null;
+            }
+
+            console.log('Demo profile created successfully:', data);
+            return data as UserProfile;
+        } catch (error) {
+            console.error('Error creating demo profile:', error);
+            return null;
+        }
     }
 
     /**

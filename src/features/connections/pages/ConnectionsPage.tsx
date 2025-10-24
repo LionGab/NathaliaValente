@@ -158,10 +158,10 @@ export const ConnectionsPage: React.FC = () => {
                                 <div
                                     key={index}
                                     className={`w-2 h-2 rounded-full ${index === currentIndex
-                                            ? 'bg-pink-500'
-                                            : index < currentIndex
-                                                ? 'bg-gray-300'
-                                                : 'bg-gray-200'
+                                        ? 'bg-pink-500'
+                                        : index < currentIndex
+                                            ? 'bg-gray-300'
+                                            : 'bg-gray-200'
                                         }`}
                                 />
                             ))}
