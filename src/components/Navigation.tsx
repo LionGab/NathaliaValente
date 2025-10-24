@@ -28,8 +28,8 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
                 className={`relative flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl transition-all duration-300 touch-target group ${isActive
-                    ? 'text-white'
-                    : 'text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
+                  ? 'text-white'
+                  : 'text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
                   }`}
               >
                 {isActive && (

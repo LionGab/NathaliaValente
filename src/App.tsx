@@ -162,14 +162,14 @@ function AppContent() {
           <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
           <PerformanceDebug />
           {showBanner && (
-            <MonetizationBanner 
-              variant={bannerVariant} 
-              onClose={closeBanner} 
+            <MonetizationBanner
+              variant={bannerVariant}
+              onClose={closeBanner}
             />
           )}
-          <NotificationContainer 
-            notifications={notifications} 
-            onClose={removeNotification} 
+          <NotificationContainer
+            notifications={notifications}
+            onClose={removeNotification}
           />
         </div>
       </div>
