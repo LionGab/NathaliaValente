@@ -8,19 +8,19 @@
 
 // Funções de log temporárias para build
 const logInfo = (message: string, context: any) => {
-  if (import.meta.env.DEV) {
-    console.log(`[INFO] ${message}`, context);
-  }
+    if (import.meta.env.DEV) {
+        console.log(`[INFO] ${message}`, context);
+    }
 };
 
 const logDebug = (message: string, context: any) => {
-  if (import.meta.env.DEV) {
-    console.log(`[DEBUG] ${message}`, context);
-  }
+    if (import.meta.env.DEV) {
+        console.log(`[DEBUG] ${message}`, context);
+    }
 };
 
 const handleError = (error: Error, context: any, feature: string) => {
-  console.error(`[ERROR] ${feature}:`, error.message, context);
+    console.error(`[ERROR] ${feature}:`, error.message, context);
 };
 
 interface NathIAContext {
