@@ -21,6 +21,7 @@ import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
+const ConnectionsPage = lazy(() => import('./features/connections/pages/ConnectionsPage').then(module => ({ default: module.ConnectionsPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
 const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
 const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
@@ -112,6 +113,12 @@ function AppContent() {
           return (
             <Suspense fallback={<LoadingSpinner />}>
               <ProfilePage />
+            </Suspense>
+          );
+        case 'connections':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <ConnectionsPage />
             </Suspense>
           );
         case 'groups':

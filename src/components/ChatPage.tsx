@@ -230,8 +230,8 @@ export const ChatPage = () => {
           >
             <div
               className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-3 sm:py-4 ${message.is_user
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow-md border border-gray-100 dark:border-gray-700'
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow-md border border-gray-100 dark:border-gray-700'
                 }`}
             >
               {!message.is_user && (

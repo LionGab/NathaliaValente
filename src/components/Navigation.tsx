@@ -8,10 +8,10 @@ type NavigationProps = {
 export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   const navItems = [
     { id: 'feed', label: 'Feed', icon: Home, badge: null },
+    { id: 'connections', label: 'Conexões', icon: Heart, badge: null },
     { id: 'groups', label: 'Grupos', icon: Users, badge: null },
     { id: 'chat', label: 'Nath', icon: MessageCircle, badge: 'AI' },
     { id: 'search', label: 'Buscar', icon: Search, badge: null },
-    { id: 'daily', label: 'Frase', icon: Sparkles, badge: null },
     { id: 'profile', label: 'Perfil', icon: User, badge: null },
   ];
 

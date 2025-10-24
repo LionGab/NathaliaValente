@@ -25,13 +25,13 @@ export const ProfilePage = () => {
 
   // Use mock data for better experience
   const { posts: mockPosts, loading: mockLoading } = useMockData();
-  
+
   // Fallback to real data if needed
   const { posts: realUserPosts, loading: realLoadingPosts } = usePosts({
     userId: user?.id,
     enabled: !!user,
   });
-  
+
   // Use mock data if available, otherwise real data
   const userPosts = mockPosts.length > 0 ? mockPosts.filter(post => post.user_id === user?.id) : realUserPosts;
   const loadingPosts = mockLoading || realLoadingPosts;
@@ -158,22 +158,20 @@ export const ProfilePage = () => {
       <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6">
         <button
           onClick={() => setActiveTab('posts')}
-          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${
-            activeTab === 'posts'
+          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'posts'
               ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-          }`}
+            }`}
         >
           <Grid className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
           <span className="text-sm sm:text-base">Publicações</span>
         </button>
         <button
           onClick={() => setActiveTab('saved')}
-          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${
-            activeTab === 'saved'
+          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'saved'
               ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-          }`}
+            }`}
         >
           <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
           <span className="text-sm sm:text-base">Salvos</span>

@@ -29,12 +29,12 @@ export const SearchPage = () => {
 
   // Use mock data for better experience
   const { posts: mockPosts, loading: mockLoading } = useMockData();
-  
+
   // Fallback to real data if needed
   const { posts: realPosts, loading: realLoading } = usePosts({
     category: selectedCategory,
   });
-  
+
   // Use mock data if available, otherwise real data
   const allPosts = mockPosts.length > 0 ? mockPosts : realPosts;
   const loading = mockLoading || realLoading;
@@ -98,11 +98,10 @@ export const SearchPage = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-3 sm:px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all touch-target ${
-                selectedCategory === category
+              className={`px-3 sm:px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all touch-target ${selectedCategory === category
                   ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+                }`}
             >
               {category}
             </button>
