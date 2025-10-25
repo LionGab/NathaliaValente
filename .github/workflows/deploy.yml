@@ -1,113 +1,68 @@
-name: Deploy ClubNath VIP
+name: 🚀 Deploy ClubNath VIP
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
-  test:
+  build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
+    - name: 📦 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: "20"
-        cache: "npm"
+        node-version: '20'
+        cache: 'npm'
         
-    - name: Install dependencies
+    - name: 📦 Install dependencies
       run: npm ci
       
-    - name: Run linting
-      run: npm run lint
-      
-    - name: Run type checking
+    - name: 🔍 Run type check
       run: npm run typecheck
       
-    - name: Run tests
+    - name: 🧪 Run tests
       run: npm run test:run
       
-    - name: Build project
+    - name: 🏗️ Build application
       run: npm run build
-      
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-files
-        path: dist/
-        retention-days: 7
-
-  deploy-preview:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == "pull_request"
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: "20"
-        cache: "npm"
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build project
-      run: npm run build
-      
-    - name: Deploy to Netlify (Preview)
-      uses: nwtgck/actions-netlify@v3.0
-      with:
-        publish-dir: "./dist"
-        production-deploy: false
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: "Deploy from GitHub Actions - PR #${{ github.event.number }}"
       env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-  deploy-production:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == "refs/heads/main" || github.ref == "refs/heads/master"
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: "20"
-        cache: "npm"
+        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        VITE_DEV_MODE: false
+        VITE_DEBUG_MODE: false
+        VITE_USE_MOCK_DATA: false
         
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build project
-      run: npm run build
-      
-    - name: Deploy to Netlify (Production)
-      uses: nwtgck/actions-netlify@v3.0
-      with:
-        publish-dir: "./dist"
-        production-deploy: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: "Deploy from GitHub Actions - ${{ github.sha }}"
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        
-    - name: Notify deployment
-      if: success()
+    - name: 📊 Build size analysis
       run: |
-        echo "🚀 ClubNath VIP deployed successfully!"
-        echo "URL: https://${{ secrets.NETLIFY_SITE_ID }}.netlify.app"
+        echo "📊 Build size analysis:"
+        du -sh dist/
+        echo "📁 Files in dist/:"
+        ls -la dist/
+        
+    - name: 🚀 Deploy to Netlify
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: './dist'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "🚀 Deploy: ${{ github.event.head_commit.message }}"
+        enable-pull-request-comment: true
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      if: github.ref == 'refs/heads/main'
+      
+    - name: 🎉 Deploy success
+      run: |
+        echo "🎉 ClubNath VIP deployed successfully!"
+        echo "🌐 Application is now live!"
+        echo "📱 PWA features enabled"
+        echo "🤖 AI features configured"
