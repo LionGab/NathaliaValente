@@ -3,7 +3,7 @@ import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts } from '../hooks';
 import { getCategoryColor } from '../constants/colors';
-import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette } from 'lucide-react';
+import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X } from 'lucide-react';
 import { useMockData } from '../hooks/useMockData';
 import { Avatar, AvatarType } from './ui/Avatar';
 
@@ -12,6 +12,7 @@ export const ProfilePage = () => {
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
   const [userAvatar, setUserAvatar] = useState<AvatarType>('radiante');
+  const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const { profile, user } = useAuth();
 
   // Mock achievements data
@@ -82,16 +83,14 @@ export const ProfilePage = () => {
               type={userAvatar}
               size="lg"
               onClick={() => {
-                // TODO: Open avatar selector modal
-                console.log('Open avatar selector');
+                setShowAvatarSelector(true);
               }}
               className="ring-4 ring-white dark:ring-gray-700 shadow-lg"
               aria-label={`Avatar de ${profile?.full_name || 'usuário'}`}
             />
             <button
               onClick={() => {
-                // TODO: Open avatar selector modal
-                console.log('Open avatar selector');
+                setShowAvatarSelector(true);
               }}
               className="absolute -bottom-1 -right-1 w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center shadow-lg hover:bg-pink-600 transition-colors"
               aria-label="Alterar avatar"
@@ -104,7 +103,8 @@ export const ProfilePage = () => {
               <h2 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
                 {profile?.full_name}
               </h2>
-              {profile?.verified && (
+              {/* Verified badge - implement when needed */}
+              {false && (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500 rounded-full flex items-center justify-center">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 text-white fill-white" />
                 </div>
@@ -302,6 +302,42 @@ export const ProfilePage = () => {
               </p>
             </div>
           )}
+        </div>
+      )}
+      {/* Avatar Selector Modal */}
+      {showAvatarSelector && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Escolher Avatar
+              </h3>
+              <button
+                onClick={() => setShowAvatarSelector(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              {(['exausta', 'oracao', 'radiante', 'vulneravel', 'pensativa', 'determinada', 'gravida', 'amamentando', 'hijab', 'blackpower', 'asiatica', 'cadeirante'] as AvatarType[]).map((avatarType) => (
+                <button
+                  key={avatarType}
+                  onClick={() => {
+                    setUserAvatar(avatarType);
+                    setShowAvatarSelector(false);
+                  }}
+                  className={`p-2 rounded-lg border-2 transition-all ${userAvatar === avatarType
+                      ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-pink-300'
+                    }`}
+                >
+                  <Avatar type={avatarType} size="md" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

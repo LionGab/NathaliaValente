@@ -4,13 +4,13 @@
  * Foco: Acolhimento, Conexão e Pertencentimento
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Layout Components
 export { MobileLayout } from './MobileLayout';
 export { TabletLayout } from './TabletLayout';
 export { DesktopLayout } from './DesktopLayout';
-export { ResponsiveLayout, useBreakpoint, responsiveUtils } from './ResponsiveLayout';
+// ResponsiveLayout is defined below
 
 // Layout Types
 export type Breakpoint = 'mobile' | 'tablet' | 'desktop';
@@ -111,21 +111,40 @@ export const layoutUtils = {
   getResponsiveClasses: (breakpoint: Breakpoint) => {
     const spacing = layoutConfig.spacing[breakpoint];
     const features = layoutConfig.features[breakpoint];
-    
+
     return {
       header: spacing.header,
       content: spacing.content,
       navigation: spacing.navigation,
-      sidebar: features.sidebar ? spacing.sidebar : '',
-      rightPanel: features.rightPanel ? spacing.rightPanel : '',
+      sidebar: (features as any).sidebar ? (spacing as any).sidebar : '',
+      rightPanel: (features as any).rightPanel ? (spacing as any).rightPanel : '',
     };
   },
 };
 
 // Layout Hooks
 export const useLayout = () => {
-  const { breakpoint, isMobile, isTablet, isDesktop, width, height } = useBreakpoint();
-  
+  const [breakpoint, setBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
+
+  useEffect(() => {
+    const checkBreakpoint = () => {
+      const width = window.innerWidth;
+      if (width < 768) setBreakpoint('mobile');
+      else if (width < 1024) setBreakpoint('tablet');
+      else setBreakpoint('desktop');
+    };
+
+    checkBreakpoint();
+    window.addEventListener('resize', checkBreakpoint);
+    return () => window.removeEventListener('resize', checkBreakpoint);
+  }, []);
+
+  const isMobile = breakpoint === 'mobile';
+  const isTablet = breakpoint === 'tablet';
+  const isDesktop = breakpoint === 'desktop';
+  const width = typeof window !== 'undefined' ? window.innerWidth : 0;
+  const height = typeof window !== 'undefined' ? window.innerHeight : 0;
+
   return {
     breakpoint,
     isMobile,
@@ -175,15 +194,15 @@ export const LayoutContext = React.createContext<{
 
 // Layout Provider
 export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { breakpoint } = useBreakpoint();
+  const { breakpoint } = useLayout();
   const features = layoutUtils.getFeatures(breakpoint);
   const spacing = layoutUtils.getSpacing(breakpoint);
   const classes = layoutUtils.getResponsiveClasses(breakpoint);
 
-  return (
-    <LayoutContext.Provider value={{ breakpoint, features, spacing, classes }}>
-      {children}
-    </LayoutContext.Provider>
+  return React.createElement(
+    LayoutContext.Provider,
+    { value: { breakpoint, features: features as any, spacing, classes } },
+    children
   );
 };
 
@@ -194,6 +213,19 @@ export const useLayoutContext = () => {
     throw new Error('useLayoutContext must be used within a LayoutProvider');
   }
   return context;
+};
+
+// Export default layout component
+export const ResponsiveLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isMobile, isTablet, isDesktop } = useLayout();
+
+  if (isMobile) {
+    return React.createElement(require('./MobileLayout').MobileLayout, {}, children);
+  } else if (isTablet) {
+    return React.createElement(require('./TabletLayout').TabletLayout, {}, children);
+  } else {
+    return React.createElement(require('./DesktopLayout').DesktopLayout, {}, children);
+  }
 };
 
 export default ResponsiveLayout;

@@ -260,11 +260,11 @@ export default {
           '50%': { opacity: '0.7' },
         },
         pulseGlow: {
-          '0%, 100%': { 
+          '0%, 100%': {
             opacity: '1',
             boxShadow: '0 0 20px rgba(221, 87, 255, 0.3)',
           },
-          '50%': { 
+          '50%': {
             opacity: '0.8',
             boxShadow: '0 0 40px rgba(221, 87, 255, 0.6)',
           },

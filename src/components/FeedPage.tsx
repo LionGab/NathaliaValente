@@ -27,13 +27,13 @@ export const FeedPage = () => {
 
   // Use mock data for better experience
   const { posts: mockPosts, loading: mockLoading, likePost, addComment } = useMockData();
-  
+
   // Fallback to real data if needed
   const { data: realPosts = [], isLoading: realLoading, refetch } = usePosts(page);
   const likePostMutation = useLikePost();
   const saveItemMutation = useSaveItem();
   const { share, isSupported: isShareSupported } = useWebShare();
-  
+
   // Use mock data if available, otherwise real data
   const posts = mockPosts.length > 0 ? mockPosts : realPosts;
   const loading = mockLoading || realLoading;
@@ -89,7 +89,7 @@ export const FeedPage = () => {
 
   const handleSharePost = useCallback(async (post: Post) => {
     triggerHaptic('light');
-    
+
     try {
       await share({
         title: `Post de ${post.profiles?.full_name || 'Usuário'} no ClubNath`,
@@ -241,30 +241,29 @@ export const FeedPage = () => {
                     className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
                   >
                     <Heart
-                      className={`w-5 h-5 ${
-                        post.user_has_liked
+                      className={`w-5 h-5 ${post.user_has_liked
                           ? 'fill-pink-500 text-pink-500 scale-110'
                           : 'group-hover:scale-110'
-                      } transition-all duration-200`}
+                        } transition-all duration-200`}
                       strokeWidth={2}
                     />
-                            <span className="text-sm font-semibold">{formatNumber(post.likes_count || 0)}</span>
-                          </button>
+                    <span className="text-sm font-semibold">{formatNumber(post.likes_count || 0)}</span>
+                  </button>
 
-                          <button
-                            onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
-                            className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
-                          >
-                            <MessageCircle
-                              className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
-                              strokeWidth={2}
-                            />
-                            <span className="text-sm font-semibold">{formatNumber(post.comments_count || 0)}</span>
-                          </button>
+                  <button
+                    onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
+                    className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
+                  >
+                    <MessageCircle
+                      className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
+                      strokeWidth={2}
+                    />
+                    <span className="text-sm font-semibold">{formatNumber(post.comments_count || 0)}</span>
+                  </button>
 
                   {isShareSupported && (
                     <button
-                      onClick={() => handleSharePost(post)}
+                      onClick={() => handleSharePost(post as Post)}
                       className="flex items-center gap-2 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
                       aria-label="Compartilhar post"
                     >
@@ -292,7 +291,7 @@ export const FeedPage = () => {
             {selectedPost === post.id && <PostComments postId={post.id} />}
           </article>
         ))}
-        
+
         {/* Infinite scroll trigger */}
         {hasMore && (
           <div ref={lastPostRef} className="flex justify-center py-8">

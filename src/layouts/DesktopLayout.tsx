@@ -41,18 +41,12 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
   return (
     <div className="flex-1 bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950">
-      <StatusBar 
-        barStyle="dark-content" 
-        backgroundColor="transparent" 
-        translucent 
-      />
-      
       {/* Background Elements */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float" />
-        <div 
-          className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float" 
-          style={{ animationDelay: '1s' }} 
+        <div
+          className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: '1s' }}
         />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse" />
       </div>
@@ -61,10 +55,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
       <div className="flex-1 relative z-10">
         {/* Header */}
         {showHeader && (
-          <Header 
-            title={headerTitle}
-            subtitle={headerSubtitle}
-            actions={headerActions}
+          <Header
             onProfileClick={onProfileClick}
           />
         )}
@@ -93,16 +84,16 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
         {/* Bottom Navigation */}
         {showNavigation && (
-          <Navigation 
-            currentPage={currentPage} 
-            onNavigate={onNavigate} 
+          <Navigation
+            currentPage={currentPage}
+            onNavigate={onNavigate}
           />
         )}
 
         {/* Notifications */}
-        <NotificationContainer 
-          notifications={notifications} 
-          onClose={removeNotification} 
+        <NotificationContainer
+          notifications={notifications}
+          onClose={removeNotification}
         />
       </div>
     </div>

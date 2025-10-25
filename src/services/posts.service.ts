@@ -8,6 +8,8 @@ import type { Post } from '../hooks';
 import type { Category } from '../constants';
 import { validatePostData } from '../utils/validation';
 import { smartCompressImage } from '../utils/imageCompression';
+import { supabaseWithRetry } from '../lib/apiClient';
+import { handleError } from '../lib/errorHandler';
 
 /**
  * Create a new post
@@ -30,23 +32,37 @@ export async function createPost(data: {
   }
 
   try {
-    const { data: post, error } = await supabase
-      .from('posts')
-      .insert({
-        user_id: data.userId,
-        caption: data.caption,
-        category: data.category,
-        image_url: data.imageUrl,
-      })
-      .select()
-      .single();
+    const result = await supabaseWithRetry(
+      () => supabase
+        .from('posts')
+        .insert({
+          user_id: data.userId,
+          caption: data.caption,
+          category: data.category,
+          image_url: data.imageUrl,
+        })
+        .select()
+        .single(),
+      { feature: 'posts', retries: 2 }
+    );
 
-    if (error) throw error;
+    if (!result.success) {
+      const errorDetails = handleError(
+        result.error || new Error('Failed to create post'),
+        { userId: data.userId, action: 'create_post' },
+        'posts'
+      );
+      return { success: false, error: errorDetails.userFriendlyMessage };
+    }
 
-    return { success: true, post: post as unknown as Post };
-  } catch (error) {
-    console.error('Error creating post:', error);
-    return { success: false, error: 'Erro ao criar publicação' };
+    return { success: true, post: result.data as unknown as Post };
+  } catch (err) {
+    const errorDetails = handleError(
+      err as Error,
+      { userId: data.userId, action: 'create_post' },
+      'posts'
+    );
+    return { success: false, error: errorDetails.userFriendlyMessage };
   }
 }
 

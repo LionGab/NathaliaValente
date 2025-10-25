@@ -153,19 +153,19 @@ export const SearchPage = () => {
               )}
               <div className="p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  {post.profiles?.avatar_url ? (
+                  {(post as any).profiles?.avatar_url ? (
                     <img
-                      src={post.profiles.avatar_url}
-                      alt={post.profiles.full_name}
+                      src={(post as any).profiles.avatar_url}
+                      alt={(post as any).profiles.full_name}
                       className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover ring-2 ring-pink-100 dark:ring-pink-500/30"
                     />
                   ) : (
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white text-xs sm:text-sm font-medium">
-                      {post.profiles?.full_name?.charAt(0) || 'U'}
+                      {(post as any).profiles?.full_name?.charAt(0) || 'U'}
                     </div>
                   )}
                   <span className="text-xs sm:text-sm font-medium text-gray-800 dark:text-white">
-                    {post.profiles?.full_name || 'Usuário Desconhecido'}
+                    {(post as any).profiles?.full_name || 'Usuário Desconhecido'}
                   </span>
                 </div>
 

@@ -4,20 +4,20 @@ import { TabletLayout } from './TabletLayout';
 import { DesktopLayout } from './DesktopLayout';
 
 interface ResponsiveLayoutProps {
-  children: React.ReactNode;
-  currentPage: string;
-  onNavigate: (page: string) => void;
-  onProfileClick: () => void;
-  showHeader?: boolean;
-  showNavigation?: boolean;
-  headerTitle?: string;
-  headerSubtitle?: string;
-  headerActions?: React.ReactNode;
-  className?: string;
-  sidebar?: React.ReactNode;
-  showSidebar?: boolean;
-  rightPanel?: React.ReactNode;
-  showRightPanel?: boolean;
+    children: React.ReactNode;
+    currentPage: string;
+    onNavigate: (page: string) => void;
+    onProfileClick: () => void;
+    showHeader?: boolean;
+    showNavigation?: boolean;
+    headerTitle?: string;
+    headerSubtitle?: string;
+    headerActions?: React.ReactNode;
+    className?: string;
+    sidebar?: React.ReactNode;
+    showSidebar?: boolean;
+    rightPanel?: React.ReactNode;
+    showRightPanel?: boolean;
 }
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop';
@@ -39,15 +39,11 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   showRightPanel = false,
 }) => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState({
-    width: typeof window !== 'undefined' ? window.innerWidth : 768,
-    height: typeof window !== 'undefined' ? window.innerHeight : 1024,
-  });
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const { width, height } = { width: window.innerWidth, height: window.innerHeight };
       setDimensions({ width, height });
       
       // Determine breakpoint based on width
@@ -66,62 +62,58 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Common props for all layouts
-  const commonProps = {
-    children,
-    currentPage,
-    onNavigate,
-    onProfileClick,
-    showHeader,
-    showNavigation,
-    headerTitle,
-    headerSubtitle,
-    headerActions,
-    className,
-  };
+    // Common props for all layouts
+    const commonProps = {
+        children,
+        currentPage,
+        onNavigate,
+        onProfileClick,
+        showHeader,
+        showNavigation,
+        headerTitle,
+        headerSubtitle,
+        headerActions,
+        className,
+    };
 
-  // Render appropriate layout based on breakpoint
-  switch (breakpoint) {
-    case 'mobile':
-      return <MobileLayout {...commonProps} />;
-    
-    case 'tablet':
-      return (
-        <TabletLayout 
-          {...commonProps}
-          sidebar={sidebar}
-          showSidebar={showSidebar}
-        />
-      );
-    
-    case 'desktop':
-      return (
-        <DesktopLayout 
-          {...commonProps}
-          sidebar={sidebar}
-          showSidebar={showSidebar}
-          rightPanel={rightPanel}
-          showRightPanel={showRightPanel}
-        />
-      );
-    
-    default:
-      return <MobileLayout {...commonProps} />;
-  }
+    // Render appropriate layout based on breakpoint
+    switch (breakpoint) {
+        case 'mobile':
+            return <MobileLayout {...commonProps} />;
+
+        case 'tablet':
+            return (
+                <TabletLayout
+                    {...commonProps}
+                    sidebar={sidebar}
+                    showSidebar={showSidebar}
+                />
+            );
+
+        case 'desktop':
+            return (
+                <DesktopLayout
+                    {...commonProps}
+                    sidebar={sidebar}
+                    showSidebar={showSidebar}
+                    rightPanel={rightPanel}
+                    showRightPanel={showRightPanel}
+                />
+            );
+
+        default:
+            return <MobileLayout {...commonProps} />;
+    }
 };
 
 // Hook for responsive breakpoints
 export const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>('mobile');
-  const [dimensions, setDimensions] = useState({
-    width: typeof window !== 'undefined' ? window.innerWidth : 768,
-    height: typeof window !== 'undefined' ? window.innerHeight : 1024,
-  });
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     const updateDimensions = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const { width, height } = { width: window.innerWidth, height: window.innerHeight };
       setDimensions({ width, height });
       
       if (width < 768) {
@@ -165,55 +157,6 @@ export const responsiveUtils = {
     desktop: '(min-width: 1024px)',
     mobileAndTablet: '(max-width: 1023px)',
     tabletAndDesktop: '(min-width: 768px)',
-  },
-
-  // Responsive values
-  getResponsiveValue: <T,>(
-    mobile: T,
-    tablet: T,
-    desktop: T,
-    currentBreakpoint: Breakpoint
-  ): T => {
-    switch (currentBreakpoint) {
-      case 'mobile':
-        return mobile;
-      case 'tablet':
-        return tablet;
-      case 'desktop':
-        return desktop;
-      default:
-        return mobile;
-    }
-  },
-
-  // Responsive spacing
-  getResponsiveSpacing: (
-    mobile: string,
-    tablet: string,
-    desktop: string,
-    currentBreakpoint: Breakpoint
-  ): string => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
-  },
-
-  // Responsive typography
-  getResponsiveTypography: (
-    mobile: string,
-    tablet: string,
-    desktop: string,
-    currentBreakpoint: Breakpoint
-  ): string => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
-  },
-
-  // Responsive layout
-  getResponsiveLayout: (
-    mobile: React.ReactNode,
-    tablet: React.ReactNode,
-    desktop: React.ReactNode,
-    currentBreakpoint: Breakpoint
-  ): React.ReactNode => {
-    return responsiveUtils.getResponsiveValue(mobile, tablet, desktop, currentBreakpoint);
   },
 };
 

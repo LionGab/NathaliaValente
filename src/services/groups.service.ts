@@ -418,12 +418,12 @@ export const groupsService: GroupService = {
     // Processar reações
     const posts = (data || []).map(post => {
       const reactions = post.reactions || [];
-      const reactionsCount = reactions.reduce((acc, reaction) => {
+      const reactionsCount = reactions.reduce((acc: Record<string, number>, reaction: any) => {
         acc[reaction.reaction_type] = (acc[reaction.reaction_type] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
 
-      const userReaction = reactions.find(r =>
+      const userReaction = reactions.find((r: any) =>
         r.user_id === (supabase.auth.getUser().then(u => u.data.user?.id))
       )?.reaction_type;
 
@@ -809,7 +809,7 @@ export const useGroupMembers = (groupId: string, options?: UseGroupMembersOption
   };
 };
 
-export const useGroupPosts = (groupId: string, options?: GroupPostFilters) => {
+export const useGroupPosts = (groupId: string, options?: any) => {
   return {
     queryKey: ['group-posts', groupId, options],
     queryFn: () => groupsService.getGroupPosts(groupId, options)
@@ -837,11 +837,11 @@ export const useGroupNotifications = (unreadOnly = false) => {
 export const getGroupStats = async (groupId: string) => {
   const [members, posts, reactions] = await Promise.all([
     groupsService.getGroupMembers(groupId),
-    groupsService.getGroupPosts(groupId, { limit: 1000 }),
+    groupsService.getGroupPosts(groupId, { groupId, filters: { limit: 1000, group_id: groupId } }),
     supabase
       .from('group_post_reactions')
       .select('*')
-      .in('post_id', (await groupsService.getGroupPosts(groupId, { limit: 1000 })).map(p => p.id))
+      .in('post_id', (await groupsService.getGroupPosts(groupId, { groupId, filters: { limit: 1000, group_id: groupId } })).map(p => p.id))
   ]);
 
   return {

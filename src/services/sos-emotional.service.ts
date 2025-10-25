@@ -113,7 +113,7 @@ export interface CrisisStats {
 class SosEmotionalService {
   private static instance: SosEmotionalService;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): SosEmotionalService {
     if (!SosEmotionalService.instance) {
@@ -451,9 +451,9 @@ class SosEmotionalService {
     const sessionsWithDuration = sessions.filter(s => s.ended_at && s.started_at);
     const avgDuration = sessionsWithDuration.length > 0
       ? sessionsWithDuration.reduce((acc, s) => {
-          const duration = new Date(s.ended_at!).getTime() - new Date(s.started_at!).getTime();
-          return acc + (duration / (1000 * 60)); // Converter para minutos
-        }, 0) / sessionsWithDuration.length
+        const duration = new Date(s.ended_at!).getTime() - new Date(s.started_at!).getTime();
+        return acc + (duration / (1000 * 60)); // Converter para minutos
+      }, 0) / sessionsWithDuration.length
       : 0;
 
     // Buscar técnicas mais usadas
@@ -468,7 +468,7 @@ class SosEmotionalService {
 
     const techniqueStats = new Map<string, { count: number; totalRating: number; ratings: number[] }>();
     techniquesData?.forEach(usage => {
-      const techniqueName = usage.technique?.name || 'Técnica Desconhecida';
+      const techniqueName = (usage.technique as any)?.name || 'Técnica Desconhecida';
       if (!techniqueStats.has(techniqueName)) {
         techniqueStats.set(techniqueName, { count: 0, totalRating: 0, ratings: [] });
       }
@@ -492,7 +492,7 @@ class SosEmotionalService {
     // Buscar recursos mais acessados
     const resourceStats = new Map<string, number>();
     sessions.forEach(session => {
-      session.resources_accessed?.forEach(resource => {
+      session.resources_accessed?.forEach((resource: any) => {
         resourceStats.set(resource, (resourceStats.get(resource) || 0) + 1);
       });
     });
@@ -539,7 +539,7 @@ class SosEmotionalService {
     sessionId: string
   ): Promise<void> {
     const { notificationsService } = await import('./notifications.service');
-    
+
     const levelMessages = {
       low: 'Você está passando por um momento difícil. Que tal tentar uma técnica de relaxamento?',
       medium: 'Você está em uma crise emocional. Vamos trabalhar juntas para superar isso.',
@@ -557,7 +557,7 @@ class SosEmotionalService {
 
   async sendFollowUpNotification(userId: string, sessionId: string): Promise<void> {
     const { notificationsService } = await import('./notifications.service');
-    
+
     await notificationsService.sendNotification('crisis_followup', userId, {
       session_id: sessionId,
       body: 'Como você está se sentindo hoje? Precisa de mais apoio?'

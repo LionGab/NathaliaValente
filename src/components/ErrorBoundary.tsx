@@ -1,9 +1,17 @@
+/**
+ * ClubNath VIP - Error Boundary Component
+ * Error boundary para capturar erros de React e exibir fallback UI
+ */
+
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { handleError } from '../lib/errorHandler';
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  feature?: string;
+  onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
 interface State {
@@ -18,7 +26,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null,
+      errorInfo: null
     };
   }
 
@@ -26,30 +34,26 @@ export class ErrorBoundary extends Component<Props, State> {
     return {
       hasError: true,
       error,
-      errorInfo: null,
+      errorInfo: null
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
-      errorInfo,
+      errorInfo
     });
 
-    // Log error to console in development
-    if (import.meta.env.DEV) {
-      console.error('ErrorBoundary caught an error:', error, errorInfo);
-    }
+    // Log error using our error handler
+    handleError(error, {
+      feature: this.props.feature || 'unknown',
+      action: 'react_error_boundary',
+      timestamp: Date.now()
+    }, this.props.feature);
 
-    // Log error to external service in production
-    if (import.meta.env.PROD) {
-      // You can integrate with services like Sentry, LogRocket, etc.
-      console.error('Production error:', {
-        error: error.message,
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-      });
+    // Call custom error handler if provided
+    if (this.props.onError) {
+      this.props.onError(error, errorInfo);
     }
   }
 
@@ -57,7 +61,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null,
+      errorInfo: null
     });
   };
 
@@ -67,86 +71,75 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      // Use custom fallback if provided
       if (this.props.fallback) {
         return this.props.fallback;
       }
 
+      // Default error UI
       return (
-        <div className="min-h-screen bg-gradient-to-br from-error-50 via-warning-50 to-info-50 dark:from-neutral-900 dark:via-error-950 dark:to-warning-950 flex items-center justify-center p-4 relative overflow-hidden">
-          {/* Background Elements */}
-          <div className="fixed inset-0 pointer-events-none">
-            <div className="absolute top-20 left-20 w-72 h-72 bg-error-200/20 dark:bg-error-800/10 rounded-full blur-3xl animate-float"></div>
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-warning-200/20 dark:bg-warning-800/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-info-200/10 dark:bg-info-800/5 rounded-full blur-3xl animate-pulse"></div>
-          </div>
-
-          <div className="card-modern dark:card-dark-modern rounded-3xl p-8 sm:p-10 max-w-lg w-full shadow-large relative z-10 animate-fade-in">
-            {/* Error Icon */}
-            <div className="text-center mb-8">
-              <div className="relative inline-block mb-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-error-500 to-warning-500 rounded-3xl flex items-center justify-center shadow-large mx-auto animate-bounce-gentle">
-                  <AlertTriangle className="w-10 h-10 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 bg-info-500 rounded-full px-3 py-1 shadow-lg animate-pulse">
-                  <Bug className="w-4 h-4 text-white" />
-                </div>
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-error-600 dark:text-error-400 mb-2 tracking-tight">
-                Oops! Algo deu errado
-              </h1>
-              <p className="text-neutral-600 dark:text-neutral-400 font-medium">
-                Encontramos um problema inesperado
-              </p>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+          <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+              <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
             </div>
 
-            {/* Error Details */}
-            <div className="space-y-4 mb-8">
-              <div className="bg-error-50 dark:bg-error-950/50 border border-error-200 dark:border-error-800 rounded-2xl p-4">
-                <h3 className="font-semibold text-error-800 dark:text-error-200 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4" />
-                  Detalhes do Erro
-                </h3>
-                <p className="text-sm text-error-700 dark:text-error-300 font-mono bg-error-100 dark:bg-error-900 p-2 rounded-lg">
-                  {this.state.error?.message || 'Erro desconhecido'}
-                </p>
-              </div>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Ops! Algo deu errado
+            </h2>
 
-              {import.meta.env.DEV && this.state.errorInfo && (
-                <details className="bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4">
-                  <summary className="font-semibold text-neutral-800 dark:text-neutral-200 cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    Stack Trace (Desenvolvimento)
-                  </summary>
-                  <pre className="text-xs text-neutral-600 dark:text-neutral-400 mt-2 overflow-auto max-h-40 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-lg">
-                    {this.state.error?.stack}
-                  </pre>
-                </details>
-              )}
-            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              {this.props.feature
+                ? `Houve um problema no ${this.props.feature}. Nossa equipe foi notificada.`
+                : 'Houve um problema inesperado. Nossa equipe foi notificada.'
+              }
+            </p>
 
-            {/* Action Buttons */}
-            <div className="space-y-3">
+            {import.meta.env.DEV && this.state.error && (
+              <details className="mb-6 text-left">
+                <summary className="cursor-pointer text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  Detalhes do erro (desenvolvimento)
+                </summary>
+                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-auto">
+                  <div className="mb-2">
+                    <strong>Error:</strong> {this.state.error.message}
+                  </div>
+                  {this.state.error.stack && (
+                    <div>
+                      <strong>Stack:</strong>
+                      <pre className="whitespace-pre-wrap mt-1">
+                        {this.state.error.stack}
+                      </pre>
+                    </div>
+                  )}
+                  {this.state.errorInfo && (
+                    <div className="mt-2">
+                      <strong>Component Stack:</strong>
+                      <pre className="whitespace-pre-wrap mt-1">
+                        {this.state.errorInfo.componentStack}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </details>
+            )}
+
+            <div className="flex gap-3 justify-center">
               <button
                 onClick={this.handleRetry}
-                className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-2xl font-bold shadow-large hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 touch-target"
+                className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
               >
-                <RefreshCw className="w-5 h-5" />
-                <span>Tentar Novamente</span>
+                <RefreshCw className="w-4 h-4" />
+                Tentar Novamente
               </button>
 
               <button
                 onClick={this.handleGoHome}
-                className="w-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 py-4 px-6 rounded-2xl font-semibold shadow-soft hover:shadow-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 touch-target"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
-                <Home className="w-5 h-5" />
-                <span>Voltar ao Início</span>
+                <Home className="w-4 h-4" />
+                Ir para Início
               </button>
-            </div>
-
-            {/* Help Text */}
-            <div className="mt-6 text-center">
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Se o problema persistir, entre em contato com o suporte
-              </p>
             </div>
           </div>
         </div>
@@ -156,3 +149,121 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+// Feature-specific error boundaries
+export const FeedErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ErrorBoundary feature="Feed" fallback={
+    <div className="p-6 text-center">
+      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        Erro no Feed
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        Não foi possível carregar o feed. Tente recarregar a página.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+      >
+        Recarregar
+      </button>
+    </div>
+  }>
+    {children}
+  </ErrorBoundary>
+);
+
+export const ChatErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ErrorBoundary feature="Chat" fallback={
+    <div className="p-6 text-center">
+      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        Erro no Chat
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        Não foi possível carregar o chat. Tente novamente.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+      >
+        Recarregar
+      </button>
+    </div>
+  }>
+    {children}
+  </ErrorBoundary>
+);
+
+export const GroupsErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ErrorBoundary feature="Groups" fallback={
+    <div className="p-6 text-center">
+      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        Erro nos Grupos
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        Não foi possível carregar os grupos. Tente novamente.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+      >
+        Recarregar
+      </button>
+    </div>
+  }>
+    {children}
+  </ErrorBoundary>
+);
+
+export const ProfileErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ErrorBoundary feature="Profile" fallback={
+    <div className="p-6 text-center">
+      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        Erro no Perfil
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        Não foi possível carregar o perfil. Tente novamente.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+      >
+        Recarregar
+      </button>
+    </div>
+  }>
+    {children}
+  </ErrorBoundary>
+);
+
+// Hook para usar error boundary
+export const useErrorBoundary = () => {
+  const [error, setError] = React.useState<Error | null>(null);
+
+  const resetError = React.useCallback(() => {
+    setError(null);
+  }, []);
+
+  const captureError = React.useCallback((error: Error) => {
+    setError(error);
+  }, []);
+
+  React.useEffect(() => {
+    if (error) {
+      throw error;
+    }
+  }, [error]);
+
+  return { captureError, resetError };
+};

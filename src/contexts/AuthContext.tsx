@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '../lib/supabase';
+import { authWithRetry } from '../lib/apiClient';
+import { handleError } from '../lib/errorHandler';
 
 type AuthContextType = {
   user: User | null;
@@ -11,7 +13,6 @@ type AuthContextType = {
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: unknown }>;
   signIn: (email: string, password: string) => Promise<{ error: unknown }>;
   signInDemo: () => Promise<void>;
-  signInSocial: (socialUser: any) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -102,107 +103,79 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      const result = await authWithRetry(
+        () => supabase.auth.signInWithPassword({
+          email,
+          password,
+        }),
+        { feature: 'auth', retries: 2 }
+      );
+
+      if (!result.success) {
+        const errorDetails = handleError(
+          result.error || new Error('Authentication failed'),
+          { action: 'sign_in' },
+          'auth'
+        );
+        return { error: errorDetails.userFriendlyMessage };
+      }
+
+      return { error: null };
+    } catch (err) {
+      const errorDetails = handleError(
+        err as Error,
+        { action: 'sign_in' },
+        'auth'
+      );
+      return { error: errorDetails.userFriendlyMessage };
+    }
   };
 
   const signInDemo = async () => {
-    // Create mock user and session for demo mode
-    const mockUser: User = {
+    setIsDemoMode(true);
+    setLoading(false);
+
+    // Criar um usuário demo mock
+    const demoUser = {
       id: 'demo-user-123',
       email: 'demo@clubnath.com',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      aud: 'authenticated',
-      role: 'authenticated',
-      app_metadata: {},
       user_metadata: {
         full_name: 'Nathalia Arcuri',
-        username: 'nathalia_arcuri'
-      },
-      identities: [],
-      factors: []
-    };
+        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
+      }
+    } as User;
 
-    const mockSession: Session = {
-      access_token: 'demo-token-' + Date.now(),
-      refresh_token: 'demo-refresh-' + Date.now(),
+    const demoSession = {
+      user: demoUser,
+      access_token: 'demo-token',
+      refresh_token: 'demo-refresh-token',
       expires_in: 3600,
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      token_type: 'bearer',
-      user: mockUser
-    };
+      expires_at: Date.now() + 3600000,
+      token_type: 'bearer'
+    } as Session;
 
-    const mockProfile: Profile = {
+    setUser(demoUser);
+    setSession(demoSession);
+    setProfile({
       id: 'demo-user-123',
       full_name: 'Nathalia Arcuri',
       username: 'nathalia_arcuri',
       avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-      bio: 'Mãe, empresária e inspiradora. Bem-vinda ao ClubNath VIP!',
+      bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
+      followers_count: 29000000,
+      following_count: 500,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
-    };
-
-    setUser(mockUser);
-    setSession(mockSession);
-    setProfile(mockProfile);
-    setIsDemoMode(true);
-    setLoading(false);
-  };
-
-  const signInSocial = async (socialUser: any) => {
-    // Create mock user and session for social login
-    const mockUser: User = {
-      id: socialUser.id,
-      email: `${socialUser.username}@clubnath.com`,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      aud: 'authenticated',
-      role: 'authenticated',
-      app_metadata: {},
-      user_metadata: {
-        full_name: socialUser.full_name,
-        username: socialUser.username
-      },
-      identities: [],
-      factors: []
-    };
-
-    const mockSession: Session = {
-      access_token: socialUser.access_token,
-      refresh_token: 'social-refresh-' + Date.now(),
-      expires_in: 3600,
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      token_type: 'bearer',
-      user: mockUser
-    };
-
-    const mockProfile: Profile = {
-      id: socialUser.id,
-      full_name: socialUser.full_name,
-      username: socialUser.username,
-      avatar_url: socialUser.profile_picture_url,
-      bio: `Mãe ativa na comunidade ClubNath VIP! ${socialUser.followers_count} seguidores.`,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-
-    setUser(mockUser);
-    setSession(mockSession);
-    setProfile(mockProfile);
-    setIsDemoMode(false);
-    setLoading(false);
+    });
   };
 
   const signOut = async () => {
     if (isDemoMode) {
+      setIsDemoMode(false);
       setUser(null);
       setSession(null);
       setProfile(null);
-      setIsDemoMode(false);
     } else {
       await supabase.auth.signOut();
       setProfile(null);
@@ -220,7 +193,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signUp,
         signIn,
         signInDemo,
-        signInSocial,
         signOut,
         refreshProfile,
       }}

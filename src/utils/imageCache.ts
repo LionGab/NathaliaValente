@@ -26,7 +26,7 @@ class ImageCache {
   // Get cached image
   get(url: string, width?: number, height?: number): string | null {
     const key = this.getCacheKey(url, width, height);
-    
+
     if (this.isCached(key)) {
       const data = JSON.parse(this.cache.get(key)!);
       return data.url;
@@ -38,11 +38,13 @@ class ImageCache {
   // Set cached image
   set(url: string, cachedUrl: string, width?: number, height?: number): void {
     const key = this.getCacheKey(url, width, height);
-    
+
     // Remove oldest entries if cache is full
     if (this.cache.size >= this.maxSize) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      if (firstKey) {
+        this.cache.delete(firstKey);
+      }
     }
 
     this.cache.set(key, JSON.stringify({
@@ -67,9 +69,9 @@ export const imageCache = new ImageCache();
 
 // Image optimization utility
 export const optimizeImageUrl = (
-  url: string, 
-  width?: number, 
-  height?: number, 
+  url: string,
+  width?: number,
+  height?: number,
   quality: number = 80
 ): string => {
   // Check cache first
@@ -79,7 +81,7 @@ export const optimizeImageUrl = (
   // For Supabase storage URLs, we can optimize them
   if (url.includes('supabase.co/storage/v1/object/public/')) {
     const optimizedUrl = new URL(url);
-    
+
     // Add transformation parameters if supported by your image service
     if (width) optimizedUrl.searchParams.set('width', width.toString());
     if (height) optimizedUrl.searchParams.set('height', height.toString());
@@ -99,7 +101,7 @@ export const optimizeImageUrl = (
 // Preload images
 export const preloadImages = (urls: string[]): Promise<void[]> => {
   return Promise.all(
-    urls.map(url => 
+    urls.map(url =>
       new Promise<void>((resolve, reject) => {
         const img = new Image();
         img.onload = () => resolve();
@@ -112,8 +114,8 @@ export const preloadImages = (urls: string[]): Promise<void[]> => {
 
 // Compress image on client side
 export const compressImage = (
-  file: File, 
-  maxWidth: number = 800, 
+  file: File,
+  maxWidth: number = 800,
   quality: number = 0.8
 ): Promise<File> => {
   return new Promise((resolve, reject) => {
@@ -124,7 +126,7 @@ export const compressImage = (
     img.onload = () => {
       // Calculate new dimensions
       let { width, height } = img;
-      
+
       if (width > maxWidth) {
         height = (height * maxWidth) / width;
         width = maxWidth;
@@ -136,7 +138,7 @@ export const compressImage = (
 
       // Draw and compress
       ctx?.drawImage(img, 0, 0, width, height);
-      
+
       canvas.toBlob(
         (blob) => {
           if (blob) {
@@ -174,7 +176,7 @@ export const getImageDimensions = (url: string): Promise<{ width: number; height
 // Generate responsive image URLs
 export const generateResponsiveUrls = (baseUrl: string) => {
   const sizes = [320, 640, 1024, 1920];
-  
+
   return sizes.map(size => ({
     url: optimizeImageUrl(baseUrl, size),
     width: size

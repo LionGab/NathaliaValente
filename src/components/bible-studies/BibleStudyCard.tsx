@@ -13,7 +13,6 @@ import {
   PlayCircle,
   MessageCircle,
   Lightbulb,
-  // Prayer, // Not available in lucide-react
   Target,
   ChevronRight,
   Bookmark,
@@ -29,7 +28,7 @@ import {
   formatStudyTime,
   getCategoryColor,
   getDifficultyColor,
-  getCategoryEmojis,
+  // getCategoryEmojis, // Removed - not exported
   STUDY_CATEGORIES,
   DIFFICULTY_LEVELS
 } from '../../types/bible-studies';
@@ -199,7 +198,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
                   Dia {study.day}
                 </span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(study.category)}`}>
-                  {getCategoryEmojis[study.category]} {STUDY_CATEGORIES[study.category]}
+                  {STUDY_CATEGORIES[study.category]}
                 </span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(study.difficulty_level)}`}>
                   {DIFFICULTY_LEVELS[study.difficulty_level]}

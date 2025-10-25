@@ -12,7 +12,6 @@ import {
   MessageCircle,
   BookOpen,
   Crown,
-  // Prayer, // Not available in lucide-react 
   AlertTriangle,
   CheckCircle,
   Settings,

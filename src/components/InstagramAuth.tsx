@@ -30,7 +30,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { showSuccess, showError, handleApiError, handleValidationError } = useNotifications();
-  const { signInDemo, signInSocial } = useAuth();
+  const { signInDemo } = useAuth();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -59,6 +59,40 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
 
   const handleSocialLogin = async (provider: 'google' | 'apple' | 'instagram') => {
     setIsLoading(true);
+
+    try {
+      let authData;
+
+      if (provider === 'google') {
+        authData = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin
+          }
+        });
+      } else if (provider === 'apple') {
+        authData = await supabase.auth.signInWithOAuth({
+          provider: 'apple',
+          options: {
+            redirectTo: window.location.origin
+          }
+        });
+      } else if (provider === 'instagram') {
+        // Instagram OAuth (se configurado no Supabase)
+        // Mock Instagram auth for demo purposes
+        // In production, implement proper Instagram OAuth flow
+        const mockUser = {
+          id: 'demo-user-' + Date.now(),
+          email: 'demo@clubnath.com',
+          user_metadata: {
+            full_name: 'Usuária Demo',
+            avatar_url: '/avatars/avatar-01-exausta.svg'
+          }
+        };
+
+        // Simulate successful auth
+        authData = { data: { user: mockUser }, error: null };
+      }
 
     try {
       // Simular login social com dados mockados
@@ -212,14 +246,19 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
   };
 
   const handleDemoLogin = async () => {
-    showSuccess(
-      'Modo Demo Ativado',
-      'Entrando como Nathália Arcuri...'
-    );
+    setIsLoading(true);
 
     try {
+      showSuccess(
+        'Modo Demo Ativado',
+        'Entrando como Nathália Arcuri...'
+      );
+
+      // Usar o método signInDemo do AuthContext
       await signInDemo();
-      onSuccess({
+
+      // Criar o mockUser para compatibilidade com onSuccess
+      const mockUser = {
         id: 'demo-user-123',
         username: 'nathalia_arcuri',
         full_name: 'Nathalia Arcuri',
@@ -227,10 +266,16 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         followers_count: 29000000,
         following_count: 500,
         access_token: 'demo-token-' + Date.now()
-      });
+      };
+
+      setTimeout(() => {
+        onSuccess(mockUser);
+      }, 1000);
     } catch (error) {
       console.error('Erro no login demo:', error);
-      showError('Erro no Login Demo', 'Tente novamente em alguns instantes.');
+      showError('Erro no login demo', 'Tente novamente em alguns instantes.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
