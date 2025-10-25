@@ -94,7 +94,6 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         authData = { data: { user: mockUser }, error: null };
       }
 
-    try {
       // Simular login social com dados mockados
       showSuccess(
         `Conectando com ${provider}...`,
@@ -143,8 +142,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
       );
 
       // Simular delay antes de chamar onSuccess
-      setTimeout(async () => {
-        await signInSocial(mockUser);
+      setTimeout(() => {
         onSuccess(mockUser);
       }, 1000);
 
