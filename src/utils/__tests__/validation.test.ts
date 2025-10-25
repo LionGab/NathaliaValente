@@ -11,90 +11,90 @@ import {
 describe('Validation Utils', () => {
   describe('validateEmail', () => {
     it('deve validar emails corretos', () => {
-      expect(validateEmail('usuario@example.com').valid).toBe(true);
-      expect(validateEmail('user.name@domain.co').valid).toBe(true);
-      expect(validateEmail('user+tag@example.com').valid).toBe(true);
+      expect(validateEmail('usuario@example.com').isValid).toBe(true);
+      expect(validateEmail('user.name@domain.co').isValid).toBe(true);
+      expect(validateEmail('user+tag@example.com').isValid).toBe(true);
     });
 
     it('deve rejeitar emails inválidos', () => {
-      expect(validateEmail('').valid).toBe(false);
-      expect(validateEmail('invalid').valid).toBe(false);
-      expect(validateEmail('invalid@').valid).toBe(false);
-      expect(validateEmail('@example.com').valid).toBe(false);
+      expect(validateEmail('').isValid).toBe(false);
+      expect(validateEmail('invalid').isValid).toBe(false);
+      expect(validateEmail('invalid@').isValid).toBe(false);
+      expect(validateEmail('@example.com').isValid).toBe(false);
     });
 
     it('deve retornar mensagem de erro', () => {
       const result = validateEmail('');
-      expect(result.valid).toBe(false);
-      expect(result.error).toBeDefined();
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0]).toBeDefined();
     });
   });
 
   describe('validatePassword', () => {
     it('deve validar senhas válidas', () => {
-      expect(validatePassword('Senha123!').valid).toBe(true);
-      expect(validatePassword('123456').valid).toBe(true);
-      expect(validatePassword('senhaValida').valid).toBe(true);
+      expect(validatePassword('Senha123!').isValid).toBe(true);
+      expect(validatePassword('Senha123').isValid).toBe(true);
+      expect(validatePassword('SenhaValida123').isValid).toBe(true);
     });
 
     it('deve rejeitar senhas muito curtas', () => {
-      expect(validatePassword('').valid).toBe(false);
-      expect(validatePassword('short').valid).toBe(false);
-      expect(validatePassword('12345').valid).toBe(false);
+      expect(validatePassword('').isValid).toBe(false);
+      expect(validatePassword('short').isValid).toBe(false);
+      expect(validatePassword('12345').isValid).toBe(false);
     });
 
-    it('deve exigir mínimo de 6 caracteres', () => {
-      expect(validatePassword('Ab1!x').valid).toBe(false);
-      expect(validatePassword('Ab1!xy').valid).toBe(true);
+    it('deve exigir mínimo de 8 caracteres', () => {
+      expect(validatePassword('Ab1!x').isValid).toBe(false);
+      expect(validatePassword('Ab1!xyz1').isValid).toBe(true);
     });
   });
 
   describe('validatePostCaption', () => {
     it('deve validar legendas válidas', () => {
-      expect(validatePostCaption('Uma legenda válida').valid).toBe(true);
-      expect(validatePostCaption('Post sobre maternidade').valid).toBe(true);
+      expect(validatePostCaption('Uma legenda válida').isValid).toBe(true);
+      expect(validatePostCaption('Post sobre maternidade').isValid).toBe(true);
     });
 
     it('deve rejeitar legendas vazias', () => {
-      expect(validatePostCaption('').valid).toBe(false);
-      expect(validatePostCaption('   ').valid).toBe(false);
+      expect(validatePostCaption('').isValid).toBe(false);
+      expect(validatePostCaption('   ').isValid).toBe(false);
     });
 
     it('deve rejeitar legendas muito longas', () => {
       const longCaption = 'a'.repeat(1001);
-      expect(validatePostCaption(longCaption).valid).toBe(false);
+      expect(validatePostCaption(longCaption).isValid).toBe(false);
     });
 
     it('deve aceitar legendas até o limite', () => {
       const maxCaption = 'a'.repeat(1000);
-      expect(validatePostCaption(maxCaption).valid).toBe(true);
+      expect(validatePostCaption(maxCaption).isValid).toBe(true);
     });
   });
 
   describe('validateFullName', () => {
     it('deve validar nomes válidos', () => {
-      expect(validateFullName('João Silva').valid).toBe(true);
-      expect(validateFullName('Ana').valid).toBe(true);
+      expect(validateFullName('João Silva').isValid).toBe(true);
+      expect(validateFullName('Ana').isValid).toBe(true);
     });
 
     it('deve rejeitar nomes inválidos', () => {
-      expect(validateFullName('').valid).toBe(false);
-      expect(validateFullName('A').valid).toBe(false);
+      expect(validateFullName('').isValid).toBe(false);
+      expect(validateFullName('A').isValid).toBe(false);
     });
   });
 
   describe('validateBio', () => {
     it('deve validar bio vazia', () => {
-      expect(validateBio('').valid).toBe(true);
+      expect(validateBio('').isValid).toBe(true);
     });
 
     it('deve validar bio curta', () => {
-      expect(validateBio('Olá, sou mãe de 2').valid).toBe(true);
+      expect(validateBio('Olá, sou mãe de 2').isValid).toBe(true);
     });
 
     it('deve rejeitar bio muito longa', () => {
-      const longBio = 'a'.repeat(201);
-      expect(validateBio(longBio).valid).toBe(false);
+      const longBio = 'a'.repeat(501);
+      expect(validateBio(longBio).isValid).toBe(false);
     });
   });
 

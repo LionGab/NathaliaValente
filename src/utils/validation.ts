@@ -1,65 +1,76 @@
 // Validation utilities for Supabase data
 
 export interface ValidationResult {
-  valid: boolean;
-  error?: string;
-  errors?: string[];
+  isValid: boolean;
+  errors: string[];
+  cleanData?: any;
 }
 
 export const validateEmail = (email: string): ValidationResult => {
-  if (!email || email.trim().length === 0) {
-    return { valid: false, error: 'Email é obrigatório' };
-  }
-  
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return { valid: false, error: 'Email inválido' };
-  }
-  
-  return { valid: true };
+  const isValid = emailRegex.test(email);
+
+  return {
+    isValid,
+    errors: isValid ? [] : ['Email inválido']
+  };
 };
 
 export const validatePassword = (password: string): ValidationResult => {
-  if (!password || password.length === 0) {
-    return { valid: false, error: 'Senha é obrigatória' };
+  const errors: string[] = [];
+
+  if (password.length < 8) {
+    errors.push('A senha deve ter pelo menos 8 caracteres');
   }
-  
-  if (password.length < 6) {
-    return { valid: false, error: 'Senha deve ter no mínimo 6 caracteres' };
+  if (!/[A-Z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra maiúscula');
   }
-  
-  return { valid: true };
+  if (!/[a-z]/.test(password)) {
+    errors.push('A senha deve conter pelo menos uma letra minúscula');
+  }
+  if (!/[0-9]/.test(password)) {
+    errors.push('A senha deve conter pelo menos um número');
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
 };
 
 export const validateFullName = (name: string): ValidationResult => {
-  if (!name || name.trim().length < 2) {
-    return { valid: false, error: 'Nome deve ter pelo menos 2 caracteres' };
-  }
-  
-  if (name.trim().length > 100) {
-    return { valid: false, error: 'Nome deve ter no máximo 100 caracteres' };
-  }
-  
-  return { valid: true };
+  const trimmedName = name.trim();
+  const isValid = trimmedName.length >= 2 && trimmedName.length <= 100;
+
+  return {
+    isValid,
+    errors: isValid ? [] : ['Nome deve ter entre 2 e 100 caracteres']
+  };
 };
 
 export const validateBio = (bio: string): ValidationResult => {
-  if (bio.length > 200) {
-    return { valid: false, error: 'Bio deve ter no máximo 200 caracteres' };
-  }
-  
-  return { valid: true };
+  const isValid = bio.length <= 500;
+
+  return {
+    isValid,
+    errors: isValid ? [] : ['Bio deve ter no máximo 500 caracteres']
+  };
 };
 
 export const sanitizeHtml = (html: string): string => {
-  // Escape HTML characters to prevent XSS
-  return html
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
+  // Escape HTML entities to prevent XSS attacks
+  const htmlEntities: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };
+
+  return html.replace(/[&<>"'`=\/]/g, (char) => htmlEntities[char]);
 };
 
 export const validateProfileUpdate = (data: any) => {
@@ -131,15 +142,13 @@ export const validateProfileUpdate = (data: any) => {
 };
 
 export const validatePostCaption = (caption: string): ValidationResult => {
-  if (!caption || caption.trim().length === 0) {
-    return { valid: false, error: 'Legenda não pode estar vazia' };
-  }
-  
-  if (caption.length > 1000) {
-    return { valid: false, error: 'Legenda deve ter no máximo 1000 caracteres' };
-  }
-  
-  return { valid: true };
+  const trimmedCaption = caption.trim();
+  const isValid = trimmedCaption.length > 0 && caption.length <= 1000;
+
+  return {
+    isValid,
+    errors: isValid ? [] : ['Legenda deve ter entre 1 e 1000 caracteres']
+  };
 };
 
 export const validatePostData = (data: any) => {

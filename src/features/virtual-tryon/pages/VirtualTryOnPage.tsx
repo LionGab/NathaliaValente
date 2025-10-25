@@ -1,29 +1,84 @@
 import React from 'react';
 import { Camera, Shirt, Star, ShoppingBag, Heart, Sparkles, Crown, Zap } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
+import { ImageWithFallback } from '../../../components/ui/ImageWithFallback';
+import { ProductCard } from '../../../components/ui/ProductCard';
+import { useNavaImages } from '../../../hooks/useNavaImages';
 
 export const VirtualTryOnPage: React.FC = () => {
+    const { bestSellers, heroImage, imagesLoaded, loading, error } = useNavaImages();
+
     const handleShopNAVA = (category: string) => {
         // Direcionar para a loja NAVA
         const navaShopUrl = `https://www.navabeachwear.com.br/${category}`;
         window.open(navaShopUrl, '_blank');
     };
 
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">Carregando produtos NAVA...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="text-red-500 text-6xl mb-4">⚠️</div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Erro ao carregar imagens</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+                    <Button onClick={() => window.location.reload()}>
+                        Tentar Novamente
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-                <div className="px-4 py-6">
-                    <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 mb-2">
-                            <Camera className="w-8 h-8" />
-                            <h1 className="text-3xl font-bold">
-                                Provador Virtual
-                            </h1>
+            {/* Hero Section com Imagem */}
+            <div className="relative bg-gradient-to-r from-pink-500 to-purple-600 text-white overflow-hidden">
+                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="relative px-4 py-8">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                            <div className="text-center lg:text-left">
+                                <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
+                                    <Camera className="w-8 h-8" />
+                                    <h1 className="text-4xl font-bold">
+                                        Provador Virtual
+                                    </h1>
+                                </div>
+                                <p className="text-pink-100 text-xl mb-6">
+                                    Experimente produtos NAVA com tecnologia avançada
+                                </p>
+                                <p className="text-pink-200 text-lg">
+                                    O melhor para o seu bebê desde os primeiros dias de vida
+                                </p>
+                            </div>
+                            <div className="flex justify-center lg:justify-end">
+                                <div className="w-80 h-80 rounded-2xl overflow-hidden shadow-2xl">
+                                    {heroImage ? (
+                                        <ImageWithFallback
+                                            src={heroImage.src}
+                                            alt={heroImage.alt}
+                                            fallbackSrc={heroImage.fallbackSrc}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center">
+                                            <Camera className="w-16 h-16 text-pink-500" />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <p className="text-pink-100 text-lg">
-                            Experimente produtos NAVA com tecnologia avançada
-                        </p>
                     </div>
                 </div>
             </div>
@@ -80,106 +135,59 @@ export const VirtualTryOnPage: React.FC = () => {
                 </div>
             </div>
 
+            {/* Best Sellers Section */}
+            <div className="px-4 py-8 bg-white dark:bg-gray-800">
+                <div className="max-w-6xl mx-auto">
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                        The Best Sellers
+                    </h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        {bestSellers.map((image, index) => (
+                            <div key={image.id} className="relative group cursor-pointer">
+                                <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
+                                    <ImageWithFallback
+                                        src={image.src}
+                                        alt={image.alt}
+                                        fallbackSrc={image.fallbackSrc}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end">
+                                    <p className="text-white p-3 font-semibold">{image.name}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
             {/* Products Grid */}
             <div className="px-4 py-6">
                 <div className="max-w-6xl mx-auto">
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
                         Coleção NAVA
                     </h2>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Biquíni Premium */}
-                        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
-                            <div className="w-full h-48 bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 rounded-lg mb-4 flex items-center justify-center">
-                                <Shirt className="w-16 h-16 text-pink-500" />
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                                Biquíni Premium
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-4">
-                                Design exclusivo com tecnologia UV protection
-                            </p>
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-2xl font-bold text-pink-600">
-                                    R$ 299,90
-                                </span>
-                                <div className="flex items-center gap-1">
-                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                                        4.8 (156)
-                                    </span>
-                                </div>
-                            </div>
-                            <Button
-                                onClick={() => handleShopNAVA('bikinis')}
-                                className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700"
-                            >
-                                <ShoppingBag className="w-4 h-4 mr-2" />
-                                Comprar Agora
-                            </Button>
-                        </div>
 
-                        {/* Legging Yoga */}
-                        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
-                            <div className="w-full h-48 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg mb-4 flex items-center justify-center">
-                                <Heart className="w-16 h-16 text-purple-500" />
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                                Legging Yoga
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-4">
-                                Alta performance para yoga e fitness
-                            </p>
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-2xl font-bold text-purple-600">
-                                    R$ 199,90
-                                </span>
-                                <div className="flex items-center gap-1">
-                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                                        4.9 (89)
-                                    </span>
-                                </div>
-                            </div>
-                            <Button
-                                onClick={() => handleShopNAVA('activewear')}
-                                className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
-                            >
-                                <ShoppingBag className="w-4 h-4 mr-2" />
-                                Comprar Agora
-                            </Button>
-                        </div>
-
-                        {/* Coleção Completa */}
-                        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
-                            <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-900/20 dark:to-pink-900/20 rounded-lg mb-4 flex items-center justify-center">
-                                <Crown className="w-16 h-16 text-blue-500" />
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                                Coleção Completa
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-4">
-                                Explore toda a linha NAVA
-                            </p>
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-2xl font-bold text-blue-600">
-                                    A partir de R$ 99,90
-                                </span>
-                                <div className="flex items-center gap-1">
-                                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                                        4.9 (500+)
-                                    </span>
-                                </div>
-                            </div>
-                            <Button
-                                onClick={() => handleShopNAVA('')}
-                                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                            >
-                                <ShoppingBag className="w-4 h-4 mr-2" />
-                                Ver Coleção
-                            </Button>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {bestSellers.map((product) => (
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                onBuy={() => handleShopNAVA('bikinis')}
+                                onView={() => {
+                                    // Scroll para detalhes do produto
+                                    const element = document.getElementById(`product-${product.id}`);
+                                    if (element) {
+                                        element.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                                onLike={() => {
+                                    // Adicionar aos favoritos
+                                    console.log('Produto adicionado aos favoritos:', product.name);
+                                }}
+                                showFeatures={true}
+                            />
+                        ))}
                     </div>
 
                     {/* Features */}

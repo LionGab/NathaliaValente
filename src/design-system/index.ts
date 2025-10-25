@@ -14,347 +14,290 @@ export { animations, animationUtils } from './animations';
 
 // Design System Types
 export type {
-  ColorKey,
-  ColorShade,
+    ColorKey,
+    ColorShade,
 } from './colors';
 
 export type {
-  TypographyKey,
-  TextStyleKey,
-  ResponsiveBreakpoint as TypographyBreakpoint,
+    TypographyKey,
+    TextStyleKey,
+    ResponsiveBreakpoint as TypographyBreakpoint,
 } from './typography';
 
 export type {
-  SpacingKey,
-  SpacingValue,
-  ResponsiveBreakpoint as SpacingBreakpoint,
+    SpacingKey,
+    SpacingValue,
+    ResponsiveBreakpoint as SpacingBreakpoint,
 } from './spacing';
 
 export type {
-  ShadowKey,
-  ShadowValue,
-  ResponsiveBreakpoint as ShadowBreakpoint,
+    ShadowKey,
+    ShadowValue,
+    ResponsiveBreakpoint as ShadowBreakpoint,
 } from './shadows';
 
 export type {
-  BorderKey,
-  BorderWidth,
-  BorderStyle,
-  BorderRadius,
-  ResponsiveBreakpoint as BorderBreakpoint,
+    BorderKey,
+    BorderWidth,
+    BorderStyle,
+    BorderRadius,
+    ResponsiveBreakpoint as BorderBreakpoint,
 } from './borders';
 
 export type {
-  AnimationKey,
-  DurationKey,
-  EasingKey,
-  KeyframeKey,
-  PresetKey,
+    AnimationKey,
+    DurationKey,
+    EasingKey,
 } from './animations';
 
 // Design System Configuration
-export const designSystem = {
-  // Brand Identity
-  brand: {
-    name: 'ClubNath',
-    tagline: 'Sua comunidade exclusiva',
-    description: 'Plataforma exclusiva para mães - acolhimento, conexão e pertencentimento',
-    values: ['Acolhimento', 'Conexão', 'Pertencentimento', 'Leveza', 'Espiritualidade', 'Modernidade'],
-  },
-
-  // Target Audience
-  audience: {
-    primary: 'Mães',
-    secondary: 'Mulheres em geral',
-    ageRange: '25-45 anos',
-    characteristics: [
-      'Buscam conexão e comunidade',
-      'Valorizam acolhimento e apoio',
-      'Interessadas em crescimento pessoal',
-      'Apreciam design moderno e elegante',
-      'Usuárias ativas de tecnologia',
-    ],
-  },
-
-  // Design Principles
-  principles: {
-    primary: 'Acolhimento',
-    secondary: 'Conexão',
-    tertiary: 'Pertencentimento',
-    supporting: ['Leveza', 'Espiritualidade', 'Modernidade'],
-  },
-
-  // Platform Support
-  platforms: {
-    mobile: {
-      ios: 'iOS 14+',
-      android: 'Android 8+',
+export const designSystemConfig = {
+    // Color System
+    colors: {
+        primary: '#8B5CF6', // Purple
+        secondary: '#F59E0B', // Amber
+        accent: '#EC4899', // Pink
+        neutral: '#6B7280', // Gray
+        semantic: {
+            success: '#10B981',
+            warning: '#F59E0B',
+            error: '#EF4444',
+            info: '#3B82F6',
+        },
+        gradients: {
+            primary: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+            secondary: 'linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)',
+        },
+        backgrounds: {
+            primary: '#FFFFFF',
+            secondary: '#F9FAFB',
+            tertiary: '#F3F4F6',
+        },
+        text: {
+            primary: '#111827',
+            secondary: '#6B7280',
+            tertiary: '#9CA3AF',
+        },
+        borders: {
+            primary: '#E5E7EB',
+            secondary: '#D1D5DB',
+        },
+        status: {
+            success: '#10B981',
+            warning: '#F59E0B',
+            error: '#EF4444',
+            info: '#3B82F6',
+        },
     },
-    web: {
-      pwa: 'Progressive Web App',
-      browsers: 'Chrome, Safari, Firefox, Edge',
-    },
-  },
 
-  // Accessibility
-  accessibility: {
-    wcag: 'AA',
-    contrast: '4.5:1 minimum',
-    touchTargets: '44px minimum',
-    screenReaders: 'Fully supported',
-    keyboardNavigation: 'Complete support',
-  },
+    // Typography System
+    typography: {
+        fonts: {
+            primary: 'Inter, system-ui, sans-serif',
+            secondary: 'Georgia, serif',
+        },
+        sizes: {
+            xs: '0.75rem',
+            sm: '0.875rem',
+            base: '1rem',
+            lg: '1.125rem',
+            xl: '1.25rem',
+            '2xl': '1.5rem',
+            '3xl': '1.875rem',
+            '4xl': '2.25rem',
+        },
+        weights: {
+            normal: '400',
+            medium: '500',
+            semibold: '600',
+            bold: '700',
+        },
+        lineHeights: {
+            tight: '1.25',
+            normal: '1.5',
+            relaxed: '1.75',
+        },
+        letterSpacing: {
+            tight: '-0.025em',
+            normal: '0',
+            wide: '0.025em',
+        },
+    },
 
-  // Performance
-  performance: {
-    target: {
-      fcp: '< 1.5s',
-      lcp: '< 2.5s',
-      cls: '< 0.1',
-      fid: '< 100ms',
+    // Spacing System
+    spacing: {
+        base: '1rem',
+        scale: {
+            xs: '0.25rem',
+            sm: '0.5rem',
+            md: '1rem',
+            lg: '1.5rem',
+            xl: '2rem',
+            '2xl': '3rem',
+        },
+        responsive: {
+            mobile: '1rem',
+            tablet: '1.5rem',
+            desktop: '2rem',
+        },
     },
-    bundle: {
-      css: '< 50kb',
-      js: '< 200kb',
-      images: 'WebP format',
+
+    // Shadow System
+    shadows: {
+        elevation: {
+            sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+            lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        },
+        focus: '0 0 0 3px rgba(139, 92, 246, 0.1)',
+        decorative: '0 4px 14px 0 rgba(0, 0, 0, 0.1)',
     },
-  },
+
+    // Border System
+    borders: {
+        widths: {
+            thin: '1px',
+            medium: '2px',
+            thick: '4px',
+        },
+        styles: {
+            solid: 'solid',
+            dashed: 'dashed',
+            dotted: 'dotted',
+        },
+        radius: {
+            none: '0',
+            sm: '0.125rem',
+            md: '0.375rem',
+            lg: '0.5rem',
+            xl: '0.75rem',
+            full: '9999px',
+        },
+    },
+
+    // Animation System
+    animations: {
+        durations: {
+            fast: '150ms',
+            normal: '300ms',
+            slow: '500ms',
+        },
+        easings: {
+            ease: 'ease',
+            easeIn: 'ease-in',
+            easeOut: 'ease-out',
+            easeInOut: 'ease-in-out',
+        },
+        presets: {
+            fadeIn: 'fadeIn 0.3s ease-in-out',
+            slideUp: 'slideUp 0.3s ease-out',
+            scaleIn: 'scaleIn 0.2s ease-out',
+        },
+    },
 } as const;
 
 // Design System Utilities
 export const designSystemUtils = {
-  // Color Utilities
-  getColor: (color: string, shade: number = 500) => {
-    const colorMap: Record<string, any> = {
-      primary: colors.primary,
-      secondary: colors.secondary,
-      accent: colors.accent,
-      neutral: colors.neutral,
-      success: colors.success,
-      warning: colors.warning,
-      error: colors.error,
-      info: colors.info,
-      spiritual: colors.spiritual,
-      maternal: colors.maternal,
-    };
-    
-    return colorMap[color]?.[shade] || colors.neutral[500];
-  },
+    // Color Utilities
+    getColor: (color: string, shade: number = 500) => {
+        const colorMap: Record<string, any> = {
+            primary: '#8B5CF6',
+            secondary: '#F59E0B',
+            accent: '#EC4899',
+            neutral: '#6B7280',
+            success: '#10B981',
+            warning: '#F59E0B',
+            error: '#EF4444',
+            info: '#3B82F6',
+        };
 
-  // Spacing Utilities
-  getSpacing: (size: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const spacingMap: Record<string, any> = {
-      component: spacing.responsive[breakpoint].component,
-      layout: spacing.responsive[breakpoint].layout,
-      content: spacing.responsive[breakpoint].content,
-    };
-    
-    return spacingMap[size] || spacing.base[4];
-  },
+        return colorMap[color] || '#6B7280';
+    },
 
-  // Typography Utilities
-  getTypography: (style: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const typographyMap: Record<string, any> = {
-      display: typography.responsive[breakpoint].display,
-      heading: typography.responsive[breakpoint].heading,
-      body: typography.responsive[breakpoint].body,
-    };
-    
-    return typographyMap[style] || typography.textStyles.body.base;
-  },
+    // Spacing Utilities
+    getSpacing: (size: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
+        const spacingMap: Record<string, any> = {
+            xs: '0.25rem',
+            sm: '0.5rem',
+            md: '1rem',
+            lg: '1.5rem',
+            xl: '2rem',
+            '2xl': '3rem',
+        };
 
-  // Shadow Utilities
-  getShadow: (type: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
-    const shadowMap: Record<string, any> = {
-      component: shadows.responsive[breakpoint].component,
-      card: shadows.responsive[breakpoint].card,
-    };
-    
-    return shadowMap[type] || shadows.base.md;
-  },
+        return spacingMap[size] || '1rem';
+    },
 
-  // Animation Utilities
-  getAnimation: (preset: string) => {
-    return animations.presets[preset as keyof typeof animations.presets] || animations.presets.entrance.gentle;
-  },
+    // Typography Utilities
+    getTypography: (style: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
+        const typographyMap: Record<string, any> = {
+            display: {
+                fontSize: '2.25rem',
+                fontWeight: '700',
+                lineHeight: '1.25',
+            },
+            heading: {
+                fontSize: '1.875rem',
+                fontWeight: '600',
+                lineHeight: '1.25',
+            },
+            body: {
+                fontSize: '1rem',
+                fontWeight: '400',
+                lineHeight: '1.5',
+            },
+        };
+
+        return typographyMap[style] || typographyMap.body;
+    },
+
+    // Shadow Utilities
+    getShadow: (type: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
+        const shadowMap: Record<string, any> = {
+            sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+            lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        };
+
+        return shadowMap[type] || shadowMap.md;
+    },
+
+    // Border Utilities
+    getBorder: (type: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
+        const borderMap: Record<string, any> = {
+            thin: '1px solid #E5E7EB',
+            medium: '2px solid #E5E7EB',
+            thick: '4px solid #E5E7EB',
+        };
+
+        return borderMap[type] || borderMap.thin;
+    },
+
+    // Animation Utilities
+    getAnimation: (type: string, breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop') => {
+        const animationMap: Record<string, any> = {
+            fadeIn: 'fadeIn 0.3s ease-in-out',
+            slideUp: 'slideUp 0.3s ease-out',
+            scaleIn: 'scaleIn 0.2s ease-out',
+        };
+
+        return animationMap[type] || animationMap.fadeIn;
+    },
 };
 
-// Design System Validation
-export const validateDesignSystem = () => {
-  const errors: string[] = [];
-  
-  // Validate colors
-  if (!colors.primary[500]) {
-    errors.push('Primary color 500 is missing');
-  }
-  
-  // Validate typography
-  if (!typography.fontSize.base) {
-    errors.push('Base font size is missing');
-  }
-  
-  // Validate spacing
-  if (!spacing.base[4]) {
-    errors.push('Base spacing 4 is missing');
-  }
-  
-  // Validate shadows
-  if (!shadows.base.md) {
-    errors.push('Medium shadow is missing');
-  }
-  
-  // Validate borders
-  if (!borders.radius.md) {
-    errors.push('Medium border radius is missing');
-  }
-  
-  // Validate animations
-  if (!animations.duration.normal) {
-    errors.push('Normal animation duration is missing');
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-  };
+// Design System Theme
+export const theme = {
+    colors: designSystemConfig.colors,
+    typography: designSystemConfig.typography,
+    spacing: designSystemConfig.spacing,
+    shadows: designSystemConfig.shadows,
+    borders: designSystemConfig.borders,
+    animations: designSystemConfig.animations,
 };
 
-// Design System Documentation
-export const designSystemDocs = {
-  // Usage Guidelines
-  usage: {
-    colors: {
-      primary: 'Use for main actions, links, and brand elements',
-      secondary: 'Use for secondary actions and accents',
-      accent: 'Use for highlights and special elements',
-      neutral: 'Use for text, backgrounds, and borders',
-      semantic: 'Use for status indicators and feedback',
-    },
-    typography: {
-      display: 'Use for hero headings and large titles',
-      heading: 'Use for section headings and subheadings',
-      body: 'Use for body text and content',
-      label: 'Use for form labels and small text',
-      caption: 'Use for metadata and secondary information',
-    },
-    spacing: {
-      component: 'Use for spacing within components',
-      layout: 'Use for spacing between sections',
-      content: 'Use for spacing within content',
-      interactive: 'Use for touch targets and interactive elements',
-    },
-    shadows: {
-      component: 'Use for component elevation',
-      card: 'Use for card and surface elevation',
-      interactive: 'Use for interactive element states',
-      brand: 'Use for brand-specific elements',
-    },
-    borders: {
-      component: 'Use for component boundaries',
-      input: 'Use for form input states',
-      divider: 'Use for content separation',
-      brand: 'Use for brand-specific elements',
-    },
-    animations: {
-      entrance: 'Use for element entrance animations',
-      exit: 'Use for element exit animations',
-      interactive: 'Use for user interaction feedback',
-      loading: 'Use for loading states',
-      attention: 'Use for drawing attention',
-    },
-  },
-
-  // Best Practices
-  bestPractices: {
-    colors: [
-      'Use primary colors sparingly for maximum impact',
-      'Maintain sufficient contrast for accessibility',
-      'Use semantic colors for status and feedback',
-      'Test colors in both light and dark modes',
-    ],
-    typography: [
-      'Use consistent font sizes and weights',
-      'Maintain proper line height for readability',
-      'Use appropriate font families for context',
-      'Test typography on different screen sizes',
-    ],
-    spacing: [
-      'Use consistent spacing throughout the interface',
-      'Follow the spacing scale for harmony',
-      'Consider touch targets for mobile interfaces',
-      'Use responsive spacing for different devices',
-    ],
-    shadows: [
-      'Use shadows to create visual hierarchy',
-      'Keep shadows subtle for modern appearance',
-      'Use brand shadows for special elements',
-      'Test shadows in different lighting conditions',
-    ],
-    borders: [
-      'Use borders sparingly to avoid clutter',
-      'Use semantic borders for form states',
-      'Maintain consistent border radius',
-      'Consider border alternatives like shadows',
-    ],
-    animations: [
-      'Use animations to enhance user experience',
-      'Keep animations subtle and purposeful',
-      'Provide animation controls for accessibility',
-      'Test animations on different devices',
-    ],
-  },
-
-  // Accessibility Guidelines
-  accessibility: {
-    colors: [
-      'Ensure 4.5:1 contrast ratio for normal text',
-      'Ensure 3:1 contrast ratio for large text',
-      'Don\'t rely on color alone to convey information',
-      'Test with color blindness simulators',
-    ],
-    typography: [
-      'Use readable font sizes (16px minimum)',
-      'Maintain proper line height (1.5x font size)',
-      'Use appropriate font weights for hierarchy',
-      'Test with screen readers',
-    ],
-    spacing: [
-      'Ensure 44px minimum touch targets',
-      'Provide adequate spacing between interactive elements',
-      'Use consistent spacing for predictability',
-      'Test with different input methods',
-    ],
-    shadows: [
-      'Don\'t rely on shadows for critical information',
-      'Ensure shadows don\'t interfere with readability',
-      'Test shadows in high contrast mode',
-      'Provide alternative visual cues',
-    ],
-    borders: [
-      'Use borders to enhance accessibility',
-      'Ensure borders are visible in high contrast mode',
-      'Don\'t rely on borders for critical information',
-      'Test with different zoom levels',
-    ],
-    animations: [
-      'Respect prefers-reduced-motion',
-      'Provide animation controls',
-      'Ensure animations don\'t cause seizures',
-      'Test with different animation preferences',
-    ],
-  },
-} as const;
-
-// Export everything
+// Default export
 export default {
-  colors,
-  typography,
-  spacing,
-  shadows,
-  borders,
-  animations,
-  designSystem,
-  designSystemUtils,
-  validateDesignSystem,
-  designSystemDocs,
+    config: designSystemConfig,
+    utils: designSystemUtils,
+    theme,
 };

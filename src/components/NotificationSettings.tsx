@@ -4,15 +4,15 @@
 // =====================================================
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Bell, 
-  BellOff, 
-  Clock, 
-  Heart, 
-  MessageCircle, 
-  BookOpen, 
-  Crown, 
-  Prayer, 
+import {
+  Bell,
+  BellOff,
+  Clock,
+  Heart,
+  MessageCircle,
+  BookOpen,
+  Crown,
+  // Prayer, // Not available in lucide-react 
   AlertTriangle,
   CheckCircle,
   Settings,
@@ -66,7 +66,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
     try {
       const newPermission = await notificationsService.requestPermission();
       setPermission(newPermission);
-      
+
       if (newPermission === 'granted') {
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
@@ -157,7 +157,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
       key: 'prayer_notifications' as keyof NotificationPreferences,
       title: 'Orações Compartilhadas',
       description: 'Quando alguém compartilha um pedido de oração',
-      icon: <Prayer className="w-5 h-5" />,
+      icon: <Heart className="w-5 h-5" />,
       color: 'text-purple-500'
     },
     {
@@ -228,16 +228,16 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
                 {permission === 'granted' ? 'Notificações Ativadas' : 'Notificações Desativadas'}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {permission === 'granted' 
+                {permission === 'granted'
                   ? 'Você receberá notificações personalizadas'
                   : 'Ative as notificações para não perder nada'
                 }
               </p>
             </div>
           </div>
-          
+
           {permission !== 'granted' && (
-            <Button 
+            <Button
               onClick={requestPermission}
               className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
             >
@@ -261,7 +261,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
       {/* Configurações de Notificação */}
       <div className="space-y-4">
         {notificationTypes.map((type) => (
-          <div 
+          <div
             key={type.key}
             className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-200 dark:border-gray-700"
           >
@@ -279,7 +279,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
                   </p>
                 </div>
               </div>
-              
+
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"

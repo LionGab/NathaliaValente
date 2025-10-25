@@ -4,16 +4,16 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  BookOpen, 
-  Clock, 
-  Star, 
-  Heart, 
-  CheckCircle, 
+import {
+  BookOpen,
+  Clock,
+  Star,
+  Heart,
+  CheckCircle,
   PlayCircle,
   MessageCircle,
   Lightbulb,
-  Prayer,
+  // Prayer, // Not available in lucide-react
   Target,
   ChevronRight,
   Bookmark,
@@ -25,9 +25,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import type { BibleStudy, UserBibleProgress } from '../../types/bible-studies';
-import { 
-  formatStudyTime, 
-  getCategoryColor, 
+import {
+  formatStudyTime,
+  getCategoryColor,
   getDifficultyColor,
   getCategoryEmojis,
   STUDY_CATEGORIES,
@@ -72,7 +72,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
       rating: number;
     }) => {
       if (!user) throw new Error('Usuário não autenticado');
-      
+
       return bibleStudiesService.updateProgress({
         userId: user.id,
         studyId: study.id,
@@ -83,7 +83,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
       queryClient.invalidateQueries({ queryKey: ['user-progress', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['study-streak', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['daily-study', user?.id] });
-      
+
       if (onComplete) {
         onComplete(study, {
           time_spent: timeSpent,
@@ -93,7 +93,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
           rating: rating
         });
       }
-      
+
       setIsCompleting(false);
       setIsExpanded(false);
     },
@@ -146,9 +146,8 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
 
   if (compact) {
     return (
-      <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 transition-all hover:shadow-md ${
-        isCompleted ? 'ring-2 ring-green-200 dark:ring-green-800' : ''
-      }`}>
+      <div className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 transition-all hover:shadow-md ${isCompleted ? 'ring-2 ring-green-200 dark:ring-green-800' : ''
+        }`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`p-2 rounded-lg ${getCategoryColor(study.category)}`}>
@@ -163,7 +162,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             {isCompleted && (
               <CheckCircle className="w-5 h-5 text-green-500" />
@@ -185,9 +184,8 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all hover:shadow-lg ${
-      isCompleted ? 'ring-2 ring-green-200 dark:ring-green-800' : ''
-    }`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all hover:shadow-lg ${isCompleted ? 'ring-2 ring-green-200 dark:ring-green-800' : ''
+      }`}>
       {/* Header */}
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-start justify-between mb-4">
@@ -212,7 +210,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
               </h2>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             {isCompleted && (
               <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
@@ -295,7 +293,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
         {/* Oração */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Prayer className="w-5 h-5 text-purple-500" />
+            <Heart className="w-5 h-5 text-purple-500" />
             <h3 className="font-semibold text-gray-900 dark:text-white">Oração</h3>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed italic">
@@ -318,7 +316,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
         {!isCompleted && isExpanded && (
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
             <h3 className="font-semibold text-gray-900 dark:text-white">Sua Reflexão</h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -368,11 +366,10 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
                     <button
                       key={star}
                       onClick={() => setRating(star)}
-                      className={`w-8 h-8 ${
-                        star <= rating 
-                          ? 'text-yellow-500' 
+                      className={`w-8 h-8 ${star <= rating
+                          ? 'text-yellow-500'
                           : 'text-gray-300 dark:text-gray-600'
-                      } hover:text-yellow-500 transition-colors`}
+                        } hover:text-yellow-500 transition-colors`}
                     >
                       <Star className="w-full h-full fill-current" />
                     </button>
@@ -390,7 +387,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
               >
                 {isCompleting ? 'Concluindo...' : 'Concluir Estudo'}
               </Button>
-              
+
               <Button
                 onClick={() => setIsExpanded(false)}
                 variant="outline"
@@ -405,7 +402,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
         {isCompleted && progress && (
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
             <h3 className="font-semibold text-gray-900 dark:text-white">Sua Reflexão</h3>
-            
+
             {progress.user_reflection && (
               <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                 <p className="text-gray-700 dark:text-gray-300 italic">
@@ -444,7 +441,7 @@ export const BibleStudyCard: React.FC<BibleStudyCardProps> = ({
             >
               {isCompleted ? 'Revisar Estudo' : 'Iniciar Estudo'}
             </Button>
-            
+
             <Button
               onClick={() => bibleStudiesService.addFavoriteVerse({
                 verseText: study.verse,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Baby, Calendar, AlertCircle, CheckCircle, Clock, Plus, FileText, TrendingUp, Shield } from 'lucide-react';
+import { Heart, Baby, Calendar, AlertCircle, CheckCircle, Clock, Plus, FileText, TrendingUp, Shield, Star } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { babyTestIntegrationService, BabyProfile, BabyTestResult, HealthRecommendation } from '../services/babytest-integration.service';
 import { useAuth } from '../../../contexts/AuthContext';
