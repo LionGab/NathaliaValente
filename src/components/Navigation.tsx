@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Search, Sparkles, User, Users, Heart, Shield, Camera, Baby } from 'lucide-react';
+import { Home, MessageCircle, User, Users } from 'lucide-react';
 
 type NavigationProps = {
   currentPage: string;
@@ -7,12 +7,9 @@ type NavigationProps = {
 
 export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
   const navItems = [
-    { id: 'feed', label: 'Feed', icon: Home, badge: null },
-    { id: 'connections', label: 'Conexões', icon: Heart, badge: null },
-    { id: 'safety', label: 'Segurança', icon: Shield, badge: null },
-    { id: 'tryon', label: 'Try-On', icon: Camera, badge: 'AR' },
-    { id: 'health', label: 'Saúde', icon: Baby, badge: null },
-    { id: 'chat', label: 'Nath', icon: MessageCircle, badge: 'AI' },
+    { id: 'feed', label: 'Início', icon: Home, badge: null },
+    { id: 'chat', label: 'Nath IA', icon: MessageCircle, badge: 'AI' },
+    { id: 'groups', label: 'Grupos', icon: Users, badge: null },
     { id: 'profile', label: 'Perfil', icon: User, badge: null },
   ];
 

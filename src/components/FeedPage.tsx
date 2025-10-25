@@ -13,6 +13,8 @@ import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
 import { formatNumber, formatDate } from '../lib/utils';
 import { CommunityLogo } from './ui/Logo';
 import { PremiumFeatures } from './PremiumFeatures';
+import { DailyVerseCard } from './DailyVerseCard';
+import { OptimizedImage } from './ui/OptimizedImage';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -153,6 +155,9 @@ export const FeedPage = () => {
         <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl"></div>
       </div>
 
+      {/* Daily Verse Card */}
+      <DailyVerseCard />
+
       {/* Premium Features Banner */}
       <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
 
@@ -213,10 +218,11 @@ export const FeedPage = () => {
 
               {post.image_url && (
                 <div className="relative mb-5 overflow-hidden rounded-2xl">
-                  <img
+                  <OptimizedImage
                     src={post.image_url}
                     alt="Post"
                     className="w-full object-cover max-h-[500px] hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                   />
                 </div>
               )}

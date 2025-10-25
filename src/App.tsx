@@ -21,13 +21,7 @@ import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
-const ConnectionsPage = lazy(() => import('./features/connections/pages/ConnectionsPage').then(module => ({ default: module.ConnectionsPage })));
-const SafetyPage = lazy(() => import('./features/safety/pages/SafetyPage').then(module => ({ default: module.SafetyPage })));
-const VirtualTryOnPage = lazy(() => import('./features/virtual-tryon/pages/VirtualTryOnPage').then(module => ({ default: module.VirtualTryOnPage })));
-const HealthPage = lazy(() => import('./features/health/pages/HealthPage').then(module => ({ default: module.HealthPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
-const SearchPage = lazy(() => import('./components/SearchPage').then(module => ({ default: module.SearchPage })));
-const DailyQuotePage = lazy(() => import('./components/DailyQuotePage').then(module => ({ default: module.DailyQuotePage })));
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
 const GroupsList = lazy(() => import('./components/groups/GroupsList').then(module => ({ default: module.GroupsList })));
 const GroupDetail = lazy(() => import('./components/groups/GroupDetail').then(module => ({ default: module.GroupDetail })));
@@ -104,18 +98,6 @@ function AppContent() {
               </Suspense>
             </ChatErrorBoundary>
           );
-        case 'search':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <SearchPage />
-            </Suspense>
-          );
-        case 'daily':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <DailyQuotePage />
-            </Suspense>
-          );
         case 'profile':
           return (
             <ProfileErrorBoundary>
@@ -123,30 +105,6 @@ function AppContent() {
                 <ProfilePage />
               </Suspense>
             </ProfileErrorBoundary>
-          );
-        case 'connections':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <ConnectionsPage />
-            </Suspense>
-          );
-        case 'safety':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <SafetyPage />
-            </Suspense>
-          );
-        case 'tryon':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <VirtualTryOnPage />
-            </Suspense>
-          );
-        case 'health':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <HealthPage />
-            </Suspense>
           );
         case 'groups':
           return selectedGroup ? (

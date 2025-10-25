@@ -3,7 +3,7 @@ import { supabase, SavedItem } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts } from '../hooks';
 import { getCategoryColor } from '../constants/colors';
-import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X } from 'lucide-react';
+import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X, Shield, Baby, Camera, HelpCircle } from 'lucide-react';
 import { useMockData } from '../hooks/useMockData';
 import { Avatar, AvatarType } from './ui/Avatar';
 
@@ -13,6 +13,7 @@ export const ProfilePage = () => {
   const [loadingSaved, setLoadingSaved] = useState(true);
   const [userAvatar, setUserAvatar] = useState<AvatarType>('radiante');
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const { profile, user } = useAuth();
 
   // Mock achievements data
@@ -116,9 +117,67 @@ export const ProfilePage = () => {
               </p>
             )}
           </div>
-          <button className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-md hover:shadow-lg transition-shadow touch-target">
-            <MoreHorizontal className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowMoreMenu(!showMoreMenu)}
+              className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-md hover:shadow-lg transition-shadow touch-target"
+            >
+              <MoreHorizontal className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            </button>
+
+            {/* More Menu Dropdown */}
+            {showMoreMenu && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-large border border-gray-200 dark:border-gray-700 z-50">
+                <div className="p-2">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide px-3 py-2">
+                    Mais Recursos
+                  </div>
+                  
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <Shield className="w-5 h-5 text-blue-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Segurança & SOS</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Recursos de emergência</div>
+                    </div>
+                  </button>
+
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <Baby className="w-5 h-5 text-green-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Saúde & Bem-estar</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Dicas de saúde materno-infantil</div>
+                    </div>
+                  </button>
+
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <Camera className="w-5 h-5 text-purple-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Produtos NAVA</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Ver coleção completa</div>
+                    </div>
+                  </button>
+
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <Settings className="w-5 h-5 text-gray-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Configurações</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Privacidade e notificações</div>
+                    </div>
+                  </button>
+
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <HelpCircle className="w-5 h-5 text-gray-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Ajuda & Suporte</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Central de ajuda</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Stats */}
