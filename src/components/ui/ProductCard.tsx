@@ -1,138 +1,256 @@
-import React from 'react';
-import { Star, ShoppingBag, Heart, Eye } from 'lucide-react';
-import { Button } from './Button';
-import { ImageWithFallback } from './ImageWithFallback';
-import { NavaSpecificImage } from '../../services/nava-specific-images.service';
+import React, { useState } from 'react';
+import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
+import { Product } from '../../types/products';
+import { OptimizedImage } from './OptimizedImage';
 
 interface ProductCardProps {
-    product: NavaSpecificImage;
-    onBuy: () => void;
-    onView?: () => void;
-    onLike?: () => void;
-    className?: string;
-    showFeatures?: boolean;
+  product: Product;
+  onViewDetails: (product: Product) => void;
+  onAddToCart: (product: Product) => void;
+  onToggleFavorite: (productId: string) => void;
+  isFavorite?: boolean;
+  variant?: 'default' | 'compact' | 'featured';
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
-    product,
-    onBuy,
-    onView,
-    onLike,
-    className = '',
-    showFeatures = false
+  product,
+  onViewDetails,
+  onAddToCart,
+  onToggleFavorite,
+  isFavorite = false,
+  variant = 'default'
 }) => {
-    const handleViewDetails = () => {
-        if (onView) {
-            onView();
-        } else {
-            // Comportamento padrão: scroll para detalhes
-            const element = document.getElementById(`product-${product.id}`);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    };
+  const [imageIndex, setImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(price);
+  };
+
+  const getBrandColor = (brand: string) => {
+    switch (brand) {
+      case 'NAVA':
+        return 'from-pink-500 to-purple-600';
+      case 'OLLIN':
+        return 'from-green-500 to-teal-600';
+      default:
+        return 'from-gray-500 to-gray-600';
+    }
+  };
+
+  const getBrandBadge = (brand: string) => {
+    switch (brand) {
+      case 'NAVA':
+        return { text: 'NAVA', bg: 'bg-pink-500' };
+      case 'OLLIN':
+        return { text: 'OLLIN', bg: 'bg-green-500' };
+      default:
+        return { text: brand, bg: 'bg-gray-500' };
+    }
+  };
+
+  const badge = getBrandBadge(product.brand);
+
+  if (variant === 'compact') {
     return (
-        <div className={`bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 ${className}`}>
-            {/* Imagem do Produto */}
-            <div className="w-full h-64 rounded-lg mb-4 overflow-hidden relative group">
-                <ImageWithFallback
-                    src={product.src}
-                    alt={product.alt}
-                    fallbackSrc={product.fallbackSrc}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-
-                {/* Overlay com ações */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div className="flex gap-2">
-                        {onView && (
-                            <Button
-                                onClick={handleViewDetails}
-                                variant="outline"
-                                size="sm"
-                                className="bg-white/90 hover:bg-white text-gray-900"
-                            >
-                                <Eye className="w-4 h-4 mr-1" />
-                                Ver
-                            </Button>
-                        )}
-                        {onLike && (
-                            <Button
-                                onClick={onLike}
-                                variant="outline"
-                                size="sm"
-                                className="bg-white/90 hover:bg-white text-gray-900"
-                            >
-                                <Heart className="w-4 h-4" />
-                            </Button>
-                        )}
-                    </div>
-                </div>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+        <div className="relative">
+          <OptimizedImage
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-32 object-cover"
+            sizes="(max-width: 768px) 50vw, 25vw"
+          />
+          <div className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}>
+            {badge.text}
+          </div>
+          {product.discount && (
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+              -{product.discount}%
             </div>
-
-            {/* Informações do Produto */}
-            <div className="space-y-3">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                    {product.name}
-                </h3>
-
-                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
-                    {product.description}
-                </p>
-
-                {/* Modelo */}
-                <p className="text-xs text-gray-500 dark:text-gray-500 italic">
-                    {product.model}
-                </p>
-
-                {/* Features (se habilitado) */}
-                {showFeatures && product.features && (
-                    <div className="space-y-1">
-                        <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                            Características:
-                        </p>
-                        <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                            {product.features.slice(0, 3).map((feature, index) => (
-                                <li key={index} className="flex items-center">
-                                    <span className="w-1 h-1 bg-pink-500 rounded-full mr-2"></span>
-                                    {feature}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {/* Preço e Avaliação */}
-                <div className="flex items-center justify-between">
-                    <div>
-                        <span className="text-2xl font-bold text-pink-600">
-                            {product.price}
-                        </span>
-                        {product.paymentInfo && (
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                                {product.paymentInfo}
-                            </p>
-                        )}
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                            4.9 (156)
-                        </span>
-                    </div>
-                </div>
-
-                {/* Botão de Compra */}
-                <Button
-                    onClick={onBuy}
-                    className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700"
-                >
-                    <ShoppingBag className="w-4 h-4 mr-2" />
-                    Comprar Agora
-                </Button>
-            </div>
+          )}
         </div>
+        <div className="p-3">
+          <h3 className="font-medium text-sm text-gray-900 dark:text-white line-clamp-2 mb-1">
+            {product.name}
+          </h3>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-lg font-bold text-gray-900 dark:text-white">
+              {formatPrice(product.price)}
+            </span>
+            {product.originalPrice && (
+              <span className="text-sm text-gray-500 line-through">
+                {formatPrice(product.originalPrice)}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => onAddToCart(product)}
+            className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-200"
+          >
+            <ShoppingCart className="w-4 h-4 inline mr-1" />
+            Adicionar
+          </button>
+        </div>
+      </div>
     );
+  }
+
+  if (variant === 'featured') {
+    return (
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative">
+          <OptimizedImage
+            src={product.images[imageIndex]}
+            alt={product.name}
+            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <div className={`absolute top-3 left-3 ${badge.bg} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
+            {badge.text}
+          </div>
+          {product.discount && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+              -{product.discount}%
+            </div>
+          )}
+          {product.isNew && (
+            <div className="absolute bottom-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+              NOVO
+            </div>
+          )}
+          
+          {/* Hover Actions */}
+          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-opacity duration-300 ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}>
+            <button
+              onClick={() => onViewDetails(product)}
+              className="bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+            >
+              <Eye className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => onToggleFavorite(product.id)}
+              className={`p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ${
+                isFavorite 
+                  ? 'bg-red-500 text-white' 
+                  : 'bg-white/90 hover:bg-white text-gray-900'
+              }`}
+            >
+              <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+            </button>
+          </div>
+        </div>
+        
+        <div className="p-4">
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
+            {product.name}
+          </h3>
+          
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+            {product.description}
+          </p>
+          
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < Math.floor(product.rating || 0)
+                      ? 'text-yellow-400 fill-current'
+                      : 'text-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-500">
+              {product.rating} ({product.reviews} avaliações)
+            </span>
+          </div>
+          
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                {formatPrice(product.price)}
+              </span>
+              {product.originalPrice && (
+                <span className="text-lg text-gray-500 line-through">
+                  {formatPrice(product.originalPrice)}
+                </span>
+              )}
+            </div>
+            {!product.inStock && (
+              <span className="text-sm text-red-500 font-medium">Esgotado</span>
+            )}
+          </div>
+          
+          <button
+            onClick={() => onAddToCart(product)}
+            disabled={!product.inStock}
+            className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
+              product.inStock
+                ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white hover:from-primary-600 hover:to-secondary-600 shadow-lg hover:shadow-xl'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            <ShoppingCart className="w-5 h-5 inline mr-2" />
+            {product.inStock ? 'Adicionar ao Carrinho' : 'Produto Esgotado'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Default variant
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+      <div className="relative">
+        <OptimizedImage
+          src={product.images[0]}
+          alt={product.name}
+          className="w-full h-48 object-cover"
+          sizes="(max-width: 768px) 50vw, 25vw"
+        />
+        <div className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}>
+          {badge.text}
+        </div>
+        {product.discount && (
+          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            -{product.discount}%
+          </div>
+        )}
+      </div>
+      <div className="p-4">
+        <h3 className="font-medium text-gray-900 dark:text-white mb-2 line-clamp-2">
+          {product.name}
+        </h3>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg font-bold text-gray-900 dark:text-white">
+            {formatPrice(product.price)}
+          </span>
+          {product.originalPrice && (
+            <span className="text-sm text-gray-500 line-through">
+              {formatPrice(product.originalPrice)}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={() => onAddToCart(product)}
+          className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-200"
+        >
+          <ShoppingCart className="w-4 h-4 inline mr-1" />
+          Adicionar
+        </button>
+      </div>
+    </div>
+  );
 };

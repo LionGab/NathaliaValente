@@ -153,7 +153,15 @@ export const ProfilePage = () => {
                     <Camera className="w-5 h-5 text-purple-500" />
                     <div>
                       <div className="font-medium text-gray-900 dark:text-white">Produtos NAVA</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Ver coleção completa</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Moda exclusiva da Nathália</div>
+                    </div>
+                  </button>
+
+                  <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <Baby className="w-5 h-5 text-teal-500" />
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-white">Cuidados OLLIN</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Beleza natural para mães</div>
                     </div>
                   </button>
 

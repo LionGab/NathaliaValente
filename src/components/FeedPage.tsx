@@ -15,6 +15,7 @@ import { CommunityLogo } from './ui/Logo';
 import { PremiumFeatures } from './PremiumFeatures';
 import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
+import { FeaturedProductsCard } from './ProductShowcase';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -157,6 +158,9 @@ export const FeedPage = () => {
 
       {/* Daily Verse Card */}
       <DailyVerseCard />
+
+      {/* Featured Products Card */}
+      <FeaturedProductsCard />
 
       {/* Premium Features Banner */}
       <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
