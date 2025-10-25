@@ -74,7 +74,7 @@ export interface HealthInsight {
 
 class BabyTestIntegrationService {
     private readonly OLLIN_API_BASE = 'https://api.babytest.com.br'; // Mock URL
-    private readonly API_KEY = process.env.VITE_OLLIN_API_KEY;
+    private readonly API_KEY = import.meta.env.VITE_OLLIN_API_KEY;
 
     /**
      * Schedule BabyTest for a baby
