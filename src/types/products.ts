@@ -17,6 +17,8 @@ export interface Product {
   reviews?: number;
   tags: string[];
   createdAt: string;
+  link?: string;
+  isExternal?: boolean;
 }
 
 export interface CartItem {

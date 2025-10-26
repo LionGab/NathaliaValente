@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
+import { Heart, ShoppingCart, Star, Eye, ExternalLink } from 'lucide-react';
 import { Product } from '../../types/products';
 import { OptimizedImage } from './OptimizedImage';
 
@@ -243,13 +243,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           )}
         </div>
-        <button
-          onClick={() => onAddToCart(product)}
-          className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-200"
-        >
-          <ShoppingCart className="w-4 h-4 inline mr-1" />
-          Adicionar
-        </button>
+        {product.isExternal ? (
+          <button
+            onClick={() => window.open(product.link, '_blank')}
+            className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-200"
+          >
+            <ExternalLink className="w-4 h-4 inline mr-1" />
+            Visitar Loja
+          </button>
+        ) : (
+          <button
+            onClick={() => onAddToCart(product)}
+            className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:from-primary-600 hover:to-secondary-600 transition-all duration-200"
+          >
+            <ShoppingCart className="w-4 h-4 inline mr-1" />
+            Adicionar
+          </button>
+        )}
       </div>
     </div>
   );

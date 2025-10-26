@@ -172,6 +172,42 @@ export const products: Product[] = [
         reviews: 92,
         tags: ['kit', 'cuidados', 'beleza', 'mães'],
         createdAt: '2024-01-25'
+    },
+
+    // Produtos Externos - Links para Lojas
+    {
+        id: 'nava-store-link',
+        name: 'Coleção NAVA Bikinis',
+        brand: 'NAVA',
+        category: 'colecoes',
+        price: 165.00,
+        images: ['/images/products/nava/nava-collection-showcase.jpg'],
+        description: 'Bikinis exclusivos da Nathália Valente. Diversas estampas: leopard, zebra, oncinha. Acesse a loja completa!',
+        link: 'https://loja.nathaliavalente.com',
+        isExternal: true,
+        isFeatured: true,
+        inStock: true,
+        rating: 4.9,
+        reviews: 342,
+        tags: ['nava', 'bikinis', 'coleção', 'exclusivo', 'loja'],
+        createdAt: '2024-01-25'
+    },
+    {
+        id: 'ollin-babytest',
+        name: 'BabyTest OLLIN',
+        brand: 'OLLIN',
+        category: 'maternidade',
+        price: 49.90,
+        images: ['/images/products/ollin/ollin-babytest.jpg'],
+        description: 'Teste de gravidez OLLIN. O melhor para o seu bebê desde os primeiros dias de vida.',
+        link: 'https://ollin.com.br/babytest',
+        isExternal: true,
+        isFeatured: true,
+        inStock: true,
+        rating: 4.8,
+        reviews: 156,
+        tags: ['ollin', 'babytest', 'maternidade', 'gravidez', 'saúde'],
+        createdAt: '2024-01-25'
     }
 ];
 
