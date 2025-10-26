@@ -25,9 +25,9 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
         {/* Logo animado - Modern */}
         <div className="relative">
           <div className="w-24 h-24 bg-white dark:bg-neutral-800 rounded-3xl flex items-center justify-center shadow-large mx-auto animate-float overflow-hidden">
-            <img 
-              src="/logos/clubnath-logo.png" 
-              alt="Nossa Maternidade" 
+            <img
+              src="/logos/clubnath-logo.png"
+              alt="Nossa Maternidade"
               className="w-full h-full object-cover"
             />
           </div>
