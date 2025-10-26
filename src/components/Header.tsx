@@ -67,9 +67,9 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
           {/* Logo */}
           <div className="flex items-center gap-3 group">
             <div className="relative">
-              <img 
-                src="/logos/clubnath-logo.png" 
-                alt="ClubNath VIP" 
+              <img
+                src="/logos/clubnath-logo.png"
+                alt="ClubNath VIP"
                 className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover shadow-medium group-hover:shadow-glow transition-all duration-300 group-hover:scale-105"
               />
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
@@ -78,10 +78,10 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
             </div>
             <div className="flex flex-col">
               <h1 className="text-xl sm:text-2xl font-bold gradient-text tracking-tight">
-                ClubNath
+                Nossa Maternidade
               </h1>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 hidden sm:block font-medium">
-                Comunidade Exclusiva
+                Comunidade de Mães
               </p>
             </div>
           </div>

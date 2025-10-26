@@ -39,7 +39,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
         {/* Título */}
         <div className="text-center">
           <h1 className="text-4xl sm:text-5xl font-bold gradient-text mb-3 tracking-tight">
-            ClubNath VIP
+            Nossa Maternidade
           </h1>
           <p className="text-neutral-600 dark:text-neutral-300 text-lg font-medium">
             {message}

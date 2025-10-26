@@ -9,7 +9,7 @@ export * from './colors';
  * App configuration constants
  */
 export const APP_CONFIG = {
-  name: 'ClubNath',
+  name: 'Nossa Maternidade',
   description: 'Apoio e Conexão para Mães',
   version: '1.0.0',
   maxImageSize: 5 * 1024 * 1024, // 5MB

@@ -134,7 +134,7 @@ export const FeedPage = () => {
               <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                 <Crown className="w-4 h-4 text-yellow-300" />
               </div>
-              <span className="text-sm font-semibold">ClubNath VIP</span>
+              <span className="text-sm font-semibold">Nossa Maternidade VIP</span>
             </div>
             <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full">
               <Sparkles className="w-3 h-3" />

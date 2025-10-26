@@ -6,9 +6,9 @@ interface MonetizationBannerProps {
   variant?: 'premium' | 'community' | 'exclusive';
 }
 
-export const MonetizationBanner = ({ 
-  onClose, 
-  variant = 'premium' 
+export const MonetizationBanner = ({
+  onClose,
+  variant = 'premium'
 }: MonetizationBannerProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -25,7 +25,7 @@ export const MonetizationBanner = ({
       case 'premium':
         return {
           icon: <Crown className="w-6 h-6 text-yellow-500" />,
-          title: "👑 ClubNath VIP",
+          title: "👑 Nossa Maternidade VIP",
           subtitle: "Acesso exclusivo à Nathália Valente",
           features: ["Produtos NAVA antecipados", "Comunidade VIP", "IA Nath personalizada"],
           cta: "Assinar por R$ 39/mês",
@@ -72,7 +72,7 @@ export const MonetizationBanner = ({
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="space-y-2 mb-4">
           {content.features.map((feature, index) => (
             <div key={index} className="flex items-center gap-2 text-sm">
@@ -81,7 +81,7 @@ export const MonetizationBanner = ({
             </div>
           ))}
         </div>
-        
+
         <button className="w-full bg-white text-gray-900 font-semibold py-3 rounded-xl hover:bg-gray-100 transition-colors touch-target">
           {content.cta}
         </button>

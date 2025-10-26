@@ -76,7 +76,7 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
             </div>
           </div>
           <h1 className="text-5xl font-bold text-claude-gray-900 dark:text-white mb-3 tracking-tight">
-            ClubNath
+            Nossa Maternidade
           </h1>
           <p className="text-claude-gray-600 dark:text-claude-gray-400 flex items-center justify-center gap-2 font-medium text-lg">
             <Sparkles className="w-5 h-5 text-claude-orange-500" />

@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png', 'favicon.ico'],
       manifest: {
-        name: 'ClubNath - Comunidade de Mães',
-        short_name: 'ClubNath',
+        name: 'Nossa Maternidade',
+        short_name: 'Nossa Maternidade',
         description: 'Comunidade de mães - Seu espaço de conexão e fé',
         theme_color: '#FF6B6B',
         background_color: '#FFF9F5',

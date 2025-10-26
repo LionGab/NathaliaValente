@@ -45,7 +45,7 @@ export const PremiumFeatures = ({ onUpgrade }: PremiumFeaturesProps) => {
             <Crown className="w-4 h-4 text-white" />
           </div>
           <h3 className="text-lg font-bold text-claude-gray-900 dark:text-claude-gray-100">
-            ClubNath VIP
+            Nossa Maternidade VIP
           </h3>
         </div>
         <button
@@ -88,7 +88,7 @@ export const PremiumFeatures = ({ onUpgrade }: PremiumFeaturesProps) => {
             Cancele quando quiser
           </div>
         </div>
-        
+
         <button
           onClick={onUpgrade}
           className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
