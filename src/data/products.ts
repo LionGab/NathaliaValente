@@ -181,7 +181,7 @@ export const products: Product[] = [
         brand: 'NAVA',
         category: 'colecoes',
         price: 165.00,
-        images: ['/images/products/nava/nava-collection-showcase.jpg'],
+        images: ['/images/products/nava/nava-bikini-showcase.jpg', '/images/products/nava/nava-bikini-showcase-2.jpg'],
         description: 'Bikinis exclusivos da Nathália Valente. Diversas estampas: leopard, zebra, oncinha. Acesse a loja completa!',
         link: 'https://loja.nathaliavalente.com',
         isExternal: true,
@@ -198,7 +198,11 @@ export const products: Product[] = [
         brand: 'OLLIN',
         category: 'maternidade',
         price: 49.90,
-        images: ['/images/products/ollin/ollin-babytest.jpg'],
+        images: [
+            '/images/products/ollin/ollin-product-1.jpg',
+            '/images/products/ollin/ollin-product-2.jpg',
+            '/images/products/ollin/ollin-product-3.jpg'
+        ],
         description: 'Teste de gravidez OLLIN. O melhor para o seu bebê desde os primeiros dias de vida.',
         link: 'https://ollin.com.br/babytest',
         isExternal: true,

@@ -101,7 +101,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   if (variant === 'featured') {
     return (
-      <div 
+      <div
         className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -126,11 +126,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               NOVO
             </div>
           )}
-          
+
           {/* Hover Actions */}
-          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}>
+          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+            }`}>
             <button
               onClick={() => onViewDetails(product)}
               className="bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
@@ -139,36 +138,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </button>
             <button
               onClick={() => onToggleFavorite(product.id)}
-              className={`p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ${
-                isFavorite 
-                  ? 'bg-red-500 text-white' 
+              className={`p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ${isFavorite
+                  ? 'bg-red-500 text-white'
                   : 'bg-white/90 hover:bg-white text-gray-900'
-              }`}
+                }`}
             >
               <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
             </button>
           </div>
         </div>
-        
+
         <div className="p-4">
           <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
             {product.name}
           </h3>
-          
+
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
             {product.description}
           </p>
-          
+
           <div className="flex items-center gap-2 mb-3">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(product.rating || 0)
+                  className={`w-4 h-4 ${i < Math.floor(product.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -176,7 +173,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {product.rating} ({product.reviews} avaliações)
             </span>
           </div>
-          
+
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -192,15 +189,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               <span className="text-sm text-red-500 font-medium">Esgotado</span>
             )}
           </div>
-          
+
           <button
             onClick={() => onAddToCart(product)}
             disabled={!product.inStock}
-            className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
-              product.inStock
+            className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${product.inStock
                 ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white hover:from-primary-600 hover:to-secondary-600 shadow-lg hover:shadow-xl'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
+              }`}
           >
             <ShoppingCart className="w-5 h-5 inline mr-2" />
             {product.inStock ? 'Adicionar ao Carrinho' : 'Produto Esgotado'}

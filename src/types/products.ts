@@ -48,7 +48,7 @@ export interface ProductReview {
   helpful: number;
 }
 
-export type ProductCategory = 
+export type ProductCategory =
   | 'bikinis'
   | 'leggings'
   | 'acessorios'
