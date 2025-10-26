@@ -252,8 +252,8 @@ export const FeedPage = () => {
                   >
                     <Heart
                       className={`w-5 h-5 ${post.user_has_liked
-                          ? 'fill-pink-500 text-pink-500 scale-110'
-                          : 'group-hover:scale-110'
+                        ? 'fill-pink-500 text-pink-500 scale-110'
+                        : 'group-hover:scale-110'
                         } transition-all duration-200`}
                       strokeWidth={2}
                     />

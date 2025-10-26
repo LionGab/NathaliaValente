@@ -118,7 +118,7 @@ export const ProfilePage = () => {
             )}
           </div>
           <div className="relative">
-            <button 
+            <button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
               className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-md hover:shadow-lg transition-shadow touch-target"
             >
@@ -132,7 +132,7 @@ export const ProfilePage = () => {
                   <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide px-3 py-2">
                     Mais Recursos
                   </div>
-                  
+
                   <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <Shield className="w-5 h-5 text-blue-500" />
                     <div>
@@ -226,8 +226,8 @@ export const ProfilePage = () => {
         <button
           onClick={() => setActiveTab('posts')}
           className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'posts'
-              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
+            ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
             }`}
         >
           <Grid className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
@@ -236,8 +236,8 @@ export const ProfilePage = () => {
         <button
           onClick={() => setActiveTab('saved')}
           className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'saved'
-              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
+            ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
             }`}
         >
           <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
@@ -396,8 +396,8 @@ export const ProfilePage = () => {
                     setShowAvatarSelector(false);
                   }}
                   className={`p-2 rounded-lg border-2 transition-all ${userAvatar === avatarType
-                      ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-pink-300'
+                    ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-pink-300'
                     }`}
                 >
                   <Avatar type={avatarType} size="md" />
