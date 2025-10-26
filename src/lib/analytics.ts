@@ -16,7 +16,7 @@ export const initAnalytics = () => {
 
         gtag('js', new Date());
         gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID, {
-            page_title: 'ClubNath VIP',
+            page_title: 'Nossa Maternidade',
             page_location: window.location.href,
         });
     }

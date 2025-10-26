@@ -69,7 +69,7 @@ export class NavaRealImagesService {
             name: 'Hero Mãe e Bebê',
             src: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&crop=center&auto=format&q=80',
             fallbackSrc: `${this.FALLBACK_BASE_URL}Hero`,
-            alt: 'Mãe e bebê - ClubNath VIP',
+            alt: 'Mãe e bebê - Nossa Maternidade',
             description: 'O melhor para o seu bebê desde os primeiros dias de vida',
             price: '',
             paymentInfo: '',

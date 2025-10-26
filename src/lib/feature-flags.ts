@@ -156,7 +156,7 @@ export const validateEnvironment = (): { isValid: boolean; missing: string[] } =
  */
 export const getAppConfig = () => {
     return {
-        name: import.meta.env.VITE_APP_NAME || 'ClubNath VIP',
+        name: import.meta.env.VITE_APP_NAME || 'Nossa Maternidade',
         version: import.meta.env.VITE_APP_VERSION || '1.0.0',
         description: import.meta.env.VITE_APP_DESCRIPTION || 'Comunidade exclusiva da Nathália Valente',
         defaultTheme: import.meta.env.VITE_DEFAULT_THEME || 'light',

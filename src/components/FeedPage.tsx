@@ -95,7 +95,7 @@ export const FeedPage = () => {
 
     try {
       await share({
-        title: `Post de ${post.profiles?.full_name || 'Usuário'} no ClubNath`,
+                 title: `Post de ${post.profiles?.full_name || 'Usuário'} na Nossa Maternidade`,
         text: post.caption,
         url: window.location.origin + `/?post=${post.id}`,
       });

@@ -189,7 +189,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Cadastro realizado com sucesso!');
           showSuccess(
             'Cadastro realizado!',
-            'Bem-vinda ao ClubNath VIP!'
+            'Bem-vinda à Nossa Maternidade!'
           );
 
           // Usar dados do usuário criado
@@ -218,7 +218,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Login realizado com sucesso!');
           showSuccess(
             'Login realizado!',
-            'Bem-vinda de volta ao ClubNath VIP!'
+            'Bem-vinda de volta à Nossa Maternidade!'
           );
 
           // Usar dados do usuário logado

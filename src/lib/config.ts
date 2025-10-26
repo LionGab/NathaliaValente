@@ -75,7 +75,7 @@ class ConfigManager {
             app: {
                 url: this.getEnvVar('VITE_APP_URL', 'https://clubnath.app'),
                 environment: this.getEnvVar('VITE_ENVIRONMENT', 'development') as 'development' | 'staging' | 'production',
-                name: this.getEnvVar('VITE_APP_NAME', 'ClubNath VIP'),
+                name: this.getEnvVar('VITE_APP_NAME', 'Nossa Maternidade'),
                 version: this.getEnvVar('VITE_APP_VERSION', '1.0.0')
             },
             features: {
