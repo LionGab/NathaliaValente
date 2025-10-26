@@ -24,8 +24,12 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
       <div className="flex flex-col items-center gap-8 p-8 relative z-10">
         {/* Logo animado - Modern */}
         <div className="relative">
-          <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl flex items-center justify-center shadow-large mx-auto animate-float">
-            <Heart className="w-12 h-12 text-white fill-white" />
+          <div className="w-24 h-24 bg-white dark:bg-neutral-800 rounded-3xl flex items-center justify-center shadow-large mx-auto animate-float overflow-hidden">
+            <img 
+              src="/logos/clubnath-logo.png" 
+              alt="ClubNath VIP" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="absolute -top-3 -right-3 w-8 h-8 bg-accent-500 rounded-full flex items-center justify-center animate-bounce shadow-lg">
             <Sparkles className="w-4 h-4 text-white" />

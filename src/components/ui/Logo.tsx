@@ -12,7 +12,7 @@ interface LogoProps {
 
 const logoConfig = {
   community: {
-    src: '/logos/clubnath-community.svg',
+    src: '/logos/clubnath-logo.png',
     alt: 'ClubNath - Comunidade de Mães',
     title: 'ClubNath - Comunidade de Mães'
   },
@@ -22,7 +22,7 @@ const logoConfig = {
     title: 'Nath - Assistente IA'
   },
   clubnath: {
-    src: '/logos/clubnath-community.svg',
+    src: '/logos/clubnath-logo.png',
     alt: 'ClubNath',
     title: 'ClubNath'
   },
@@ -47,7 +47,7 @@ export const Logo: React.FC<LogoProps> = ({
   onClick
 }) => {
   const config = logoConfig[type];
-  
+
   return (
     <img
       src={config.src}
@@ -66,27 +66,27 @@ export const Logo: React.FC<LogoProps> = ({
 
 // Componente específico para o header
 export const HeaderLogo: React.FC<{ className?: string }> = ({ className }) => (
-  <Logo 
-    type="clubnath" 
-    size="md" 
-    className={cn('hover:scale-110 transition-transform duration-300', className)} 
+  <Logo
+    type="clubnath"
+    size="md"
+    className={cn('hover:scale-110 transition-transform duration-300', className)}
   />
 );
 
 // Componente específico para a Nath
 export const NathLogo: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({ className, size = 'lg' }) => (
-  <Logo 
-    type="nath" 
-    size={size} 
-    className={cn('hover:scale-110 transition-transform duration-300', className)} 
+  <Logo
+    type="nath"
+    size={size}
+    className={cn('hover:scale-110 transition-transform duration-300', className)}
   />
 );
 
 // Componente específico para a comunidade
 export const CommunityLogo: React.FC<{ className?: string }> = ({ className }) => (
-  <Logo 
-    type="community" 
-    size="xl" 
-    className={cn('hover:scale-110 transition-transform duration-300', className)} 
+  <Logo
+    type="community"
+    size="xl"
+    className={cn('hover:scale-110 transition-transform duration-300', className)}
   />
 );
