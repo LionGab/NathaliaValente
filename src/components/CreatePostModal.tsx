@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { X, Image as ImageIcon, Upload } from 'lucide-react';
+import { X, Image as ImageIcon, Upload, ShoppingBag } from 'lucide-react';
+import { 
+  validateProduct,
+  safeValidate,
+  type Product 
+} from '../features/products/validation';
 
 type CreatePostModalProps = {
   onClose: () => void;
   onPostCreated: () => void;
 };
 
-const CATEGORIES = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'] as const;
+const CATEGORIES = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe', 'Produto'] as const;
 
 export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps) => {
   const [caption, setCaption] = useState('');
@@ -16,6 +21,11 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  
+  // Estados para produtos
+  const [productData, setProductData] = useState<Partial<Product>>({});
+  const [productErrors, setProductErrors] = useState<string[]>([]);
+  
   const { user } = useAuth();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +37,27 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  // Validação de produto
+  const validateProductData = (data: Partial<Product>) => {
+    const result = safeValidate(validateProduct, data);
+    if (!result.success) {
+      setProductErrors(result.errors);
+      return false;
+    }
+    setProductErrors([]);
+    return true;
+  };
+
+  const handleProductDataChange = (field: keyof Product, value: unknown) => {
+    const newData = { ...productData, [field]: value };
+    setProductData(newData);
+    
+    // Validação em tempo real
+    if (Object.keys(newData).length > 0) {
+      validateProductData(newData);
     }
   };
 
@@ -114,6 +145,123 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
               ))}
             </div>
           </div>
+
+          {/* Formulário de produto quando categoria for "Produto" */}
+          {category === 'Produto' && (
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <ShoppingBag className="w-5 h-5 text-blue-600" />
+                <h3 className="font-semibold text-gray-900 dark:text-white">Informações do Produto</h3>
+              </div>
+
+              {/* Erros de validação do produto */}
+              {productErrors.length > 0 && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                  <h4 className="text-red-800 font-semibold text-sm mb-2">Erros de validação:</h4>
+                  <ul className="list-disc list-inside text-red-700 text-sm space-y-1">
+                    {productErrors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Nome do produto */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Nome do Produto *
+                  </label>
+                  <input
+                    type="text"
+                    value={productData.name || ''}
+                    onChange={(e) => handleProductDataChange('name', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    placeholder="Ex: Bikini Premium Nathália"
+                  />
+                </div>
+
+                {/* Preço */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Preço (R$) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={productData.price || ''}
+                    onChange={(e) => handleProductDataChange('price', parseFloat(e.target.value) || 0)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    placeholder="0.00"
+                  />
+                </div>
+
+                {/* Categoria */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Categoria *
+                  </label>
+                  <select
+                    value={productData.category || 'roupas'}
+                    onChange={(e) => handleProductDataChange('category', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  >
+                    <option value="roupas">Roupas</option>
+                    <option value="cuidados">Cuidados</option>
+                    <option value="acessorios">Acessórios</option>
+                    <option value="brinquedos">Brinquedos</option>
+                    <option value="maternidade">Maternidade</option>
+                    <option value="nutricao">Nutrição</option>
+                    <option value="seguranca">Segurança</option>
+                  </select>
+                </div>
+
+                {/* Estoque */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Estoque *
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={productData.currentStock || ''}
+                    onChange={(e) => handleProductDataChange('currentStock', parseInt(e.target.value) || 0)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    placeholder="0"
+                  />
+                </div>
+
+                {/* SKU */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    SKU
+                  </label>
+                  <input
+                    type="text"
+                    value={productData.sku || ''}
+                    onChange={(e) => handleProductDataChange('sku', e.target.value.toUpperCase())}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    placeholder="Ex: BIKINI-001"
+                  />
+                </div>
+              </div>
+
+              {/* Descrição do produto */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Descrição do Produto
+                </label>
+                <textarea
+                  value={productData.description || ''}
+                  onChange={(e) => handleProductDataChange('description', e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  placeholder="Descrição detalhada do produto..."
+                />
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-semibold text-claude-gray-700 dark:text-claude-gray-300 mb-3">

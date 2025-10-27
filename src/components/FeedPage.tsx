@@ -14,6 +14,11 @@ import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
 import { NAVAHeroSection } from './NAVAHeroSection';
 import { RoutineCalendar } from './RoutineCalendar';
+// import { HeroCard } from '../features/home/components/HeroCard';
+// import { QuickActions } from '../features/home/components/QuickActions';
+// import { ProductPreview } from '../features/home/components/ProductPreview';
+// import { CollapsibleVerse } from '../features/home/components/CollapsibleVerse';
+// import { RoutinePreview } from '../features/home/components/RoutinePreview';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -134,42 +139,18 @@ export const FeedPage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 py-4 pb-24 mobile-padding">
-      {/* Hero Section Premium */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 p-6 mb-6 text-white">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative z-10">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <Heart className="w-5 h-5 text-pink-200" fill="currentColor" />
-              </div>
-              <span className="text-sm font-semibold">Comunidade</span>
-            </div>
-            <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full">
-              <Sparkles className="w-3 h-3" />
-              <span className="text-xs">Atualizado</span>
-            </div>
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Bem-vindas à Nossa Maternidade! 👋</h2>
-          <p className="text-sm opacity-90 mb-4">
-            Um espaço seguro para compartilhar experiências, dicas e se conectar com outras mães
-            incríveis
-          </p>
-          <Button
-            onClick={handleCreatePost}
-            className="bg-white text-purple-600 hover:bg-white/90 font-semibold"
-            size="sm"
-            leftIcon={<Plus className="w-4 h-4" />}
-          >
-            Compartilhar momento
-          </Button>
-        </div>
-        <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-        <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl"></div>
-      </div>
+      {/* Hero Card Refatorado */}
+      <HeroCard />
 
-      {/* Daily Verse Card */}
-      <DailyVerseCard />
+      {/* Quick Actions */}
+      <QuickActions />
+
+      {/* Versículo Colapsável */}
+      <CollapsibleVerse verse={{
+        text: "Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais.",
+        reference: "Jeremias 29:11",
+        date: "27 de Janeiro, 2025"
+      }} />
 
       {/* NAVA Hero Section */}
       <NAVAHeroSection />
@@ -190,7 +171,13 @@ export const FeedPage = () => {
         </div>
       </div>
 
-      {/* Calendário de Rotina */}
+      {/* Preview da Rotina */}
+      <RoutinePreview />
+
+      {/* Preview de Produtos */}
+      <ProductPreview />
+
+      {/* Calendário de Rotina Completo */}
       <RoutineCalendar />
 
       {/* Posts removidos - substituídos pelo Calendário de Rotina */}
