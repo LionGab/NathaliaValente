@@ -27,19 +27,19 @@ import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() =>
-  import('./components/FeedPage').then((module) => ({ default: module.FeedPage }))
+  import('./features/feed/screens/FeedPage').then((module) => ({ default: module.FeedPage }))
 );
 const ChatPage = lazy(() =>
-  import('./components/ChatPage').then((module) => ({ default: module.ChatPage }))
+  import('./features/chat/screens/ChatPage').then((module) => ({ default: module.ChatPage }))
 );
 const StorePage = lazy(() =>
-  import('./components/StorePage').then((module) => ({ default: module.StorePage }))
+  import('./features/store/screens/StorePage').then((module) => ({ default: module.StorePage }))
 );
 const ForumPage = lazy(() =>
   import('./components/ForumPage').then((module) => ({ default: module.ForumPage }))
 );
 const ProfilePage = lazy(() =>
-  import('./components/ProfilePage').then((module) => ({ default: module.ProfilePage }))
+  import('./features/profile/screens/ProfilePage').then((module) => ({ default: module.ProfilePage }))
 );
 
 function AppContent() {

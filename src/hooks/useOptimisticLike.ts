@@ -39,7 +39,7 @@ export function useOptimisticLike() {
       if (currentLikeStatus) {
         // Unlike: delete the like
         const { error } = await supabase
-          .from('likes')
+          .from('post_likes')
           .delete()
           .eq('post_id', postId)
           .eq('user_id', userId);
@@ -47,7 +47,7 @@ export function useOptimisticLike() {
         if (error) throw error;
       } else {
         // Like: insert new like
-        const { error } = await supabase.from('likes').insert({
+        const { error } = await supabase.from('post_likes').insert({
           post_id: postId,
           user_id: userId,
         });

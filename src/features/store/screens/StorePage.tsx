@@ -1,5 +1,5 @@
 import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
-import { SimpleNathTips } from './SimpleNathTips';
+import { SimpleNathTips } from '../../../components/SimpleNathTips';
 
 export const StorePage = () => {
   // Produtos para Desapega das Mamães

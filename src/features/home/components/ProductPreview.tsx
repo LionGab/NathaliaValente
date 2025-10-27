@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
-import { OptimizedImage } from '../../components/ui/OptimizedImage';
-import { ProductCardSkeleton } from '../../components/ui/skeletons/ProductCardSkeleton';
-import { useLazyLoading } from '../../hooks/useLazyLoading';
+import { Card } from '../../../components/ui/Card';
+import { Button } from '../../../components/ui/Button';
+import { OptimizedImage } from '../../../components/ui/OptimizedImage';
+import { ProductCardSkeleton } from '../../../components/ui/skeletons/ProductCardSkeleton';
+import { useLazyLoading } from '../../../hooks/useLazyLoading';
 import { ChevronRight, Eye } from 'lucide-react';
 import { useProducts } from '../hooks/useProducts';
 

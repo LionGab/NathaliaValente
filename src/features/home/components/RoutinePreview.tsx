@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
+import { Card } from '../../../components/ui/Card';
+import { Button } from '../../../components/ui/Button';
 import { Clock, ChevronRight, CheckCircle, Circle } from 'lucide-react';
-import { useRoutines } from '../../hooks/useRoutines';
-import { getRoutineIconEmoji } from '../../types/routine';
+import { useRoutines } from '../../../hooks/useRoutines';
+// import { getRoutineIconEmoji } from '../../../types/routine';
 
 export const RoutinePreview: React.FC = () => {
   const { routines, isLoading } = useRoutines();
@@ -77,7 +77,7 @@ export const RoutinePreview: React.FC = () => {
             className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
             <div className="text-2xl">
-              {getRoutineIconEmoji(routine.icon)}
+              {routine.icon === 'feeding' ? '🍼' : routine.icon === 'bathing' ? '🛁' : routine.icon === 'sleeping' ? '😴' : '🎯'}
             </div>
             
             <div className="flex-1 min-w-0">

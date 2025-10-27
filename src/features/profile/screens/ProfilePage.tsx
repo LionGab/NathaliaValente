@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { supabase, SavedItem } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
-import { usePosts } from '../hooks';
-import { getCategoryColor } from '../constants/colors';
+import { supabase, SavedItem } from '../../../lib/supabase';
+import { useAuth } from '../../../contexts/AuthContext';
+import { usePosts } from '../../../hooks';
+import { getCategoryColor } from '../../../constants/colors';
 import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X, Shield, Baby, Camera, HelpCircle } from 'lucide-react';
-import { useMockData } from '../hooks/useMockData';
-import { Avatar, AvatarType } from './ui/Avatar';
+import { useMockData } from '../../../hooks/useMockData';
+import { Avatar, AvatarType } from '../../../components/ui/Avatar';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'posts' | 'saved' | 'achievements'>('posts');

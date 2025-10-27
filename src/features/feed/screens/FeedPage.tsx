@@ -1,29 +1,29 @@
 import { useState, Suspense, lazy, useCallback } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { usePosts, useLikePost, useSaveItem } from '../hooks/useQueries';
-import { useWebShare } from '../hooks';
-import { getCategoryGradient } from '../constants/colors';
+import { useAuth } from '../../../contexts/AuthContext';
+import { usePosts, useLikePost, useSaveItem } from '../../../hooks/useQueries';
+import { useWebShare } from '../../../hooks';
+import { getCategoryGradient } from '../../../constants/colors';
 import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles } from 'lucide-react';
-import { PostComments } from './PostComments';
-import { LoadingSpinner, PostSkeleton } from './ui/LoadingSpinner';
-import { useMockData } from '../hooks/useMockData';
-import { Button } from './ui/Button';
-import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
-import { formatNumber, formatDate } from '../lib/utils';
-import { DailyVerseCard } from './DailyVerseCard';
-import { OptimizedImage } from './ui/OptimizedImage';
-import { NAVAHeroSection } from './NAVAHeroSection';
-import { RoutineCalendar } from './RoutineCalendar';
-// import { HeroCard } from '../features/home/components/HeroCard';
-// import { QuickActions } from '../features/home/components/QuickActions';
-// import { ProductPreview } from '../features/home/components/ProductPreview';
-// import { CollapsibleVerse } from '../features/home/components/CollapsibleVerse';
-// import { RoutinePreview } from '../features/home/components/RoutinePreview';
-import type { Post } from '../lib/supabase';
+import { PostComments } from '../../../components/PostComments';
+import { LoadingSpinner, PostSkeleton } from '../../../components/ui/LoadingSpinner';
+import { useMockData } from '../../../hooks/useMockData';
+import { Button } from '../../../components/ui/Button';
+import { useInfiniteScroll, useHapticFeedback } from '../../../hooks/useGestures';
+import { formatNumber, formatDate } from '../../../lib/utils';
+import { DailyVerseCard } from '../../../components/DailyVerseCard';
+import { OptimizedImage } from '../../../components/ui/OptimizedImage';
+import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
+import { RoutineCalendar } from '../../../components/RoutineCalendar';
+import { HeroCard } from '../../home/components/HeroCard';
+import { QuickActions } from '../../home/components/QuickActions';
+import { ProductPreview } from '../../home/components/ProductPreview';
+import { CollapsibleVerse } from '../../home/components/CollapsibleVerse';
+import { RoutinePreview } from '../../home/components/RoutinePreview';
+import type { Post } from '../../../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
 const CreatePostModal = lazy(() =>
-  import('./CreatePostModal').then((module) => ({ default: module.CreatePostModal }))
+  import('../../../components/CreatePostModal').then((module) => ({ default: module.CreatePostModal }))
 );
 
 export const FeedPage = () => {
