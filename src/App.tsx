@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
@@ -25,25 +25,13 @@ import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
 import { useNotifications } from './hooks/useNotifications';
 
-// Lazy load heavy components for better performance
-const HomePage = lazy(() =>
-  import('./features/home/screens/HomePage')
-);
-const FeedPage = lazy(() =>
-  import('./features/feed/screens/FeedPage').then((module) => ({ default: module.FeedPage }))
-);
-const ChatPage = lazy(() =>
-  import('./features/chat/screens/ChatPage').then((module) => ({ default: module.ChatPage }))
-);
-const StorePage = lazy(() =>
-  import('./features/store/screens/StorePage').then((module) => ({ default: module.StorePage }))
-);
-const ForumPage = lazy(() =>
-  import('./components/ForumPage').then((module) => ({ default: module.ForumPage }))
-);
-const ProfilePage = lazy(() =>
-  import('./features/profile/screens/ProfilePage').then((module) => ({ default: module.ProfilePage }))
-);
+// Import direto para evitar problemas de lazy loading
+import HomePage from './features/home/screens/HomePage';
+import { FeedPage } from './features/feed/screens/FeedPage';
+import { ChatPage } from './features/chat/screens/ChatPage';
+import { StorePage } from './features/store/screens/StorePage';
+import { ForumPage } from './components/ForumPage';
+import { ProfilePage } from './features/profile/screens/ProfilePage';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -159,57 +147,39 @@ function AppContent() {
 
       switch (currentPage) {
         case 'home':
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <HomePage />
-            </Suspense>
-          );
+          return <HomePage />;
         case 'feed':
           return (
             <FeedErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <FeedPage />
-              </Suspense>
+              <FeedPage />
             </FeedErrorBoundary>
           );
         case 'chat':
           return (
             <ChatErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <ChatPage />
-              </Suspense>
+              <ChatPage />
             </ChatErrorBoundary>
           );
         case 'store':
           return (
             <StoreErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <StorePage />
-              </Suspense>
+              <StorePage />
             </StoreErrorBoundary>
           );
         case 'profile':
           return (
             <ProfileErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <ProfilePage />
-              </Suspense>
+              <ProfilePage />
             </ProfileErrorBoundary>
           );
         case 'forum':
           return (
             <GroupsErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <ForumPage />
-              </Suspense>
+              <ForumPage />
             </GroupsErrorBoundary>
           );
         default:
-          return (
-            <Suspense fallback={<LoadingSpinner />}>
-              <HomePage />
-            </Suspense>
-          );
+          return <HomePage />;
       }
     };
 

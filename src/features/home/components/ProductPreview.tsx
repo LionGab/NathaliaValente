@@ -65,7 +65,7 @@ export const ProductPreview: React.FC = () => {
                 <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </div>
-            
+
             <h4 className="font-medium text-sm text-gray-900 dark:text-white mb-1 line-clamp-2">
               {product.name}
             </h4>
