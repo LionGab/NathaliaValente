@@ -10,7 +10,7 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
     { id: 'feed', label: 'Início', icon: Home, badge: null },
     { id: 'chat', label: 'Nath IA', icon: MessageCircle, badge: 'AI' },
     { id: 'store', label: 'Loja', icon: ShoppingBag, badge: null },
-    { id: 'groups', label: 'Grupos', icon: Users, badge: null },
+    { id: 'forum', label: 'Fórum', icon: Users, badge: null },
     { id: 'profile', label: 'Perfil', icon: User, badge: null },
   ];
 

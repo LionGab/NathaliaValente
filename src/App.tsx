@@ -23,14 +23,12 @@ import { useNotifications } from './hooks/useNotifications';
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
 const StorePage = lazy(() => import('./components/StorePage').then(module => ({ default: module.StorePage })));
+const ForumPage = lazy(() => import('./components/ForumPage').then(module => ({ default: module.ForumPage })));
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
-const GroupsList = lazy(() => import('./components/groups/GroupsList').then(module => ({ default: module.GroupsList })));
-const GroupDetail = lazy(() => import('./components/groups/GroupDetail').then(module => ({ default: module.GroupDetail })));
 
 function AppContent() {
   const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
-  const [selectedGroup, setSelectedGroup] = useState<{ id: string; name: string } | null>(null);
   const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
   const { notifications, removeNotification } = useNotifications();
@@ -115,22 +113,11 @@ function AppContent() {
               </Suspense>
             </ProfileErrorBoundary>
           );
-        case 'groups':
-          return selectedGroup ? (
+        case 'forum':
+          return (
             <GroupsErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <GroupDetail
-                  groupId={selectedGroup.id}
-                  onBack={() => setSelectedGroup(null)}
-                />
-              </Suspense>
-            </GroupsErrorBoundary>
-          ) : (
-            <GroupsErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <GroupsList
-                  onGroupSelect={setSelectedGroup}
-                />
+                <ForumPage />
               </Suspense>
             </GroupsErrorBoundary>
           );
