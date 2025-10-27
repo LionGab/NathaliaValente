@@ -4,9 +4,9 @@
  */
 
 import { useState } from 'react';
-import { 
-  Home, 
-  MessageCircle, 
+import {
+  Home,
+  MessageCircle,
   User,
   Plus,
   Search,
@@ -14,7 +14,8 @@ import {
   Heart,
   Users,
   Star,
-  Menu
+  Menu,
+  Sparkles,
 } from 'lucide-react';
 
 interface OptimizedBottomNavProps {
@@ -23,16 +24,15 @@ interface OptimizedBottomNavProps {
   onCreatePost: () => void;
   onSearch: () => void;
   onNotifications: () => void;
-  onQuickMenu: () => void;
+  onQuickMenu?: () => void;
 }
 
-export const OptimizedBottomNav = ({ 
-  currentTab, 
-  onTabChange, 
-  onCreatePost, 
-  onSearch, 
+export const OptimizedBottomNav = ({
+  currentTab,
+  onTabChange,
+  onCreatePost,
+  onSearch,
   onNotifications,
-  onQuickMenu 
 }: OptimizedBottomNavProps) => {
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
 
@@ -43,51 +43,57 @@ export const OptimizedBottomNav = ({
       icon: Home,
       label: 'Início',
       color: 'text-pink-600 dark:text-pink-400',
-      bgColor: 'bg-pink-50 dark:bg-pink-900/20'
+      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
     },
     {
       id: 'chat',
       icon: MessageCircle,
       label: 'Chat',
       color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
     },
     {
       id: 'profile',
       icon: User,
       label: 'Perfil',
       color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20'
-    }
+      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+    },
   ];
 
   // Ações rápidas no menu expandido
   const quickActions = [
     {
+      icon: Sparkles,
+      label: 'Bem-Estar',
+      color: 'text-pink-600 dark:text-pink-400',
+      onClick: () => onTabChange('wellness'),
+    },
+    {
       icon: Users,
       label: 'Grupos',
       color: 'text-blue-600 dark:text-blue-400',
-      onClick: () => onTabChange('groups')
+      onClick: () => onTabChange('groups'),
     },
     {
       icon: Star,
       label: 'Favoritos',
       color: 'text-yellow-600 dark:text-yellow-400',
-      onClick: () => onTabChange('favorites')
+      onClick: () => onTabChange('favorites'),
     },
     {
       icon: Search,
       label: 'Buscar',
       color: 'text-gray-600 dark:text-gray-400',
-      onClick: onSearch
+      onClick: onSearch,
     },
     {
       icon: Bell,
       label: 'Notificações',
       color: 'text-gray-600 dark:text-gray-400',
       onClick: onNotifications,
-      hasNotification: true
-    }
+      hasNotification: true,
+    },
   ];
 
   return (
@@ -171,7 +177,7 @@ export const OptimizedBottomNav = ({
             {mainTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = currentTab === tab.id;
-              
+
               return (
                 <button
                   key={tab.id}
@@ -183,12 +189,16 @@ export const OptimizedBottomNav = ({
                   }`}
                 >
                   <div className={`relative ${isActive ? 'animate-bounce' : ''}`}>
-                    <Icon className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`} />
+                    <Icon
+                      className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
+                    />
                     {isActive && (
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-current rounded-full animate-pulse"></div>
                     )}
                   </div>
-                  <span className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}>
+                  <span
+                    className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}
+                  >
                     {tab.label}
                   </span>
                 </button>

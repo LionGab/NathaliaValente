@@ -41,6 +41,9 @@ const ForumPage = lazy(() =>
 const ProfilePage = lazy(() =>
   import('./components/ProfilePage').then((module) => ({ default: module.ProfilePage }))
 );
+const WellnessPage = lazy(() =>
+  import('./components/WellnessPage').then((module) => ({ default: module.WellnessPage }))
+);
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -194,6 +197,14 @@ function AppContent() {
                 <ForumPage />
               </Suspense>
             </GroupsErrorBoundary>
+          );
+        case 'wellness':
+          return (
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <WellnessPage />
+              </Suspense>
+            </ErrorBoundary>
           );
         default:
           return (
