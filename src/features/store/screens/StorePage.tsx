@@ -74,36 +74,36 @@ export const StorePage = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
+    <div className="w-full mx-auto px-3 py-3 pb-24 space-y-6 sm:px-4 sm:py-4 sm:space-y-8 lg:space-y-12">
       {/* NAVA Hero Section */}
       <NAVAHeroSection />
 
       {/* Babytest Section */}
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg border-2 border-neutral-200 dark:border-neutral-700 overflow-hidden">
-        <div className="text-center space-y-6">
+      <div className="bg-white dark:bg-neutral-800 rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-neutral-200 dark:border-neutral-700 overflow-hidden">
+        <div className="text-center space-y-4 sm:space-y-6">
           {/* Texto acima */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <TestTube2 className="h-8 w-8 text-primary-500" />
-              <h3 className="text-3xl font-bold text-neutral-900 dark:text-white">
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              <TestTube2 className="h-6 w-6 sm:h-8 sm:w-8 text-primary-500" />
+              <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white">
                 Babytest by OLLIN
               </h3>
             </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed max-w-4xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-4xl mx-auto px-2">
               O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN investiga mais de 600 doenças genéticas tratáveis.
             </p>
           </div>
 
           {/* Imagem abaixo */}
-          <div className="relative h-64 md:h-80 max-w-2xl mx-auto rounded-xl overflow-hidden bg-pink-100">
+          <div className="relative h-48 sm:h-64 md:h-80 max-w-2xl mx-auto rounded-xl overflow-hidden bg-pink-100">
             <img
               src="https://i.imgur.com/JPBuHrw.jpg"
               alt="Babytest by OLLIN"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 right-4 text-white">
-              <p className="text-sm font-medium">Teste de Triagem Neonatal</p>
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-white">
+              <p className="text-xs sm:text-sm font-medium">Teste de Triagem Neonatal</p>
               <p className="text-xs opacity-90">Prepare-se para a Maternidade com Confiança!</p>
             </div>
           </div>
@@ -112,9 +112,9 @@ export const StorePage = () => {
           <div className="flex justify-center">
             <button
               onClick={() => window.open('https://www.babytest.com.br/', '_blank')}
-              className="bg-pink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-pink-600 transition-all duration-200 shadow-medium flex items-center justify-center gap-2"
+              className="bg-pink-500 text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-xl font-semibold hover:bg-pink-600 transition-all duration-200 shadow-medium flex items-center justify-center gap-2 text-sm sm:text-base"
             >
-              <TestTube2 className="w-5 h-5" />
+              <TestTube2 className="w-4 h-4 sm:w-5 sm:h-5" />
               ACESSAR O SITE APENAS
             </button>
           </div>
@@ -122,27 +122,27 @@ export const StorePage = () => {
       </div>
 
       {/* Primeiros Cuidados com o Recém-Nascido Section */}
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-neutral-900 dark:text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">
             Primeiros Cuidados com o Recém-Nascido
           </h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto px-2">
             Tudo que você precisa saber para cuidar do seu bebê nos primeiros dias em casa
           </p>
         </div>
 
         {/* Cards de Cuidados */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Card 1: Alimentação */}
-          <div className="bg-gradient-to-br from-pink-50 to-rose-100 rounded-2xl p-6 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-pink-500 rounded-xl">
-                <TestTube2 className="w-6 h-6 text-white" />
+          <div className="bg-gradient-to-br from-pink-50 to-rose-100 rounded-2xl p-4 sm:p-6 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div className="p-2 sm:p-3 bg-pink-500 rounded-xl">
+                <TestTube2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-pink-800">Alimentação</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-pink-800">Alimentação</h3>
             </div>
-            <ul className="space-y-2 text-pink-700">
+            <ul className="space-y-1.5 sm:space-y-2 text-pink-700 text-sm sm:text-base">
               <li className="flex items-start gap-2">
                 <span className="text-pink-500 mt-1">•</span>
                 <span>Amamentação em livre demanda</span>
@@ -309,7 +309,13 @@ export const StorePage = () => {
           <p className="text-lg mb-6 opacity-90">
             Acesse nosso guia completo de primeiros cuidados com o recém-nascido
           </p>
-          <button className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <button 
+            onClick={() => {
+              // Navegar para página de guia completo
+              window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+            }}
+            className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
             Acessar Guia Completo
           </button>
         </div>
@@ -506,7 +512,13 @@ export const StorePage = () => {
           <p className="text-lg mb-6 opacity-90">
             Acesse nosso guia completo de amamentação com dicas práticas e apoio emocional
           </p>
-          <button className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <button 
+            onClick={() => {
+              // Navegar para página de amamentação
+              window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+            }}
+            className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
             Acessar Guia de Amamentação
           </button>
         </div>
@@ -582,7 +594,13 @@ export const StorePage = () => {
                   </div>
 
                   {/* Botão de Compra */}
-                  <button className="w-full px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-medium hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                  <button 
+                    onClick={() => {
+                      // Adicionar produto ao carrinho ou mostrar modal de compra
+                      alert(`Produto "${product.name}" adicionado ao carrinho!`);
+                    }}
+                    className="w-full px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-medium hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+                  >
                     <Heart className="w-4 h-4" />
                     Comprar
                   </button>
@@ -598,6 +616,10 @@ export const StorePage = () => {
 
       {/* FAB - Floating Action Button */}
       <button
+        onClick={() => {
+          // Navegar para página de criação de post ou adicionar item
+          window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
+        }}
         className="fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40 group hover:scale-110"
         aria-label="Adicionar item"
       >

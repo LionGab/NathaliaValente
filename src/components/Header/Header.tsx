@@ -13,9 +13,9 @@ export const Header: React.FC = () => {
       transition={{ duration: 0.6 }}
       className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
     >
-      <div className="max-w-full mx-auto px-4 py-3">
+      <div className="w-full mx-auto px-3 py-2 sm:px-4 sm:py-3">
         <div className="flex items-center justify-center">
-          {/* User Greeting - Centralizado */}
+          {/* User Greeting - Centralizado e otimizado para mobile */}
           <UserGreeting
             name={profile?.full_name?.split(' ')[0] || 'Mamãe'}
             avatar={profile?.avatar_url}
