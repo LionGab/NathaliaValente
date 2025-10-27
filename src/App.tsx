@@ -10,7 +10,6 @@ import { PWANotifications } from './components/PWANotifications';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { PerformanceDebug } from './components/PerformanceDebug';
 import { InstagramAuth } from './components/InstagramAuth';
-import { ConversionOnboarding } from './components/ConversionOnboarding';
 import { ErrorBoundary, FeedErrorBoundary, ChatErrorBoundary, GroupsErrorBoundary, ProfileErrorBoundary, StoreErrorBoundary } from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';

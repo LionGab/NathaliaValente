@@ -87,12 +87,11 @@ export const ProductDetailModal = ({
           {/* Image Gallery */}
           <div className="lg:w-1/2 relative bg-neutral-50 dark:bg-neutral-800">
             <div className="relative h-64 lg:h-full">
-              <OptimizedImage
-                src={product.images[currentImageIndex]}
-                alt={product.name}
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
+                <OptimizedImage
+                  src={product.images[currentImageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
               
               {/* Navigation arrows */}
               {product.images.length > 1 && (

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Send, Sparkles, Copy, ThumbsUp, RotateCcw, Lightbulb, Mic, Paperclip, Heart } from 'lucide-react';
-import { MemoryIndicator, MemoryIndicatorCompact } from './chat/MemoryIndicator';
+import { Send, Sparkles, Copy, ThumbsUp, RotateCcw, Lightbulb } from 'lucide-react';
 import { generateNathIAResponse } from '../services/nathia-enhanced.service';
 import { generateNathIAStudyResponse } from '../services/bible-studies.service';
+import { logger } from '../utils/logger';
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -27,12 +27,6 @@ export const ChatPage = () => {
     "Reflexão espiritual"
   ];
 
-  const premiumFeatures = [
-    { icon: "👶", label: "Consultoria Personalizada", desc: "Dicas exclusivas da Nath" },
-    { icon: "💝", label: "Produtos NAVA", desc: "Acesso antecipado" },
-    { icon: "🌟", label: "Comunidade VIP", desc: "Mães selecionadas" },
-    { icon: "📱", label: "App Exclusivo", desc: "Só para você" }
-  ];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -84,7 +78,7 @@ export const ChatPage = () => {
         return response.message;
       }
     } catch (error) {
-      console.error('Error getting AI response:', error);
+      logger.error('Error getting AI response', { context: 'ChatPage', data: error });
       // Fallback response premium da Nath
       const fallbacks = [
         'Oi, querida! Que lindo compartilhar isso comigo! Como mãe, sei exatamente como você se sente. Você está fazendo um trabalho maravilhoso - lembre-se: você não precisa ser perfeita, apenas presente. 💕 - Nath',
@@ -120,7 +114,7 @@ export const ChatPage = () => {
       setNewMessage('');
       fetchMessages();
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger.error('Error sending message', { context: 'ChatPage', data: error });
     } finally {
       setLoading(false);
     }
@@ -152,7 +146,7 @@ export const ChatPage = () => {
 
       fetchMessages();
     } catch (error) {
-      console.error('Error regenerating response:', error);
+      logger.error('Error regenerating response', { context: 'ChatPage', data: error });
     } finally {
       setLoading(false);
     }
