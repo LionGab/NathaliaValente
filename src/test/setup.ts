@@ -3,7 +3,7 @@
  * Configuração global para todos os testes
  */
 
-import { expect, afterEach, vi } from 'vitest';
+import { expect, afterEach, beforeEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 
@@ -18,7 +18,7 @@ afterEach(() => {
 // Mock do window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -44,11 +44,13 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   disconnect: vi.fn(),
 }));
 
-// Mock do PerformanceObserver
+// Mock do PerformanceObserver with supportedEntryTypes
 global.PerformanceObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   disconnect: vi.fn(),
-}));
+})) as unknown as typeof PerformanceObserver;
+// @ts-expect-error - Add static property for testing
+global.PerformanceObserver.supportedEntryTypes = ['measure', 'navigation', 'resource'];
 
 // Mock do navigator.onLine
 Object.defineProperty(navigator, 'onLine', {
@@ -124,7 +126,7 @@ global.FileReader = vi.fn().mockImplementation(() => ({
   onprogress: null,
   abort: vi.fn(),
   readAsBinaryString: vi.fn(),
-}));
+})) as unknown as typeof FileReader;
 
 // Mock do crypto
 Object.defineProperty(global, 'crypto', {
@@ -142,7 +144,9 @@ global.MutationObserver = vi.fn().mockImplementation(() => ({
 }));
 
 // Mock do requestAnimationFrame
-global.requestAnimationFrame = vi.fn((cb) => setTimeout(cb, 0));
+global.requestAnimationFrame = vi.fn(
+  (cb) => setTimeout(cb, 0) as unknown as number
+) as unknown as typeof requestAnimationFrame;
 global.cancelAnimationFrame = vi.fn((id) => clearTimeout(id));
 
 // Mock do setTimeout e setInterval para testes mais rápidos
@@ -159,14 +163,14 @@ afterEach(() => {
 beforeEach(() => {
   // Limpar todos os mocks antes de cada teste
   vi.clearAllMocks();
-  
+
   // Resetar localStorage e sessionStorage
   localStorageMock.clear();
   sessionStorageMock.clear();
-  
+
   // Resetar fetch
   vi.mocked(fetch).mockClear();
-  
+
   // Resetar console
   vi.mocked(console.log).mockClear();
   vi.mocked(console.error).mockClear();
@@ -186,22 +190,22 @@ export const testConfig = {
       id: 'test-user-id',
       email: 'test@example.com',
       fullName: 'Test User',
-      avatar: 'https://example.com/avatar.jpg'
+      avatar: 'https://example.com/avatar.jpg',
     },
     group: {
       id: 'test-group-id',
       name: 'Test Group',
       description: 'Test Description',
       category: 'amamentacao',
-      isPrivate: false
+      isPrivate: false,
     },
     post: {
       id: 'test-post-id',
       content: 'Test post content',
       userId: 'test-user-id',
       groupId: 'test-group-id',
-      createdAt: new Date().toISOString()
-    }
+      createdAt: new Date().toISOString(),
+    },
   },
   mockFunctions: {
     mockSupabase: {
@@ -220,6 +224,6 @@ export const testConfig = {
         eq: vi.fn().mockReturnThis(),
         single: vi.fn(),
       })),
-    }
-  }
+    },
+  },
 };

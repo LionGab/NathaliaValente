@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loader2, Sparkles } from 'lucide-react';
 
 interface LoadingSpinnerProps {
@@ -9,12 +8,12 @@ interface LoadingSpinnerProps {
   showIcon?: boolean;
 }
 
-export function LoadingSpinner({ 
-  size = 'md', 
-  message = 'Carregando...', 
+export function LoadingSpinner({
+  size = 'md',
+  message = 'Carregando...',
   className = '',
   variant = 'modern',
-  showIcon = true
+  showIcon = true,
 }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: 'h-6 w-6',
@@ -33,7 +32,9 @@ export function LoadingSpinner({
   if (variant === 'minimal') {
     return (
       <div className={`flex items-center justify-center ${className}`}>
-        <Loader2 className={`${sizeClasses[size]} animate-spin text-primary-600 dark:text-primary-400`} />
+        <Loader2
+          className={`${sizeClasses[size]} animate-spin text-primary-600 dark:text-primary-400`}
+        />
       </div>
     );
   }
@@ -50,7 +51,9 @@ export function LoadingSpinner({
           role="status"
         />
         {message && (
-          <p className={`${textSizeClasses[size]} text-neutral-500 dark:text-neutral-400 animate-pulse`}>
+          <p
+            className={`${textSizeClasses[size]} text-neutral-500 dark:text-neutral-400 animate-pulse`}
+          >
             {message}
           </p>
         )}
@@ -60,23 +63,31 @@ export function LoadingSpinner({
 
   // Modern variant (default)
   return (
-    <div 
-      role="status" 
+    <div
+      role="status"
       aria-live="polite"
-      aria-label={message || "Carregando conteúdo"}
+      aria-label={message || 'Carregando conteúdo'}
       className={`flex flex-col items-center justify-center gap-6 ${className}`}
     >
       {/* Modern Spinner */}
       <div className="relative" aria-hidden="true">
         {/* Outer ring */}
-        <div className={`${sizeClasses[size]} border-4 border-primary-200 dark:border-primary-800 rounded-full animate-spin border-t-transparent`}></div>
-        
+        <div
+          className={`${sizeClasses[size]} border-4 border-primary-200 dark:border-primary-800 rounded-full animate-spin border-t-transparent`}
+        ></div>
+
         {/* Middle ring */}
-        <div className={`absolute inset-2 border-4 border-secondary-200 dark:border-secondary-800 rounded-full animate-spin border-t-transparent`} style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
-        
+        <div
+          className={`absolute inset-2 border-4 border-secondary-200 dark:border-secondary-800 rounded-full animate-spin border-t-transparent`}
+          style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}
+        ></div>
+
         {/* Inner ring */}
-        <div className={`absolute inset-4 border-4 border-accent-200 dark:border-accent-800 rounded-full animate-spin border-b-transparent`} style={{ animationDuration: '2s' }}></div>
-        
+        <div
+          className={`absolute inset-4 border-4 border-accent-200 dark:border-accent-800 rounded-full animate-spin border-b-transparent`}
+          style={{ animationDuration: '2s' }}
+        ></div>
+
         {/* Center icon */}
         {showIcon && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -88,19 +99,27 @@ export function LoadingSpinner({
       {/* Loading text */}
       {message && (
         <div className="text-center">
-          <p className={`${textSizeClasses[size]} font-medium text-neutral-700 dark:text-neutral-300 animate-pulse`}>
+          <p
+            className={`${textSizeClasses[size]} font-medium text-neutral-700 dark:text-neutral-300 animate-pulse`}
+          >
             {message}
           </p>
           <div className="flex items-center justify-center gap-1 mt-2">
             <div className="w-1 h-1 bg-primary-500 rounded-full animate-bounce"></div>
-            <div className="w-1 h-1 bg-secondary-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-            <div className="w-1 h-1 bg-accent-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            <div
+              className="w-1 h-1 bg-secondary-500 rounded-full animate-bounce"
+              style={{ animationDelay: '0.1s' }}
+            ></div>
+            <div
+              className="w-1 h-1 bg-accent-500 rounded-full animate-bounce"
+              style={{ animationDelay: '0.2s' }}
+            ></div>
           </div>
         </div>
       )}
-      
+
       {/* Screen reader only text */}
-      <span className="sr-only">{message || "Carregando conteúdo, por favor aguarde"}</span>
+      <span className="sr-only">{message || 'Carregando conteúdo, por favor aguarde'}</span>
     </div>
   );
 }
