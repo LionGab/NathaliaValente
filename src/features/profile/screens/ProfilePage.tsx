@@ -3,7 +3,7 @@ import { supabase, SavedItem } from '../../../lib/supabase';
 import { useAuth } from '../../../contexts/AuthContext';
 import { usePosts } from '../../../hooks';
 import { getCategoryColor } from '../../../constants/colors';
-import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X, Shield, Baby, Camera, HelpCircle } from 'lucide-react';
+import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X, Shield, Baby, Camera, HelpCircle, LogOut } from 'lucide-react';
 import { useMockData } from '../../../hooks/useMockData';
 import { Avatar, AvatarType } from '../../../components/ui/Avatar';
 
@@ -14,7 +14,7 @@ export const ProfilePage = () => {
   const [userAvatar, setUserAvatar] = useState<AvatarType>('radiante');
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const { profile, user } = useAuth();
+  const { profile, user, signOut } = useAuth();
 
   // Mock achievements data
   const achievements = [
@@ -39,6 +39,15 @@ export const ProfilePage = () => {
   const loadingPosts = mockLoading || realLoadingPosts;
 
   const loading = loadingPosts || loadingSaved;
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setShowMoreMenu(false);
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
 
   const fetchSavedItems = async () => {
     if (!user) return;
@@ -180,6 +189,19 @@ export const ProfilePage = () => {
                     <div>
                       <div className="font-medium text-gray-900 dark:text-white">Ajuda & Suporte</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">Central de ajuda</div>
+                    </div>
+                  </button>
+
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  >
+                    <LogOut className="w-5 h-5 text-red-500" />
+                    <div>
+                      <div className="font-medium text-red-600 dark:text-red-400">Sair da Conta</div>
+                      <div className="text-sm text-red-500 dark:text-red-400">Fazer logout</div>
                     </div>
                   </button>
                 </div>
