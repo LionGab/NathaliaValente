@@ -27,7 +27,7 @@ import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
 const HomePage = lazy(() =>
-  import('./features/home/screens/HomePage').then((module) => ({ default: module.HomePage }))
+  import('./features/home/screens/HomePage')
 );
 const FeedPage = lazy(() =>
   import('./features/feed/screens/FeedPage').then((module) => ({ default: module.FeedPage }))

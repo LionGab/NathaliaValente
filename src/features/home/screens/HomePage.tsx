@@ -9,7 +9,7 @@ import { ProductPreview } from '../components/ProductPreview';
 import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
 import { Plus, Users, MessageCircle, Heart, Sparkles } from 'lucide-react';
 
-export const HomePage = () => {
+const HomePage = () => {
   const { user, profile } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -114,3 +114,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;
