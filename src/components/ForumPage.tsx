@@ -109,7 +109,7 @@ export const ForumPage = () => {
               placeholder="Compartilhe suas dúvidas e experiências com a comunidade..."
               className="w-full min-h-[140px] px-4 py-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl border-2 border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none text-base"
             />
-            
+
             {/* Actions */}
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center gap-2">
