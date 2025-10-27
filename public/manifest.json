@@ -14,16 +14,10 @@
   "lang": "pt-BR",
   "screenshots": [
     {
-      "src": "/screenshots/mobile-1.png",
-      "sizes": "390x844",
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow"
-    },
-    {
-      "src": "/screenshots/desktop-1.png", 
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
     }
   ],
   "icons": [

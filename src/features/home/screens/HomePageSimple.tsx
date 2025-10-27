@@ -229,15 +229,15 @@ const HomePageSimple = () => {
           </motion.div>
         )}
 
-        {/* Quick Actions Grid - Focado em saúde gestacional */}
+        {/* Quick Actions Grid 2x2 - Layout Limpo e Funcional */}
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="relative"
+            className="space-y-4"
         >
-            {/* Grid 2x2 com botão central + */}
-            <div className="grid grid-cols-2 gap-4 relative">
+            {/* Grid 2x2 Simples */}
+            <div className="grid grid-cols-2 gap-4">
                 {quickActions.map((action, index) => (
                     <motion.button
                         key={action.id}
@@ -247,58 +247,52 @@ const HomePageSimple = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleQuickAction(action.id)}
-                        className={`${action.bgColor} text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden`}
+                        className={`${action.bgColor} text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden`}
                     >
-                        {/* Background pattern */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Background pattern sutil */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <div className="relative z-10">
-                            {/* Ícone */}
-                            <div className="mb-3">
-                                <action.icon className="w-6 h-6" />
+                            {/* Ícone maior */}
+                            <div className="mb-4">
+                                <action.icon className="w-8 h-8" />
                             </div>
 
-                            {/* Texto */}
+                            {/* Texto mais legível */}
                             <div className="text-left">
-                                <h3 className="font-bold text-sm mb-1">
+                                <h3 className="font-bold text-base mb-1">
                                     {action.title}
                                 </h3>
-                                <p className="text-xs opacity-90">
+                                <p className="text-sm opacity-90 leading-relaxed">
                                     {action.subtitle}
                                 </p>
                             </div>
                         </div>
                     </motion.button>
                 ))}
-                
-                {/* Botão Central + com tooltip */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
-                >
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => {
-                            triggerHaptic('medium');
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
-                        }}
-                        className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center group relative"
-                        title="Nova publicação"
-                        aria-label="Criar nova publicação"
-                    >
-                        <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform duration-300" />
-                        
-                        {/* Tooltip */}
-                        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                            Nova publicação
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                        </div>
-                    </motion.button>
-                </motion.div>
             </div>
+            
+            {/* Botão de Ação Principal - Separado */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8 }}
+                className="flex justify-center pt-2"
+            >
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                        triggerHaptic('medium');
+                        window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
+                    }}
+                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-3 group"
+                    aria-label="Criar nova publicação"
+                >
+                    <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
+                    <span className="font-semibold text-lg">Compartilhar Experiência</span>
+                </motion.button>
+            </motion.div>
         </motion.div>
       </div>
     </div>

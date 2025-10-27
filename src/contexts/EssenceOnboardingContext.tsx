@@ -158,19 +158,19 @@ export const EssenceOnboardingProvider: React.FC<{ children: React.ReactNode }> 
         return messages[onboardingData.selectedArchetype];
     }, [onboardingData.selectedArchetype]);
 
-    const getPersonalizedRitual = useCallback(() => {
+    const getPersonalizedActivity = useCallback(() => {
         if (!onboardingData.selectedArchetype) {
-            return "Ritual de Conexão Materna";
+            return "Atividade de Conexão Materna";
         }
 
-        const rituals = {
-            guerreira: "Ritual da Mãe Guerreira",
-            resiliente: "Ritual da Transformação Materna",
-            visionaria: "Ritual da Visão de Futuro",
-            cuidadora: "Ritual do Cuidado Sagrado"
+        const activities = {
+            guerreira: "Atividade da Mãe Guerreira",
+            resiliente: "Atividade da Transformação Materna",
+            visionaria: "Atividade da Visão de Futuro",
+            cuidadora: "Atividade do Cuidado Especial"
         };
 
-        return rituals[onboardingData.selectedArchetype];
+        return activities[onboardingData.selectedArchetype];
     }, [onboardingData.selectedArchetype]);
 
     const value: EssenceOnboardingContextType = {
@@ -188,7 +188,7 @@ export const EssenceOnboardingProvider: React.FC<{ children: React.ReactNode }> 
         skipOnboarding,
         steps,
         getPersonalizedMessage,
-        getPersonalizedRitual
+        getPersonalizedActivity
     };
 
     return (

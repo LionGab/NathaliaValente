@@ -388,7 +388,7 @@ export const nathTips: NathTip[] = [
 
 **Criando a Rotina:**
 - Estabeleça horários regulares
-- Crie um ritual antes de dormir
+- Crie uma rotina antes de dormir
 - Mantenha o ambiente calmo e escuro
 - Seja consistente todos os dias
 

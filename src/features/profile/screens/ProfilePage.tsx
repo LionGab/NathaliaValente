@@ -315,10 +315,23 @@ export const ProfilePage = () => {
 
           {userPosts.length === 0 && (
             <div className="col-span-full text-center py-12">
-              <Grid className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">
-                Você ainda não fez nenhuma publicação
-              </p>
+              <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-8 max-w-md mx-auto">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Grid className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+                  Crie sua primeira memória agora!
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Compartilhe sua experiência e inspire outras mães da comunidade
+                </p>
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
+                  className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  Compartilhar Experiência
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -385,10 +398,23 @@ export const ProfilePage = () => {
 
           {savedItems.length === 0 && (
             <div className="text-center py-12">
-              <Gem className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">
-                Você ainda não salvou nenhum tesouro
-              </p>
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl p-8 max-w-md mx-auto">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Gem className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+                  Descubra conteúdo incrível!
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Explore a comunidade e salve posts que te inspiram
+                </p>
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  Explorar Comunidade
+                </button>
+              </div>
             </div>
           )}
         </div>

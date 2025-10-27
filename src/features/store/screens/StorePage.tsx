@@ -74,7 +74,18 @@ export const StorePage = () => {
   ];
 
   return (
-    <div className="w-full mx-auto px-3 py-3 pb-24 space-y-6 sm:px-4 sm:py-4 sm:space-y-8 lg:space-y-12">
+    <div className="w-full mx-auto px-3 py-3 pb-24 space-y-8 sm:px-4 sm:py-4 sm:space-y-10 lg:space-y-12">
+      {/* Breadcrumb Navigation */}
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <span className="hover:text-pink-600 cursor-pointer">Loja</span>
+        <span>•</span>
+        <span className="text-pink-600 font-medium">Acessórios</span>
+        <span>•</span>
+        <span className="text-pink-600 font-medium">Higiene</span>
+        <span>•</span>
+        <span className="text-pink-600 font-medium">Amamentação</span>
+      </div>
+
       {/* NAVA Hero Section */}
       <NAVAHeroSection />
 
@@ -524,19 +535,35 @@ export const StorePage = () => {
         </div>
       </div>
 
-      {/* Desapega das Mamães Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
-              <ShoppingBag className="w-8 h-8 text-pink-500" />
-              Desapega das Mamães
-            </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 mt-2">
-              Compre e venda itens de bebê com outras mães da comunidade
-            </p>
-          </div>
-        </div>
+             {/* Desapega das Mamães Section */}
+             <div className="space-y-6">
+               <div className="flex items-center justify-between">
+                 <div>
+                   <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
+                     <ShoppingBag className="w-8 h-8 text-pink-500" />
+                     Desapega das Mamães
+                   </h2>
+                   <p className="text-neutral-600 dark:text-neutral-400 mt-2">
+                     Compre e venda itens de bebê com outras mães da comunidade
+                   </p>
+                   
+                   {/* Elementos de Confiança */}
+                   <div className="flex items-center gap-4 mt-3">
+                     <div className="flex items-center gap-1 text-sm text-green-600">
+                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                       <span className="font-medium">Entrega Segura</span>
+                     </div>
+                     <div className="flex items-center gap-1 text-sm text-blue-600">
+                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                       <span className="font-medium">Avaliações Verificadas</span>
+                     </div>
+                     <div className="flex items-center gap-1 text-sm text-purple-600">
+                       <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                       <span className="font-medium">Garantia de Qualidade</span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {desapegaProducts.map((product) => (
@@ -574,24 +601,24 @@ export const StorePage = () => {
                 </div>
 
                 <div className="pt-3 border-t border-neutral-100 dark:border-neutral-700">
-                  {/* Preço e Condição */}
-                  <div className="mb-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xl font-bold text-green-600">
-                        {product.price}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-sm text-neutral-500 line-through">
-                          {product.originalPrice}
-                        </span>
-                      )}
-                    </div>
-                    {product.condition && (
-                      <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                        {product.condition}
-                      </p>
-                    )}
-                  </div>
+                        {/* Preço e Condição com Melhor Contraste */}
+                        <div className="mb-3">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xl font-bold text-gray-900 dark:text-white">
+                              {product.price}
+                            </span>
+                            {product.originalPrice && (
+                              <span className="text-sm text-gray-500 line-through">
+                                {product.originalPrice}
+                              </span>
+                            )}
+                          </div>
+                          {product.condition && (
+                            <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                              {product.condition}
+                            </p>
+                          )}
+                        </div>
 
                   {/* Botão de Compra */}
                   <button

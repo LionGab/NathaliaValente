@@ -31,8 +31,8 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
     const handleStartRitual = useCallback(() => {
         triggerHaptic('heavy');
         completeOnboarding();
-        // Aqui você redirecionaria para o primeiro ritual personalizado
-        console.log('Iniciando ritual:', getPersonalizedRitual());
+        // Aqui você redirecionaria para a primeira atividade personalizada
+        console.log('Iniciando atividade:', getPersonalizedRitual());
     }, [completeOnboarding, getPersonalizedRitual, triggerHaptic]);
 
     const getArchetypeIcon = () => {
@@ -151,7 +151,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                         }
                     }}
                     className="group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-lg sm:text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl transition-all duration-500 overflow-hidden touch-target"
-                    aria-label="Iniciar seu primeiro ritual personalizado"
+                    aria-label="Iniciar sua primeira atividade personalizada"
                 >
                     {/* Shimmer Effect */}
                     <motion.div
@@ -162,7 +162,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                     />
 
                     <div className="relative flex items-center justify-center gap-3">
-                        <span>Ir para o meu primeiro ritual</span>
+                        <span>Começar minha primeira atividade</span>
                         <motion.div
                             animate={{ x: [0, 5, 0] }}
                             transition={{ duration: 1, repeat: Infinity }}

@@ -57,6 +57,19 @@ export const ChatPage = () => {
 
   useEffect(() => {
     fetchMessages();
+    
+    // Adicionar mensagem de boas-vindas se não houver mensagens
+    if (messages.length === 0) {
+      const welcomeMessage: ChatMessage = {
+        id: Date.now().toString(),
+        user_id: user?.id || '',
+        message: "Oi, mamãe! 💕 Estou aqui para te apoiar em cada momento da sua jornada. Posso te ajudar com dicas de maternidade, cuidados com o bebê, organização da rotina ou qualquer coisa que esteja no seu coração. Como você está se sentindo hoje?",
+        is_user: false,
+        created_at: new Date().toISOString(),
+        suggestions: quickSuggestions.slice(0, 4)
+      };
+      setMessages([welcomeMessage]);
+    }
   }, [user]);
 
   const getAIResponse = async (userMessage: string): Promise<string> => {
@@ -180,7 +193,7 @@ export const ChatPage = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-xs">Online</span>
+            <span className="text-xs">Disponível agora 💬</span>
           </div>
         </div>
       </div>
