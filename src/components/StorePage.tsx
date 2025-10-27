@@ -42,12 +42,9 @@ export const StorePage = () => {
       {/* NAVA LOOKS Hero Section */}
       <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl bg-gradient-to-r from-pink-500 to-purple-600">
         <img
-          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&h=800&fit=crop"
+          src="/images/products/nava/nava-looks-final.jpg"
           alt="NAVA LOOKS"
           className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-          }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center p-4">
@@ -89,12 +86,9 @@ export const StorePage = () => {
           </div>
           <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-pink-100">
             <img
-              src="https://images.unsplash.com/photo-1534243965044-47d2f90182c1?w=600&h=600&fit=crop"
+              src="/images/products/ollin/babytest-final.jpg"
               alt="Babytest OLLIN"
               className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&h=600&fit=crop';
-              }}
             />
           </div>
         </div>
