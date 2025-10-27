@@ -33,3 +33,4 @@ claude_desktop_config.json
 # voxelize/ - REMOVED
 # Local Netlify folder
 .netlify
+coverage/
