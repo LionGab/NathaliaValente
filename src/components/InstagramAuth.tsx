@@ -290,11 +290,9 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         {/* Logo/Header */}
         <div className="text-center mb-8">
           <div className="relative inline-block mb-6">
-            <img
-              src="/logos/clubnath-logo.png"
-              alt="Nossa Maternidade"
-              className="w-20 h-20 rounded-3xl shadow-large mx-auto animate-float object-cover"
-            />
+            <div className="w-20 h-20 rounded-3xl shadow-large mx-auto animate-float bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
+              <Heart className="w-12 h-12 text-white fill-white" />
+            </div>
             <div className="absolute -top-2 -right-2 bg-accent-500 rounded-full px-3 py-1 shadow-lg">
               <span className="text-xs font-bold text-white">VIP</span>
             </div>
