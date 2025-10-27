@@ -12,6 +12,14 @@
   "prefer_related_applications": false,
   "dir": "ltr",
   "lang": "pt-BR",
+  "permissions": [
+    "notifications",
+    "clipboard-read",
+    "clipboard-write",
+    "storage",
+    "background-sync",
+    "periodic-background-sync"
+  ],
   "screenshots": [
     {
       "src": "/screenshots/mobile-1.png",
@@ -20,7 +28,7 @@
       "form_factor": "narrow"
     },
     {
-      "src": "/screenshots/desktop-1.png", 
+      "src": "/screenshots/desktop-1.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
