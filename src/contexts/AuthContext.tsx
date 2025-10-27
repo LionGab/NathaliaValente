@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useRef, useCallback } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '../lib/supabase';
 import { authWithRetry } from '../lib/apiClient';
@@ -34,9 +34,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [isDemoMode, setIsDemoMode] = useState(false);
 
-  const fetchProfile = async (userId: string) => {
+  // Refs para controlar race conditions
+  const fetchProfileRef = useRef<Set<string>>(new Set());
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isProcessingAuthRef = useRef(false);
+
+  const fetchProfile = useCallback(async (userId: string) => {
+    // Evitar múltiplas chamadas para o mesmo usuário
+    if (fetchProfileRef.current.has(userId)) {
+      return;
+    }
+
+    fetchProfileRef.current.add(userId);
+
     try {
-      const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) {
+        throw error;
+      }
 
       if (data) {
         setProfile(data);
@@ -46,43 +66,99 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error('Error fetching profile:', error);
       }
       // Silently fail - profile is optional
+    } finally {
+      // Remover da lista de processamento após completar
+      fetchProfileRef.current.delete(userId);
     }
-  };
+  }, []);
 
-  const refreshProfile = async () => {
+  const refreshProfile = useCallback(async () => {
     if (user) {
       await fetchProfile(user.id);
     }
-  };
+  }, [user, fetchProfile]);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
+  // Função debounced para processar mudanças de auth
+  const processAuthChange = useCallback(async (session: Session | null) => {
+    // Cancelar timeout anterior se existir
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    // Debounce de 100ms para evitar múltiplos processamentos
+    debounceTimeoutRef.current = setTimeout(async () => {
+      // Evitar processamento simultâneo
+      if (isProcessingAuthRef.current) {
+        return;
       }
-      setLoading(false);
-    });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
+      isProcessingAuthRef.current = true;
+
+      try {
         setSession(session);
         setUser(session?.user ?? null);
+
         if (session?.user) {
           await fetchProfile(session.user.id);
         } else {
           setProfile(null);
+          // Limpar cache de profiles processados
+          fetchProfileRef.current.clear();
         }
-        // Only set loading to false if it was true
-        setLoading(prev => prev ? false : prev);
-      })();
+
+        setLoading(false);
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.error('Error processing auth change:', error);
+        }
+        setLoading(false);
+      } finally {
+        isProcessingAuthRef.current = false;
+      }
+    }, 100);
+  }, [fetchProfile]);
+
+  useEffect(() => {
+    // Carregar sessão inicial
+    const initializeAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          if (import.meta.env.DEV) {
+            console.error('Error getting initial session:', error);
+          }
+        }
+
+        await processAuthChange(session);
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.error('Error initializing auth:', error);
+        }
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+    // Listener para mudanças de auth state
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (import.meta.env.DEV) {
+        console.log('Auth state changed:', event, session?.user?.id);
+      }
+      
+      await processAuthChange(session);
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [processAuthChange]);
 
   const signUp = async (email: string, password: string, fullName: string) => {
     try {
@@ -170,17 +246,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const signOut = async () => {
-    if (isDemoMode) {
-      setIsDemoMode(false);
-      setUser(null);
-      setSession(null);
-      setProfile(null);
-    } else {
-      await supabase.auth.signOut();
-      setProfile(null);
+  const signOut = useCallback(async () => {
+    try {
+      if (isDemoMode) {
+        setIsDemoMode(false);
+        setUser(null);
+        setSession(null);
+        setProfile(null);
+      } else {
+        await supabase.auth.signOut();
+        setProfile(null);
+      }
+      
+      // Limpar refs e cache
+      fetchProfileRef.current.clear();
+      isProcessingAuthRef.current = false;
+      
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+        debounceTimeoutRef.current = null;
+      }
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error during sign out:', error);
+      }
     }
-  };
+  }, [isDemoMode]);
 
   return (
     <AuthContext.Provider
