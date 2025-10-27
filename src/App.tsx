@@ -28,7 +28,7 @@ import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/Esse
 import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 
 // Import direto para evitar problemas de lazy loading
-import HomePage from './features/home/screens/HomePage';
+import HomePage from './features/home/screens/HomePageSimple';
 import { FeedPage } from './features/feed/screens/FeedPage';
 import { ChatPage } from './features/chat/screens/ChatPage';
 import { StorePage } from './features/store/screens/StorePage';
