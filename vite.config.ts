@@ -7,7 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   // Base path for production deployment
   base: '/',
-  
+
   plugins: [
     react(),
     // PWA Configuration

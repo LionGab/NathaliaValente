@@ -30,15 +30,17 @@ export const NAVAHeroSection: React.FC = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Bikini Premium Nathália */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full sm:w-32 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
                 src="https://i.imgur.com/L2xyl98.jpg"
                 alt="Bikini Premium Nathália - Mãe e bebê"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                loading="lazy"
+                sizes="(max-width: 640px) 100vw, 128px"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = 'https://via.placeholder.com/128x128/FF69B4/FFFFFF?text=NAVA';
@@ -60,13 +62,13 @@ export const NAVAHeroSection: React.FC = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                 Design exclusivo da Nathália Valente. Perfeito para mães especiais, com tecido de alta qualidade e proteção UV.
               </p>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <span className="text-xl sm:text-2xl font-bold text-pink-600 dark:text-pink-400">
                   R$ 165,00
                 </span>
                 <button
                   onClick={() => handleProductClick('nava-bikini-premium')}
-                  className="bg-pink-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm flex items-center gap-2"
+                  className="bg-pink-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Comprar
@@ -77,13 +79,15 @@ export const NAVAHeroSection: React.FC = () => {
         </div>
 
         {/* Conjunto Bikini Nathy */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full sm:w-32 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
                 src="https://i.imgur.com/n2QJJ5y.jpg"
                 alt="Conjunto Bikini Nathy - Praia"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                loading="lazy"
+                sizes="(max-width: 640px) 100vw, 128px"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = 'https://via.placeholder.com/128x128/FF69B4/FFFFFF?text=NAVA';
@@ -105,13 +109,13 @@ export const NAVAHeroSection: React.FC = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                 Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, ideal para momentos especiais na praia.
               </p>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <span className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
                   R$ 165,00
                 </span>
                 <button
                   onClick={() => handleProductClick('nava-conjunto-bikini-nathy')}
-                  className="bg-purple-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 transition-colors text-sm flex items-center gap-2"
+                  className="bg-purple-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-purple-600 transition-colors text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Comprar
@@ -123,13 +127,13 @@ export const NAVAHeroSection: React.FC = () => {
       </div>
 
       {/* Call to Action */}
-      <div className="mt-6 text-center">
+      <div className="mt-4 sm:mt-6 text-center">
         <button
           onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
-          className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 mx-auto"
+          className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 sm:px-8 py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 mx-auto w-full sm:w-auto"
         >
           <ShoppingBag className="w-5 h-5" />
-          Ver Coleção Completa NAVA
+          <span className="text-sm sm:text-base">Ver Coleção Completa NAVA</span>
         </button>
       </div>
     </div>
