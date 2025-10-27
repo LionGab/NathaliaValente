@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Calendar } from 'lucide-react';
 import { RoutineCard } from './RoutineCard';
+import { CreateRoutineModal } from './CreateRoutineModal';
 import { useRoutines, useToggleRoutine } from '../hooks/useRoutines';
 import { isRoutineActiveToday } from '../types/routine';
 
@@ -10,6 +11,7 @@ export const RoutineCalendar: React.FC = () => {
   const { routines, loading, syncing } = useRoutines();
   const toggleMutation = useToggleRoutine();
   const [selectedDay, setSelectedDay] = useState(new Date().getDay());
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const todayRoutines = routines.filter(r => isRoutineActiveToday(r));
 
@@ -63,7 +65,10 @@ export const RoutineCalendar: React.FC = () => {
           <p className="text-gray-500 dark:text-gray-400 mb-4">
             Nenhuma rotina agendada para hoje
           </p>
-          <button className="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center gap-2 mx-auto">
+          <button 
+            onClick={() => setShowCreateModal(true)}
+            className="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center gap-2 mx-auto"
+          >
             <Plus className="w-4 h-4" />
             Adicionar Rotina
           </button>
@@ -71,22 +76,36 @@ export const RoutineCalendar: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            {todayRoutines.map(routine => (
-              <RoutineCard
+            {todayRoutines.map((routine, index) => (
+              <div
                 key={routine.id}
-                routine={routine}
-                onToggle={handleToggle}
-              />
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <RoutineCard
+                  routine={routine}
+                  onToggle={handleToggle}
+                />
+              </div>
             ))}
           </div>
 
           {/* Botão Adicionar */}
-          <button className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg flex items-center justify-center gap-2">
+          <button 
+            onClick={() => setShowCreateModal(true)}
+            className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
+          >
             <Plus className="w-5 h-5" />
             Nova Atividade
           </button>
         </>
       )}
+
+      {/* Modal para criar nova rotina */}
+      <CreateRoutineModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+      />
     </div>
   );
 };

@@ -19,7 +19,7 @@ import {
   ProfileErrorBoundary,
   StoreErrorBoundary,
 } from './components/ErrorBoundary';
-import { ToastProvider } from './components/Toast';
+import { ToastContainer } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
@@ -261,6 +261,9 @@ function AppContent() {
 
           <PerformanceDebug />
           <NotificationContainer notifications={notifications} onClose={removeNotification} />
+          
+          {/* Toast Container */}
+          <ToastContainer toasts={[]} onClose={() => {}} />
         </div>
       </div>
     );
@@ -276,13 +279,11 @@ function App() {
       <QueryProvider>
         <ThemeProvider>
           <AccessibilityProvider>
-            <ToastProvider>
-              <AuthProvider>
-                <CartProvider>
-                  <AppContent />
-                </CartProvider>
-              </AuthProvider>
-            </ToastProvider>
+            <AuthProvider>
+              <CartProvider>
+                <AppContent />
+              </CartProvider>
+            </AuthProvider>
           </AccessibilityProvider>
         </ThemeProvider>
       </QueryProvider>

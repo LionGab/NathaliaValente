@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { routineLocalService } from '../services/routine-local.service';
 import { routineRemoteService } from '../services/routine-remote.service';
+import { mockRoutines } from '../data/mock-routines';
 import type { Routine, CreateRoutineInput, UpdateRoutineInput } from '../types/routine';
 import { useEffect } from 'react';
 
@@ -12,10 +13,17 @@ export function useRoutines() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // 1. Busca local primeiro (instantâneo)
+  // 1. Busca local primeiro (instantâneo) - com fallback para mock
   const { data: localRoutines = [], isLoading: localLoading } = useQuery({
     queryKey: [ROUTINES_QUERY_KEY, 'local'],
-    queryFn: () => routineLocalService.getAll(),
+    queryFn: async () => {
+      const local = await routineLocalService.getAll();
+      // Se não há dados locais, usar mock para demonstração
+      if (local.length === 0) {
+        return mockRoutines;
+      }
+      return local;
+    },
     staleTime: Infinity // Cache local nunca expira
   });
 

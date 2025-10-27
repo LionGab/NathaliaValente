@@ -20,7 +20,7 @@ export const RoutineCard: React.FC<RoutineCardProps> = ({ routine, onToggle }) =
 
   return (
     <div
-      className={`bg-gradient-to-br ${colorMap[routine.icon]} rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 ${
+      className={`bg-gradient-to-br ${colorMap[routine.icon]} rounded-xl p-4 shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300 group ${
         isCompleted ? 'opacity-60' : ''
       }`}
     >
@@ -28,10 +28,10 @@ export const RoutineCard: React.FC<RoutineCardProps> = ({ routine, onToggle }) =
         <div className="text-4xl">{getIconEmoji(routine.icon)}</div>
         <button
           onClick={() => onToggle(routine.id, !isCompleted)}
-          className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
+          className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 ${
             isCompleted
-              ? 'bg-green-500 border-green-500'
-              : 'bg-white border-gray-300 hover:border-green-500'
+              ? 'bg-green-500 border-green-500 shadow-lg'
+              : 'bg-white border-gray-300 hover:border-green-500 hover:shadow-md'
           }`}
         >
           {isCompleted && <Check className="w-4 h-4 text-white" />}
