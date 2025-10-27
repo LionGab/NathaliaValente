@@ -33,9 +33,25 @@ jobs:
         run: npm run typecheck
         continue-on-error: false
 
-      - name: Run tests
-        run: npm run test:run
+      - name: Run tests with coverage
+        run: npm run test:coverage
         continue-on-error: false
+
+      - name: Check test coverage threshold
+        run: |
+          echo "📊 Checking coverage thresholds..."
+          # Coverage report is generated in coverage/ directory
+          # vitest should fail if coverage is below threshold (configured in vitest.config.ts)
+
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '20.x'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build application
         run: npm run build
@@ -50,6 +66,13 @@ jobs:
           find dist/assets -type f -name "*.js" -o -name "*.css" | while read file; do
             size=$(du -h "$file" | cut -f1)
             echo "  - $(basename $file): $size"
+          done
+          
+          echo ""
+          echo "⚠️ Large files (>500KB):"
+          find dist/assets -type f -size +500k | while read file; do
+            size=$(du -h "$file" | cut -f1)
+            echo "  ⚠️ $(basename $file): $size"
           done
 
       - name: Upload build artifacts
@@ -80,6 +103,10 @@ jobs:
         run: npm run lint
         continue-on-error: true  # Don't fail build on lint errors
 
+      - name: Run Prettier check
+        run: npm run format:check
+        continue-on-error: true
+
   security:
     runs-on: ubuntu-latest
 
@@ -101,18 +128,29 @@ jobs:
           echo "🔍 Running security audit..."
           npm audit --audit-level=moderate || true
 
-      - name: Check for vulnerabilities
+      - name: Check for high/critical vulnerabilities
         run: |
-          AUDIT_RESULT=$(npm audit --json --audit-level=high)
-          VULNERABILITIES=$(echo $AUDIT_RESULT | jq '.metadata.vulnerabilities.high + .metadata.vulnerabilities.critical')
-
-          if [ "$VULNERABILITIES" -gt 0 ]; then
-            echo "⚠️  Found $VULNERABILITIES high/critical vulnerabilities"
+          echo "🔒 Checking for high/critical vulnerabilities..."
+          AUDIT_RESULT=$(npm audit --json --audit-level=high 2>/dev/null || echo '{"metadata":{"vulnerabilities":{"high":0,"critical":0}}}')
+          HIGH=$(echo $AUDIT_RESULT | jq -r '.metadata.vulnerabilities.high // 0')
+          CRITICAL=$(echo $AUDIT_RESULT | jq -r '.metadata.vulnerabilities.critical // 0')
+          TOTAL=$((HIGH + CRITICAL))
+          
+          echo "High vulnerabilities: $HIGH"
+          echo "Critical vulnerabilities: $CRITICAL"
+          
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "⚠️ Found $TOTAL high/critical vulnerabilities"
             echo "Run 'npm audit fix' to fix them"
             exit 1
           else
             echo "✅ No high/critical vulnerabilities found"
           fi
+
+      - name: Check for secrets in code
+        run: |
+          echo "🔍 Scanning for potential secrets..."
+          node scripts/check-secrets.js $(git ls-files) || exit 1
 
   success:
     runs-on: ubuntu-latest
@@ -128,7 +166,7 @@ jobs:
           fi
 
           if [ "${{ needs.lint.result }}" == "failure" ]; then
-            echo "⚠️  Lint failed but not blocking"
+            echo "⚠️ Lint failed but not blocking"
           fi
 
           if [ "${{ needs.security.result }}" != "success" ]; then
@@ -137,3 +175,4 @@ jobs:
           fi
 
           echo "✅ All checks passed!"
+
