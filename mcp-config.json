@@ -1,0 +1,114 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx @supabase/mcp",
+      "description": "Integração com bancos/PostgreSQL - CRUD automatizado, logs, migrations e RLS simplificado",
+      "useCases": [
+        "CRUD automatizado para produtos, usuários, posts",
+        "Logs de sistema e auditoria",
+        "Migrations de banco de dados",
+        "Row Level Security (RLS) simplificado",
+        "Real-time subscriptions"
+      ]
+    },
+    "magic": {
+      "command": "npx @21st/magic-mcp",
+      "description": "Geração de texto, imagem e código com IA - Criação de conteúdo, prototipagem de UI e snippets de código",
+      "useCases": [
+        "Criação de conteúdo para posts",
+        "Prototipagem de UI para componentes",
+        "Snippets de código para validação Zod",
+        "Geração de imagens para produtos",
+        "Documentação automática"
+      ]
+    },
+    "brightdata": {
+      "command": "npx @brightdata/mcp",
+      "description": "Coleta e scraping de dados web estruturados - Pesquisa de mercado, análises de preço e dashboards",
+      "useCases": [
+        "Pesquisa de mercado para produtos",
+        "Análises de preço de concorrentes",
+        "Dashboards em tempo real",
+        "Coleta de dados de produtos similares",
+        "Monitoramento de tendências"
+      ]
+    },
+    "opik": {
+      "command": "npx @opik/mcp",
+      "description": "Monitoramento e versionamento de experimentos ML - Logs métricos e experimentos",
+      "useCases": [
+        "Logs de métricas de performance",
+        "Versionamento de modelos de IA",
+        "Experimentos de recomendação",
+        "A/B testing de features",
+        "Monitoramento de qualidade"
+      ]
+    },
+    "excel": {
+      "command": "npx @excel/mcp",
+      "description": "Leitura e manipulação de planilhas direto no editor - Relatórios automatizados e integração financeira",
+      "useCases": [
+        "Relatórios automatizados de vendas",
+        "Integração com dados financeiros",
+        "Export de dados de usuários",
+        "Análise de métricas de negócio",
+        "Relatórios de performance"
+      ]
+    },
+    "mindmap": {
+      "command": "npx @mindmap/mcp",
+      "description": "Planejamento e organização visual - Modelagem de features e brainstorm técnico",
+      "useCases": [
+        "Modelagem de features do app",
+        "Brainstorm técnico de arquitetura",
+        "Roadmaps de produto",
+        "Fluxos de usuário",
+        "Estrutura de dados"
+      ]
+    },
+    "markdownify": {
+      "command": "npx @markdownify/mcp",
+      "description": "Conversão de HTML/JSON em Markdown limpo - Documentação técnica e padronização",
+      "useCases": [
+        "Documentação técnica automática",
+        "Padronização de conteúdo",
+        "Conversão de posts HTML para Markdown",
+        "Geração de READMEs",
+        "Documentação de APIs"
+      ]
+    },
+    "tavily": {
+      "command": "npx @tavily/mcp",
+      "description": "Busca de conhecimento validado e curado - Pesquisa técnica e aprendizado guiado",
+      "useCases": [
+        "Pesquisa técnica para implementações",
+        "Aprendizado guiado dentro do Cursor",
+        "Validação de práticas de segurança",
+        "Pesquisa de melhores práticas",
+        "Documentação de tecnologias"
+      ]
+    }
+  },
+  "clubnathVIP": {
+    "project": "Comunidade de Mães ClubNath VIP",
+    "version": "1.0.0",
+    "description": "Progressive Web App para comunidade exclusiva de mães seguidoras da Nathália Valente",
+    "techStack": [
+      "React 18.3 + TypeScript 5.5",
+      "Vite 7.1 + TailwindCSS",
+      "Supabase (PostgreSQL + Auth + Realtime)",
+      "React Query + Context API",
+      "PWA + Service Worker"
+    ],
+    "mcpIntegration": {
+      "supabase": "Gerenciamento de dados e autenticação",
+      "magic": "Geração de conteúdo e UI",
+      "brightdata": "Análise de mercado e preços",
+      "opik": "Monitoramento de performance",
+      "excel": "Relatórios e métricas",
+      "mindmap": "Planejamento de features",
+      "markdownify": "Documentação automática",
+      "tavily": "Pesquisa e aprendizado"
+    }
+  }
+}
