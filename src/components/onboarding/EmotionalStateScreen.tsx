@@ -66,7 +66,7 @@ export const EmotionalStateScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center"
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-4"
                 >
                     Como você está se sentindo hoje, querida?
                 </motion.h1>
@@ -75,7 +75,7 @@ export const EmotionalStateScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-gray-600 dark:text-gray-400 text-xl text-center leading-relaxed max-w-md mx-auto"
+                    className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl text-center leading-relaxed max-w-md mx-auto px-4"
                 >
                     Não há resposta certa — apenas o que é real neste momento da sua maternidade.
                 </motion.p>
@@ -136,10 +136,10 @@ export const EmotionalStateScreen: React.FC = () => {
                             </motion.div>
 
                             <div className="flex-1">
-                                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                     {state.label}
                                 </h3>
-                                <p className="text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed">
+                                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed">
                                     {state.description}
                                 </p>
                             </div>
@@ -187,7 +187,7 @@ export const EmotionalStateScreen: React.FC = () => {
                             handleNext();
                         }
                     }}
-                    className={`group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-lg sm:text-xl transition-all duration-500 overflow-hidden touch-target ${selectedState
+                    className={`group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-base sm:text-lg md:text-xl transition-all duration-500 overflow-hidden touch-target ${selectedState
                         ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl'
                         : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                         }`}

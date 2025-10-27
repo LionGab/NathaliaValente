@@ -91,11 +91,11 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                     transition={{ delay: 0.8 }}
                     className="space-y-6"
                 >
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-white leading-relaxed">
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white leading-relaxed px-4">
                         Bem-vinda à Nossa Maternidade
                     </h1>
 
-                    <blockquote className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed italic">
+                    <blockquote className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed italic px-4">
                         "{getPersonalizedMessage()}"
                     </blockquote>
                 </motion.div>
@@ -150,7 +150,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                             handleStartRitual();
                         }
                     }}
-                    className="group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-lg sm:text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl transition-all duration-500 overflow-hidden touch-target"
+                    className="group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl transition-all duration-500 overflow-hidden touch-target"
                     aria-label="Iniciar sua primeira atividade personalizada"
                 >
                     {/* Shimmer Effect */}

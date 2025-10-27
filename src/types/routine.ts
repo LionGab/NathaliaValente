@@ -80,7 +80,7 @@ export const validateTime = (time: string): boolean => {
 
 export const isRoutineActiveToday = (routine: Routine): boolean => {
   const today = new Date().getDay(); // 0-6
-  
+
   switch (routine.frequency) {
     case RoutineFrequency.Daily:
       return true;

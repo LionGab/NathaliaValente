@@ -89,7 +89,7 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center"
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-4"
                 >
                     Qual destas essências mais se parece com você hoje?
                 </motion.h1>
@@ -98,7 +98,7 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-gray-600 dark:text-gray-400 text-xl text-center leading-relaxed max-w-lg mx-auto"
+                    className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl text-center leading-relaxed max-w-lg mx-auto px-4"
                 >
                     Cada mãe tem sua própria força única. Descubra a sua.
                 </motion.p>
@@ -173,10 +173,10 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                         </motion.button>
 
                         <div className="pr-16">
-                            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                 {archetype.label}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-lg group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-sm sm:text-base md:text-lg group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                                 {archetype.description}
                             </p>
 
@@ -272,7 +272,7 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                     disabled={!selectedArchetype}
                     whileHover={selectedArchetype ? { scale: 1.02 } : {}}
                     whileTap={selectedArchetype ? { scale: 0.98 } : {}}
-                    className={`flex-1 py-4 px-6 sm:px-8 rounded-2xl font-semibold text-lg transition-all duration-300 touch-target flex items-center justify-center gap-2 ${selectedArchetype
+                    className={`flex-1 py-4 px-6 sm:px-8 rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 touch-target flex items-center justify-center gap-2 ${selectedArchetype
                         ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105'
                         : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                         }`}
