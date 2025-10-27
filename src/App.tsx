@@ -7,7 +7,6 @@ import { OptimizedBottomNav } from './components/navigation/OptimizedBottomNav';
 import { SmartHeader } from './components/navigation/SmartHeader';
 import { GestureNavigation } from './components/navigation/GestureNavigation';
 import { ContextualNavigation } from './components/navigation/ContextualNavigation';
-import { PWANotifications } from './components/PWANotifications';
 import { PerformanceDebug } from './components/PerformanceDebug';
 import { InstagramAuth } from './components/InstagramAuth';
 import {
@@ -219,14 +218,11 @@ function AppContent() {
         </div>
 
         <div className="relative z-10">
-          <PWANotifications />
 
           {/* Header Inteligente */}
           <SmartHeader
             onProfileClick={() => setCurrentPage('profile')}
             onCreatePost={handleCreatePost}
-            onSearch={handleSearch}
-            onNotifications={handleNotifications}
             onQuickAction={handleQuickAction}
           />
 
