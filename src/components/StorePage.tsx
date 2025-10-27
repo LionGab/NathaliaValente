@@ -1,7 +1,42 @@
-import { TestTube2, PersonStanding } from 'lucide-react';
+import { TestTube2, PersonStanding, Heart, ShoppingBag } from 'lucide-react';
 import { OptimizedImage } from './ui/OptimizedImage';
 
 export const StorePage = () => {
+  // Mock products for "Desapega das mamães"
+  const desapegaProducts = [
+    {
+      id: 1,
+      name: 'Carrinho de bebê',
+      price: 'R$ 450,00',
+      image: 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=400&h=400&fit=crop',
+      author: 'Ana S.',
+      avatar: 'AS'
+    },
+    {
+      id: 2,
+      name: 'Berço de madeira',
+      price: 'R$ 700,00',
+      image: 'https://images.unsplash.com/photo-1582771498000-8ad44e6c84da?w=400&h=400&fit=crop',
+      author: 'Mariana L.',
+      avatar: 'ML'
+    },
+    {
+      id: 3,
+      name: 'Kit mamadeiras',
+      price: 'R$ 80,00',
+      image: 'https://images.unsplash.com/photo-1495121520760-9a50c47fd022?w=400&h=400&fit=crop',
+      author: 'Julia C.',
+      avatar: 'JC'
+    },
+    {
+      id: 4,
+      name: 'Cadeirão Chicco',
+      price: 'R$ 300,00',
+      image: 'https://images.unsplash.com/photo-1556506634-179f17277443?w=400&h=400&fit=crop',
+      author: 'Carla D.',
+      avatar: 'CD'
+    }
+  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
@@ -59,6 +94,65 @@ export const StorePage = () => {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Desapega das Mamães Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
+              <ShoppingBag className="w-8 h-8 text-pink-500" />
+              Desapega das Mamães
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mt-2">
+              Compre e venda itens de bebê com outras mães da comunidade
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {desapegaProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl transition-shadow group cursor-pointer"
+            >
+              {/* Product Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+
+              {/* Product Info */}
+              <div className="p-4">
+                <h3 className="font-semibold text-neutral-900 dark:text-white mb-2 line-clamp-2">
+                  {product.name}
+                </h3>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
+                    {product.avatar}
+                  </div>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                    {product.author}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-700">
+                  <span className="text-xl font-bold text-pink-500">
+                    {product.price}
+                  </span>
+                  <button className="px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors flex items-center gap-2">
+                    <Heart className="w-4 h-4" />
+                    Comprar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
