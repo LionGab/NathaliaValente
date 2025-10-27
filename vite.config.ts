@@ -7,7 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   // Base path for GitHub Pages (use repository name if deploying to gh-pages)
   base: process.env.NODE_ENV === 'production' ? '/NathaliaValente/' : '/',
-  
+
   plugins: [
     react(),
     // PWA Configuration
@@ -24,6 +24,14 @@ export default defineConfig({
         orientation: 'portrait-primary',
         scope: '/',
         start_url: '/',
+        permissions: [
+          'notifications',
+          'clipboard-read',
+          'clipboard-write',
+          'storage',
+          'background-sync',
+          'periodic-background-sync',
+        ],
         icons: [
           {
             src: '/icons/icon-72x72.png',
