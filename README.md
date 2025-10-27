@@ -253,7 +253,7 @@ VITE_ENVIRONMENT=production
 
 ### Code Review e Melhorias
 
-- [QUICK_START.md](./QUICK_START.md) - ⚡ Comece aqui! Guia rápido de melhorias
+- [QUICK_START.md](./QUICK_START.md) - **[START HERE]** Guia rápido de melhorias
 - [CODE_REVIEW_SUMMARY.md](./CODE_REVIEW_SUMMARY.md) - Sumário executivo da revisão
 - [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - Relatório completo de revisão
 - [CODE_IMPROVEMENTS_GUIDE.md](./CODE_IMPROVEMENTS_GUIDE.md) - Guia prático com exemplos
