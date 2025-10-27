@@ -61,38 +61,12 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
     setIsLoading(true);
 
     try {
-      // Se Instagram, usar modo demo como fallback
-      if (provider === 'instagram') {
-        showSuccess(
-          'Modo Demo Ativado',
-          'Usando modo demonstração para Instagram'
-        );
-        setTimeout(() => handleDemoLogin(), 1000);
-        return;
-      }
-
-      // Para Google e Apple, tentar OAuth real
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: provider === 'google' ? 'google' : 'apple',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      // OAuth redirecionará automaticamente
+      // Todos os provedores sociais usam modo demo por enquanto
       showSuccess(
-        `Redirecionando para ${provider}...`,
-        'Aguarde a autenticação'
+        'Modo Demo Ativado',
+        `Usando modo demonstração para ${provider === 'google' ? 'Google' : provider === 'apple' ? 'Apple' : 'Instagram'}`
       );
-
+      setTimeout(() => handleDemoLogin(), 1000);
     } catch (error) {
       console.error(`Erro no login ${provider}:`, error);
       showError(
