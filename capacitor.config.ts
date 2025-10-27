@@ -9,8 +9,8 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
     iosScheme: 'https',
     hostname: 'app.clubnath.com',
-    // For development, you can use cleartext
-    cleartext: true,
+    // Only allow cleartext in development for easier debugging
+    cleartext: process.env.NODE_ENV === 'development',
   },
   plugins: {
     SplashScreen: {
@@ -45,15 +45,18 @@ const config: CapacitorConfig = {
   },
   android: {
     buildOptions: {
-      keystorePath: undefined,
-      keystorePassword: undefined,
-      keystoreAlias: undefined,
-      keystoreAliasPassword: undefined,
+      // Keystore configuration should be set via environment variables
+      // See MOBILE-DEPLOY-GUIDE.md for instructions
+      keystorePath: process.env.ANDROID_KEYSTORE_PATH,
+      keystorePassword: process.env.ANDROID_KEYSTORE_PASSWORD,
+      keystoreAlias: process.env.ANDROID_KEYSTORE_ALIAS,
+      keystoreAliasPassword: process.env.ANDROID_KEYSTORE_ALIAS_PASSWORD,
       releaseType: 'APK',
     },
     allowMixedContent: false,
     captureInput: true,
-    webContentsDebuggingEnabled: true,
+    // Only enable debugging in development
+    webContentsDebuggingEnabled: process.env.NODE_ENV === 'development',
   },
 };
 
