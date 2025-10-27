@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { X, Image as ImageIcon, Upload, ShoppingBag } from 'lucide-react';
-import { 
+import {
   validateProduct,
   safeValidate,
-  type Product 
+  type Product
 } from '../features/products/validation';
 
 type CreatePostModalProps = {
@@ -21,11 +21,11 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  
+
   // Estados para produtos
   const [productData, setProductData] = useState<Partial<Product>>({});
   const [productErrors, setProductErrors] = useState<string[]>([]);
-  
+
   const { user } = useAuth();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   const handleProductDataChange = (field: keyof Product, value: unknown) => {
     const newData = { ...productData, [field]: value };
     setProductData(newData);
-    
+
     // Validação em tempo real
     if (Object.keys(newData).length > 0) {
       validateProductData(newData);
@@ -106,20 +106,26 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-post-title"
+    >
       <div
         className="card max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 glass backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 px-6 py-5 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-claude-gray-900 dark:text-white">
+          <h2 id="create-post-title" className="text-2xl font-bold text-claude-gray-900 dark:text-white">
             Nova publicação
           </h2>
           <button
             onClick={onClose}
-            className="p-2.5 hover:bg-claude-gray-100 dark:hover:bg-claude-gray-800 rounded-2xl transition-all duration-200"
+            className="p-2.5 hover:bg-claude-gray-100 dark:hover:bg-claude-gray-800 rounded-2xl transition-all duration-200 touch-target"
+            aria-label="Fechar modal"
           >
-            <X className="w-5 h-5 text-claude-gray-600 dark:text-claude-gray-400" />
+            <X className="w-5 h-5 text-claude-gray-600 dark:text-claude-gray-400" aria-hidden="true" />
           </button>
         </div>
 
@@ -134,11 +140,12 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
-                  className={`py-3.5 px-5 rounded-2xl font-semibold transition-all duration-200 ${
-                    category === cat
-                      ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
-                      : 'bg-claude-gray-100 dark:bg-claude-gray-800 text-claude-gray-700 dark:text-claude-gray-300 hover:bg-claude-gray-200 dark:hover:bg-claude-gray-700'
-                  }`}
+                  className={`py-3.5 px-5 rounded-2xl font-semibold transition-all duration-200 touch-target ${category === cat
+                    ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
+                    : 'bg-claude-gray-100 dark:bg-claude-gray-800 text-claude-gray-700 dark:text-claude-gray-300 hover:bg-claude-gray-200 dark:hover:bg-claude-gray-700'
+                    }`}
+                  aria-pressed={category === cat}
+                  aria-label={`Selecionar categoria ${cat}`}
                 >
                   {cat}
                 </button>

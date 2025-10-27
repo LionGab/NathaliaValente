@@ -308,13 +308,18 @@ export const ChatPage = () => {
       <div className="bg-white dark:bg-neutral-800 p-4 border-t border-gray-200 dark:border-neutral-700">
         <form onSubmit={handleSubmit} className="flex gap-3">
           {/* Message Input */}
+          <label htmlFor="message-input" className="sr-only">
+            Digite sua mensagem
+          </label>
           <input
+            id="message-input"
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Digite sua mensagem..."
             disabled={loading}
             className="flex-1 px-4 py-3 rounded-full border border-gray-300 dark:border-neutral-600 bg-gray-50 dark:bg-neutral-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all text-sm"
+            aria-label="Digite sua mensagem"
           />
 
           {/* Send Button */}

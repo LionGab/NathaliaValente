@@ -139,6 +139,7 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                         role="button"
                         aria-pressed={selectedArchetype === archetype.id}
                         aria-label={`Selecionar arquétipo ${archetype.label}: ${archetype.description}`}
+                        aria-describedby={`archetype-${archetype.id}-description`}
                     >
                         {/* Background Glow Effect */}
                         {selectedArchetype === archetype.id && (
@@ -176,7 +177,10 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                             <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                 {archetype.label}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-sm sm:text-base md:text-lg group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                            <p
+                                id={`archetype-${archetype.id}-description`}
+                                className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-sm sm:text-base md:text-lg group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors"
+                            >
                                 {archetype.description}
                             </p>
 
@@ -278,6 +282,7 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                         }`}
                     aria-label={selectedArchetype ? "Continuar para próxima etapa" : "Selecione um arquétipo para continuar"}
                     aria-disabled={!selectedArchetype}
+                    role="button"
                 >
                     <span>Continuar</span>
                     <ChevronRight className="w-5 h-5" />

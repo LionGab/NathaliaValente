@@ -152,6 +152,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                     }}
                     className="group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl transition-all duration-500 overflow-hidden touch-target"
                     aria-label="Iniciar sua primeira atividade personalizada"
+                    role="button"
                 >
                     {/* Shimmer Effect */}
                     <motion.div

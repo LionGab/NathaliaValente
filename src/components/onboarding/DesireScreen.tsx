@@ -121,6 +121,7 @@ export const DesireScreen: React.FC = () => {
                         role="button"
                         aria-pressed={selectedDesire === desire.id}
                         aria-label={`Selecionar desejo ${desire.label}: ${desire.description}`}
+                        aria-describedby={`desire-${desire.id}-description`}
                     >
                         {/* Background Glow Effect */}
                         {selectedDesire === desire.id && (
@@ -144,7 +145,10 @@ export const DesireScreen: React.FC = () => {
                                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                     {desire.label}
                                 </h3>
-                                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed">
+                                <p
+                                    id={`desire-${desire.id}-description`}
+                                    className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed"
+                                >
                                     {desire.description}
                                 </p>
                             </div>
@@ -209,6 +213,7 @@ export const DesireScreen: React.FC = () => {
                         }`}
                     aria-label={selectedDesire ? "Continuar para próxima etapa" : "Selecione um desejo para continuar"}
                     aria-disabled={!selectedDesire}
+                    role="button"
                 >
                     <span>Continuar</span>
                     <ChevronRight className="w-5 h-5" />

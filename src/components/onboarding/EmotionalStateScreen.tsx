@@ -116,6 +116,7 @@ export const EmotionalStateScreen: React.FC = () => {
                         role="button"
                         aria-pressed={selectedState === state.id}
                         aria-label={`Selecionar estado emocional ${state.label}: ${state.description}`}
+                        aria-describedby={`state-${state.id}-description`}
                     >
                         {/* Background Glow Effect */}
                         {selectedState === state.id && (
@@ -139,7 +140,10 @@ export const EmotionalStateScreen: React.FC = () => {
                                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                     {state.label}
                                 </h3>
-                                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed">
+                                <p
+                                    id={`state-${state.id}-description`}
+                                    className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed"
+                                >
                                     {state.description}
                                 </p>
                             </div>
@@ -193,6 +197,7 @@ export const EmotionalStateScreen: React.FC = () => {
                         }`}
                     aria-label={selectedState ? "Continuar para próxima etapa" : "Selecione um estado emocional para continuar"}
                     aria-disabled={!selectedState}
+                    role="button"
                 >
                     {selectedState && (
                         <motion.div

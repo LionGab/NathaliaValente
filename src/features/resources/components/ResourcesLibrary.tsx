@@ -179,13 +179,18 @@ export const ResourcesLibrary: React.FC = () => {
       <div className="mb-8 space-y-4">
         {/* Search Bar */}
         <div className="relative max-w-2xl mx-auto">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden="true" />
+          <label htmlFor="search-resources" className="sr-only">
+            Buscar recursos, dicas, artigos
+          </label>
           <input
+            id="search-resources"
             type="text"
             placeholder="Buscar recursos, dicas, artigos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-pink-500 focus:border-transparent text-lg"
+            aria-label="Buscar recursos, dicas, artigos"
           />
         </div>
 
