@@ -40,14 +40,14 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
           <h1 className="text-6xl font-bold text-gray-900 dark:text-white tracking-tight">
             Bem-vinda ao{' '}
             <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
-              ClubNath VIP
+              Nossa Maternidade
             </span>
           </h1>
-          
+
           <p className="text-xl text-gray-600 dark:text-gray-300 font-medium max-w-lg mx-auto leading-relaxed">
             Criado pela Nathália Valente, para mães especiais como você
           </p>
-          
+
           <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Um espaço seguro de{' '}
             <span className="font-semibold text-purple-600 dark:text-purple-400">fé</span>,{' '}
@@ -65,7 +65,7 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
               Faça parte de uma comunidade acolhedora de mães
             </p>
           </div>
-          
+
           <div className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🙏</div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Fortalecer sua fé</h3>
@@ -73,7 +73,7 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
               Cresça espiritualmente no seu dia a dia
             </p>
           </div>
-          
+
           <div className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">✨</div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Seja você</h3>

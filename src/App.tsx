@@ -24,6 +24,8 @@ import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
 import { useNotifications } from './hooks/useNotifications';
+import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/EssenceOnboardingContext';
+import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 
 // Import direto para evitar problemas de lazy loading
 import HomePage from './features/home/screens/HomePage';
@@ -32,9 +34,11 @@ import { ChatPage } from './features/chat/screens/ChatPage';
 import { StorePage } from './features/store/screens/StorePage';
 import { ForumPage } from './components/ForumPage';
 import { ProfilePage } from './features/profile/screens/ProfilePage';
+import { ToolsPage } from './features/tools/screens/ToolsPage';
 
 function AppContent() {
   const { user, loading } = useAuth();
+  const { isOnboardingActive, isOnboardingComplete } = useEssenceOnboarding();
   const [currentPage, setCurrentPage] = useState('home');
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>(
     'loading'
@@ -114,6 +118,19 @@ function AppContent() {
     }
   }, [user, loading, authState]);
 
+  // Escutar eventos de navegação
+  useEffect(() => {
+    const handleNavigate = (event: CustomEvent) => {
+      const { page } = event.detail;
+      if (page) {
+        setCurrentPage(page);
+      }
+    };
+
+    window.addEventListener('navigate', handleNavigate as EventListener);
+    return () => window.removeEventListener('navigate', handleNavigate as EventListener);
+  }, []);
+
   // Show loading screen
   if (authState === 'loading') {
     return <LoadingScreen message="Carregando sua experiência..." />;
@@ -129,6 +146,11 @@ function AppContent() {
         }}
       />
     );
+  }
+
+  // Show Essence Onboarding
+  if (isOnboardingActive && !isOnboardingComplete) {
+    return <EssenceOnboarding />;
   }
 
   // Show main app
@@ -178,6 +200,8 @@ function AppContent() {
               <ForumPage />
             </GroupsErrorBoundary>
           );
+        case 'tools':
+          return <ToolsPage />;
         default:
           return <HomePage />;
       }
@@ -260,7 +284,9 @@ function App() {
           <AccessibilityProvider>
             <AuthProvider>
               <CartProvider>
-                <AppContent />
+                <EssenceOnboardingProvider>
+                  <AppContent />
+                </EssenceOnboardingProvider>
               </CartProvider>
             </AuthProvider>
           </AccessibilityProvider>

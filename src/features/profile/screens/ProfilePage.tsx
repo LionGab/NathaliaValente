@@ -194,7 +194,7 @@ export const ProfilePage = () => {
 
                   <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
-                  <button 
+                  <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                   >

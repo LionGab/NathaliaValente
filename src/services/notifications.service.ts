@@ -86,7 +86,7 @@ class NotificationsService {
     }
 
     let permission = Notification.permission;
-    
+
     if (permission === 'default') {
       permission = await Notification.requestPermission();
     }
@@ -202,7 +202,7 @@ class NotificationsService {
       daily_quote: {
         id: 'daily_quote',
         type: 'daily_quote',
-        title: '💜 Frase do Dia - ClubNath',
+        title: '💜 Frase do Dia - Nossa Maternidade',
         body: 'Sua dose diária de inspiração está pronta!',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
@@ -213,7 +213,7 @@ class NotificationsService {
         id: 'feed_highlight',
         type: 'feed_highlight',
         title: '✨ Destaque do Feed',
-        body: 'Veja o que está rolando no ClubNath hoje!',
+        body: 'Veja o que está rolando na Nossa Maternidade hoje!',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         scheduled_time: '20:00',
@@ -232,7 +232,7 @@ class NotificationsService {
         id: 'engagement_reminder',
         type: 'engagement',
         title: '💜 Sentimos sua falta!',
-        body: 'Veja o que rolou no ClubNath enquanto você estava fora',
+        body: 'Veja o que rolou na Nossa Maternidade enquanto você estava fora',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         priority: 'low'
@@ -275,7 +275,7 @@ class NotificationsService {
   async sendNotification(templateId: string, userId: string, customData?: Record<string, any>): Promise<boolean> {
     const templates = this.getNotificationTemplates();
     const template = templates[templateId];
-    
+
     if (!template) {
       console.error('Template não encontrado:', templateId);
       return false;
@@ -302,10 +302,10 @@ class NotificationsService {
     try {
       // Notificação local
       await this.sendLocalNotification(notificationData);
-      
+
       // Log da notificação
       await this.logNotification(userId, templateId, template.title, template.body);
-      
+
       return true;
     } catch (error) {
       console.error('Erro ao enviar notificação:', error);
@@ -366,9 +366,9 @@ class NotificationsService {
   // =====================================================
 
   private async logNotification(
-    userId: string, 
-    type: string, 
-    title: string, 
+    userId: string,
+    type: string,
+    title: string,
     body: string
   ): Promise<void> {
     const { error } = await supabase
@@ -491,7 +491,7 @@ class NotificationsService {
     const template = templates.social_interaction;
 
     const customBody = this.getSocialNotificationBody(interactionType, data);
-    
+
     await this.sendNotification('social_interaction', userId, {
       body: customBody,
       data: {
@@ -512,7 +512,7 @@ class NotificationsService {
       case 'follow':
         return `${data.user_name} começou a te seguir! ✨`;
       default:
-        return 'Nova interação no ClubNath! 💜';
+        return 'Nova interação na Nossa Maternidade! 💜';
     }
   }
 }

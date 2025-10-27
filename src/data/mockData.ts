@@ -50,7 +50,7 @@ export const mockPosts = [
   {
     id: '1',
     user_id: '1',
-    caption: 'Mamães, hoje quero falar sobre algo que mudou minha vida: o autocuidado não é egoísmo, é necessidade! 💕\n\nMuitas de vocês me perguntam: "Nath, como conciliar maternidade e autocuidado?"\n\nA resposta é simples: comece com 15 minutos por dia. Um banho relaxante, uma leitura, ou simplesmente respirar fundo.\n\nVocê não pode cuidar de ninguém se não cuidar de si mesma primeiro! 🌸\n\n#Autocuidado #MaternidadeConsciente #ClubNath',
+    caption: 'Mamães, hoje quero falar sobre algo que mudou minha vida: o autocuidado não é egoísmo, é necessidade! 💕\n\nMuitas de vocês me perguntam: "Nath, como conciliar maternidade e autocuidado?"\n\nA resposta é simples: comece com 15 minutos por dia. Um banho relaxante, uma leitura, ou simplesmente respirar fundo.\n\nVocê não pode cuidar de ninguém se não cuidar de si mesma primeiro! 🌸\n\n#Autocuidado #MaternidadeConsciente #NossaMaternidade',
     category: 'Autocuidado',
     image_url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop',
     likes_count: 1250,
@@ -63,7 +63,7 @@ export const mockPosts = [
   {
     id: '2',
     user_id: '2',
-    caption: 'Meninas, consegui guardar R$ 500 este mês! 🎉\n\nSeguindo as dicas da Nath, comecei com R$ 50 e fui aumentando aos poucos. A sensação de segurança é indescritível!\n\nPara quem está começando: não desista! Cada real conta. 💪\n\n#PrimeiraReserva #Gratidao #ClubNath',
+    caption: 'Meninas, consegui guardar R$ 500 este mês! 🎉\n\nSeguindo as dicas da Nath, comecei com R$ 50 e fui aumentando aos poucos. A sensação de segurança é indescritível!\n\nPara quem está começando: não desista! Cada real conta. 💪\n\n#PrimeiraReserva #Gratidao #NossaMaternidade',
     category: 'Conquistas',
     image_url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
     likes_count: 234,

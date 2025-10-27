@@ -101,6 +101,12 @@ export const OptimizedBottomNav = ({
       color: 'text-gray-600 dark:text-gray-400',
       onClick: onNotifications,
       hasNotification: true
+    },
+    {
+      icon: Heart,
+      label: 'Ferramentas',
+      color: 'text-purple-600 dark:text-purple-400',
+      onClick: () => onTabChange('tools')
     }
   ];
 
@@ -191,8 +197,8 @@ export const OptimizedBottomNav = ({
                   key={tab.id}
                   onClick={() => onTabChange(tab.id)}
                   className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 min-w-0 flex-1 ${isActive
-                      ? `${tab.bgColor} ${tab.color}`
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                    ? `${tab.bgColor} ${tab.color}`
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                     }`}
                 >
                   <div className={`relative ${isActive ? 'animate-bounce' : ''}`}>
