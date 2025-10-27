@@ -36,8 +36,8 @@ export const NAVAHeroSection: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-4">
             <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
-                src="https://i.imgur.com/TjCevtA.jpg"
-                alt="Bikini Premium Nathália"
+                src="https://i.imgur.com/L2xyl98.jpg"
+                alt="Bikini Premium Nathália - Mãe e bebê"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -58,7 +58,7 @@ export const NAVAHeroSection: React.FC = () => {
                 NAVA
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                Design exclusivo da Nathália Valente. Tecido de alta qualidade, resistente ao cloro e com proteção UV.
+                Design exclusivo da Nathália Valente. Perfeito para mães especiais, com tecido de alta qualidade e proteção UV.
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold text-pink-600 dark:text-pink-400">
@@ -81,8 +81,8 @@ export const NAVAHeroSection: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-4">
             <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
-                src="https://i.imgur.com/lU9GlUm.jpg"
-                alt="Conjunto Bikini Nathy"
+                src="https://i.imgur.com/n2QJJ5y.jpg"
+                alt="Conjunto Bikini Nathy - Praia"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -103,7 +103,7 @@ export const NAVAHeroSection: React.FC = () => {
                 NAVA
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, perfeito para mães especiais.
+                Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, ideal para momentos especiais na praia.
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">

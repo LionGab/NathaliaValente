@@ -11,10 +11,10 @@ export const products: Product[] = [
         originalPrice: 165.00,
         discount: 0,
         images: [
+            'https://i.imgur.com/L2xyl98.jpg',
+            'https://i.imgur.com/n2QJJ5y.jpg',
             'https://i.imgur.com/TjCevtA.jpg',
-            'https://i.imgur.com/lU9GlUm.jpg',
-            'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&auto=format&q=80',
-            'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&crop=center&auto=format&q=80'
+            'https://i.imgur.com/lU9GlUm.jpg'
         ],
         description: 'Bikini premium com design exclusivo da Nathália Valente. Tecido de alta qualidade, resistente ao cloro e com proteção UV. Perfeito para mães que querem se sentir confiantes e lindas.',
         sizes: ['P', 'M', 'G', 'GG'],
@@ -58,10 +58,10 @@ export const products: Product[] = [
         originalPrice: 165.00,
         discount: 0,
         images: [
+            'https://i.imgur.com/n2QJJ5y.jpg',
+            'https://i.imgur.com/L2xyl98.jpg',
             'https://i.imgur.com/lU9GlUm.jpg',
-            'https://i.imgur.com/TjCevtA.jpg',
-            'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&auto=format&q=80',
-            'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&crop=center&auto=format&q=80'
+            'https://i.imgur.com/TjCevtA.jpg'
         ],
         description: 'Conjunto de bikini exclusivo da Nathália Valente. Design sofisticado e elegante, perfeito para mães que querem se sentir especiais na praia. Tecido de alta qualidade e modelagem que valoriza o corpo.',
         sizes: ['P', 'M', 'G', 'GG'],
@@ -191,7 +191,7 @@ export const products: Product[] = [
         brand: 'NAVA',
         category: 'colecoes',
         price: 165.00,
-        images: ['https://i.imgur.com/TjCevtA.jpg', 'https://i.imgur.com/lU9GlUm.jpg'],
+        images: ['https://i.imgur.com/L2xyl98.jpg', 'https://i.imgur.com/n2QJJ5y.jpg'],
         description: 'Bikinis exclusivos da Nathália Valente. Bikini Premium e Conjunto Bikini Nathy. R$ 165,00 no PIX ou em até 2x de R$ 82,50 sem juros. Acesse a loja completa!',
         link: 'https://www.navabeachwear.com.br/',
         isExternal: true,
