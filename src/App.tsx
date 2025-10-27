@@ -6,6 +6,10 @@ import { CartProvider } from './contexts/CartContext';
 // import { AuthPage } from './components/AuthPage';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
+import { OptimizedBottomNav } from './components/navigation/OptimizedBottomNav';
+import { SmartHeader } from './components/navigation/SmartHeader';
+import { GestureNavigation } from './components/navigation/GestureNavigation';
+import { ContextualNavigation } from './components/navigation/ContextualNavigation';
 import { PWANotifications } from './components/PWANotifications';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { PerformanceDebug } from './components/PerformanceDebug';
@@ -29,6 +33,56 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState('feed');
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
   const { notifications, removeNotification } = useNotifications();
+  
+  // Estado para navegação otimizada
+  const [showQuickActions, setShowQuickActions] = useState(false);
+  const [userBehavior, setUserBehavior] = useState({
+    mostVisited: ['home', 'chat', 'groups'],
+    recentActivity: ['chat', 'home'],
+    timeOfDay: new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening' as 'morning' | 'afternoon' | 'evening' | 'night',
+    isNewUser: !user?.created_at || new Date(user.created_at).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000
+  });
+
+  // Funções de navegação otimizada
+  const handleCreatePost = () => {
+    console.log('Criar post');
+    // Implementar modal de criação de post
+  };
+
+  const handleSearch = (query?: string) => {
+    if (query) {
+      console.log('Buscar:', query);
+      // Implementar busca
+    } else {
+      console.log('Abrir busca');
+      // Implementar modal de busca
+    }
+  };
+
+  const handleNotifications = () => {
+    console.log('Abrir notificações');
+    // Implementar modal de notificações
+  };
+
+  const handleQuickAction = (action: string) => {
+    console.log('Ação rápida:', action);
+    setCurrentPage(action);
+  };
+
+  const handleBack = () => {
+    console.log('Voltar');
+    // Implementar histórico de navegação
+  };
+
+  const handleForward = () => {
+    console.log('Avançar');
+    // Implementar histórico de navegação
+  };
+
+  const handleRefresh = () => {
+    console.log('Atualizar');
+    window.location.reload();
+  };
 
   // Control auth flow state
   useEffect(() => {
@@ -139,9 +193,46 @@ function AppContent() {
         <div className="relative z-10">
           <PWANotifications />
           <PWAInstallPrompt />
-          <Header onProfileClick={() => setCurrentPage('profile')} />
+          
+          {/* Header Inteligente */}
+          <SmartHeader 
+            onProfileClick={() => setCurrentPage('profile')}
+            onCreatePost={handleCreatePost}
+            onSearch={handleSearch}
+            onNotifications={handleNotifications}
+            onQuickAction={handleQuickAction}
+          />
+          
           <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
-          <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+          
+          {/* Navegação Otimizada */}
+          <OptimizedBottomNav 
+            currentTab={currentPage}
+            onTabChange={setCurrentPage}
+            onCreatePost={handleCreatePost}
+            onSearch={() => handleSearch()}
+            onNotifications={handleNotifications}
+            onQuickMenu={() => setShowQuickActions(!showQuickActions)}
+          />
+          
+          {/* Navegação por Gestos */}
+          <GestureNavigation
+            currentTab={currentPage}
+            onTabChange={setCurrentPage}
+            onBack={handleBack}
+            onForward={handleForward}
+            onCreatePost={handleCreatePost}
+            onRefresh={handleRefresh}
+          />
+          
+          {/* Navegação Contextual */}
+          <ContextualNavigation
+            currentTab={currentPage}
+            userBehavior={userBehavior}
+            onNavigate={setCurrentPage}
+            onQuickAction={handleQuickAction}
+          />
+          
           <PerformanceDebug />
           <NotificationContainer
             notifications={notifications}
