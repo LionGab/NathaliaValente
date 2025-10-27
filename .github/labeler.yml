@@ -1,0 +1,33 @@
+# Configuração para auto-labeling baseado em arquivos alterados
+
+dependencies:
+  - package.json
+  - package-lock.json
+  - yarn.lock
+documentation:
+  - '**/*.md'
+  - docs/**/*
+tests:
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.ts'
+  - '**/*.spec.tsx'
+  - __tests__/**/*
+ci-cd:
+  - .github/**/*
+  - .github/workflows/**/*
+frontend:
+  - src/components/**/*
+  - src/screens/**/*
+  - src/features/**/*
+backend:
+  - src/api/**/*
+  - src/lib/supabase/**/*
+styling:
+  - '**/*.css'
+  - src/theme/**/*
+  - tailwind.config.js
+typescript:
+  - '**/*.ts'
+  - '**/*.tsx'
+  - tsconfig.json
