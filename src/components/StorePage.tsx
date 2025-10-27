@@ -1,4 +1,5 @@
 import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
+import { NathTipsSection } from './NathTipsSection';
 
 export const StorePage = () => {
   // Produtos para Desapega das Mamães
@@ -9,7 +10,8 @@ export const StorePage = () => {
       price: 'R$ 450,00',
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
       author: 'Ana S.',
-      avatar: 'AS'
+      avatar: 'AS',
+      backgroundColor: 'bg-gradient-to-br from-gray-100 to-gray-200'
     },
     {
       id: 2,
@@ -17,7 +19,8 @@ export const StorePage = () => {
       price: 'R$ 700,00',
       image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop&crop=center',
       author: 'Mariana L.',
-      avatar: 'ML'
+      avatar: 'ML',
+      backgroundColor: 'bg-gradient-to-br from-amber-50 to-orange-100'
     },
     {
       id: 3,
@@ -33,7 +36,8 @@ export const StorePage = () => {
       price: 'R$ 300,00',
       image: 'https://images.unsplash.com/photo-1542356590-54bc308435c2?w=400&h=400&fit=crop&crop=center',
       author: 'Carla D.',
-      avatar: 'CD'
+      avatar: 'CD',
+      backgroundColor: 'bg-gradient-to-br from-teal-50 to-mint-100'
     },
     {
       id: 5,
@@ -41,7 +45,8 @@ export const StorePage = () => {
       price: 'R$ 350,00',
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
       author: 'Patricia M.',
-      avatar: 'PM'
+      avatar: 'PM',
+      backgroundColor: 'bg-gradient-to-br from-neutral-50 to-stone-100'
     },
     {
       id: 6,
@@ -49,7 +54,8 @@ export const StorePage = () => {
       price: 'R$ 280,00',
       image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center',
       author: 'Fernanda R.',
-      avatar: 'FR'
+      avatar: 'FR',
+      backgroundColor: 'bg-gradient-to-br from-gray-50 to-gray-100'
     },
     {
       id: 7,
@@ -102,51 +108,22 @@ export const StorePage = () => {
 
       {/* Babytest Section */}
       <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg border-2 border-neutral-200 dark:border-neutral-700 overflow-hidden">
-        <div className="grid md:grid-cols-2 items-center gap-6">
-          <div className="p-4 md:p-8">
-            <div className="flex items-center gap-3 mb-4">
+        <div className="text-center space-y-6">
+          {/* Texto acima */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-center gap-3">
               <TestTube2 className="h-8 w-8 text-primary-500" />
               <h3 className="text-3xl font-bold text-neutral-900 dark:text-white">
                 Babytest by OLLIN
               </h3>
             </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4">
+            <p className="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed max-w-4xl mx-auto">
               O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN investiga mais de 600 doenças genéticas tratáveis.
             </p>
-            <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-xl p-4 mb-6">
-              <h4 className="font-semibold text-neutral-900 dark:text-white mb-2">Quando fazer o teste?</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-green-700 dark:text-green-400 font-medium">1º ao 20º dia de vida - MELHOR MOMENTO</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <span className="text-yellow-700 dark:text-yellow-400">Primeiro ano - BOM</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-red-700 dark:text-red-400">Maior que 1 ano - NÃO RECOMENDADO</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => window.open('https://www.babytest.com.br/', '_blank')}
-                className="bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-pink-600 transition-all duration-200 shadow-medium flex items-center justify-center gap-2"
-              >
-                <TestTube2 className="w-5 h-5" />
-                Acessar Site Oficial
-              </button>
-              <button
-                onClick={() => window.open('https://www.babytest.com.br/', '_blank')}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-medium"
-              >
-                Falar com Especialista
-              </button>
-            </div>
           </div>
-          <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-pink-100">
+
+          {/* Imagem abaixo */}
+          <div className="relative h-64 md:h-80 max-w-2xl mx-auto rounded-xl overflow-hidden bg-pink-100">
             <img
               src="https://i.imgur.com/JPBuHrw.jpg"
               alt="Babytest by OLLIN"
@@ -157,6 +134,17 @@ export const StorePage = () => {
               <p className="text-sm font-medium">Teste de Triagem Neonatal</p>
               <p className="text-xs opacity-90">Prepare-se para a Maternidade com Confiança!</p>
             </div>
+          </div>
+
+          {/* Botão centralizado */}
+          <div className="flex justify-center">
+            <button
+              onClick={() => window.open('https://www.babytest.com.br/', '_blank')}
+              className="bg-pink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-pink-600 transition-all duration-200 shadow-medium flex items-center justify-center gap-2"
+            >
+              <TestTube2 className="w-5 h-5" />
+              ACESSAR O SITE APENAS
+            </button>
           </div>
         </div>
       </div>
@@ -182,7 +170,7 @@ export const StorePage = () => {
               className="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:-translate-y-1"
             >
               {/* Product Image */}
-              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
+              <div className={`relative h-48 overflow-hidden ${product.backgroundColor || 'bg-gradient-to-br from-pink-100 to-purple-100'}`}>
                 <img
                   src={product.image}
                   alt={product.name}
@@ -225,56 +213,8 @@ export const StorePage = () => {
         </div>
       </div>
 
-      {/* Dicas de Maternidade Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
-              <ShoppingBag className="w-8 h-8 text-pink-500" />
-              Dicas da Nath
-            </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 mt-2">
-              Conteúdo exclusivo para sua jornada materna
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-2xl p-6 shadow-lg border-2 border-pink-200 dark:border-pink-800">
-            <img
-              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop"
-              alt="Dicas de Sono"
-              className="w-full h-48 rounded-xl object-cover mb-4"
-            />
-            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
-              Rotina de Sono para Bebês
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Aprenda técnicas comprovadas para estabelecer uma rotina de sono saudável para seu bebê. Dicas práticas da Nath.
-            </p>
-            <button className="text-pink-600 dark:text-pink-400 font-semibold hover:underline">
-              Ler mais →
-            </button>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 rounded-2xl p-6 shadow-lg border-2 border-purple-200 dark:border-purple-800">
-            <img
-              src="https://images.unsplash.com/photo-1493663284031-b7e3aaa7952d?w=800&h=600&fit=crop"
-              alt="Amamentação"
-              className="w-full h-48 rounded-xl object-cover mb-4"
-            />
-            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
-              Amamentação com Amor
-            </h3>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Guia completo sobre amamentação: posições corretas, dicas de alimentação e como superar desafios comuns.
-            </p>
-            <button className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
-              Ler mais →
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Dicas da Nath Section */}
+      <NathTipsSection maxItems={4} />
 
     </div>
   );
