@@ -1,4 +1,4 @@
-import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
+import { TestTube2, ShoppingBag, Heart } from 'lucide-react';
 import { SimpleNathTips } from '../../../components/SimpleNathTips';
 import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
 
@@ -7,72 +7,91 @@ export const StorePage = () => {
   const desapegaProducts = [
     {
       id: 1,
-      name: 'Carrinho Galzerano Preto',
+      name: 'Berço de Madeira Maciça',
       price: 'R$ 450,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      originalPrice: 'R$ 800,00',
+      image: 'https://i.imgur.com/pElL8zD.jpg',
       author: 'Ana S.',
       avatar: 'AS',
-      backgroundColor: 'bg-gradient-to-br from-gray-100 to-gray-200'
+      backgroundColor: 'bg-gradient-to-br from-amber-50 to-orange-100',
+      condition: 'Usado 6 meses, conservado'
     },
     {
       id: 2,
-      name: 'Berço de madeira maciça',
-      price: 'R$ 700,00',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop&crop=center',
+      name: 'Bebê Conforto Premium',
+      price: 'R$ 320,00',
+      originalPrice: 'R$ 600,00',
+      image: 'https://i.imgur.com/gxOThQR.jpg',
       author: 'Mariana L.',
       avatar: 'ML',
-      backgroundColor: 'bg-gradient-to-br from-amber-50 to-orange-100'
+      backgroundColor: 'bg-gradient-to-br from-blue-50 to-indigo-100',
+      condition: 'Até 13kg, conservado'
     },
     {
       id: 3,
-      name: 'Kit mamadeiras Philips Avent',
-      price: 'R$ 80,00',
-      image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop&crop=center',
+      name: 'Carrinho Galzerano Preto',
+      price: 'R$ 450,00',
+      originalPrice: 'R$ 800,00',
+      image: 'https://i.imgur.com/DLPkytI.jpg',
       author: 'Julia C.',
-      avatar: 'JC'
+      avatar: 'JC',
+      backgroundColor: 'bg-gradient-to-br from-gray-100 to-gray-200',
+      condition: 'Usado 8 meses, excelente estado'
     },
     {
       id: 4,
-      name: 'Cadeirão Chicco',
-      price: 'R$ 300,00',
-      image: 'https://images.unsplash.com/photo-1542356590-54bc308435c2?w=400&h=400&fit=crop&crop=center',
+      name: 'Ergo Baby Carrier',
+      price: 'R$ 180,00',
+      originalPrice: 'R$ 300,00',
+      image: 'https://i.imgur.com/6AOi9vY.jpg',
       author: 'Carla D.',
       avatar: 'CD',
-      backgroundColor: 'bg-gradient-to-br from-teal-50 to-mint-100'
+      backgroundColor: 'bg-gradient-to-br from-purple-50 to-pink-100',
+      condition: 'Pouco usado, limpo'
     },
     {
       id: 5,
-      name: 'Bebê conforto Maxi-Cosi',
-      price: 'R$ 350,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      name: 'Baby Teste OLLIN',
+      price: 'R$ 45,00',
+      originalPrice: 'R$ 80,00',
+      image: 'https://i.imgur.com/76haTca.jpg',
       author: 'Patricia M.',
       avatar: 'PM',
-      backgroundColor: 'bg-gradient-to-br from-neutral-50 to-stone-100'
+      backgroundColor: 'bg-gradient-to-br from-green-50 to-emerald-100',
+      condition: 'Novo, lacrado'
     },
     {
       id: 6,
-      name: 'Mochila de bebê Ergobaby',
-      price: 'R$ 280,00',
-      image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center',
+      name: 'Produto Bebê Premium',
+      price: 'R$ 120,00',
+      originalPrice: 'R$ 200,00',
+      image: 'https://i.imgur.com/tf0GHwz.jpg',
       author: 'Fernanda R.',
       avatar: 'FR',
-      backgroundColor: 'bg-gradient-to-br from-gray-50 to-gray-100'
+      backgroundColor: 'bg-gradient-to-br from-rose-50 to-pink-100',
+      condition: 'Usado 3 meses, conservado'
     },
     {
       id: 7,
-      name: 'Kit chupetas NUK',
-      price: 'R$ 45,00',
-      image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=400&fit=crop&crop=center',
+      name: 'Produto Bebê Conforto',
+      price: 'R$ 150,00',
+      originalPrice: 'R$ 250,00',
+      image: 'https://i.imgur.com/JoxFimc.jpg',
       author: 'Luciana T.',
-      avatar: 'LT'
+      avatar: 'LT',
+      backgroundColor: 'bg-gradient-to-br from-teal-50 to-cyan-100',
+      condition: 'Excelente estado'
     },
     {
       id: 8,
-      name: 'Banheira para bebê',
-      price: 'R$ 120,00',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center',
+      name: 'Produto Bebê Segurança',
+      price: 'R$ 100,00',
+      originalPrice: 'R$ 180,00',
+      image: 'https://i.imgur.com/XvueTEk.jpg',
       author: 'Camila A.',
-      avatar: 'CA'
+      avatar: 'CA',
+      backgroundColor: 'bg-gradient-to-br from-indigo-50 to-blue-100',
+      condition: 'Usado 4 meses, limpo'
     }
   ];
 
@@ -173,11 +192,28 @@ export const StorePage = () => {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-700">
-                  <span className="text-xl font-bold text-pink-500">
-                    {product.price}
-                  </span>
-                  <button className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg">
+                <div className="pt-3 border-t border-neutral-100 dark:border-neutral-700">
+                  {/* Preço e Condição */}
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xl font-bold text-green-600">
+                        {product.price}
+                      </span>
+                      {product.originalPrice && (
+                        <span className="text-sm text-neutral-500 line-through">
+                          {product.originalPrice}
+                        </span>
+                      )}
+                    </div>
+                    {product.condition && (
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                        {product.condition}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Botão de Compra */}
+                  <button className="w-full px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-medium hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                     <Heart className="w-4 h-4" />
                     Comprar
                   </button>
