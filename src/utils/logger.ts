@@ -1,118 +1,188 @@
 /**
  * Logger Service - Centralized logging utility
- * Only logs in development, prevents console pollution in production
+ *
+ * Use this instead of console.log/warn/error for better control
+ * and production safety.
+ *
+ * @example
+ * ```typescript
+ * import { logger } from '@/utils/logger';
+ *
+ * // Development only logs
+ * logger.dev('[Component] Rendered', { props });
+ *
+ * // Always logged (production too)
+ * logger.error('[API] Request failed', error);
+ * logger.warn('[Performance] Slow render detected');
+ * ```
  */
 
-type LogLevel = 'log' | 'info' | 'warn' | 'error' | 'debug';
+type LogLevel = 'dev' | 'info' | 'warn' | 'error';
 
-interface LogOptions {
-  context?: string;
+interface LogEntry {
+  timestamp: string;
+  level: LogLevel;
+  message: string;
   data?: unknown;
 }
 
 class Logger {
-  private isDev = import.meta.env.DEV;
+  private isDevelopment = import.meta.env.DEV;
+  private history: LogEntry[] = [];
+  private maxHistorySize = 100;
 
-  private formatMessage(level: LogLevel, message: string, options?: LogOptions): string {
-    const timestamp = new Date().toISOString();
-    const context = options?.context ? `[${options.context}]` : '';
-    return `[${timestamp}] ${level.toUpperCase()} ${context} ${message}`;
-  }
-
-  log(message: string, options?: LogOptions): void {
-    if (this.isDev) {
-      console.log(this.formatMessage('log', message, options), options?.data || '');
-    }
-  }
-
-  info(message: string, options?: LogOptions): void {
-    if (this.isDev) {
-      console.info(this.formatMessage('info', message, options), options?.data || '');
-    }
-  }
-
-  warn(message: string, options?: LogOptions): void {
-    if (this.isDev) {
-      console.warn(this.formatMessage('warn', message, options), options?.data || '');
-    }
-  }
-
-  error(message: string, options?: LogOptions): void {
-    // Errors are always logged, even in production
-    console.error(this.formatMessage('error', message, options), options?.data || '');
-
-    // Send to error tracking service in production
-    if (!this.isDev) {
-      this.sendToErrorTracking(message, options);
-    }
-  }
-
-  debug(message: string, options?: LogOptions): void {
-    if (this.isDev) {
-      console.debug(this.formatMessage('debug', message, options), options?.data || '');
-    }
-  }
-
-  // Group logging for better organization
-  group(label: string): void {
-    if (this.isDev) {
-      console.group(label);
-    }
-  }
-
-  groupEnd(): void {
-    if (this.isDev) {
-      console.groupEnd();
-    }
-  }
-
-  // Performance logging
-  time(label: string): void {
-    if (this.isDev) {
-      console.time(label);
-    }
-  }
-
-  timeEnd(label: string): void {
-    if (this.isDev) {
-      console.timeEnd(label);
+  /**
+   * Log only in development mode
+   * Automatically removed in production builds
+   */
+  dev(message: string, data?: unknown): void {
+    if (this.isDevelopment) {
+      const timestamp = new Date().toISOString();
+      console.log(`[${timestamp}] ${message}`, data ?? '');
+      this.addToHistory('dev', message, data);
     }
   }
 
   /**
-   * Send error to tracking service
+   * Log information (shown in all environments)
+   * Use sparingly in production
    */
-  private sendToErrorTracking(message: string, options?: LogOptions): void {
-    try {
-      const errorData = {
-        message,
-        level: 'error',
-        timestamp: new Date().toISOString(),
-        url: typeof window !== 'undefined' ? window.location.href : undefined,
-        userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : undefined,
-        data: options?.data,
-        context: options?.context
-      };
+  info(message: string, data?: unknown): void {
+    const timestamp = new Date().toISOString();
+    console.info(`[${timestamp}] ℹ️ ${message}`, data ?? '');
+    this.addToHistory('info', message, data);
+  }
 
-      // Send to error tracking endpoint
-      if (typeof window !== 'undefined' && window.navigator.sendBeacon) {
-        window.navigator.sendBeacon(
-          '/api/errors',
-          JSON.stringify(errorData)
-        );
+  /**
+   * Log warnings (shown in all environments)
+   */
+  warn(message: string, data?: unknown): void {
+    const timestamp = new Date().toISOString();
+    console.warn(`[${timestamp}] ⚠️  ${message}`, data ?? '');
+    this.addToHistory('warn', message, data);
+
+    // TODO: Send to monitoring service in production
+    if (!this.isDevelopment) {
+      this.sendToMonitoring('warn', message, data);
+    }
+  }
+
+  /**
+   * Log errors (shown in all environments)
+   * Automatically sent to error tracking in production
+   */
+  error(message: string, error?: unknown): void {
+    const timestamp = new Date().toISOString();
+    console.error(`[${timestamp}] ❌ ${message}`, error ?? '');
+    this.addToHistory('error', message, error);
+
+    // Send to error tracking service in production
+    if (!this.isDevelopment) {
+      this.sendToMonitoring('error', message, error);
+    }
+  }
+
+  /**
+   * Get recent log history (useful for debugging)
+   */
+  getHistory(): LogEntry[] {
+    return [...this.history];
+  }
+
+  /**
+   * Clear log history
+   */
+  clearHistory(): void {
+    this.history = [];
+  }
+
+  /**
+   * Add log entry to history
+   */
+  private addToHistory(level: LogLevel, message: string, data?: unknown): void {
+    const entry: LogEntry = {
+      timestamp: new Date().toISOString(),
+      level,
+      message,
+      data,
+    };
+
+    this.history.push(entry);
+
+    // Keep only last N entries
+    if (this.history.length > this.maxHistorySize) {
+      this.history.shift();
+    }
+  }
+
+  /**
+   * Send logs to monitoring service (Sentry, LogRocket, etc)
+   */
+  private sendToMonitoring(level: LogLevel, message: string, data?: unknown): void {
+    // TODO: Integrate with Sentry or other monitoring service
+    // For now, just ensure it's logged to console in production
+
+    if (typeof window !== 'undefined' && (window as any).Sentry) {
+      try {
+        if (level === 'error') {
+          (window as any).Sentry.captureException(data instanceof Error ? data : new Error(message));
+        } else {
+          (window as any).Sentry.captureMessage(message, level);
+        }
+      } catch (err) {
+        // Fail silently if Sentry is not available
       }
-    } catch (trackingError) {
-      // Don't log tracking errors to avoid infinite loops
-      console.error('Failed to send error to tracking service:', trackingError);
+    }
+  }
+
+  /**
+   * Group logs together (useful for debugging complex flows)
+   */
+  group(label: string): void {
+    if (this.isDevelopment) {
+      console.group(label);
+    }
+  }
+
+  /**
+   * End log group
+   */
+  groupEnd(): void {
+    if (this.isDevelopment) {
+      console.groupEnd();
+    }
+  }
+
+  /**
+   * Log a table (useful for arrays of objects)
+   */
+  table(data: unknown): void {
+    if (this.isDevelopment) {
+      console.table(data);
+    }
+  }
+
+  /**
+   * Start a timer
+   */
+  time(label: string): void {
+    if (this.isDevelopment) {
+      console.time(label);
+    }
+  }
+
+  /**
+   * End a timer and log elapsed time
+   */
+  timeEnd(label: string): void {
+    if (this.isDevelopment) {
+      console.timeEnd(label);
     }
   }
 }
 
+// Export singleton instance
 export const logger = new Logger();
 
-// Convenience exports
-export const log = logger.log.bind(logger);
-export const info = logger.info.bind(logger);
-export const warn = logger.warn.bind(logger);
-export const error = logger.error.bind(logger);
-export const debug = logger.debug.bind(logger);
+// Export for testing
+export { Logger };
