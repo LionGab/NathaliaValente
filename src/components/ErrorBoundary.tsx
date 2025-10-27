@@ -6,6 +6,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { handleError } from '../lib/errorHandler';
+import { reportError } from '../lib/sentry';
 
 interface Props {
   children: ReactNode;
@@ -26,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
@@ -34,22 +35,33 @@ export class ErrorBoundary extends Component<Props, State> {
     return {
       hasError: true,
       error,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Log error using our error handler
-    handleError(error, {
-      feature: this.props.feature || 'unknown',
-      action: 'react_error_boundary',
-      timestamp: Date.now()
-    }, this.props.feature);
+    handleError(
+      error,
+      {
+        feature: this.props.feature || 'unknown',
+        action: 'react_error_boundary',
+        timestamp: Date.now(),
+      },
+      this.props.feature
+    );
+
+    // Report to Sentry with component stack
+    reportError(error, {
+      errorBoundaryFeature: this.props.feature,
+      componentStack: errorInfo.componentStack,
+      errorInfo,
+    });
 
     // Call custom error handler if provided
     if (this.props.onError) {
@@ -61,7 +73,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     });
   };
 
@@ -91,8 +103,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <p className="text-gray-600 dark:text-gray-400 mb-6">
               {this.props.feature
                 ? `Houve um problema no ${this.props.feature}. Nossa equipe foi notificada.`
-                : 'Houve um problema inesperado. Nossa equipe foi notificada.'
-              }
+                : 'Houve um problema inesperado. Nossa equipe foi notificada.'}
             </p>
 
             {import.meta.env.DEV && this.state.error && (
@@ -107,9 +118,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   {this.state.error.stack && (
                     <div>
                       <strong>Stack:</strong>
-                      <pre className="whitespace-pre-wrap mt-1">
-                        {this.state.error.stack}
-                      </pre>
+                      <pre className="whitespace-pre-wrap mt-1">{this.state.error.stack}</pre>
                     </div>
                   )}
                   {this.state.errorInfo && (
@@ -152,142 +161,128 @@ export class ErrorBoundary extends Component<Props, State> {
 
 // Feature-specific error boundaries
 export const FeedErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ErrorBoundary feature="Feed" fallback={
-    <div className="p-6 text-center">
-      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+  <ErrorBoundary
+    feature="Feed"
+    fallback={
+      <div className="p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Erro no Feed</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar o feed. Tente recarregar a página.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Recarregar
+        </button>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        Erro no Feed
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Não foi possível carregar o feed. Tente recarregar a página.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-      >
-        Recarregar
-      </button>
-    </div>
-  }>
+    }
+  >
     {children}
   </ErrorBoundary>
 );
 
 export const ChatErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ErrorBoundary feature="Chat" fallback={
-    <div className="p-6 text-center">
-      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+  <ErrorBoundary
+    feature="Chat"
+    fallback={
+      <div className="p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Erro no Chat</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar o chat. Tente novamente.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Recarregar
+        </button>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        Erro no Chat
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Não foi possível carregar o chat. Tente novamente.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-      >
-        Recarregar
-      </button>
-    </div>
-  }>
+    }
+  >
     {children}
   </ErrorBoundary>
 );
 
 export const GroupsErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ErrorBoundary feature="Groups" fallback={
-    <div className="p-6 text-center">
-      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+  <ErrorBoundary
+    feature="Groups"
+    fallback={
+      <div className="p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Erro nos Grupos
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar os grupos. Tente novamente.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Recarregar
+        </button>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        Erro nos Grupos
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Não foi possível carregar os grupos. Tente novamente.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-      >
-        Recarregar
-      </button>
-    </div>
-  }>
+    }
+  >
     {children}
   </ErrorBoundary>
 );
 
 export const ProfileErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ErrorBoundary feature="Profile" fallback={
-    <div className="p-6 text-center">
-      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+  <ErrorBoundary
+    feature="Profile"
+    fallback={
+      <div className="p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Erro no Perfil</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar o perfil. Tente novamente.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Recarregar
+        </button>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        Erro no Perfil
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Não foi possível carregar o perfil. Tente novamente.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-      >
-        Recarregar
-      </button>
-    </div>
-  }>
+    }
+  >
     {children}
   </ErrorBoundary>
 );
 
 export const StoreErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ErrorBoundary feature="Store" fallback={
-    <div className="p-6 text-center">
-      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+  <ErrorBoundary
+    feature="Store"
+    fallback={
+      <div className="p-6 text-center">
+        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Erro na Loja</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Não foi possível carregar a loja. Tente novamente.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Recarregar
+        </button>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        Erro na Loja
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Não foi possível carregar a loja. Tente novamente.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-      >
-        Recarregar
-      </button>
-    </div>
-  }>
+    }
+  >
     {children}
   </ErrorBoundary>
 );
-
-// Hook para usar error boundary
-export const useErrorBoundary = () => {
-  const [error, setError] = React.useState<Error | null>(null);
-
-  const resetError = React.useCallback(() => {
-    setError(null);
-  }, []);
-
-  const captureError = React.useCallback((error: Error) => {
-    setError(error);
-  }, []);
-
-  React.useEffect(() => {
-    if (error) {
-      throw error;
-    }
-  }, [error]);
-
-  return { captureError, resetError };
-};

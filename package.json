@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "nossa-maternidade",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,17 +17,25 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run src --coverage",
+    "test:integration": "vitest run tests/integration",
+    "test:performance": "vitest run tests/performance",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
-    "test:all": "npm run test:run && npm run test:e2e",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:performance && npm run test:e2e",
+    "test:ci": "npm run test:unit && npm run test:integration && npm run test:performance",
+    "test:watch": "vitest --watch",
+    "test:debug": "vitest --inspect-brk",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "optimize-avatars": "node scripts/optimize-avatars.js",
-    "prebuild": "npm run optimize-avatars"
+    "prebuild": "npm run optimize-avatars",
+    "prepare": "husky"
   },
   "dependencies": {
+    "@sentry/react": "^10.22.0",
     "@supabase/supabase-js": "^2.76.0",
     "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-query-devtools": "^5.90.2",
@@ -64,8 +72,10 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
-    "happy-dom": "^20.0.7",
+    "happy-dom": "^20.0.8",
+    "husky": "^9.1.7",
     "jest-environment-jsdom": "^30.2.0",
+    "lint-staged": "^16.2.6",
     "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "sharp": "^0.34.4",
@@ -77,5 +87,17 @@
   },
   "overrides": {
     "esbuild": "^0.25.11"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ],
+    "**/*": [
+      "node scripts/check-secrets.js"
+    ]
   }
 }

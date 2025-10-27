@@ -1,0 +1,34 @@
+version: 2
+updates:
+  # Atualiza dependências npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "auto-merge"
+    reviewers:
+      - "LionGab"
+    assignees:
+      - "LionGab"
+    commit-message:
+      prefix: "[DEPS]"
+      include: "scope"
+    versioning-strategy: increase
+
+  # Atualiza GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    labels:
+      - "github-actions"
+      - "auto-merge"
+    commit-message:
+      prefix: "[CI]"

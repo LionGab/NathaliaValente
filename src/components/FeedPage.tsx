@@ -1,23 +1,24 @@
-import { useState, Suspense, lazy, useCallback, useMemo } from 'react';
+import { useState, Suspense, lazy, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { usePosts, useLikePost, useCreateComment, useSaveItem } from '../hooks/useQueries';
+import { usePosts, useLikePost, useSaveItem } from '../hooks/useQueries';
 import { useWebShare } from '../hooks';
 import { getCategoryGradient } from '../constants/colors';
-import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles, Crown } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles } from 'lucide-react';
 import { PostComments } from './PostComments';
 import { LoadingSpinner, PostSkeleton } from './ui/LoadingSpinner';
 import { useMockData } from '../hooks/useMockData';
 import { Button } from './ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
 import { formatNumber, formatDate } from '../lib/utils';
-import { CommunityLogo } from './ui/Logo';
 import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
-import { FeaturedProductsCard } from './ProductShowcase';
+import { NAVAHeroSection } from './NAVAHeroSection';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
-const CreatePostModal = lazy(() => import('./CreatePostModal').then(module => ({ default: module.CreatePostModal })));
+const CreatePostModal = lazy(() =>
+  import('./CreatePostModal').then((module) => ({ default: module.CreatePostModal }))
+);
 
 export const FeedPage = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -27,7 +28,7 @@ export const FeedPage = () => {
   const { triggerHaptic } = useHapticFeedback();
 
   // Use mock data for better experience
-  const { posts: mockPosts, loading: mockLoading, likePost, addComment } = useMockData();
+  const { posts: mockPosts, loading: mockLoading, likePost } = useMockData();
 
   // Fallback to real data if needed
   const { data: realPosts = [], isLoading: realLoading, refetch } = usePosts(page);
@@ -43,66 +44,75 @@ export const FeedPage = () => {
   // Infinite scroll
   const loadMore = useCallback(() => {
     if (hasMore && !loading) {
-      setPage(prev => prev + 1);
+      setPage((prev) => prev + 1);
     }
   }, [hasMore, loading]);
 
   const lastPostRef = useInfiniteScroll(loadMore, hasMore);
 
-  const handleLike = useCallback(async (postId: string, currentlyLiked: boolean) => {
-    if (!user) return;
+  const handleLike = useCallback(
+    async (postId: string, currentlyLiked: boolean) => {
+      if (!user) return;
 
-    triggerHaptic('light');
+      triggerHaptic('light');
 
-    // Use mock data if available
-    if (mockPosts.length > 0) {
-      likePost(postId);
-    } else {
-      // Fallback to real data
-      likePostMutation.mutate(
-        { postId, isLiked: currentlyLiked },
+      // Use mock data if available
+      if (mockPosts.length > 0) {
+        likePost(postId);
+      } else {
+        // Fallback to real data
+        likePostMutation.mutate(
+          { postId, isLiked: currentlyLiked },
+          {
+            onError: (error) => {
+              if (import.meta.env.DEV) {
+                console.error('Failed to toggle like:', error);
+              }
+            },
+          }
+        );
+      }
+    },
+    [user, mockPosts.length, likePost, likePostMutation, triggerHaptic]
+  );
+
+  const handleSavePost = useCallback(
+    async (postId: string) => {
+      if (!user) return;
+
+      triggerHaptic('medium');
+      saveItemMutation.mutate(
+        { postId, type: 'post' },
         {
           onError: (error) => {
             if (import.meta.env.DEV) {
-              console.error('Failed to toggle like:', error);
+              console.error('Failed to save post:', error);
             }
           },
         }
       );
-    }
-  }, [user, mockPosts.length, likePost, likePostMutation, triggerHaptic]);
+    },
+    [user, saveItemMutation, triggerHaptic]
+  );
 
-  const handleSavePost = useCallback(async (postId: string) => {
-    if (!user) return;
+  const handleSharePost = useCallback(
+    async (post: Post) => {
+      triggerHaptic('light');
 
-    triggerHaptic('medium');
-    saveItemMutation.mutate(
-      { postId, type: 'post' },
-      {
-        onError: (error) => {
-          if (import.meta.env.DEV) {
-            console.error('Failed to save post:', error);
-          }
-        },
+      try {
+        await share({
+          title: `Post de ${post.profiles?.full_name || 'Usuário'} na Nossa Maternidade`,
+          text: post.caption,
+          url: window.location.origin + `/?post=${post.id}`,
+        });
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.error('Erro ao compartilhar:', error);
+        }
       }
-    );
-  }, [user, saveItemMutation, triggerHaptic]);
-
-  const handleSharePost = useCallback(async (post: Post) => {
-    triggerHaptic('light');
-
-    try {
-      await share({
-        title: `Post de ${post.profiles?.full_name || 'Usuário'} na Nossa Maternidade`,
-        text: post.caption,
-        url: window.location.origin + `/?post=${post.id}`,
-      });
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Erro ao compartilhar:', error);
-      }
-    }
-  }, [share, triggerHaptic]);
+    },
+    [share, triggerHaptic]
+  );
 
   const handleCreatePost = useCallback(() => {
     triggerHaptic('medium');
@@ -139,8 +149,11 @@ export const FeedPage = () => {
               <span className="text-xs">Atualizado</span>
             </div>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Oi, mamães! 👋</h2>
-          <p className="text-sm opacity-90 mb-4">Um espaço seguro para compartilhar experiências, dicas e se conectar com outras mães incríveis</p>
+          <h2 className="text-2xl font-bold mb-2">Bem-vindas à Nossa Maternidade! 👋</h2>
+          <p className="text-sm opacity-90 mb-4">
+            Um espaço seguro para compartilhar experiências, dicas e se conectar com outras mães
+            incríveis
+          </p>
           <Button
             onClick={handleCreatePost}
             className="bg-white text-purple-600 hover:bg-white/90 font-semibold"
@@ -157,9 +170,8 @@ export const FeedPage = () => {
       {/* Daily Verse Card */}
       <DailyVerseCard />
 
-      {/* Featured Products Card */}
-      <FeaturedProductsCard />
-
+      {/* NAVA Hero Section */}
+      <NAVAHeroSection />
 
       {/* Community Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
@@ -247,13 +259,16 @@ export const FeedPage = () => {
                     className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
                   >
                     <Heart
-                      className={`w-5 h-5 ${post.user_has_liked
-                        ? 'fill-pink-500 text-pink-500 scale-110'
-                        : 'group-hover:scale-110'
-                        } transition-all duration-200`}
+                      className={`w-5 h-5 ${
+                        post.user_has_liked
+                          ? 'fill-pink-500 text-pink-500 scale-110'
+                          : 'group-hover:scale-110'
+                      } transition-all duration-200`}
                       strokeWidth={2}
                     />
-                    <span className="text-sm font-semibold">{formatNumber(post.likes_count || 0)}</span>
+                    <span className="text-sm font-semibold">
+                      {formatNumber(post.likes_count || 0)}
+                    </span>
                   </button>
 
                   <button
@@ -264,7 +279,9 @@ export const FeedPage = () => {
                       className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
                       strokeWidth={2}
                     />
-                    <span className="text-sm font-semibold">{formatNumber(post.comments_count || 0)}</span>
+                    <span className="text-sm font-semibold">
+                      {formatNumber(post.comments_count || 0)}
+                    </span>
                   </button>
 
                   {isShareSupported && (

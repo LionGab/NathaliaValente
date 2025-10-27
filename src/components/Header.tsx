@@ -1,9 +1,7 @@
-import { Heart, LogOut, User, Bell, Crown, Sparkles, Search, X } from 'lucide-react';
+import { Heart, LogOut, User, Bell, Search, X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
-import { HeaderLogo } from './ui/Logo';
 
 type HeaderProps = {
   onProfileClick: () => void;
@@ -13,7 +11,14 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
   const { profile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<
+    Array<{
+      id: number;
+      type: string;
+      title: string;
+      author: string;
+    }>
+  >([]);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -29,9 +34,10 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
     setSearchQuery(query);
     if (query.length > 2) {
       // Filter mock results based on query
-      const filtered = mockSearchResults.filter(item =>
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.subtitle?.toLowerCase().includes(query.toLowerCase())
+      const filtered = mockSearchResults.filter(
+        (item) =>
+          item.title.toLowerCase().includes(query.toLowerCase()) ||
+          item.subtitle?.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(filtered);
     } else {
@@ -96,8 +102,12 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
                   className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-2.5 bg-neutral-100 dark:bg-neutral-800 rounded-lg sm:rounded-xl hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 text-left"
                 >
                   <Search className="w-4 h-4 text-neutral-500 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 hidden sm:inline">Buscar posts, pessoas, grupos...</span>
-                  <span className="text-xs text-neutral-500 dark:text-neutral-400 sm:hidden">Buscar...</span>
+                  <span className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 hidden sm:inline">
+                    Buscar posts, pessoas, grupos...
+                  </span>
+                  <span className="text-xs text-neutral-500 dark:text-neutral-400 sm:hidden">
+                    Buscar...
+                  </span>
                 </button>
               ) : (
                 <div className="relative">
@@ -133,9 +143,15 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
-                              {result.type === 'post' && <Search className="w-4 h-4 text-primary-600" />}
-                              {result.type === 'user' && <User className="w-4 h-4 text-primary-600" />}
-                              {result.type === 'group' && <Heart className="w-4 h-4 text-primary-600" />}
+                              {result.type === 'post' && (
+                                <Search className="w-4 h-4 text-primary-600" />
+                              )}
+                              {result.type === 'user' && (
+                                <User className="w-4 h-4 text-primary-600" />
+                              )}
+                              {result.type === 'group' && (
+                                <Heart className="w-4 h-4 text-primary-600" />
+                              )}
                             </div>
                             <div>
                               <div className="font-medium text-sm text-neutral-900 dark:text-neutral-100">
