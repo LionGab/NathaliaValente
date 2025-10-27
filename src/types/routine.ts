@@ -16,6 +16,7 @@ export interface Routine {
   id: string;
   user_id: string;
   title: string;
+  description?: string;
   icon: RoutineIcon;
   time: string; // HH:MM
   frequency: RoutineFrequency;

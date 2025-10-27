@@ -8,6 +8,7 @@ import {
   Calendar, Users, ShoppingBag, HelpCircle, Heart, Star, Baby, BookOpen, Shield, 
   Clock, TrendingUp, CheckCircle, Plus
 } from 'lucide-react';
+import { EnhancedRoutinePreview } from '../components/EnhancedRoutinePreview';
 
 const HomePageSimple = () => {
     const { profile } = useAuth();
@@ -228,6 +229,21 @@ const HomePageSimple = () => {
             </div>
           </motion.div>
         )}
+
+        {/* Minha Rotina - Seção Melhorada */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-4"
+        >
+          <EnhancedRoutinePreview 
+            onViewAll={() => {
+              triggerHaptic('light');
+              window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+            }}
+          />
+        </motion.div>
 
         {/* Quick Actions Grid 2x2 - Layout Limpo e Funcional */}
         <motion.div
