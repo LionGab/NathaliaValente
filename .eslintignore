@@ -1,0 +1,9 @@
+dist
+node_modules
+*.local
+.env
+.env.*
+dev-dist
+capacitor.config.ts
+android
+ios
