@@ -1,4 +1,5 @@
 import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
+import { OptimizedImage } from './ui/OptimizedImage';
 
 export const StorePage = () => {
   // Produtos para Desapega das Mamães
@@ -7,85 +8,93 @@ export const StorePage = () => {
       id: 1,
       name: 'Carrinho Galzerano Preto',
       price: 'R$ 450,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
       author: 'Ana S.',
-      avatar: 'AS'
+      avatar: 'AS',
     },
     {
       id: 2,
       name: 'Berço de madeira maciça',
       price: 'R$ 700,00',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop&crop=center',
       author: 'Mariana L.',
-      avatar: 'ML'
+      avatar: 'ML',
     },
     {
       id: 3,
       name: 'Kit mamadeiras Philips Avent',
       price: 'R$ 80,00',
-      image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop&crop=center',
       author: 'Julia C.',
-      avatar: 'JC'
+      avatar: 'JC',
     },
     {
       id: 4,
       name: 'Cadeirão Chicco',
       price: 'R$ 300,00',
-      image: 'https://images.unsplash.com/photo-1542356590-54bc308435c2?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1542356590-54bc308435c2?w=400&h=400&fit=crop&crop=center',
       author: 'Carla D.',
-      avatar: 'CD'
+      avatar: 'CD',
     },
     {
       id: 5,
       name: 'Bebê conforto Maxi-Cosi',
       price: 'R$ 350,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
       author: 'Patricia M.',
-      avatar: 'PM'
+      avatar: 'PM',
     },
     {
       id: 6,
       name: 'Mochila de bebê Ergobaby',
       price: 'R$ 280,00',
-      image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center',
       author: 'Fernanda R.',
-      avatar: 'FR'
+      avatar: 'FR',
     },
     {
       id: 7,
       name: 'Kit chupetas NUK',
       price: 'R$ 45,00',
-      image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=400&fit=crop&crop=center',
       author: 'Luciana T.',
-      avatar: 'LT'
+      avatar: 'LT',
     },
     {
       id: 8,
       name: 'Banheira para bebê',
       price: 'R$ 120,00',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center',
+      image:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center',
       author: 'Camila A.',
-      avatar: 'CA'
-    }
+      avatar: 'CA',
+    },
   ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
       {/* NAVA LOOKS Hero Section */}
       <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl bg-gradient-to-r from-pink-500 to-purple-600">
-        <img
+        <OptimizedImage
           src="https://i.imgur.com/TjCevtA.jpg"
           alt="NAVA LOOKS"
           className="absolute inset-0 w-full h-full object-cover"
+          priority={true}
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center p-4">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-2 drop-shadow-2xl">
             NAVA LOOKS
           </h1>
-          <p className="mt-2 text-lg md:text-xl drop-shadow-lg">
-            Vista-se de você
-          </p>
+          <p className="mt-2 text-lg md:text-xl drop-shadow-lg">Vista-se de você</p>
           <div className="mt-4 text-sm md:text-base drop-shadow-lg">
             <p>Bikini Premium Nathália - R$ 165,00</p>
             <p>Conjunto Bikini Nathy - R$ 165,00</p>
@@ -111,14 +120,19 @@ export const StorePage = () => {
               </h3>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4">
-              O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN investiga mais de 600 doenças genéticas tratáveis.
+              O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN
+              investiga mais de 600 doenças genéticas tratáveis.
             </p>
             <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-xl p-4 mb-6">
-              <h4 className="font-semibold text-neutral-900 dark:text-white mb-2">Quando fazer o teste?</h4>
+              <h4 className="font-semibold text-neutral-900 dark:text-white mb-2">
+                Quando fazer o teste?
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-green-700 dark:text-green-400 font-medium">1º ao 20º dia de vida - MELHOR MOMENTO</span>
+                  <span className="text-green-700 dark:text-green-400 font-medium">
+                    1º ao 20º dia de vida - MELHOR MOMENTO
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
@@ -126,7 +140,9 @@ export const StorePage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-red-700 dark:text-red-400">Maior que 1 ano - NÃO RECOMENDADO</span>
+                  <span className="text-red-700 dark:text-red-400">
+                    Maior que 1 ano - NÃO RECOMENDADO
+                  </span>
                 </div>
               </div>
             </div>
@@ -147,10 +163,12 @@ export const StorePage = () => {
             </div>
           </div>
           <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-pink-100">
-            <img
+            <OptimizedImage
               src="https://i.imgur.com/JPBuHrw.jpg"
               alt="Babytest by OLLIN"
               className="w-full h-full object-cover"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -183,14 +201,12 @@ export const StorePage = () => {
             >
               {/* Product Image */}
               <div className="relative h-48 overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
-                <img
+                <OptimizedImage
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.src = `https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(product.name)}`;
-                  }}
+                  priority={false}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
@@ -211,9 +227,7 @@ export const StorePage = () => {
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-700">
-                  <span className="text-xl font-bold text-pink-500">
-                    {product.price}
-                  </span>
+                  <span className="text-xl font-bold text-pink-500">{product.price}</span>
                   <button className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg">
                     <Heart className="w-4 h-4" />
                     Comprar
@@ -241,16 +255,19 @@ export const StorePage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-2xl p-6 shadow-lg border-2 border-pink-200 dark:border-pink-800">
-            <img
+            <OptimizedImage
               src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop"
               alt="Dicas de Sono"
               className="w-full h-48 rounded-xl object-cover mb-4"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
               Rotina de Sono para Bebês
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Aprenda técnicas comprovadas para estabelecer uma rotina de sono saudável para seu bebê. Dicas práticas da Nath.
+              Aprenda técnicas comprovadas para estabelecer uma rotina de sono saudável para seu
+              bebê. Dicas práticas da Nath.
             </p>
             <button className="text-pink-600 dark:text-pink-400 font-semibold hover:underline">
               Ler mais →
@@ -258,16 +275,19 @@ export const StorePage = () => {
           </div>
 
           <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 rounded-2xl p-6 shadow-lg border-2 border-purple-200 dark:border-purple-800">
-            <img
+            <OptimizedImage
               src="https://images.unsplash.com/photo-1493663284031-b7e3aaa7952d?w=800&h=600&fit=crop"
               alt="Amamentação"
               className="w-full h-48 rounded-xl object-cover mb-4"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
               Amamentação com Amor
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Guia completo sobre amamentação: posições corretas, dicas de alimentação e como superar desafios comuns.
+              Guia completo sobre amamentação: posições corretas, dicas de alimentação e como
+              superar desafios comuns.
             </p>
             <button className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
               Ler mais →
@@ -275,9 +295,6 @@ export const StorePage = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
-
-
