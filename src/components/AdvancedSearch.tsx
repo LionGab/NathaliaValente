@@ -25,11 +25,10 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
     author: '',
     hasImage: null,
     minLikes: 0,
-    minComments: 0
+    minComments: 0,
   });
   const [results, setResults] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
 
   const categories = ['Look do dia', 'Desabafo', 'Fé', 'Dica de mãe'];
   const dateRanges = [
@@ -37,7 +36,7 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
     { value: 'today', label: 'Hoje' },
     { value: 'week', label: 'Esta semana' },
     { value: 'month', label: 'Este mês' },
-    { value: 'year', label: 'Este ano' }
+    { value: 'year', label: 'Este ano' },
   ];
 
   const performSearch = async () => {
@@ -45,9 +44,7 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
 
     setIsLoading(true);
     try {
-      let queryBuilder = supabase
-        .from('posts')
-        .select(`
+      let queryBuilder = supabase.from('posts').select(`
           *,
           profiles:user_id (
             id,
@@ -133,8 +130,14 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
   };
 
   const hasActiveFilters = () => {
-    return filters.category || filters.dateRange || filters.author || 
-           filters.hasImage !== null || filters.minLikes > 0 || filters.minComments > 0;
+    return (
+      filters.category ||
+      filters.dateRange ||
+      filters.author ||
+      filters.hasImage !== null ||
+      filters.minLikes > 0 ||
+      filters.minComments > 0
+    );
   };
 
   const clearFilters = () => {
@@ -144,7 +147,7 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
       author: '',
       hasImage: null,
       minLikes: 0,
-      minComments: 0
+      minComments: 0,
     });
   };
 
@@ -162,6 +165,7 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
     }, 300);
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters]);
 
   return (
@@ -219,41 +223,45 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
                     </label>
                     <select
                       value={filters.category}
-                      onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
+                      onChange={(e) =>
+                        setFilters((prev) => ({ ...prev, category: e.target.value }))
+                      }
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
                     >
                       <option value="">Todas as categorias</option>
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
                       ))}
                     </select>
                   </div>
 
                   {/* Data */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Período
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Período</label>
                     <select
                       value={filters.dateRange}
-                      onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
+                      onChange={(e) =>
+                        setFilters((prev) => ({ ...prev, dateRange: e.target.value }))
+                      }
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
                     >
-                      {dateRanges.map(range => (
-                        <option key={range.value} value={range.value}>{range.label}</option>
+                      {dateRanges.map((range) => (
+                        <option key={range.value} value={range.value}>
+                          {range.label}
+                        </option>
                       ))}
                     </select>
                   </div>
 
                   {/* Autor */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Autor
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Autor</label>
                     <input
                       type="text"
                       value={filters.author}
-                      onChange={(e) => setFilters(prev => ({ ...prev, author: e.target.value }))}
+                      onChange={(e) => setFilters((prev) => ({ ...prev, author: e.target.value }))}
                       placeholder="Nome do autor..."
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
                     />
@@ -268,9 +276,9 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
                       value={filters.hasImage === null ? '' : filters.hasImage.toString()}
                       onChange={(e) => {
                         const value = e.target.value;
-                        setFilters(prev => ({ 
-                          ...prev, 
-                          hasImage: value === '' ? null : value === 'true' 
+                        setFilters((prev) => ({
+                          ...prev,
+                          hasImage: value === '' ? null : value === 'true',
                         }));
                       }}
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
@@ -290,7 +298,9 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
                       type="number"
                       min="0"
                       value={filters.minLikes}
-                      onChange={(e) => setFilters(prev => ({ ...prev, minLikes: parseInt(e.target.value) || 0 }))}
+                      onChange={(e) =>
+                        setFilters((prev) => ({ ...prev, minLikes: parseInt(e.target.value) || 0 }))
+                      }
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
                     />
                   </div>
@@ -304,7 +314,12 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
                       type="number"
                       min="0"
                       value={filters.minComments}
-                      onChange={(e) => setFilters(prev => ({ ...prev, minComments: parseInt(e.target.value) || 0 }))}
+                      onChange={(e) =>
+                        setFilters((prev) => ({
+                          ...prev,
+                          minComments: parseInt(e.target.value) || 0,
+                        }))
+                      }
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
                     />
                   </div>
@@ -316,14 +331,9 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
           {/* Resultados */}
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Resultados ({results.length})
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900">Resultados ({results.length})</h3>
               {(query || hasActiveFilters()) && (
-                <button
-                  onClick={clearAll}
-                  className="text-sm text-gray-500 hover:text-gray-700"
-                >
+                <button onClick={clearAll} className="text-sm text-gray-500 hover:text-gray-700">
                   Limpar tudo
                 </button>
               )}
@@ -337,10 +347,9 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
               <div className="text-center py-12">
                 <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500">
-                  {query || hasActiveFilters() 
-                    ? 'Nenhum resultado encontrado' 
-                    : 'Digite algo para buscar ou use os filtros'
-                  }
+                  {query || hasActiveFilters()
+                    ? 'Nenhum resultado encontrado'
+                    : 'Digite algo para buscar ou use os filtros'}
                 </p>
               </div>
             ) : (
@@ -364,9 +373,7 @@ export const AdvancedSearch = ({ onClose, onResultSelect }: AdvancedSearchProps)
                             {new Date(post.created_at).toLocaleDateString('pt-BR')}
                           </span>
                         </div>
-                        <p className="text-gray-700 mb-2 line-clamp-2">
-                          {post.caption}
-                        </p>
+                        <p className="text-gray-700 mb-2 line-clamp-2">{post.caption}</p>
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span className="flex items-center gap-1">
                             <Heart className="w-4 h-4" />
