@@ -10,6 +10,7 @@ export const ForumPage = () => {
       id: 1,
       author: 'Maria Silva',
       avatar: 'MS',
+      avatarImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
       content: 'Alguém tem dicas para bebês que não dormem bem a noite? Meu pequeno acorda várias vezes durante a madrugada e estou exausta 😴',
       time: 'há 2h',
       likes: 24,
@@ -20,6 +21,7 @@ export const ForumPage = () => {
       id: 2,
       author: 'Ana Costa',
       avatar: 'AC',
+      avatarImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
       content: 'Primeira vez aqui! Como faço para participar dos grupos? Estou no terceiro mês de gravidez e adoraria trocar experiências! 💕',
       time: 'há 5h',
       likes: 15,
@@ -30,11 +32,45 @@ export const ForumPage = () => {
       id: 3,
       author: 'Juliana Santos',
       avatar: 'JS',
+      avatarImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face',
       content: 'Acabei de descobrir que estou grávida! Alguma dica de vitaminas essenciais para o primeiro trimestre? 🙏',
       time: 'há 8h',
       likes: 31,
       comments: 19,
       trending: true
+    },
+    {
+      id: 4,
+      author: 'Camila Oliveira',
+      avatar: 'CO',
+      avatarImage: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face',
+      content: 'Mamães, como vocês lidam com a culpa de trabalhar fora? Meu bebê tem 6 meses e sinto que estou perdendo momentos importantes 😢',
+      time: 'há 12h',
+      likes: 42,
+      comments: 25,
+      trending: true
+    },
+    {
+      id: 5,
+      author: 'Fernanda Lima',
+      avatar: 'FL',
+      avatarImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+      content: 'Alguém conhece pediatra bom na zona sul? Preciso trocar o médico do meu filho e estou perdida! 🏥',
+      time: 'há 1d',
+      likes: 18,
+      comments: 14,
+      trending: false
+    },
+    {
+      id: 6,
+      author: 'Patricia Mendes',
+      avatar: 'PM',
+      avatarImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face',
+      content: 'Dicas de como organizar o quarto do bebê? Estou no 7º mês e ainda não preparei nada! Help! 🍼',
+      time: 'há 1d',
+      likes: 28,
+      comments: 21,
+      trending: false
     }
   ]);
 
@@ -104,8 +140,19 @@ export const ForumPage = () => {
           <div key={post.id} className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl transition-shadow">
             <div className="flex items-start gap-4">
               {/* Avatar */}
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 via-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-base flex-shrink-0 shadow-md">
-                {post.avatar}
+              <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 shadow-md">
+                <img
+                  src={post.avatarImage}
+                  alt={post.author}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full bg-gradient-to-br from-pink-400 via-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-base" style={{ display: 'none' }}>
+                  {post.avatar}
+                </div>
               </div>
 
               {/* Content */}

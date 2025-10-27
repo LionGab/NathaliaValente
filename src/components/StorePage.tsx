@@ -7,7 +7,7 @@ export const StorePage = () => {
       id: 1,
       name: 'Carrinho Galzerano Preto',
       price: 'R$ 450,00',
-      image: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
       author: 'Ana S.',
       avatar: 'AS'
     },
