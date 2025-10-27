@@ -8,7 +8,6 @@ import { SmartHeader } from './components/navigation/SmartHeader';
 import { GestureNavigation } from './components/navigation/GestureNavigation';
 import { ContextualNavigation } from './components/navigation/ContextualNavigation';
 import { PWANotifications } from './components/PWANotifications';
-import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { PerformanceDebug } from './components/PerformanceDebug';
 import { InstagramAuth } from './components/InstagramAuth';
 import {
@@ -221,7 +220,6 @@ function AppContent() {
 
         <div className="relative z-10">
           <PWANotifications />
-          <PWAInstallPrompt />
 
           {/* Header Inteligente */}
           <SmartHeader
