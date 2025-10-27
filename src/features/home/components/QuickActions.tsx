@@ -58,23 +58,7 @@ export const QuickActions: React.FC = () => {
       {quickActions.map((action) => (
         <Card
           key={action.id}
-          className={`
-            bg-gradient-to-br ${action.color}
-            p-4
-            text-white
-            rounded-2xl
-            cursor-pointer
-            group
-            relative
-            overflow-hidden
-            shadow-medium
-            hover:shadow-glow
-            hover:scale-105
-            hover:-translate-y-1
-            active:scale-95
-            transition-all
-            duration-300
-          `}
+          className={`bg-gradient-to-br ${action.color} p-4 text-white rounded-2xl cursor-pointer group relative overflow-hidden shadow-medium hover:shadow-glow hover:scale-105 hover:-translate-y-1 active:scale-95 transition-all duration-300`}
           data-testid={`quick-action-${action.id}`}
         >
           <div className="flex items-start justify-between mb-2">
