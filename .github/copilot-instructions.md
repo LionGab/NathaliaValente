@@ -17,12 +17,12 @@ This file provides context and guidelines for GitHub Copilot coding agent workin
 ### Frontend
 - **Framework**: React 18.3 with TypeScript 5.5 (strict mode)
 - **Build Tool**: Vite 7.1
-- **Styling**: TailwindCSS 3.4 with NativeWind patterns
+- **Styling**: TailwindCSS 3.4 with utility-first CSS patterns
 - **State Management**: React Query (TanStack Query) + Context API
 - **PWA**: Vite PWA Plugin with Service Worker
 - **Icons**: Lucide React
-- **Forms**: React Hook Form + Zod (validation)
 - **UI Components**: Custom design system (see DESIGN_SYSTEM.md)
+- **CSS Utilities**: clsx + tailwind-merge for class composition
 
 ### Backend
 - **BaaS**: Supabase (PostgreSQL 15)
@@ -43,23 +43,33 @@ This file provides context and guidelines for GitHub Copilot coding agent workin
 
 ```
 src/
-├── components/          # React components
-│   ├── ui/             # Design system (Button, Input, Card, etc.)
-│   └── shared/         # Business components (UserAvatar, PostCard)
+├── components/          # React components (many top-level components + subdirectories)
+│   ├── ui/             # Design system components
+│   ├── chat/           # Chat-specific components
+│   ├── groups/         # Group-specific components
+│   ├── bible-studies/  # Bible study components
+│   ├── prayers/        # Prayer components
+│   ├── journaling/     # Journaling components
+│   ├── badges/         # Badge/achievement components
+│   ├── onboarding/     # Onboarding flow components
+│   └── sos-emotional/  # Emotional support components
+├── design-system/      # Design system tokens and utilities
 ├── features/           # Feature modules
-│   ├── auth/           # Authentication
-│   ├── chat/           # Chat and messages
-│   ├── groups/         # Groups functionality
-│   └── posts/          # Posts and feed
+│   ├── chat/           # Chat feature
+│   ├── posts/          # Posts and feed feature
+│   ├── profile/        # User profile feature
+│   └── shop/           # Shop/store feature
 ├── lib/                # Libraries and configurations
-│   ├── supabase.ts     # Supabase client
-│   ├── sentry.ts       # Error monitoring
-│   └── env-validator.ts # Environment validation
+│   ├── supabase/       # Supabase client and utilities
+│   └── sentry.ts       # Error monitoring
 ├── hooks/              # Custom React hooks
 ├── contexts/           # React Context providers
-├── services/           # Business logic
+├── services/           # Business logic services
+├── layouts/            # Layout components
 ├── utils/              # Utility functions
-└── types/              # TypeScript type definitions
+├── types/              # TypeScript type definitions
+├── constants/          # Application constants
+└── data/               # Static data and fixtures
 
 ```
 
@@ -201,7 +211,7 @@ const data = await supabase.from('posts').insert(newPost);
 
 ### Development
 ```bash
-npm run dev              # Start dev server (Vite)
+npm run dev              # Start dev server
 npm run build            # Production build
 npm run preview          # Preview production build
 ```
