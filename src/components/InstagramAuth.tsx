@@ -61,96 +61,43 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
     setIsLoading(true);
 
     try {
-      let authData;
-
-      if (provider === 'google') {
-        authData = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: window.location.origin
-          }
-        });
-      } else if (provider === 'apple') {
-        authData = await supabase.auth.signInWithOAuth({
-          provider: 'apple',
-          options: {
-            redirectTo: window.location.origin
-          }
-        });
-      } else if (provider === 'instagram') {
-        // Instagram OAuth (se configurado no Supabase)
-        // Mock Instagram auth for demo purposes
-        // In production, implement proper Instagram OAuth flow
-        const mockUser = {
-          id: 'demo-user-' + Date.now(),
-          email: 'demo@clubnath.com',
-          user_metadata: {
-            full_name: 'Usuária Demo',
-            avatar_url: '/avatars/avatar-01-exausta.svg'
-          }
-        };
-
-        // Simulate successful auth
-        authData = { data: { user: mockUser }, error: null };
+      // Se Instagram, usar modo demo como fallback
+      if (provider === 'instagram') {
+        showSuccess(
+          'Modo Demo Ativado',
+          'Usando modo demonstração para Instagram'
+        );
+        setTimeout(() => handleDemoLogin(), 1000);
+        return;
       }
 
-      // Simular login social com dados mockados
-      showSuccess(
-        `Conectando com ${provider}...`,
-        'Redirecionando para autenticação...'
-      );
-
-      // Simular delay de autenticação
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // Criar usuário mockado baseado no provider
-      const mockUsers = {
-        google: {
-          id: 'google-user-123',
-          username: 'maria_silva_google',
-          full_name: 'Maria Silva',
-          profile_picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-          followers_count: 1500,
-          following_count: 300,
-          access_token: 'google-token-' + Date.now()
+      // Para Google e Apple, tentar OAuth real
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: provider === 'google' ? 'google' : 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
         },
-        apple: {
-          id: 'apple-user-456',
-          username: 'ana_costa_apple',
-          full_name: 'Ana Costa',
-          profile_picture_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
-          followers_count: 2300,
-          following_count: 450,
-          access_token: 'apple-token-' + Date.now()
-        },
-        instagram: {
-          id: 'instagram-user-789',
-          username: 'carla_mendes_insta',
-          full_name: 'Carla Mendes',
-          profile_picture_url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face',
-          followers_count: 5000,
-          following_count: 800,
-          access_token: 'instagram-token-' + Date.now()
-        }
-      };
+      });
 
-      const mockUser = mockUsers[provider];
+      if (error) {
+        throw error;
+      }
 
+      // OAuth redirecionará automaticamente
       showSuccess(
-        'Login realizado com sucesso!',
-        `Bem-vinda, ${mockUser.full_name}!`
+        `Redirecionando para ${provider}...`,
+        'Aguarde a autenticação'
       );
-
-      // Simular delay antes de chamar onSuccess
-      setTimeout(() => {
-        onSuccess(mockUser);
-      }, 1000);
 
     } catch (error) {
       console.error(`Erro no login ${provider}:`, error);
       showError(
         'Erro na autenticação',
-        `Erro inesperado ao conectar com ${provider}. Usando modo demo.`
+        `Não foi possível conectar com ${provider}. Usando modo demo.`
       );
       // Fallback para demo
       setTimeout(() => handleDemoLogin(), 1000);
