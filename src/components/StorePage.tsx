@@ -1,5 +1,4 @@
 import { TestTube2, PersonStanding, Heart, ShoppingBag } from 'lucide-react';
-import { OptimizedImage } from './ui/OptimizedImage';
 
 export const StorePage = () => {
   // Mock products for "Desapega das mamães"
@@ -41,12 +40,14 @@ export const StorePage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
       {/* NAVA LOOKS Hero Section */}
-      <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl">
-        <OptimizedImage
-          src="/images/products/nava/nava-bikini-showcase.jpg"
+      <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl bg-gradient-to-r from-pink-500 to-purple-600">
+        <img
+          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&h=800&fit=crop"
           alt="NAVA LOOKS"
-          className="w-full h-full object-cover"
-          sizes="100vw"
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center p-4">
@@ -86,12 +87,14 @@ export const StorePage = () => {
               Saiba mais e compre
             </button>
           </div>
-          <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden">
-            <OptimizedImage
-              src="/images/products/ollin/ollin-product-1.jpg"
+          <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-pink-100">
+            <img
+              src="https://images.unsplash.com/photo-1534243965044-47d2f90182c1?w=600&h=600&fit=crop"
               alt="Babytest OLLIN"
               className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&h=600&fit=crop';
+              }}
             />
           </div>
         </div>
@@ -118,11 +121,14 @@ export const StorePage = () => {
               className="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl transition-shadow group cursor-pointer"
             >
               {/* Product Image */}
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-48 overflow-hidden bg-gray-200">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/400x400?text=' + encodeURIComponent(product.name);
+                  }}
                 />
               </div>
 
