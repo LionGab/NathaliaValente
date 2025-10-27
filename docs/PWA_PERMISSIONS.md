@@ -25,15 +25,16 @@ This document describes the PWA (Progressive Web App) permissions configured for
 ### 2. Clipboard Read
 
 **Permission:** `clipboard-read`
-**Usage:** Allows the app to read from the system clipboard for:
+**Usage:** Reserved for future features that may need clipboard reading:
 
 - Pasting text in chat conversations
 - Importing content into posts
-- Sharing functionality
+- Quick content sharing
 
 **Implementation:**
 
-- Used via `navigator.clipboard.readText()` where needed
+- Currently not actively used
+- Will use `navigator.clipboard.readText()` when implemented
 - Subject to browser security policies
 
 ### 3. Clipboard Write
@@ -41,9 +42,9 @@ This document describes the PWA (Progressive Web App) permissions configured for
 **Permission:** `clipboard-write`
 **Usage:** Enables copying content to the clipboard:
 
-- Sharing Bible verses (`src/components/DailyVerseCard.tsx`)
-- Copying chat messages (`src/components/ChatPage.tsx`)
-- Copying study content (`src/components/bible-studies/BibleStudyCard.tsx`)
+- Copying chat messages (`src/components/ChatPage.tsx` - line 124)
+- Copying study content as fallback (`src/components/bible-studies/BibleStudyCard.tsx` - line 141)
+- Note: DailyVerseCard uses Web Share API (`navigator.share()`) instead
 
 **Implementation:**
 
@@ -103,6 +104,8 @@ Permissions-Policy = "notifications=*, clipboard-read=*, clipboard-write=*, stor
 ```
 
 This allows these permissions for the app and its embedded content.
+
+**Note:** Background sync permissions are not configured in Permissions-Policy headers as they are managed by the service worker registration and browser policies, not HTTP headers.
 
 ## Configuration Files
 
