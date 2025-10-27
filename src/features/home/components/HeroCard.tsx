@@ -1,14 +1,17 @@
 import React from 'react';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
-import { Share2, Heart } from 'lucide-react';
+import { Share2, Heart, Sparkles } from 'lucide-react';
 
 export const HeroCard: React.FC = () => {
   return (
     <Card 
-      className="h-32 bg-gradient-to-r from-purple-600 to-pink-500 p-4 flex flex-col justify-between"
+      className="h-auto min-h-32 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-700 p-6 rounded-3xl shadow-glow hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden relative"
       data-testid="hero-card"
     >
+      {/* Decoração com icon */}
+      <Sparkles className="absolute top-4 right-4 w-8 h-8 opacity-20 group-hover:opacity-40 transition-opacity" />
+      
       <div>
         <h2 className="text-lg font-bold text-white mb-1">
           Bem-vinda à Nossa Maternidade!

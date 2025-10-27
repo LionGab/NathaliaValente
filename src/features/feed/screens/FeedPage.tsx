@@ -130,7 +130,14 @@ export const FeedPage = () => {
       <div className="max-w-full mx-auto px-4 py-4 pb-24">
         <div className="space-y-6">
           {[...Array(3)].map((_, i) => (
-            <PostSkeleton key={i} />
+            <div
+              key={i}
+              className="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 h-48 rounded-2xl animate-pulse"
+              style={{
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 2s infinite linear'
+              }}
+            />
           ))}
         </div>
       </div>

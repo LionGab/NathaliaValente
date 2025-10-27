@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card } from '../../../components/ui/Card';
-import { 
-  Calendar, 
-  Users, 
-  ShoppingBag, 
+import {
+  Calendar,
+  Users,
+  ShoppingBag,
   HelpCircle,
-  ChevronRight 
+  ChevronRight
 } from 'lucide-react';
 
 interface QuickAction {
@@ -58,16 +58,34 @@ export const QuickActions: React.FC = () => {
       {quickActions.map((action) => (
         <Card
           key={action.id}
-          className={`bg-gradient-to-br ${action.color} p-4 text-white hover:scale-105 transition-all duration-200 cursor-pointer group`}
+          className={`
+            bg-gradient-to-br ${action.color}
+            p-4
+            text-white
+            rounded-2xl
+            cursor-pointer
+            group
+            relative
+            overflow-hidden
+            shadow-medium
+            hover:shadow-glow
+            hover:scale-105
+            hover:-translate-y-1
+            active:scale-95
+            transition-all
+            duration-300
+          `}
           data-testid={`quick-action-${action.id}`}
         >
           <div className="flex items-start justify-between mb-2">
             <div className="p-2 bg-white/20 rounded-lg">
-              {action.icon}
+              <div className="w-6 h-6 group-hover:scale-110 transition-transform duration-300">
+                {action.icon}
+              </div>
             </div>
             <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
-          
+
           <h3 className="font-semibold text-sm mb-1">
             {action.title}
           </h3>

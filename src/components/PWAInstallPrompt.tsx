@@ -59,8 +59,8 @@ export const PWAInstallPrompt = () => {
   }
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-50 animate-slide-up">
-      <div className="bg-gradient-to-r from-pink-500 to-purple-600 rounded-2xl p-4 shadow-2xl border border-white/20">
+    <div className="fixed bottom-24 left-4 right-4 z-40 animate-fade-in-up">
+      <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl p-4 shadow-glow backdrop-blur-sm border border-white/20">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
