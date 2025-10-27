@@ -1,5 +1,6 @@
 import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
 import { SimpleNathTips } from '../../../components/SimpleNathTips';
+import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
 
 export const StorePage = () => {
   // Produtos para Desapega das Mamães
@@ -77,34 +78,8 @@ export const StorePage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
-      {/* NAVA LOOKS Hero Section */}
-      <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl bg-gradient-to-r from-pink-500 to-purple-600">
-        <img
-          src="https://i.imgur.com/TjCevtA.jpg"
-          alt="NAVA LOOKS"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 text-center p-4">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-2 drop-shadow-2xl">
-            NAVA LOOKS
-          </h1>
-          <p className="mt-2 text-lg md:text-xl drop-shadow-lg">
-            Vista-se de você
-          </p>
-          <div className="mt-4 text-sm md:text-base drop-shadow-lg">
-            <p>Bikini Premium Nathália - R$ 165,00</p>
-            <p>Conjunto Bikini Nathy - R$ 165,00</p>
-          </div>
-          <button
-            onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
-            className="mt-6 bg-white text-neutral-900 px-6 py-3 rounded-xl font-semibold hover:bg-neutral-100 transition-all duration-200 shadow-lg flex items-center gap-2 mx-auto"
-          >
-            <PersonStanding className="w-5 h-5" />
-            Acessar Loja NAVA
-          </button>
-        </div>
-      </div>
+      {/* NAVA Hero Section */}
+      <NAVAHeroSection />
 
       {/* Babytest Section */}
       <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg border-2 border-neutral-200 dark:border-neutral-700 overflow-hidden">

@@ -3,22 +3,14 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { usePosts, useLikePost, useSaveItem } from '../../../hooks/useQueries';
 import { useWebShare } from '../../../hooks';
 import { getCategoryGradient } from '../../../constants/colors';
-import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Filter } from 'lucide-react';
 import { PostComments } from '../../../components/PostComments';
 import { LoadingSpinner, PostSkeleton } from '../../../components/ui/LoadingSpinner';
 import { useMockData } from '../../../hooks/useMockData';
 import { Button } from '../../../components/ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../../../hooks/useGestures';
 import { formatNumber, formatDate } from '../../../lib/utils';
-import { DailyVerseCard } from '../../../components/DailyVerseCard';
 import { OptimizedImage } from '../../../components/ui/OptimizedImage';
-import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
-import { RoutineCalendar } from '../../../components/RoutineCalendar';
-import { HeroCard } from '../../home/components/HeroCard';
-import { QuickActions } from '../../home/components/QuickActions';
-import { ProductPreview } from '../../home/components/ProductPreview';
-import { CollapsibleVerse } from '../../home/components/CollapsibleVerse';
-import { RoutinePreview } from '../../home/components/RoutinePreview';
 import type { Post } from '../../../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -30,6 +22,7 @@ export const FeedPage = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
   const [page, setPage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { user } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
 
@@ -43,9 +36,24 @@ export const FeedPage = () => {
   const { share, isSupported: isShareSupported } = useWebShare();
 
   // Use mock data if available, otherwise real data
-  const posts = mockPosts.length > 0 ? mockPosts : realPosts;
+  const allPosts = mockPosts.length > 0 ? mockPosts : realPosts;
+
+  // Filter posts by category if selected
+  const posts = selectedCategory
+    ? allPosts.filter(post => post.category === selectedCategory)
+    : allPosts;
+
   const loading = mockLoading || realLoading;
   const hasMore = posts.length > 0 && posts.length % 20 === 0;
+
+  // Categories for filtering
+  const categories = [
+    { id: 'all', name: 'Todos', icon: '📱' },
+    { id: 'Look do dia', name: 'Look do dia', icon: '👗' },
+    { id: 'Desabafo', name: 'Desabafo', icon: '💭' },
+    { id: 'Fé', name: 'Fé', icon: '🙏' },
+    { id: 'Dica de mãe', name: 'Dica de mãe', icon: '💡' }
+  ];
 
   // Infinite scroll
   const loadMore = useCallback(() => {
@@ -146,49 +154,40 @@ export const FeedPage = () => {
 
   return (
     <div className="max-w-full mx-auto px-4 py-4 pb-24 mobile-padding">
-      {/* Hero Card Refatorado */}
-      <HeroCard />
-
-      {/* Quick Actions */}
-      <QuickActions />
-
-      {/* Versículo Colapsável */}
-      <CollapsibleVerse verse={{
-        text: "Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais.",
-        reference: "Jeremias 29:11",
-        date: "27 de Janeiro, 2025"
-      }} />
-
-      {/* NAVA Hero Section */}
-      <NAVAHeroSection />
-
-      {/* Community Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Mães ativas</div>
+      {/* Header da Comunidade */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Comunidade</h1>
+          <p className="text-gray-600 dark:text-gray-400">Conecte-se com outras mães</p>
         </div>
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">15K</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Posts hoje</div>
-        </div>
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">98%</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Satisfação</div>
-        </div>
+        <button
+          onClick={handleCreatePost}
+          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          Criar Post
+        </button>
       </div>
 
-      {/* Preview da Rotina */}
-      <RoutinePreview />
+      {/* Filtros de Categoria */}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => setSelectedCategory(category.id === 'all' ? null : category.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
+              }`}
+          >
+            <span>{category.icon}</span>
+            {category.name}
+          </button>
+        ))}
+      </div>
 
-      {/* Preview de Produtos */}
-      <ProductPreview />
-
-      {/* Calendário de Rotina Completo */}
-      <RoutineCalendar />
-
-      {/* Posts removidos - substituídos pelo Calendário de Rotina */}
-      {false && <div className="space-y-6">
+      {/* Posts da Comunidade */}
+      <div className="space-y-6">
         {posts.map((post, index) => (
           <article
             key={post.id}
@@ -319,7 +318,7 @@ export const FeedPage = () => {
             <LoadingSpinner size="md" text="Carregando mais posts..." />
           </div>
         )}
-      </div>}
+      </div>
 
       {showCreatePost && (
         <Suspense fallback={<LoadingSpinner text="Carregando editor..." />}>

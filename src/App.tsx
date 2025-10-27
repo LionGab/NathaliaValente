@@ -26,6 +26,9 @@ import { NotificationContainer } from './components/ErrorNotification';
 import { useNotifications } from './hooks/useNotifications';
 
 // Lazy load heavy components for better performance
+const HomePage = lazy(() =>
+  import('./features/home/screens/HomePage').then((module) => ({ default: module.HomePage }))
+);
 const FeedPage = lazy(() =>
   import('./features/feed/screens/FeedPage').then((module) => ({ default: module.FeedPage }))
 );
@@ -44,7 +47,7 @@ const ProfilePage = lazy(() =>
 
 function AppContent() {
   const { user, loading } = useAuth();
-  const [currentPage, setCurrentPage] = useState('feed');
+  const [currentPage, setCurrentPage] = useState('home');
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>(
     'loading'
   );
@@ -155,6 +158,12 @@ function AppContent() {
       );
 
       switch (currentPage) {
+        case 'home':
+          return (
+            <Suspense fallback={<LoadingSpinner />}>
+              <HomePage />
+            </Suspense>
+          );
         case 'feed':
           return (
             <FeedErrorBoundary>
@@ -198,7 +207,7 @@ function AppContent() {
         default:
           return (
             <Suspense fallback={<LoadingSpinner />}>
-              <FeedPage />
+              <HomePage />
             </Suspense>
           );
       }
@@ -261,9 +270,9 @@ function AppContent() {
 
           <PerformanceDebug />
           <NotificationContainer notifications={notifications} onClose={removeNotification} />
-          
+
           {/* Toast Container */}
-          <ToastContainer toasts={[]} onClose={() => {}} />
+          <ToastContainer toasts={[]} onClose={() => { }} />
         </div>
       </div>
     );

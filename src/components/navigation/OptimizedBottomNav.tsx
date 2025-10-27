@@ -4,9 +4,9 @@
  */
 
 import { useState } from 'react';
-import { 
-  Home, 
-  MessageCircle, 
+import {
+  Home,
+  MessageCircle,
   User,
   Plus,
   Search,
@@ -26,17 +26,17 @@ interface OptimizedBottomNavProps {
   onQuickMenu: () => void;
 }
 
-export const OptimizedBottomNav = ({ 
-  currentTab, 
-  onTabChange, 
-  onCreatePost, 
-  onSearch, 
+export const OptimizedBottomNav = ({
+  currentTab,
+  onTabChange,
+  onCreatePost,
+  onSearch,
   onNotifications,
-  onQuickMenu 
+  onQuickMenu
 }: OptimizedBottomNavProps) => {
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
 
-  // 3 tabs principais (máximo recomendado para mobile)
+  // 5 tabs principais organizadas
   const mainTabs = [
     {
       id: 'home',
@@ -46,11 +46,25 @@ export const OptimizedBottomNav = ({
       bgColor: 'bg-pink-50 dark:bg-pink-900/20'
     },
     {
+      id: 'feed',
+      icon: Users,
+      label: 'Comunidade',
+      color: 'text-blue-600 dark:text-blue-400',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20'
+    },
+    {
       id: 'chat',
       icon: MessageCircle,
-      label: 'Chat',
+      label: 'NathIA',
       color: 'text-purple-600 dark:text-purple-400',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+    },
+    {
+      id: 'store',
+      icon: Star,
+      label: 'Loja',
+      color: 'text-orange-600 dark:text-orange-400',
+      bgColor: 'bg-orange-50 dark:bg-orange-900/20'
     },
     {
       id: 'profile',
@@ -171,16 +185,15 @@ export const OptimizedBottomNav = ({
             {mainTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = currentTab === tab.id;
-              
+
               return (
                 <button
                   key={tab.id}
                   onClick={() => onTabChange(tab.id)}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 min-w-0 flex-1 ${
-                    isActive
+                  className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 min-w-0 flex-1 ${isActive
                       ? `${tab.bgColor} ${tab.color}`
                       : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                  }`}
+                    }`}
                 >
                   <div className={`relative ${isActive ? 'animate-bounce' : ''}`}>
                     <Icon className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`} />
