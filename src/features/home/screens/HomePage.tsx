@@ -193,17 +193,17 @@ const HomePage = () => {
               )}
             </AnimatePresence>
           </div>
-      </div>
-    </motion.div >
+        </div>
+      </motion.div>
 
-  {/* 🎯 HIERARCHY & PRIORITY - CTAs Primários */ }
-  < motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3 }}
-    className="mb-6"
-  >
-    <div className="grid grid-cols-2 gap-4">
+      {/* 🎯 HIERARCHY & PRIORITY - CTAs Primários */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mb-6"
+      >
+        <div className="grid grid-cols-2 gap-4">
       {/* NathIA - CTA Principal */}
       <motion.button
         whileHover={{ scale: 1.02 }}
@@ -596,19 +596,19 @@ const HomePage = () => {
     whileTap={{ scale: 0.9 }}
     onClick={() => handleQuickAction('nathia')}
     className="fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40 group"
-    aria - label="Conversar com NathIA"
-      >
-      <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" />
-      </motion.button >
+    aria-label="Conversar com NathIA"
+  >
+    <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" />
+  </motion.button>
 
-  {/* Celebration Modal */ }
-  < CelebrationModal
-isOpen = { showCelebration }
-onClose = {() => setShowCelebration(false)}
-type = { celebrationType }
-title = { celebrationTitle }
-message = { celebrationMessage }
-reward = { celebrationReward }
+  {/* Celebration Modal */}
+  <CelebrationModal
+    isOpen={showCelebration}
+    onClose={() => setShowCelebration(false)}
+    type={celebrationType}
+    title={celebrationTitle}
+    message={celebrationMessage}
+    reward={celebrationReward}
   />
     </div >
   );

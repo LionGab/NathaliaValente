@@ -8,7 +8,8 @@
       "Bash(npm run build:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(dir /s \"C:\\Users\\User\\BoltValente\\ClubNath\\NathaliaValente\\src\")"
     ],
     "deny": [],
     "ask": []
