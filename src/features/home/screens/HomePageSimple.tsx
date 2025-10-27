@@ -9,6 +9,7 @@ import {
   Clock, TrendingUp, CheckCircle, Plus
 } from 'lucide-react';
 import { EnhancedRoutinePreview } from '../components/EnhancedRoutinePreview';
+import { DynamicHeroBanner } from '../../../components/DynamicHeroBanner';
 
 const HomePageSimple = () => {
   const { profile } = useAuth();
@@ -79,6 +80,16 @@ const HomePageSimple = () => {
       <Header />
 
       <div className="max-w-full mx-auto px-4 py-4 pb-24">
+        {/* Banner Dinâmico da Comunidade */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-6"
+        >
+          <DynamicHeroBanner />
+        </motion.div>
+
         {/* Hero Card - Compacto e personalizado */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
