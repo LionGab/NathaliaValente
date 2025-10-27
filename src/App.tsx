@@ -12,7 +12,7 @@ import { PerformanceDebug } from './components/PerformanceDebug';
 import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
 import { ConversionOnboarding } from './components/ConversionOnboarding';
-import { ErrorBoundary, FeedErrorBoundary, ChatErrorBoundary, GroupsErrorBoundary, ProfileErrorBoundary } from './components/ErrorBoundary';
+import { ErrorBoundary, FeedErrorBoundary, ChatErrorBoundary, GroupsErrorBoundary, ProfileErrorBoundary, StoreErrorBoundary } from './components/ErrorBoundary';
 import { ToastProvider } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -22,6 +22,7 @@ import { useNotifications } from './hooks/useNotifications';
 // Lazy load heavy components for better performance
 const FeedPage = lazy(() => import('./components/FeedPage').then(module => ({ default: module.FeedPage })));
 const ChatPage = lazy(() => import('./components/ChatPage').then(module => ({ default: module.ChatPage })));
+const StorePage = lazy(() => import('./components/StorePage').then(module => ({ default: module.StorePage })));
 const ProfilePage = lazy(() => import('./components/ProfilePage').then(module => ({ default: module.ProfilePage })));
 const GroupsList = lazy(() => import('./components/groups/GroupsList').then(module => ({ default: module.GroupsList })));
 const GroupDetail = lazy(() => import('./components/groups/GroupDetail').then(module => ({ default: module.GroupDetail })));
@@ -97,6 +98,14 @@ function AppContent() {
                 <ChatPage />
               </Suspense>
             </ChatErrorBoundary>
+          );
+        case 'store':
+          return (
+            <StoreErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <StorePage />
+              </Suspense>
+            </StoreErrorBoundary>
           );
         case 'profile':
           return (

@@ -247,6 +247,30 @@ export const ProfileErrorBoundary: React.FC<{ children: ReactNode }> = ({ childr
   </ErrorBoundary>
 );
 
+export const StoreErrorBoundary: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ErrorBoundary feature="Store" fallback={
+    <div className="p-6 text-center">
+      <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+        <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        Erro na Loja
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        Não foi possível carregar a loja. Tente novamente.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+      >
+        Recarregar
+      </button>
+    </div>
+  }>
+    {children}
+  </ErrorBoundary>
+);
+
 // Hook para usar error boundary
 export const useErrorBoundary = () => {
   const [error, setError] = React.useState<Error | null>(null);
