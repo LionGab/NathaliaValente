@@ -164,20 +164,32 @@ export const FeedErrorBoundary: React.FC<{ children: ReactNode }> = ({ children 
   <ErrorBoundary
     feature="Feed"
     fallback={
-      <div className="p-6 text-center">
-        <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-          <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+      <div className="max-w-full mx-auto px-4 py-4 pb-24">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 text-center shadow-lg">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+            <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Erro no Feed</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Não foi possível carregar o feed. Nossa equipe foi notificada.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-pink-600 text-white rounded-xl hover:bg-pink-700 transition-colors font-semibold flex items-center justify-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Recarregar
+            </button>
+            <button
+              onClick={() => window.location.href = '/store'}
+              className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-semibold flex items-center justify-center gap-2"
+            >
+              <Home className="w-4 h-4" />
+              Ir para Início
+            </button>
+          </div>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Erro no Feed</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Não foi possível carregar o feed. Tente recarregar a página.
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-        >
-          Recarregar
-        </button>
       </div>
     }
   >

@@ -41,52 +41,80 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
 
       let data: Post[] | null = null;
 
-      if (category && category !== 'Todos') {
-        // Use optimized function for category filtering
-        const { data: categoryData, error: categoryError } = await supabase.rpc(
-          'get_posts_by_category',
-          {
-            p_category: category,
-            p_user_id: currentUserId || null,
-            p_limit: limit,
-          }
-        );
+      try {
+        if (category && category !== 'Todos') {
+          // Use optimized function for category filtering
+          const { data: categoryData, error: categoryError } = await supabase.rpc(
+            'get_posts_by_category',
+            {
+              p_category: category,
+              p_user_id: currentUserId || null,
+              p_limit: limit,
+            }
+          );
 
-        if (categoryError) throw categoryError;
-        data = categoryData;
-      } else if (userId) {
-        // Use optimized function for user posts
-        const { data: userPostsData, error: userPostsError } = await supabase.rpc(
-          'get_user_posts_with_stats',
-          {
-            p_user_id: userId,
-            p_current_user_id: currentUserId || null,
-          }
-        );
+          if (categoryError) throw categoryError;
+          data = categoryData;
+        } else if (userId) {
+          // Use optimized function for user posts
+          const { data: userPostsData, error: userPostsError } = await supabase.rpc(
+            'get_user_posts_with_stats',
+            {
+              p_user_id: userId,
+              p_current_user_id: currentUserId || null,
+            }
+          );
 
-        if (userPostsError) throw userPostsError;
-        data = userPostsData;
-      } else {
-        // Use optimized function for feed
-        const { data: feedData, error: feedError } = await supabase.rpc(
-          'get_posts_with_user_likes',
-          {
-            p_user_id: currentUserId || null,
-            p_limit: limit,
-            p_offset: 0,
-          }
-        );
+          if (userPostsError) throw userPostsError;
+          data = userPostsData;
+        } else {
+          // Use optimized function for feed
+          const { data: feedData, error: feedError } = await supabase.rpc(
+            'get_posts_with_user_likes',
+            {
+              p_user_id: currentUserId || null,
+              p_limit: limit,
+              p_offset: 0,
+            }
+          );
 
-        if (feedError) throw feedError;
-        data = feedData;
+          if (feedError) throw feedError;
+          data = feedData;
+        }
+      } catch (rpcError) {
+        console.warn('RPC function failed, falling back to direct query:', rpcError);
+        
+        // Fallback to direct query if RPC functions fail
+        let query = supabase
+          .from('posts')
+          .select(`
+            *,
+            profiles!inner(full_name, avatar_url),
+            likes(count),
+            comments(count)
+          `)
+          .order('created_at', { ascending: false })
+          .limit(limit);
+
+        if (category && category !== 'Todos') {
+          query = query.eq('category', category);
+        } else if (userId) {
+          query = query.eq('user_id', userId);
+        }
+
+        const { data: fallbackData, error: fallbackError } = await query;
+
+        if (fallbackError) throw fallbackError;
+        data = fallbackData;
       }
 
       setPosts((data || []) as Post[]);
     } catch (err) {
+      console.error('Error fetching posts:', err);
       setError(err as Error);
-      if (import.meta.env.DEV) {
-        console.error('Error fetching posts:', err);
-      }
+      
+      // Set empty array as fallback to prevent complete failure
+      setPosts([]);
     } finally {
       setLoading(false);
     }

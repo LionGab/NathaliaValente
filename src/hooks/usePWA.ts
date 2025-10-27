@@ -30,7 +30,8 @@ export const usePWA = () => {
 
     // Handle install prompt
     const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
+      // Don't prevent default - let the browser show its own prompt
+      // e.preventDefault(); // REMOVED - This was causing the banner not to show
       setPwaState(prev => ({ 
         ...prev, 
         canInstall: true, 

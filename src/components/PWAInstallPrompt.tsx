@@ -20,13 +20,14 @@ export const PWAInstallPrompt = () => {
 
     // Listen for beforeinstallprompt event
     const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
+      // Don't prevent default - let the browser show its own prompt
+      // e.preventDefault(); // REMOVED - This was causing the banner not to show
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       
-      // Show prompt after 3 seconds
+      // Show our custom prompt after 2 seconds (if browser doesn't show its own)
       setTimeout(() => {
         setShowPrompt(true);
-      }, 3000);
+      }, 2000);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
