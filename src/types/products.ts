@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   name: string;
-  brand: 'NAVA' | 'OLLIN';
+  brand: 'NAVA' | 'OLLIN' | 'Nossa Maternidade';
   category: string;
   price: number;
   originalPrice?: number;

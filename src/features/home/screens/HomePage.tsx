@@ -254,10 +254,10 @@ const HomePage = () => {
         </div>
       </motion.button>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* 🎯 GAMIFICATION - Daily Routine com Dopamina Visual */ }
-  < motion.div
+  {/* 🎯 GAMIFICATION - Daily Routine com Dopamina Visual */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.5 }}
@@ -360,10 +360,10 @@ const HomePage = () => {
         ))}
       </div>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* 🎯 RETENTION MECHANICS - FOMO e Conteúdo Dinâmico */ }
-  < motion.div
+  {/* 🎯 RETENTION MECHANICS - FOMO e Conteúdo Dinâmico */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.7 }}
@@ -401,10 +401,10 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* 🎯 CONVERSION OPTIMIZATION - Produtos Contextuais */ }
-  < motion.div
+  {/* 🎯 CONVERSION OPTIMIZATION - Produtos Contextuais */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.9 }}
@@ -452,10 +452,10 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* Versículo do Dia - Mantido mas otimizado */ }
-  < motion.div
+  {/* Versículo do Dia - Mantido mas otimizado */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 1.1 }}
@@ -466,10 +466,10 @@ const HomePage = () => {
       reference: "Jeremias 29:11",
       date: "27 de Janeiro, 2025"
     }} />
-  </motion.div >
+  </motion.div>
 
-  {/* Ferramentas Práticas - Mantido mas otimizado */ }
-  < motion.div
+  {/* Ferramentas Práticas - Mantido mas otimizado */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 1.3 }}
@@ -565,10 +565,10 @@ const HomePage = () => {
         </div>
       </button>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* Dica do Dia - Mantido mas otimizado */ }
-  < motion.div
+  {/* Dica do Dia - Mantido mas otimizado */}
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 1.5 }}
@@ -588,10 +588,10 @@ const HomePage = () => {
         "Lembre-se: você não precisa ser perfeita, apenas presente. Cada pequeno gesto de amor conta mais do que você imagina. 💕"
       </blockquote>
     </div>
-  </motion.div >
+  </motion.div>
 
-  {/* FAB - Floating Action Button para NathIA */ }
-  < motion.button
+  {/* FAB - Floating Action Button para NathIA */}
+  <motion.button
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
     onClick={() => handleQuickAction('nathia')}
@@ -610,7 +610,7 @@ const HomePage = () => {
     message={celebrationMessage}
     reward={celebrationReward}
   />
-    </div >
+    </div>
   );
 };
 

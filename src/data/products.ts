@@ -1,31 +1,204 @@
 import { Product } from '../types/products';
 
 export const products: Product[] = [
-    // NAVA Products
+    // Produtos para Bebê - Essenciais
     {
-        id: 'nava-bikini-premium',
-        name: 'Bikini Premium Nathália',
-        brand: 'NAVA',
-        category: 'bikinis',
-        price: 165.00,
-        originalPrice: 165.00,
-        discount: 0,
+        id: 'berco-madeira-macica',
+        name: 'Berço de Madeira Maciça',
+        brand: 'Nossa Maternidade',
+        category: 'bercos',
+        price: 899.90,
+        originalPrice: 1199.90,
+        discount: 25,
         images: [
-            'https://i.imgur.com/L2xyl98.jpg',
-            'https://i.imgur.com/n2QJJ5y.jpg',
-            'https://i.imgur.com/TjCevtA.jpg',
-            'https://i.imgur.com/lU9GlUm.jpg'
+            'https://i.imgur.com/pElL8zD.jpg'
         ],
-        description: 'Bikini premium com design exclusivo da Nathália Valente. Tecido de alta qualidade, resistente ao cloro e com proteção UV. Perfeito para mães que querem se sentir confiantes e lindas.',
-        sizes: ['P', 'M', 'G', 'GG'],
-        colors: ['Preto', 'Branco', 'Rosa'],
+        description: 'Berço de madeira maciça com design clássico e seguro. Ideal para o primeiro ano do bebê, oferece conforto e tranquilidade para toda a família.',
+        sizes: ['Único'],
+        colors: ['Natural', 'Branco'],
+        inStock: true,
+        isNew: true,
+        isFeatured: true,
+        rating: 4.9,
+        reviews: 89,
+        tags: ['berço', 'madeira', 'seguro', 'bebê'],
+        createdAt: '2024-01-15'
+    },
+    {
+        id: 'bebe-conforto-premium',
+        name: 'Bebê Conforto Premium',
+        brand: 'Nossa Maternidade',
+        category: 'bebe-conforto',
+        price: 459.90,
+        originalPrice: 599.90,
+        discount: 23,
+        images: [
+            'https://i.imgur.com/gxOThQR.jpg'
+        ],
+        description: 'Bebê conforto premium com sistema de segurança avançado. Confortável para o bebê e prático para os pais. Aprovado pelos principais órgãos de segurança.',
+        sizes: ['0-13kg'],
+        colors: ['Preto', 'Cinza', 'Azul'],
         inStock: true,
         isNew: true,
         isFeatured: true,
         rating: 4.8,
-        reviews: 127,
-        tags: ['premium', 'nathalia', 'bikini', 'verão'],
-        createdAt: '2024-01-15'
+        reviews: 156,
+        tags: ['bebê conforto', 'segurança', 'premium', 'prático'],
+        createdAt: '2024-01-10'
+    },
+    {
+        id: 'carrinho-galzerano-preto',
+        name: 'Carrinho Galzerano Preto',
+        brand: 'Nossa Maternidade',
+        category: 'carrinhos',
+        price: 1299.90,
+        originalPrice: 1599.90,
+        discount: 19,
+        images: [
+            'https://i.imgur.com/DLPkytI.jpg'
+        ],
+        description: 'Carrinho de bebê premium com design elegante e funcional. Fácil de dobrar, leve e resistente. Perfeito para passeios e viagens.',
+        sizes: ['Único'],
+        colors: ['Preto'],
+        inStock: true,
+        isNew: true,
+        isFeatured: true,
+        rating: 4.7,
+        reviews: 203,
+        tags: ['carrinho', 'premium', 'elegante', 'prático'],
+        createdAt: '2024-01-12'
+    },
+    {
+        id: 'ergo-baby-carrier',
+        name: 'Ergo Baby Carrier',
+        brand: 'Nossa Maternidade',
+        category: 'carregadores',
+        price: 299.90,
+        originalPrice: 399.90,
+        discount: 25,
+        images: [
+            'https://i.imgur.com/6AOi9vY.jpg'
+        ],
+        description: 'Carregador ergonômico para bebê. Distribui o peso uniformemente, oferecendo conforto para o bebê e para quem carrega. Ideal para mães ativas.',
+        sizes: ['0-20kg'],
+        colors: ['Preto', 'Cinza', 'Azul'],
+        inStock: true,
+        isNew: true,
+        isFeatured: true,
+        rating: 4.9,
+        reviews: 178,
+        tags: ['carregador', 'ergonômico', 'conforto', 'prático'],
+        createdAt: '2024-01-08'
+    },
+    {
+        id: 'baby-teste-ollin',
+        name: 'Baby Teste OLLIN',
+        brand: 'Nossa Maternidade',
+        category: 'testes',
+        price: 89.90,
+        originalPrice: 119.90,
+        discount: 25,
+        images: [
+            'https://i.imgur.com/76haTca.jpg'
+        ],
+        description: 'Teste de gravidez digital OLLIN com alta precisão. Resultado claro e confiável. Ideal para quem está tentando engravidar ou suspeita de gravidez.',
+        sizes: ['Único'],
+        colors: ['Branco'],
+        inStock: true,
+        isNew: true,
+        isFeatured: false,
+        rating: 4.6,
+        reviews: 92,
+        tags: ['teste', 'gravidez', 'precisão', 'digital'],
+        createdAt: '2024-01-05'
+    },
+    {
+        id: 'produto-bebe-6',
+        name: 'Produto Bebê Premium',
+        brand: 'Nossa Maternidade',
+        category: 'acessorios',
+        price: 159.90,
+        originalPrice: 199.90,
+        discount: 20,
+        images: [
+            'https://i.imgur.com/tf0GHwz.jpg'
+        ],
+        description: 'Acessório essencial para o cuidado do bebê. Design moderno e funcional, pensado para facilitar o dia a dia dos pais.',
+        sizes: ['Único'],
+        colors: ['Branco', 'Azul', 'Rosa'],
+        inStock: true,
+        isNew: true,
+        isFeatured: false,
+        rating: 4.5,
+        reviews: 67,
+        tags: ['acessório', 'bebê', 'premium', 'funcional'],
+        createdAt: '2024-01-03'
+    },
+    {
+        id: 'produto-bebe-7',
+        name: 'Produto Bebê Conforto',
+        brand: 'Nossa Maternidade',
+        category: 'conforto',
+        price: 229.90,
+        originalPrice: 299.90,
+        discount: 23,
+        images: [
+            'https://i.imgur.com/JoxFimc.jpg'
+        ],
+        description: 'Produto de conforto para bebê com tecnologia avançada. Garante o bem-estar e tranquilidade do seu pequeno.',
+        sizes: ['Único'],
+        colors: ['Branco', 'Cinza'],
+        inStock: true,
+        isNew: true,
+        isFeatured: true,
+        rating: 4.8,
+        reviews: 134,
+        tags: ['conforto', 'bebê', 'tecnologia', 'bem-estar'],
+        createdAt: '2024-01-07'
+    },
+    {
+        id: 'produto-bebe-8',
+        name: 'Produto Bebê Segurança',
+        brand: 'Nossa Maternidade',
+        category: 'seguranca',
+        price: 189.90,
+        originalPrice: 249.90,
+        discount: 24,
+        images: [
+            'https://i.imgur.com/XvueTEk.jpg'
+        ],
+        description: 'Produto de segurança essencial para o cuidado do bebê. Aprovado pelos principais órgãos de segurança infantil.',
+        sizes: ['Único'],
+        colors: ['Branco', 'Preto'],
+        inStock: true,
+        isNew: true,
+        isFeatured: false,
+        rating: 4.7,
+        reviews: 98,
+        tags: ['segurança', 'bebê', 'aprovado', 'essencial'],
+        createdAt: '2024-01-04'
+    },
+    {
+        id: 'produto-bebe-9',
+        name: 'Produto Bebê Prático',
+        brand: 'Nossa Maternidade',
+        category: 'pratico',
+        price: 119.90,
+        originalPrice: 159.90,
+        discount: 25,
+        images: [
+            'https://i.imgur.com/jzb0IgO.jpg'
+        ],
+        description: 'Produto prático e funcional para facilitar o cuidado do bebê. Design intuitivo e fácil de usar.',
+        sizes: ['Único'],
+        colors: ['Branco', 'Azul', 'Rosa'],
+        inStock: true,
+        isNew: true,
+        isFeatured: false,
+        rating: 4.4,
+        reviews: 76,
+        tags: ['prático', 'bebê', 'funcional', 'fácil'],
+        createdAt: '2024-01-02'
     },
     {
         id: 'nava-legging-yoga',

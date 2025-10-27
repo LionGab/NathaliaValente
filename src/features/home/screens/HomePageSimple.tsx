@@ -196,7 +196,7 @@ const HomePageSimple = () => {
           </motion.div>
         )}
 
-        {/* Quick Actions Grid - Focado em saúde gestacional */ }
+        {/* Quick Actions Grid - Focado em saúde gestacional */}
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -236,8 +236,8 @@ const HomePageSimple = () => {
             </motion.button>
         ))}
     </motion.div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 
