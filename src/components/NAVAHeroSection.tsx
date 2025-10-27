@@ -13,10 +13,10 @@ export const NAVAHeroSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-2xl p-6 mb-6 border border-pink-200/50 dark:border-pink-800/30">
+    <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-pink-950/30 dark:to-purple-950/30 rounded-2xl p-6 mb-6 border border-pink-200/60 dark:border-pink-800/40 shadow-lg">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center">
+        <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-pink-500/25">
           <ShoppingBag className="w-6 h-6 text-white" />
         </div>
         <div>
@@ -32,7 +32,7 @@ export const NAVAHeroSection: React.FC = () => {
       {/* Products Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Bikini Premium Nathália */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-xl group-hover:scale-[1.02] transition-all duration-300 group">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-32 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
@@ -56,10 +56,10 @@ export const NAVAHeroSection: React.FC = () => {
                   <Heart className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">
                 NAVA
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+              <p className="text-sm text-gray-700 dark:text-gray-200 mb-4 line-clamp-2">
                 Design exclusivo da Nathália Valente. Perfeito para mães especiais, com tecido de alta qualidade e proteção UV.
               </p>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -68,7 +68,7 @@ export const NAVAHeroSection: React.FC = () => {
                 </span>
                 <button
                   onClick={() => handleProductClick('nava-bikini-premium')}
-                  className="bg-pink-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="bg-pink-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300 text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Comprar
@@ -79,7 +79,7 @@ export const NAVAHeroSection: React.FC = () => {
         </div>
 
         {/* Conjunto Bikini Nathy */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 group">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-xl group-hover:scale-[1.02] transition-all duration-300 group">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-32 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
               <img
@@ -103,10 +103,10 @@ export const NAVAHeroSection: React.FC = () => {
                   <Heart className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">
                 NAVA
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+              <p className="text-sm text-gray-700 dark:text-gray-200 mb-4 line-clamp-2">
                 Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, ideal para momentos especiais na praia.
               </p>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -115,7 +115,7 @@ export const NAVAHeroSection: React.FC = () => {
                 </span>
                 <button
                   onClick={() => handleProductClick('nava-conjunto-bikini-nathy')}
-                  className="bg-purple-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-purple-600 transition-colors text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="bg-purple-500 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Comprar
@@ -130,7 +130,7 @@ export const NAVAHeroSection: React.FC = () => {
       <div className="mt-4 sm:mt-6 text-center">
         <button
           onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
-          className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 sm:px-8 py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 mx-auto w-full sm:w-auto"
+          className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 sm:px-8 py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 shadow-lg flex items-center justify-center gap-2 mx-auto w-full sm:w-auto"
         >
           <ShoppingBag className="w-5 h-5" />
           <span className="text-sm sm:text-base">Ver Coleção Completa NAVA</span>
