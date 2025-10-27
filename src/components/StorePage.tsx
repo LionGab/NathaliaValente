@@ -7,7 +7,7 @@ export const StorePage = () => {
       id: 1,
       name: 'Carrinho Galzerano Preto',
       price: 'R$ 450,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1590478043502-9c1f3121c7c8?w=400&h=400&fit=crop&q=80',
       author: 'Ana S.',
       avatar: 'AS'
     },
@@ -15,7 +15,7 @@ export const StorePage = () => {
       id: 2,
       name: 'Berço de madeira maciça',
       price: 'R$ 700,00',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=400&fit=crop&q=80',
       author: 'Mariana L.',
       avatar: 'ML'
     },
@@ -23,7 +23,7 @@ export const StorePage = () => {
       id: 3,
       name: 'Kit mamadeiras Philips Avent',
       price: 'R$ 80,00',
-      image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&q=80',
       author: 'Julia C.',
       avatar: 'JC'
     },
@@ -31,7 +31,7 @@ export const StorePage = () => {
       id: 4,
       name: 'Cadeirão Chicco',
       price: 'R$ 300,00',
-      image: 'https://images.unsplash.com/photo-1542356590-54bc308435c2?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1544032936-25bc9146fd8c?w=400&h=400&fit=crop&q=80',
       author: 'Carla D.',
       avatar: 'CD'
     },
@@ -39,7 +39,7 @@ export const StorePage = () => {
       id: 5,
       name: 'Bebê conforto Maxi-Cosi',
       price: 'R$ 350,00',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?w=400&h=400&fit=crop&q=80',
       author: 'Patricia M.',
       avatar: 'PM'
     },
@@ -47,7 +47,7 @@ export const StorePage = () => {
       id: 6,
       name: 'Mochila de bebê Ergobaby',
       price: 'R$ 280,00',
-      image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=400&h=400&fit=crop&q=80',
       author: 'Fernanda R.',
       avatar: 'FR'
     },
@@ -55,7 +55,7 @@ export const StorePage = () => {
       id: 7,
       name: 'Kit chupetas NUK',
       price: 'R$ 45,00',
-      image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=400&h=400&fit=crop&q=80',
       author: 'Luciana T.',
       avatar: 'LT'
     },
@@ -63,7 +63,7 @@ export const StorePage = () => {
       id: 8,
       name: 'Banheira para bebê',
       price: 'R$ 120,00',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1503516459261-40c66117780a?w=400&h=400&fit=crop&q=80',
       author: 'Camila A.',
       avatar: 'CA'
     }
@@ -75,8 +75,9 @@ export const StorePage = () => {
       <div className="relative w-full h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden text-white flex items-center justify-center shadow-2xl bg-gradient-to-r from-pink-500 to-purple-600">
         <img
           src="https://i.imgur.com/TjCevtA.jpg"
-          alt="NAVA LOOKS"
+          alt="NAVA LOOKS - Bikinis exclusivos da Nathália Valente"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center p-4">
@@ -96,6 +97,103 @@ export const StorePage = () => {
           >
             <PersonStanding className="w-5 h-5" />
             Acessar Loja NAVA
+          </button>
+        </div>
+      </div>
+
+      {/* NAVA Products Section */}
+      <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg border-2 border-neutral-200 dark:border-neutral-700">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">
+            Coleção NAVA
+          </h2>
+          <p className="text-neutral-600 dark:text-neutral-400">
+            Bikinis exclusivos da Nathália Valente
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Bikini Premium Nathália */}
+          <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-xl p-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src="https://i.imgur.com/TjCevtA.jpg"
+                  alt="Bikini Premium Nathália"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/128x128/FF69B4/FFFFFF?text=NAVA';
+                  }}
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                  Bikini Premium Nathália
+                </h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
+                  Design exclusivo da Nathália Valente. Tecido de alta qualidade, resistente ao cloro e com proteção UV.
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+                    R$ 165,00
+                  </span>
+                  <button
+                    onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
+                    className="bg-pink-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm"
+                  >
+                    Comprar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Conjunto Bikini Nathy */}
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-xl p-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src="https://i.imgur.com/lU9GlUm.jpg"
+                  alt="Conjunto Bikini Nathy"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/128x128/FF69B4/FFFFFF?text=NAVA';
+                  }}
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                  Conjunto Bikini Nathy
+                </h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
+                  Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, perfeito para mães especiais.
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    R$ 165,00
+                  </span>
+                  <button
+                    onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
+                    className="bg-purple-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-600 transition-colors text-sm"
+                  >
+                    Comprar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mt-6">
+          <button
+            onClick={() => window.open('https://www.navabeachwear.com.br/', '_blank')}
+            className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 shadow-lg"
+          >
+            Ver Coleção Completa NAVA
           </button>
         </div>
       </div>
@@ -148,9 +246,14 @@ export const StorePage = () => {
           </div>
           <div className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-pink-100">
             <img
-              src="https://i.imgur.com/JPBuHrw.jpg"
-              alt="Babytest by OLLIN"
+              src="/images/products/ollin/babytest-final.jpg"
+              alt="Babytest by OLLIN - Teste de Triagem Neonatal"
               className="w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/images/products/ollin/ollin-babytest.jpg';
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -242,9 +345,10 @@ export const StorePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-2xl p-6 shadow-lg border-2 border-pink-200 dark:border-pink-800">
             <img
-              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop"
-              alt="Dicas de Sono"
+              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop&q=80"
+              alt="Dicas de Sono - Rotina para Bebês"
               className="w-full h-48 rounded-xl object-cover mb-4"
+              loading="lazy"
             />
             <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
               Rotina de Sono para Bebês
@@ -259,9 +363,10 @@ export const StorePage = () => {
 
           <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 rounded-2xl p-6 shadow-lg border-2 border-purple-200 dark:border-purple-800">
             <img
-              src="https://images.unsplash.com/photo-1493663284031-b7e3aaa7952d?w=800&h=600&fit=crop"
-              alt="Amamentação"
+              src="https://images.unsplash.com/photo-1493663284031-b7e3aaa7952d?w=800&h=600&fit=crop&q=80"
+              alt="Amamentação - Guia completo"
               className="w-full h-48 rounded-xl object-cover mb-4"
+              loading="lazy"
             />
             <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
               Amamentação com Amor

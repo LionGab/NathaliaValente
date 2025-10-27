@@ -1,9 +1,14 @@
 // =====================================================
-// CLUBNATH GRUPOS TEMÁTICOS - SERVIÇO COMPLETO
-// Santuário Digital de Empatia e Pertencimento
+// CLUBNATH GRUPOS TEMÁTICOS - SERVIÇO MIGRADO
+// =====================================================
+// ATENÇÃO: Este arquivo está em processo de migração.
+// Novos códigos devem usar services especializados em:
+// src/features/groups/services/
 // =====================================================
 
 import { supabase } from '../lib/supabase';
+import { GroupsCoreService } from '../features/groups/services/groups-core.service';
+import { GroupsMembersService } from '../features/groups/services/groups-members.service';
 import type {
   Group,
   GroupMember,
@@ -22,340 +27,102 @@ import type {
   GroupService
 } from '../types/groups';
 
-// =====================================================
-// SERVIÇO PRINCIPAL DE GRUPOS
-// =====================================================
-
+/**
+ * Service de Grupos (VERSÃO EM MIGRAÇÃO).
+ *
+ * **IMPORTANTE:**
+ * - Métodos marcados com ✅ foram migrados para nova arquitetura
+ * - Métodos marcados com ⚠️ ainda usam código legado
+ * - Para novos códigos, use services especializados diretamente
+ *
+ * @deprecated Use services especializados em src/features/groups/services/
+ */
 export const groupsService: GroupService = {
   // =====================================================
-  // GRUPOS
+  // ✅ GRUPOS - MIGRADO PARA GroupsCoreService
   // =====================================================
 
-  async getGroups(params: GroupSearchParams = {}): Promise<Group[]> {
-    const {
-      query,
-      category,
-      is_private,
-      limit = 20,
-      offset = 0,
-      sort_by = 'created_at',
-      sort_order = 'desc'
-    } = params;
-
-    let queryBuilder = supabase
-      .from('groups')
-      .select(`
-        *,
-        creator:profiles!groups_creator_id_fkey (
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
-      .range(offset, offset + limit - 1)
-      .order(sort_by, { ascending: sort_order === 'asc' });
-
-    // Filtros
-    if (query) {
-      queryBuilder = queryBuilder.or(`name.ilike.%${query}%,description.ilike.%${query}%`);
-    }
-
-    if (category) {
-      queryBuilder = queryBuilder.eq('category', category);
-    }
-
-    if (typeof is_private === 'boolean') {
-      queryBuilder = queryBuilder.eq('is_private', is_private);
-    }
-
-    const { data, error } = await queryBuilder;
-
-    if (error) {
-      console.error('Error fetching groups:', error);
-      throw new Error('Erro ao buscar grupos');
-    }
-
-    return data || [];
+  /**
+   * @deprecated Use GroupsCoreService.getGroups()
+   */
+  getGroups: async (params) => {
+    return GroupsCoreService.getGroups(params);
   },
 
-  async getGroup(id: string): Promise<Group> {
-    const { data, error } = await supabase
-      .from('groups')
-      .select(`
-        *,
-        creator:profiles!groups_creator_id_fkey (
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
-      .eq('id', id)
-      .single();
-
-    if (error) {
-      console.error('Error fetching group:', error);
-      throw new Error('Erro ao buscar grupo');
-    }
-
-    // Verificar se o usuário é membro e qual seu role
-    const { data: memberData } = await supabase
-      .from('group_members')
-      .select('role, joined_at')
-      .eq('group_id', id)
-      .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
-      .single();
-
-    return {
-      ...data,
-      user_role: memberData?.role,
-      user_joined_at: memberData?.joined_at
-    };
+  /**
+   * @deprecated Use GroupsCoreService.getGroup()
+   */
+  getGroup: async (id) => {
+    return GroupsCoreService.getGroup(id);
   },
 
-  async createGroup(data: CreateGroupData): Promise<Group> {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) throw new Error('Usuário não autenticado');
-
-    // Verificar limite de grupos por usuário
-    const { count } = await supabase
-      .from('groups')
-      .select('*', { count: 'exact', head: true })
-      .eq('creator_id', user.user.id);
-
-    if (count && count >= 5) {
-      throw new Error('Você já criou o máximo de 5 grupos');
-    }
-
-    const { data: group, error } = await supabase
-      .from('groups')
-      .insert({
-        ...data,
-        creator_id: user.user.id,
-        max_members: data.max_members || 50
-      })
-      .select(`
-        *,
-        creator:profiles!groups_creator_id_fkey (
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
-      .single();
-
-    if (error) {
-      console.error('Error creating group:', error);
-      throw new Error('Erro ao criar grupo');
-    }
-
-    // Adicionar criador como admin
-    await supabase
-      .from('group_members')
-      .insert({
-        group_id: group.id,
-        user_id: user.user.id,
-        role: 'admin'
-      });
-
-    return {
-      ...group,
-      user_role: 'admin'
-    };
+  /**
+   * @deprecated Use GroupsCoreService.createGroup()
+   */
+  createGroup: async (data) => {
+    return GroupsCoreService.createGroup(data);
   },
 
-  async updateGroup(id: string, data: UpdateGroupData): Promise<Group> {
-    const { data: group, error } = await supabase
-      .from('groups')
-      .update({
-        ...data,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', id)
-      .select(`
-        *,
-        creator:profiles!groups_creator_id_fkey (
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
-      .single();
-
-    if (error) {
-      console.error('Error updating group:', error);
-      throw new Error('Erro ao atualizar grupo');
-    }
-
-    return group;
+  /**
+   * @deprecated Use GroupsCoreService.updateGroup()
+   */
+  updateGroup: async (id, data) => {
+    return GroupsCoreService.updateGroup(id, data);
   },
 
-  async deleteGroup(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('groups')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      console.error('Error deleting group:', error);
-      throw new Error('Erro ao deletar grupo');
-    }
+  /**
+   * @deprecated Use GroupsCoreService.deleteGroup()
+   */
+  deleteGroup: async (id) => {
+    return GroupsCoreService.deleteGroup(id);
   },
 
   // =====================================================
-  // MEMBROS
+  // ✅ MEMBROS - MIGRADO PARA GroupsMembersService
   // =====================================================
 
-  async getGroupMembers(groupId: string, options?: UseGroupMembersOptions): Promise<GroupMember[]> {
-    const { role, limit = 50, enabled = true, groupId: optionsGroupId } = options || {};
-    const finalGroupId = optionsGroupId || groupId;
-
-    if (!enabled) return [];
-
-    let queryBuilder = supabase
-      .from('group_members')
-      .select(`
-        *,
-        user:profiles!group_members_user_id_fkey (
-          id,
-          full_name,
-          avatar_url,
-          bio
-        )
-      `)
-      .eq('group_id', finalGroupId)
-      .eq('is_banned', false)
-      .order('joined_at', { ascending: false });
-
-    if (role) {
-      queryBuilder = queryBuilder.eq('role', role);
-    }
-
-    if (limit) {
-      queryBuilder = queryBuilder.limit(limit);
-    }
-
-    const { data, error } = await queryBuilder;
-
-    if (error) {
-      console.error('Error fetching group members:', error);
-      throw new Error('Erro ao buscar membros do grupo');
-    }
-
-    return data || [];
+  /**
+   * @deprecated Use GroupsMembersService.getMembers()
+   */
+  getGroupMembers: async (groupId, options) => {
+    return GroupsMembersService.getMembers(groupId, options);
   },
 
-  async joinGroup(groupId: string): Promise<GroupMember> {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) throw new Error('Usuário não autenticado');
-
-    // Verificar se o grupo existe e não está cheio
-    const { data: group } = await supabase
-      .from('groups')
-      .select('current_members, max_members, is_private')
-      .eq('id', groupId)
-      .single();
-
-    if (!group) throw new Error('Grupo não encontrado');
-    if (group.current_members >= group.max_members) throw new Error('Grupo está cheio');
-    if (group.is_private) throw new Error('Este é um grupo privado. Você precisa de um convite.');
-
-    const { data: member, error } = await supabase
-      .from('group_members')
-      .insert({
-        group_id: groupId,
-        user_id: user.user.id,
-        role: 'member'
-      })
-      .select(`
-        *,
-        user:profiles!group_members_user_id_fkey (
-          id,
-          full_name,
-          avatar_url,
-          bio
-        )
-      `)
-      .single();
-
-    if (error) {
-      console.error('Error joining group:', error);
-      throw new Error('Erro ao entrar no grupo');
-    }
-
-    return member;
+  /**
+   * @deprecated Use GroupsMembersService.joinGroup()
+   */
+  joinGroup: async (groupId) => {
+    return GroupsMembersService.joinGroup(groupId);
   },
 
-  async leaveGroup(groupId: string): Promise<void> {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) throw new Error('Usuário não autenticado');
-
-    const { error } = await supabase
-      .from('group_members')
-      .delete()
-      .eq('group_id', groupId)
-      .eq('user_id', user.user.id);
-
-    if (error) {
-      console.error('Error leaving group:', error);
-      throw new Error('Erro ao sair do grupo');
-    }
+  /**
+   * @deprecated Use GroupsMembersService.leaveGroup()
+   */
+  leaveGroup: async (groupId) => {
+    return GroupsMembersService.leaveGroup(groupId);
   },
 
-  async updateMemberRole(groupId: string, userId: string, role: string): Promise<GroupMember> {
-    const { data: member, error } = await supabase
-      .from('group_members')
-      .update({ role })
-      .eq('group_id', groupId)
-      .eq('user_id', userId)
-      .select(`
-        *,
-        user:profiles!group_members_user_id_fkey (
-          id,
-          full_name,
-          avatar_url,
-          bio
-        )
-      `)
-      .single();
-
-    if (error) {
-      console.error('Error updating member role:', error);
-      throw new Error('Erro ao atualizar role do membro');
-    }
-
-    return member;
+  /**
+   * @deprecated Use GroupsMembersService.updateMemberRole()
+   */
+  updateMemberRole: async (groupId, userId, role) => {
+    return GroupsMembersService.updateMemberRole(groupId, userId, role);
   },
 
-  async removeMember(groupId: string, userId: string): Promise<void> {
-    const { error } = await supabase
-      .from('group_members')
-      .delete()
-      .eq('group_id', groupId)
-      .eq('user_id', userId);
-
-    if (error) {
-      console.error('Error removing member:', error);
-      throw new Error('Erro ao remover membro');
-    }
+  /**
+   * @deprecated Use GroupsMembersService.removeMember()
+   */
+  removeMember: async (groupId, userId) => {
+    return GroupsMembersService.removeMember(groupId, userId);
   },
 
   // =====================================================
-  // POSTS
+  // ⚠️ POSTS - AINDA NÃO MIGRADO (CÓDIGO LEGADO)
   // =====================================================
 
-  async getGroupPosts(groupId: string, options?: any): Promise<GroupPost[]> {
-    const filters = options?.filters || {};
-    const {
-      group_id: filterGroupId,
-      parent_post_id = null,
-      is_pinned,
-      user_id,
-      limit = 20,
-      offset = 0,
-      sort_by = 'created_at',
-      sort_order = 'desc'
-    } = filters;
-    const finalGroupId = options?.groupId || filterGroupId || groupId;
+  getGroupPosts: async (groupId: string, options?: any): Promise<GroupPost[]> => {
+    // TODO: Migrar para GroupsPostsService
+    const { filters, limit = 20, offset = 0 } = options || {};
 
     let queryBuilder = supabase
       .from('group_posts')
@@ -365,47 +132,22 @@ export const groupsService: GroupService = {
           id,
           full_name,
           avatar_url
-        ),
-        parent_post:group_posts!group_posts_parent_post_id_fkey (
-          id,
-          content,
-          user:profiles!group_posts_user_id_fkey (
-            id,
-            full_name,
-            avatar_url
-          )
-        ),
-        reactions:group_post_reactions (
-          id,
-          user_id,
-          reaction_type,
-          user:profiles!group_post_reactions_user_id_fkey (
-            id,
-            full_name,
-            avatar_url
-          )
         )
       `)
-      .eq('group_id', finalGroupId)
+      .eq('group_id', groupId)
       .eq('is_approved', true)
-      .range(offset, offset + limit - 1)
-      .order(sort_by, { ascending: sort_order === 'asc' });
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-    // Filtros
-    if (parent_post_id !== undefined) {
-      if (parent_post_id === null) {
-        queryBuilder = queryBuilder.is('parent_post_id', null);
-      } else {
-        queryBuilder = queryBuilder.eq('parent_post_id', parent_post_id);
-      }
+    // Aplicar filtros
+    if (filters?.pinned_only) {
+      queryBuilder = queryBuilder.eq('is_pinned', true);
     }
 
-    if (is_pinned !== undefined) {
-      queryBuilder = queryBuilder.eq('is_pinned', is_pinned);
-    }
-
-    if (user_id) {
-      queryBuilder = queryBuilder.eq('user_id', user_id);
+    if (filters?.parent_post_id) {
+      queryBuilder = queryBuilder.eq('parent_post_id', filters.parent_post_id);
+    } else {
+      queryBuilder = queryBuilder.is('parent_post_id', null);
     }
 
     const { data, error } = await queryBuilder;
@@ -416,37 +158,69 @@ export const groupsService: GroupService = {
     }
 
     // Processar reações
-    const posts = (data || []).map(post => {
-      const reactions = post.reactions || [];
-      const reactionsCount = reactions.reduce((acc: Record<string, number>, reaction: any) => {
-        acc[reaction.reaction_type] = (acc[reaction.reaction_type] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
+    const postsWithReactions = await Promise.all(
+      (data || []).map(async (post) => {
+        const { data: reactions } = await supabase
+          .from('group_post_reactions')
+          .select('reaction_type')
+          .eq('post_id', post.id);
 
-      const userReaction = reactions.find((r: any) =>
-        r.user_id === (supabase.auth.getUser().then(u => u.data.user?.id))
-      )?.reaction_type;
+        const reactionsCount = {
+          like: 0,
+          love: 0,
+          support: 0,
+          pray: 0,
+          hug: 0,
+          celebrate: 0
+        };
 
-      return {
-        ...post,
-        reactions_count: reactionsCount,
-        user_reaction: userReaction
-      };
-    });
+        reactions?.forEach((r) => {
+          if (r.reaction_type in reactionsCount) {
+            reactionsCount[r.reaction_type as keyof typeof reactionsCount]++;
+          }
+        });
 
-    return posts;
+        // Verificar reação do usuário
+        const { data: user } = await supabase.auth.getUser();
+        let userReaction = undefined;
+
+        if (user?.user) {
+          const { data: userReactionData } = await supabase
+            .from('group_post_reactions')
+            .select('reaction_type')
+            .eq('post_id', post.id)
+            .eq('user_id', user.user.id)
+            .single();
+
+          userReaction = userReactionData?.reaction_type;
+        }
+
+        return {
+          ...post,
+          reactions_count: reactionsCount,
+          user_reaction: userReaction
+        };
+      })
+    );
+
+    return postsWithReactions as GroupPost[];
   },
 
-  async createGroupPost(groupId: string, data: CreateGroupPostData): Promise<GroupPost> {
+  createGroupPost: async (groupId: string, data: CreateGroupPostData): Promise<GroupPost> => {
+    // TODO: Migrar para GroupsPostsService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
     const { data: post, error } = await supabase
       .from('group_posts')
       .insert({
-        ...data,
         group_id: groupId,
-        user_id: user.user.id
+        user_id: user.user.id,
+        content: data.content,
+        media_url: data.media_url,
+        media_type: data.media_type,
+        parent_post_id: data.parent_post_id,
+        is_approved: true
       })
       .select(`
         *,
@@ -460,17 +234,20 @@ export const groupsService: GroupService = {
 
     if (error) {
       console.error('Error creating group post:', error);
-      throw new Error('Erro ao criar post no grupo');
+      throw new Error('Erro ao criar post');
     }
 
-    return post;
+    return post as GroupPost;
   },
 
-  async updateGroupPost(postId: string, data: UpdateGroupPostData): Promise<GroupPost> {
+  updateGroupPost: async (postId: string, data: UpdateGroupPostData): Promise<GroupPost> => {
+    // TODO: Migrar para GroupsPostsService
     const { data: post, error } = await supabase
       .from('group_posts')
       .update({
-        ...data,
+        content: data.content,
+        media_url: data.media_url,
+        media_type: data.media_type,
         updated_at: new Date().toISOString()
       })
       .eq('id', postId)
@@ -489,10 +266,11 @@ export const groupsService: GroupService = {
       throw new Error('Erro ao atualizar post');
     }
 
-    return post;
+    return post as GroupPost;
   },
 
-  async deleteGroupPost(postId: string): Promise<void> {
+  deleteGroupPost: async (postId: string): Promise<void> => {
+    // TODO: Migrar para GroupsPostsService
     const { error } = await supabase
       .from('group_posts')
       .delete()
@@ -504,7 +282,8 @@ export const groupsService: GroupService = {
     }
   },
 
-  async pinGroupPost(postId: string): Promise<GroupPost> {
+  pinGroupPost: async (postId: string): Promise<GroupPost> => {
+    // TODO: Migrar para GroupsPostsService
     const { data: post, error } = await supabase
       .from('group_posts')
       .update({ is_pinned: true })
@@ -524,26 +303,59 @@ export const groupsService: GroupService = {
       throw new Error('Erro ao fixar post');
     }
 
-    return post;
+    return post as GroupPost;
   },
 
-  // =====================================================
-  // REAÇÕES
-  // =====================================================
-
-  async reactToPost(postId: string, reaction: string): Promise<GroupPostReaction> {
+  reactToPost: async (postId: string, reaction: string): Promise<GroupPostReaction> => {
+    // TODO: Migrar para GroupsPostsService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
-    // Remover reação existente do mesmo tipo
-    await supabase
+    const { data: existingReaction } = await supabase
       .from('group_post_reactions')
-      .delete()
+      .select('*')
       .eq('post_id', postId)
       .eq('user_id', user.user.id)
-      .eq('reaction_type', reaction);
+      .single();
 
-    const { data: reactionData, error } = await supabase
+    if (existingReaction) {
+      if (existingReaction.reaction_type === reaction) {
+        const { error } = await supabase
+          .from('group_post_reactions')
+          .delete()
+          .eq('id', existingReaction.id);
+
+        if (error) {
+          console.error('Error removing reaction:', error);
+          throw new Error('Erro ao remover reação');
+        }
+
+        return existingReaction as GroupPostReaction;
+      } else {
+        const { data: updated, error } = await supabase
+          .from('group_post_reactions')
+          .update({ reaction_type: reaction })
+          .eq('id', existingReaction.id)
+          .select(`
+            *,
+            user:profiles!group_post_reactions_user_id_fkey (
+              id,
+              full_name,
+              avatar_url
+            )
+          `)
+          .single();
+
+        if (error) {
+          console.error('Error updating reaction:', error);
+          throw new Error('Erro ao atualizar reação');
+        }
+
+        return updated as GroupPostReaction;
+      }
+    }
+
+    const { data: newReaction, error } = await supabase
       .from('group_post_reactions')
       .insert({
         post_id: postId,
@@ -561,14 +373,15 @@ export const groupsService: GroupService = {
       .single();
 
     if (error) {
-      console.error('Error reacting to post:', error);
-      throw new Error('Erro ao reagir ao post');
+      console.error('Error creating reaction:', error);
+      throw new Error('Erro ao criar reação');
     }
 
-    return reactionData;
+    return newReaction as GroupPostReaction;
   },
 
-  async removeReaction(postId: string, reaction: string): Promise<void> {
+  removeReaction: async (postId: string, reaction: string): Promise<void> => {
+    // TODO: Migrar para GroupsPostsService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
@@ -586,10 +399,11 @@ export const groupsService: GroupService = {
   },
 
   // =====================================================
-  // CONVITES
+  // ⚠️ CONVITES - AINDA NÃO MIGRADO (CÓDIGO LEGADO)
   // =====================================================
 
-  async getGroupInvites(groupId?: string): Promise<GroupInvite[]> {
+  getGroupInvites: async (groupId?: string): Promise<GroupInvite[]> => {
+    // TODO: Migrar para GroupsInvitesService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
@@ -617,7 +431,6 @@ export const groupsService: GroupService = {
       `)
       .eq('invited_user_id', user.user.id)
       .eq('status', 'pending')
-      .gt('expires_at', new Date().toISOString())
       .order('created_at', { ascending: false });
 
     if (groupId) {
@@ -631,19 +444,26 @@ export const groupsService: GroupService = {
       throw new Error('Erro ao buscar convites');
     }
 
-    return data || [];
+    return data as GroupInvite[];
   },
 
-  async createGroupInvite(groupId: string, data: CreateGroupInviteData): Promise<GroupInvite> {
+  createGroupInvite: async (groupId: string, data: CreateGroupInviteData): Promise<GroupInvite> => {
+    // TODO: Migrar para GroupsInvitesService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
+
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
 
     const { data: invite, error } = await supabase
       .from('group_invites')
       .insert({
-        ...data,
         group_id: groupId,
-        invited_by_user_id: user.user.id
+        invited_user_id: data.invited_user_id,
+        invited_by_user_id: user.user.id,
+        message: data.message,
+        expires_at: expiresAt.toISOString(),
+        status: 'pending'
       })
       .select(`
         *,
@@ -672,11 +492,12 @@ export const groupsService: GroupService = {
       throw new Error('Erro ao criar convite');
     }
 
-    return invite;
+    return invite as GroupInvite;
   },
 
-  async respondToInvite(inviteId: string, status: 'accepted' | 'declined'): Promise<GroupInvite> {
-    const { data: invite, error } = await supabase
+  respondToInvite: async (inviteId: string, status: 'accepted' | 'declined'): Promise<GroupInvite> => {
+    // TODO: Migrar para GroupsInvitesService
+    const { data: invite, error: updateError } = await supabase
       .from('group_invites')
       .update({ status })
       .eq('id', inviteId)
@@ -688,28 +509,47 @@ export const groupsService: GroupService = {
           description,
           category,
           is_private
+        ),
+        invited_user:profiles!group_invites_invited_user_id_fkey (
+          id,
+          full_name,
+          avatar_url
+        ),
+        invited_by_user:profiles!group_invites_invited_by_user_id_fkey (
+          id,
+          full_name,
+          avatar_url
         )
       `)
       .single();
 
-    if (error) {
-      console.error('Error responding to invite:', error);
+    if (updateError) {
+      console.error('Error responding to invite:', updateError);
       throw new Error('Erro ao responder convite');
     }
 
-    // Se aceito, adicionar ao grupo
     if (status === 'accepted') {
-      await this.joinGroup(invite.group_id);
+      const { data: user } = await supabase.auth.getUser();
+      if (!user.user) throw new Error('Usuário não autenticado');
+
+      await supabase
+        .from('group_members')
+        .insert({
+          group_id: invite.group_id,
+          user_id: user.user.id,
+          role: 'member'
+        });
     }
 
-    return invite;
+    return invite as GroupInvite;
   },
 
   // =====================================================
-  // NOTIFICAÇÕES
+  // ⚠️ NOTIFICAÇÕES - AINDA NÃO MIGRADO (CÓDIGO LEGADO)
   // =====================================================
 
-  async getGroupNotifications(unreadOnly = false): Promise<GroupNotification[]> {
+  getGroupNotifications: async (unreadOnly = false): Promise<GroupNotification[]> => {
+    // TODO: Migrar para GroupsNotificationsService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
@@ -739,35 +579,24 @@ export const groupsService: GroupService = {
       throw new Error('Erro ao buscar notificações');
     }
 
-    return data || [];
+    return data as GroupNotification[];
   },
 
-  async markNotificationAsRead(notificationId: string): Promise<GroupNotification> {
-    const { data: notification, error } = await supabase
+  markNotificationAsRead: async (notificationId: string): Promise<void> => {
+    // TODO: Migrar para GroupsNotificationsService
+    const { error } = await supabase
       .from('group_notifications')
       .update({ is_read: true })
-      .eq('id', notificationId)
-      .select(`
-        *,
-        group:groups!group_notifications_group_id_fkey (
-          id,
-          name,
-          description,
-          category,
-          is_private
-        )
-      `)
-      .single();
+      .eq('id', notificationId);
 
     if (error) {
       console.error('Error marking notification as read:', error);
       throw new Error('Erro ao marcar notificação como lida');
     }
-
-    return notification;
   },
 
-  async markAllNotificationsAsRead(): Promise<void> {
+  markAllNotificationsAsRead: async (): Promise<void> => {
+    // TODO: Migrar para GroupsNotificationsService
     const { data: user } = await supabase.auth.getUser();
     if (!user.user) throw new Error('Usuário não autenticado');
 
@@ -783,187 +612,3 @@ export const groupsService: GroupService = {
     }
   }
 };
-
-// =====================================================
-// HOOKS PERSONALIZADOS PARA GRUPOS
-// =====================================================
-
-export const useGroups = (params?: GroupSearchParams) => {
-  return {
-    queryKey: ['groups', params],
-    queryFn: () => groupsService.getGroups(params)
-  };
-};
-
-export const useGroup = (id: string) => {
-  return {
-    queryKey: ['group', id],
-    queryFn: () => groupsService.getGroup(id)
-  };
-};
-
-export const useGroupMembers = (groupId: string, options?: UseGroupMembersOptions) => {
-  return {
-    queryKey: ['group-members', groupId, options],
-    queryFn: () => groupsService.getGroupMembers(groupId, options)
-  };
-};
-
-export const useGroupPosts = (groupId: string, options?: any) => {
-  return {
-    queryKey: ['group-posts', groupId, options],
-    queryFn: () => groupsService.getGroupPosts(groupId, options)
-  };
-};
-
-export const useGroupInvites = (groupId?: string) => {
-  return {
-    queryKey: ['group-invites', groupId],
-    queryFn: () => groupsService.getGroupInvites(groupId)
-  };
-};
-
-export const useGroupNotifications = (unreadOnly = false) => {
-  return {
-    queryKey: ['group-notifications', unreadOnly],
-    queryFn: () => groupsService.getGroupNotifications(unreadOnly)
-  };
-};
-
-// =====================================================
-// UTILITÁRIOS PARA GRUPOS
-// =====================================================
-
-export const getGroupStats = async (groupId: string) => {
-  const [members, posts, reactions] = await Promise.all([
-    groupsService.getGroupMembers(groupId),
-    groupsService.getGroupPosts(groupId, { groupId, filters: { limit: 1000, group_id: groupId } }),
-    supabase
-      .from('group_post_reactions')
-      .select('*')
-      .in('post_id', (await groupsService.getGroupPosts(groupId, { groupId, filters: { limit: 1000, group_id: groupId } })).map(p => p.id))
-  ]);
-
-  return {
-    total_members: members.length,
-    total_posts: posts.length,
-    total_reactions: reactions.data?.length || 0,
-    active_members: members.filter(m => {
-      const lastSeen = new Date(m.last_seen_at);
-      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      return lastSeen > weekAgo;
-    }).length
-  };
-};
-
-export const searchGroups = async (query: string, category?: string) => {
-  return groupsService.getGroups({
-    query,
-    category: category as any,
-    limit: 20
-  });
-};
-
-export const getPopularGroups = async () => {
-  return groupsService.getGroups({
-    sort_by: 'current_members',
-    sort_order: 'desc',
-    limit: 10
-  });
-};
-
-export const getRecentGroups = async () => {
-  return groupsService.getGroups({
-    sort_by: 'created_at',
-    sort_order: 'desc',
-    limit: 10
-  });
-};
-
-export const getUserGroups = async (userId: string) => {
-  const { data, error } = await supabase
-    .from('group_members')
-    .select(`
-      *,
-      group:groups!group_members_group_id_fkey (
-        *,
-        creator:profiles!groups_creator_id_fkey (
-          id,
-          full_name,
-          avatar_url
-        )
-      )
-    `)
-    .eq('user_id', userId)
-    .eq('is_banned', false)
-    .order('joined_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching user groups:', error);
-    throw new Error('Erro ao buscar grupos do usuário');
-  }
-
-  return data?.map(member => ({
-    ...member.group,
-    user_role: member.role,
-    user_joined_at: member.joined_at
-  })) || [];
-};
-
-export const getCreatedGroups = async (userId: string) => {
-  return groupsService.getGroups().then(groups =>
-    groups.filter(group => group.creator_id === userId)
-  );
-};
-
-// =====================================================
-// MODERAÇÃO E SEGURANÇA
-// =====================================================
-
-export const moderatePost = async (postId: string, action: 'approve' | 'reject' | 'delete') => {
-  const { data: user } = await supabase.auth.getUser();
-  if (!user.user) throw new Error('Usuário não autenticado');
-
-  switch (action) {
-    case 'approve':
-      return groupsService.updateGroupPost(postId, { content: '' }); // is_approved removed from interface
-    case 'reject':
-      return groupsService.updateGroupPost(postId, { content: '' }); // is_approved removed from interface
-    case 'delete':
-      return groupsService.deleteGroupPost(postId);
-    default:
-      throw new Error('Ação de moderação inválida');
-  }
-};
-
-export const banUserFromGroup = async (groupId: string, userId: string) => {
-  const { error } = await supabase
-    .from('group_members')
-    .update({ is_banned: true })
-    .eq('group_id', groupId)
-    .eq('user_id', userId);
-
-  if (error) {
-    console.error('Error banning user from group:', error);
-    throw new Error('Erro ao banir usuário do grupo');
-  }
-};
-
-export const muteUserInGroup = async (groupId: string, userId: string, muted: boolean) => {
-  const { error } = await supabase
-    .from('group_members')
-    .update({ is_muted: muted })
-    .eq('group_id', groupId)
-    .eq('user_id', userId);
-
-  if (error) {
-    console.error('Error muting user in group:', error);
-    throw new Error('Erro ao silenciar usuário no grupo');
-  }
-};
-
-// =====================================================
-// EXPORT DEFAULT
-// =====================================================
-
-export default groupsService;

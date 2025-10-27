@@ -13,7 +13,7 @@ import { formatNumber, formatDate } from '../lib/utils';
 import { CommunityLogo } from './ui/Logo';
 import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
-import { FeaturedProductsCard } from './ProductShowcase';
+import { NAVAHeroSection } from './NAVAHeroSection';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -139,7 +139,7 @@ export const FeedPage = () => {
               <span className="text-xs">Atualizado</span>
             </div>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Oi, mamães! 👋</h2>
+          <h2 className="text-2xl font-bold mb-2">Bem-vindas à Nossa Maternidade! 👋</h2>
           <p className="text-sm opacity-90 mb-4">Um espaço seguro para compartilhar experiências, dicas e se conectar com outras mães incríveis</p>
           <Button
             onClick={handleCreatePost}
@@ -157,8 +157,8 @@ export const FeedPage = () => {
       {/* Daily Verse Card */}
       <DailyVerseCard />
 
-      {/* Featured Products Card */}
-      <FeaturedProductsCard />
+      {/* NAVA Hero Section */}
+      <NAVAHeroSection />
 
 
       {/* Community Stats */}

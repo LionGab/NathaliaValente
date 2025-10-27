@@ -12,7 +12,9 @@ export const products: Product[] = [
         discount: 0,
         images: [
             'https://i.imgur.com/TjCevtA.jpg',
-            '/images/products/heroes/mother-baby-hero-1.jpg'
+            'https://i.imgur.com/lU9GlUm.jpg',
+            'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&auto=format&q=80',
+            'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&crop=center&auto=format&q=80'
         ],
         description: 'Bikini premium com design exclusivo da Nathália Valente. Tecido de alta qualidade, resistente ao cloro e com proteção UV. Perfeito para mães que querem se sentir confiantes e lindas.',
         sizes: ['P', 'M', 'G', 'GG'],
@@ -57,7 +59,9 @@ export const products: Product[] = [
         discount: 0,
         images: [
             'https://i.imgur.com/lU9GlUm.jpg',
-            '/images/products/heroes/mother-baby-hero-3.jpg'
+            'https://i.imgur.com/TjCevtA.jpg',
+            'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&auto=format&q=80',
+            'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop&crop=center&auto=format&q=80'
         ],
         description: 'Conjunto de bikini exclusivo da Nathália Valente. Design sofisticado e elegante, perfeito para mães que querem se sentir especiais na praia. Tecido de alta qualidade e modelagem que valoriza o corpo.',
         sizes: ['P', 'M', 'G', 'GG'],
@@ -121,8 +125,9 @@ export const products: Product[] = [
         originalPrice: 199.90,
         discount: 25,
         images: [
-            '/images/products/ollin/ollin-serum-anti-idade.jpg',
-            '/images/products/heroes/mother-baby-hero-3.jpg'
+            '/images/products/ollin/ollin-product-1.jpg',
+            '/images/products/ollin/ollin-product-2.jpg',
+            '/images/nava/mother-baby-hero.jpg'
         ],
         description: 'Sérum anti-idade desenvolvido especialmente para mães. Fórmula natural e segura, perfeita para a rotina de cuidados pós-gravidez. Resultados visíveis em 30 dias.',
         sizes: ['30ml', '50ml'],
@@ -142,8 +147,9 @@ export const products: Product[] = [
         category: 'acessorios',
         price: 89.90,
         images: [
-            '/images/products/ollin/ollin-hidratante-facial.jpg',
-            '/images/products/heroes/mother-baby-hero-1.jpg'
+            '/images/products/ollin/ollin-product-2.jpg',
+            '/images/products/ollin/ollin-product-3.jpg',
+            '/images/nava/mother-baby-hero.jpg'
         ],
         description: 'Hidratante facial com ingredientes naturais, ideal para peles sensíveis de mães. Fórmula leve e não comedogênica, perfeita para o dia a dia.',
         sizes: ['50ml', '100ml'],
@@ -163,8 +169,9 @@ export const products: Product[] = [
         originalPrice: 279.90,
         discount: 28,
         images: [
-            '/images/products/ollin/ollin-kit-cuidados.jpg',
-            '/images/products/heroes/mother-baby-hero-2.jpg'
+            '/images/products/ollin/ollin-product-3.jpg',
+            '/images/products/ollin/ollin-product-1.jpg',
+            '/images/nava/mother-baby-hero.jpg'
         ],
         description: 'Kit completo de cuidados para mães. Inclui sérum anti-idade, hidratante facial e protetor solar. Rotina completa de beleza em um só kit.',
         sizes: ['Kit Completo'],

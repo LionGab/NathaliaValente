@@ -187,11 +187,19 @@ export const FeaturedProductsCard: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {featuredProducts.map((product) => (
-                    <div key={product.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+                {featuredProducts.map((product, index) => (
+                    <div key={product.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                         <div className="flex gap-3">
-                            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                <ShoppingBag className="w-6 h-6 text-gray-400" />
+                            <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                                <img 
+                                    src={product.images[0]} 
+                                    alt={product.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/80x80/FF69B4/FFFFFF?text=NAVA';
+                                    }}
+                                />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-medium text-gray-900 dark:text-white text-sm line-clamp-2">

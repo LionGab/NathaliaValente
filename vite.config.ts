@@ -5,6 +5,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Base path for GitHub Pages (use repository name if deploying to gh-pages)
+  base: process.env.NODE_ENV === 'production' ? '/NathaliaValente/' : '/',
+  
   plugins: [
     react(),
     // PWA Configuration

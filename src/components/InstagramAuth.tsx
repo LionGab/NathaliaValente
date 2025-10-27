@@ -110,7 +110,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Cadastro realizado com sucesso!');
           showSuccess(
             'Cadastro realizado!',
-            'Bem-vinda ao ClubNath!'
+            'Bem-vinda à Nossa Maternidade!'
           );
 
           // Usar dados do usuário criado
@@ -139,7 +139,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Login realizado com sucesso!');
           showSuccess(
             'Login realizado!',
-            'Bem-vinda de volta ao ClubNath!'
+            'Bem-vinda de volta à Nossa Maternidade!'
           );
 
           // Usar dados do usuário logado
@@ -218,7 +218,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             />
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold gradient-text mb-2 tracking-tight">
-            ClubNath
+            Nossa Maternidade
           </h1>
           <p className="text-neutral-600 dark:text-neutral-400 font-medium">
             Comunidade Exclusiva de Mães
