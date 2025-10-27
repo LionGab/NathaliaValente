@@ -309,7 +309,7 @@ export const StorePage = () => {
           <p className="text-lg mb-6 opacity-90">
             Acesse nosso guia completo de primeiros cuidados com o recém-nascido
           </p>
-          <button 
+          <button
             onClick={() => {
               // Navegar para página de guia completo
               window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
@@ -512,7 +512,7 @@ export const StorePage = () => {
           <p className="text-lg mb-6 opacity-90">
             Acesse nosso guia completo de amamentação com dicas práticas e apoio emocional
           </p>
-          <button 
+          <button
             onClick={() => {
               // Navegar para página de amamentação
               window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
@@ -594,7 +594,7 @@ export const StorePage = () => {
                   </div>
 
                   {/* Botão de Compra */}
-                  <button 
+                  <button
                     onClick={() => {
                       // Adicionar produto ao carrinho ou mostrar modal de compra
                       alert(`Produto "${product.name}" adicionado ao carrinho!`);
