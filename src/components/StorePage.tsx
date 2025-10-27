@@ -1,41 +1,6 @@
-import { TestTube2, PersonStanding, Heart, ShoppingBag } from 'lucide-react';
+import { TestTube2, PersonStanding, ShoppingBag } from 'lucide-react';
 
 export const StorePage = () => {
-  // Mock products for "Desapega das mamães"
-  const desapegaProducts = [
-    {
-      id: 1,
-      name: 'Carrinho de bebê',
-      price: 'R$ 450,00',
-      image: 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=400&h=400&fit=crop',
-      author: 'Ana S.',
-      avatar: 'AS'
-    },
-    {
-      id: 2,
-      name: 'Berço de madeira',
-      price: 'R$ 700,00',
-      image: 'https://images.unsplash.com/photo-1582771498000-8ad44e6c84da?w=400&h=400&fit=crop',
-      author: 'Mariana L.',
-      avatar: 'ML'
-    },
-    {
-      id: 3,
-      name: 'Kit mamadeiras',
-      price: 'R$ 80,00',
-      image: 'https://images.unsplash.com/photo-1495121520760-9a50c47fd022?w=400&h=400&fit=crop',
-      author: 'Julia C.',
-      avatar: 'JC'
-    },
-    {
-      id: 4,
-      name: 'Cadeirão Chicco',
-      price: 'R$ 300,00',
-      image: 'https://images.unsplash.com/photo-1556506634-179f17277443?w=400&h=400&fit=crop',
-      author: 'Carla D.',
-      avatar: 'CD'
-    }
-  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 pb-24 space-y-12">
@@ -94,68 +59,59 @@ export const StorePage = () => {
         </div>
       </div>
 
-      {/* Desapega das Mamães Section */}
+      {/* Dicas de Maternidade Section */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
               <ShoppingBag className="w-8 h-8 text-pink-500" />
-              Desapega das Mamães
+              Dicas da Nath
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400 mt-2">
-              Compre e venda itens de bebê com outras mães da comunidade
+              Conteúdo exclusivo para sua jornada materna
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {desapegaProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl transition-shadow group cursor-pointer"
-            >
-              {/* Product Image */}
-              <div className="relative h-48 overflow-hidden bg-gray-200">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://via.placeholder.com/400x400?text=' + encodeURIComponent(product.name);
-                  }}
-                />
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 rounded-2xl p-6 shadow-lg border-2 border-pink-200 dark:border-pink-800">
+            <img
+              src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop"
+              alt="Dicas de Sono"
+              className="w-full h-48 rounded-xl object-cover mb-4"
+            />
+            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+              Rotina de Sono para Bebês
+            </h3>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+              Aprenda técnicas comprovadas para estabelecer uma rotina de sono saudável para seu bebê. Dicas práticas da Nath.
+            </p>
+            <button className="text-pink-600 dark:text-pink-400 font-semibold hover:underline">
+              Ler mais →
+            </button>
+          </div>
 
-              {/* Product Info */}
-              <div className="p-4">
-                <h3 className="font-semibold text-neutral-900 dark:text-white mb-2 line-clamp-2">
-                  {product.name}
-                </h3>
-
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
-                    {product.avatar}
-                  </div>
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {product.author}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-700">
-                  <span className="text-xl font-bold text-pink-500">
-                    {product.price}
-                  </span>
-                  <button className="px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors flex items-center gap-2">
-                    <Heart className="w-4 h-4" />
-                    Comprar
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 rounded-2xl p-6 shadow-lg border-2 border-purple-200 dark:border-purple-800">
+            <img
+              src="https://images.unsplash.com/photo-1493663284031-b7e3aaa7952d?w=800&h=600&fit=crop"
+              alt="Amamentação"
+              className="w-full h-48 rounded-xl object-cover mb-4"
+            />
+            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+              Amamentação com Amor
+            </h3>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+              Guia completo sobre amamentação: posições corretas, dicas de alimentação e como superar desafios comuns.
+            </p>
+            <button className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
+              Ler mais →
+            </button>
+          </div>
         </div>
       </div>
 
     </div>
   );
 };
+
+
