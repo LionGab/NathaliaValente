@@ -3,6 +3,8 @@
  * Sistema centralizado de tratamento de erros para produção
  */
 
+import { trackError, trackErrorSync } from './error-tracking';
+
 export enum ErrorType {
     NETWORK = 'NETWORK',
     AUTH = 'AUTH',
@@ -165,12 +167,18 @@ export class ErrorHandler {
                 timestamp: error.context.timestamp
             };
 
-            // Enviar para endpoint de monitoramento
-            if (typeof window !== 'undefined' && window.navigator.sendBeacon) {
-                window.navigator.sendBeacon(
-                    '/api/errors',
-                    JSON.stringify(errorData)
-                );
+            // Enviar para serviço de rastreamento de erros
+            if (typeof window !== 'undefined') {
+                trackError({
+                    message: error.message,
+                    level: 'error',
+                    timestamp: error.context.timestamp,
+                    url: window.location.href,
+                    userAgent: navigator.userAgent,
+                    context: error.type,
+                    data: errorData,
+                    stack: error.originalError?.stack
+                });
             }
         } catch (monitoringError) {
             console.error('Failed to send error to monitoring:', monitoringError);

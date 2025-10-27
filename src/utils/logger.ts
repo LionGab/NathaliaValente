@@ -3,6 +3,8 @@
  * Only logs in development, prevents console pollution in production
  */
 
+import { trackError, trackInfo, trackWarning } from '../lib/error-tracking';
+
 type LogLevel = 'log' | 'info' | 'warn' | 'error' | 'debug';
 
 interface LogOptions {
@@ -94,12 +96,17 @@ class Logger {
         context: options?.context
       };
 
-      // Send to error tracking endpoint
-      if (typeof window !== 'undefined' && window.navigator.sendBeacon) {
-        window.navigator.sendBeacon(
-          '/api/errors',
-          JSON.stringify(errorData)
-        );
+      // Send to error tracking service
+      if (typeof window !== 'undefined') {
+        trackError({
+          message,
+          level: 'error',
+          timestamp: new Date().toISOString(),
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+          context: options?.context,
+          data: options?.data
+        });
       }
     } catch (trackingError) {
       // Don't log tracking errors to avoid infinite loops
