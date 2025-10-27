@@ -62,40 +62,42 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border-b border-neutral-200/50 dark:border-neutral-800/50 safe-area-inset shadow-soft">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center h-16 sm:h-20">
-          {/* Logo */}
-          <div className="flex items-center gap-3 group">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6">
+        <div className="flex justify-between items-center h-16 sm:h-20 gap-2">
+          {/* Logo - Mobile-first */}
+          <div className="flex items-center gap-2 sm:gap-3 group flex-shrink-0">
             <div className="relative">
               <img
                 src="/logos/clubnath-logo-final.jpg"
                 alt="Nossa Maternidade"
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover shadow-medium group-hover:shadow-glow transition-all duration-300 group-hover:scale-105"
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl object-cover shadow-medium group-hover:shadow-glow transition-all duration-300 group-hover:scale-105"
+                loading="eager"
               />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-[10px] font-bold">VIP</span>
+              <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white text-[8px] sm:text-[10px] font-bold">VIP</span>
               </div>
             </div>
             <div className="flex flex-col">
-              <h1 className="text-xl sm:text-2xl font-bold gradient-text tracking-tight">
+              <h1 className="text-base sm:text-2xl font-bold gradient-text tracking-tight">
                 Nossa Maternidade
               </h1>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 hidden sm:block font-medium">
+              <p className="text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400 hidden sm:block font-medium">
                 Comunidade de Mães
               </p>
             </div>
           </div>
 
           {/* Search */}
-          <div className="flex-1 max-w-md mx-4" ref={searchRef}>
+          <div className="flex-1 max-w-md mx-1 sm:mx-4" ref={searchRef}>
             <div className="relative">
               {!isSearchOpen ? (
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 rounded-xl hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 text-left"
+                  className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-2.5 bg-neutral-100 dark:bg-neutral-800 rounded-lg sm:rounded-xl hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 text-left"
                 >
-                  <Search className="w-4 h-4 text-neutral-500" />
-                  <span className="text-sm text-neutral-500 dark:text-neutral-400">Buscar posts, pessoas, grupos...</span>
+                  <Search className="w-4 h-4 text-neutral-500 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 hidden sm:inline">Buscar posts, pessoas, grupos...</span>
+                  <span className="text-xs text-neutral-500 dark:text-neutral-400 sm:hidden">Buscar...</span>
                 </button>
               ) : (
                 <div className="relative">
