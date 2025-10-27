@@ -8,7 +8,7 @@ import { ChevronRight, Eye } from 'lucide-react';
 import { useProducts } from '../hooks/useProducts';
 
 export const ProductPreview: React.FC = () => {
-  const { products, isLoading } = useProducts();
+  const { data: products = [], isLoading } = useProducts();
   const [visibleCount, setVisibleCount] = useState(2);
   const { ref, isVisible } = useLazyLoading({ threshold: 0.1 });
 
