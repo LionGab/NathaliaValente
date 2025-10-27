@@ -17,9 +17,9 @@ const logoConfig = {
     title: 'ClubNath - Comunidade de Mães'
   },
   nath: {
-    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face&auto=format&q=80',
-    alt: 'Nath - Assistente IA',
-    title: 'Nath - Assistente IA'
+    src: '/logos/nathia-logo.jpg',
+    alt: 'NathIA - Assistente IA',
+    title: 'NathIA - Assistente IA'
   },
   clubnath: {
     src: '/logos/clubnath-logo.png',
