@@ -243,11 +243,20 @@ VITE_ENVIRONMENT=production
 
 ## 📝 Documentação Adicional
 
+### Desenvolvimento
+
 - [CLAUDE.md](./CLAUDE.md) - Diretrizes para desenvolvimento
 - [SECURITY.md](./SECURITY.md) - Guia de segurança
 - [DATABASE.md](./DATABASE.md) - Arquitetura do banco de dados
 - [TESTING.md](./TESTING.md) - Estratégia de testes
 - [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) - Design system e componentes
+
+### Code Review e Melhorias
+
+- [QUICK_START.md](./QUICK_START.md) - **[START HERE]** Guia rápido de melhorias
+- [CODE_REVIEW_SUMMARY.md](./CODE_REVIEW_SUMMARY.md) - Sumário executivo da revisão
+- [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - Relatório completo de revisão
+- [CODE_IMPROVEMENTS_GUIDE.md](./CODE_IMPROVEMENTS_GUIDE.md) - Guia prático com exemplos
 
 ---
 
