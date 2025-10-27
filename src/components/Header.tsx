@@ -68,7 +68,7 @@ export const Header = ({ onProfileClick }: HeaderProps) => {
           <div className="flex items-center gap-3 group">
             <div className="relative">
               <img
-                src="/logos/clubnath-logo.png"
+                src="/logos/clubnath-logo-final.jpg"
                 alt="Nossa Maternidade"
                 className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover shadow-medium group-hover:shadow-glow transition-all duration-300 group-hover:scale-105"
               />
