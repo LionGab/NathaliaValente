@@ -62,7 +62,7 @@ export const StorePage = () => {
     },
     {
       id: 6,
-      name: 'Produto Bebê Premium',
+      name: 'Kit Baby o Boticário',
       price: 'R$ 120,00',
       originalPrice: 'R$ 200,00',
       image: 'https://i.imgur.com/tf0GHwz.jpg',
@@ -71,28 +71,6 @@ export const StorePage = () => {
       backgroundColor: 'bg-gradient-to-br from-rose-50 to-pink-100',
       condition: 'Usado 3 meses, conservado'
     },
-    {
-      id: 7,
-      name: 'Produto Bebê Conforto',
-      price: 'R$ 150,00',
-      originalPrice: 'R$ 250,00',
-      image: 'https://i.imgur.com/JoxFimc.jpg',
-      author: 'Luciana T.',
-      avatar: 'LT',
-      backgroundColor: 'bg-gradient-to-br from-teal-50 to-cyan-100',
-      condition: 'Excelente estado'
-    },
-    {
-      id: 8,
-      name: 'Produto Bebê Segurança',
-      price: 'R$ 100,00',
-      originalPrice: 'R$ 180,00',
-      image: 'https://i.imgur.com/XvueTEk.jpg',
-      author: 'Camila A.',
-      avatar: 'CA',
-      backgroundColor: 'bg-gradient-to-br from-indigo-50 to-blue-100',
-      condition: 'Usado 4 meses, limpo'
-    }
   ];
 
   return (
