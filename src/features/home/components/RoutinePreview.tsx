@@ -54,11 +54,11 @@ export const RoutinePreview: React.FC = () => {
       >
         <Card className="p-8 mb-6 text-center bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-dashed border-purple-200 dark:border-purple-800">
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1, 1.1, 1],
               rotate: [0, 5, 0]
             }}
-            transition={{ 
+            transition={{
               duration: 2,
               repeat: Infinity,
               ease: "easeInOut"
@@ -73,8 +73,8 @@ export const RoutinePreview: React.FC = () => {
           <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm mx-auto">
             Que tal criar sua primeira rotina e organizar melhor seu dia?
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <Plus className="w-5 h-5 mr-2" />
@@ -141,33 +141,30 @@ export const RoutinePreview: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${
-                  routine.completed 
-                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' 
-                    : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                }`}
+                className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${routine.completed
+                  ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+                  : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                  }`}
               >
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${
-                    routine.completed 
-                      ? 'bg-green-100 dark:bg-green-900/40' 
-                      : 'bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40'
-                  }`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${routine.completed
+                    ? 'bg-green-100 dark:bg-green-900/40'
+                    : 'bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40'
+                    }`}
                 >
-                  {routine.icon === 'feeding' ? '🍼' : 
-                   routine.icon === 'bathing' ? '🛁' : 
-                   routine.icon === 'sleeping' ? '😴' : '🎯'}
+                  {routine.icon === 'feeding' ? '🍼' :
+                    routine.icon === 'bathing' ? '🛁' :
+                      routine.icon === 'sleeping' ? '😴' : '🎯'}
                 </motion.div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
-                    <span className={`text-base font-semibold ${
-                      routine.completed 
-                        ? 'text-green-700 dark:text-green-400 line-through' 
-                        : 'text-gray-900 dark:text-white'
-                    }`}>
+                    <span className={`text-base font-semibold ${routine.completed
+                      ? 'text-green-700 dark:text-green-400 line-through'
+                      : 'text-gray-900 dark:text-white'
+                      }`}>
                       {routine.title}
                     </span>
                     {routine.completed && (
@@ -193,16 +190,15 @@ export const RoutinePreview: React.FC = () => {
                     )}
                   </div>
                 </div>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => handleToggleRoutine(routine.id, routine.completed)}
-                  className={`p-2 rounded-xl transition-all duration-300 ${
-                    routine.completed 
-                      ? 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-900/60' 
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
+                  className={`p-2 rounded-xl transition-all duration-300 ${routine.completed
+                    ? 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-900/60'
+                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
                   data-testid={`toggle-routine-${routine.id}`}
                 >
                   {routine.completed ? (

@@ -41,18 +41,18 @@ const HomePage = () => {
       }} />
 
       {/* Estatísticas da Comunidade */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Mães ativas</div>
+      <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+          <div className="text-3xl font-bold text-pink-600 dark:text-pink-400 mb-1">2.5K</div>
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Mães ativas</div>
         </div>
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">15K</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Posts hoje</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+          <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-1">15K</div>
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Posts hoje</div>
         </div>
-        <div className="bg-white dark:bg-claude-gray-800 rounded-2xl p-4 text-center shadow-sm">
-          <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">98%</div>
-          <div className="text-xs text-claude-gray-500 dark:text-claude-gray-400">Satisfação</div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+          <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-1">98%</div>
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Satisfação</div>
         </div>
       </div>
 
@@ -63,53 +63,57 @@ const HomePage = () => {
       <ProductPreview />
 
       {/* Ações Rápidas Adicionais */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <button
           onClick={() => handleQuickAction('community')}
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+          className="bg-gradient-to-br from-pink-500 to-purple-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-4 group hover:scale-105 active:scale-95"
         >
-          <Users className="w-6 h-6" />
+          <div className="p-2 bg-white/20 rounded-xl group-hover:bg-white/30 transition-colors">
+            <Users className="w-6 h-6" />
+          </div>
           <div className="text-left">
-            <div className="font-semibold">Comunidade</div>
-            <div className="text-sm opacity-90">Ver posts das mães</div>
+            <div className="font-bold text-lg">Comunidade</div>
+            <div className="text-sm text-white/90 font-medium">Ver posts das mães</div>
           </div>
         </button>
 
         <button
           onClick={() => handleQuickAction('nathia')}
-          className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+          className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-4 group hover:scale-105 active:scale-95"
         >
-          <MessageCircle className="w-6 h-6" />
+          <div className="p-2 bg-white/20 rounded-xl group-hover:bg-white/30 transition-colors">
+            <MessageCircle className="w-6 h-6" />
+          </div>
           <div className="text-left">
-            <div className="font-semibold">NathIA</div>
-            <div className="text-sm opacity-90">Conversar com IA</div>
+            <div className="font-bold text-lg">NathIA</div>
+            <div className="text-sm text-white/90 font-medium">Conversar com IA</div>
           </div>
         </button>
       </div>
 
       {/* Destaque do Dia */}
-      <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-6 mb-6 border border-pink-200 dark:border-pink-800">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+      <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-3xl p-8 mb-8 border border-pink-200 dark:border-pink-800 shadow-lg">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-800 dark:text-white">Dica do Dia</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Com a Nathália</p>
+            <h3 className="font-bold text-xl text-gray-800 dark:text-white">Dica do Dia</h3>
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Com a Nathália</p>
           </div>
         </div>
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+        <blockquote className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg font-medium italic">
           "Lembre-se: você não precisa ser perfeita, apenas presente. Cada pequeno gesto de amor conta mais do que você imagina. 💕"
-        </p>
+        </blockquote>
       </div>
 
       {/* Botão de Criar Post Flutuante */}
       <button
         onClick={handleCreatePost}
-        className="fixed bottom-20 right-4 w-14 h-14 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40"
+        className="fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40 hover:scale-110 active:scale-95 group"
         aria-label="Criar post"
       >
-        <Plus className="w-6 h-6" />
+        <Plus className="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" />
       </button>
     </div>
   );

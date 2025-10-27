@@ -99,10 +99,10 @@ export const ProductPreview: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       priority={index < 2}
                     />
-                    
+
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
+
                     {/* Action Buttons */}
                     <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
                       <motion.button
@@ -112,15 +112,14 @@ export const ProductPreview: React.FC = () => {
                           e.stopPropagation();
                           handleLike(product.id);
                         }}
-                        className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
-                          likedProducts.has(product.id)
-                            ? 'bg-red-500 text-white'
-                            : 'bg-white/80 text-gray-700 hover:bg-red-500 hover:text-white'
-                        }`}
+                        className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${likedProducts.has(product.id)
+                          ? 'bg-red-500 text-white'
+                          : 'bg-white/80 text-gray-700 hover:bg-red-500 hover:text-white'
+                          }`}
                       >
                         <Heart className={`w-4 h-4 ${likedProducts.has(product.id) ? 'fill-current' : ''}`} />
                       </motion.button>
-                      
+
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -158,7 +157,7 @@ export const ProductPreview: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-lg font-bold text-pink-600 dark:text-pink-400">
@@ -168,7 +167,7 @@ export const ProductPreview: React.FC = () => {
                           {product.reviews} avaliações
                         </p>
                       </div>
-                      
+
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -185,7 +184,7 @@ export const ProductPreview: React.FC = () => {
         </div>
 
         {hasMore && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="mt-6 text-center"
