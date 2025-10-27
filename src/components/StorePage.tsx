@@ -1,5 +1,5 @@
 import { TestTube2, PersonStanding, ShoppingBag, Heart } from 'lucide-react';
-import { NathTipsSection } from './NathTipsSection';
+import { SimpleNathTips } from './SimpleNathTips';
 
 export const StorePage = () => {
   // Produtos para Desapega das Mamães
@@ -214,7 +214,7 @@ export const StorePage = () => {
       </div>
 
       {/* Dicas da Nath Section */}
-      <NathTipsSection maxItems={4} />
+      <SimpleNathTips />
 
     </div>
   );
