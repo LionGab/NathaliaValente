@@ -61,3 +61,43 @@ const sessionStorageMock = {
 Object.defineProperty(window, 'sessionStorage', {
   value: sessionStorageMock,
 });
+
+// Mock do Supabase
+vi.mock('./lib/supabase', () => ({
+  supabase: {
+    from: vi.fn(() => ({
+      select: vi.fn().mockReturnThis(),
+      insert: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      delete: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockReturnThis(),
+      order: vi.fn().mockReturnThis(),
+      limit: vi.fn().mockReturnThis(),
+      single: vi.fn().mockReturnThis(),
+      then: vi.fn().mockResolvedValue({
+        data: [],
+        error: null
+      })
+    })),
+    auth: {
+      getUser: vi.fn().mockResolvedValue({
+        data: { user: null },
+        error: null
+      }),
+      signInWithPassword: vi.fn().mockResolvedValue({
+        data: { user: null, session: null },
+        error: null
+      }),
+      signUp: vi.fn().mockResolvedValue({
+        data: { user: null, session: null },
+        error: null
+      }),
+      signOut: vi.fn().mockResolvedValue({
+        error: null
+      }),
+      onAuthStateChange: vi.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: vi.fn() } }
+      })
+    }
+  }
+}));

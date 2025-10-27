@@ -6,13 +6,13 @@ import { Share2, Heart, Sparkles } from 'lucide-react';
 export const HeroCard: React.FC = () => {
   return (
     <Card 
-      className="h-auto min-h-32 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-700 p-6 rounded-3xl shadow-glow hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden relative"
+      className="h-32 max-h-32 bg-gradient-to-r from-purple-600 to-pink-500 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden relative"
       data-testid="hero-card"
     >
       {/* Decoração com icon */}
-      <Sparkles className="absolute top-4 right-4 w-8 h-8 opacity-20 group-hover:opacity-40 transition-opacity" />
+      <Sparkles className="absolute top-3 right-3 w-6 h-6 opacity-20 group-hover:opacity-40 transition-opacity" />
       
-      <div>
+      <div className="flex-1 flex flex-col justify-center">
         <h2 className="text-lg font-bold text-white mb-1">
           Bem-vinda à Nossa Maternidade!
         </h2>
@@ -21,18 +21,19 @@ export const HeroCard: React.FC = () => {
         </p>
       </div>
       
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2 mt-2">
         <Button 
           size="sm" 
-          className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+          variant="secondary"
+          className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm text-xs px-3 py-1.5"
         >
-          <Share2 className="w-4 h-4 mr-1" />
-          Compartilhar
+          <Share2 className="w-3 h-3 mr-1" />
+          Compartilhar memória
         </Button>
         <Button 
           size="sm" 
           variant="ghost"
-          className="text-white hover:bg-white/20"
+          className="text-white/80 hover:text-white hover:bg-white/10 p-1.5"
         >
           <Heart className="w-4 h-4" />
         </Button>
