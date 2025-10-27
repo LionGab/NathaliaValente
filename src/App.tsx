@@ -2,14 +2,13 @@ import { useState, useEffect, Suspense, lazy } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
-import { useMonetization } from './hooks/useMonetization';
+import { CartProvider } from './contexts/CartContext';
 // import { AuthPage } from './components/AuthPage';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { PWANotifications } from './components/PWANotifications';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { PerformanceDebug } from './components/PerformanceDebug';
-import { MonetizationBanner } from './components/MonetizationBanner';
 import { InstagramAuth } from './components/InstagramAuth';
 import { ConversionOnboarding } from './components/ConversionOnboarding';
 import { ErrorBoundary, FeedErrorBoundary, ChatErrorBoundary, GroupsErrorBoundary, ProfileErrorBoundary, StoreErrorBoundary } from './components/ErrorBoundary';
@@ -29,7 +28,6 @@ const ProfilePage = lazy(() => import('./components/ProfilePage').then(module =>
 function AppContent() {
   const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('feed');
-  const { showBanner, bannerVariant, closeBanner } = useMonetization();
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>('loading');
   const { notifications, removeNotification } = useNotifications();
 
@@ -146,12 +144,6 @@ function AppContent() {
           <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
           <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
           <PerformanceDebug />
-          {showBanner && (
-            <MonetizationBanner
-              variant={bannerVariant}
-              onClose={closeBanner}
-            />
-          )}
           <NotificationContainer
             notifications={notifications}
             onClose={removeNotification}
@@ -173,7 +165,9 @@ function App() {
           <AccessibilityProvider>
             <ToastProvider>
               <AuthProvider>
-                <AppContent />
+                <CartProvider>
+                  <AppContent />
+                </CartProvider>
               </AuthProvider>
             </ToastProvider>
           </AccessibilityProvider>

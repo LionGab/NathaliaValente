@@ -43,7 +43,7 @@ describe("InstagramAuth", () => {
         expect.objectContaining({
           id: "demo-user-123",
           username: "nathalia_arcuri",
-          full_name: "Nathalia Arcuri",
+          full_name: "Nathália Valente",
         })
       )
     })

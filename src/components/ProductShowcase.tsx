@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Star, Heart, Eye } from 'lucide-react';
 import { ProductCard } from './ui/ProductCard';
+import { ProductDetailModal } from './ui/ProductDetailModal';
+import { useCart } from '../contexts/CartContext';
 import { getFeaturedProducts, getNewProducts, getProductsByBrand } from '../data/products';
 import { Product } from '../types/products';
 
@@ -18,6 +20,9 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
     maxItems = 4
 }) => {
     const [favorites, setFavorites] = useState<Set<string>>(new Set());
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { addItem } = useCart();
 
     const getProducts = () => {
         switch (variant) {
@@ -67,13 +72,26 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
     const products = getProducts().slice(0, maxItems);
 
     const handleViewDetails = (product: Product) => {
-        // TODO: Implementar modal de detalhes
-        console.log('Ver detalhes:', product.name);
+        setSelectedProduct(product);
+        setIsModalOpen(true);
     };
 
     const handleAddToCart = (product: Product) => {
-        // TODO: Implementar sistema de carrinho
-        console.log('Adicionar ao carrinho:', product.name);
+        addItem({
+            id: product.id,
+            name: product.name,
+            brand: product.brand,
+            price: product.price,
+            images: product.images,
+            quantity: 1,
+            link: product.link,
+            isExternal: product.isExternal
+        });
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedProduct(null);
     };
 
     const handleToggleFavorite = (productId: string) => {
@@ -134,6 +152,16 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
                     Ver Todos os Produtos
                 </button>
             </div>
+
+            {/* Product Detail Modal */}
+            {selectedProduct && (
+                <ProductDetailModal
+                    product={selectedProduct}
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    onAddToCart={handleAddToCart}
+                />
+            )}
         </div>
     );
 };

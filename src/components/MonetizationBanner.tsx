@@ -25,11 +25,11 @@ export const MonetizationBanner = ({
       case 'premium':
         return {
           icon: <Crown className="w-6 h-6 text-yellow-500" />,
-          title: "👑 Nossa Maternidade VIP",
-          subtitle: "Acesso exclusivo à Nathália Valente",
-          features: ["Produtos NAVA antecipados", "Comunidade VIP", "IA Nath personalizada"],
-          cta: "Assinar por R$ 39/mês",
-          gradient: "from-pink-500 to-purple-600"
+          title: "✨ Conteúdo Exclusivo",
+          subtitle: "Acesso antecipado a materiais especiais",
+          features: ["Vídeos privados", "Dicas exclusivas", "Q&A personalizado"],
+          cta: "Ver conteúdo",
+          gradient: "from-purple-500 to-pink-600"
         };
       case 'community':
         return {

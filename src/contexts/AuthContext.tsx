@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       id: 'demo-user-123',
       email: 'demo@clubnath.com',
       user_metadata: {
-        full_name: 'Nathalia Arcuri',
+        full_name: 'Nathália Valente',
         avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
       }
     } as User;
@@ -159,7 +159,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSession(demoSession);
     setProfile({
       id: 'demo-user-123',
-      full_name: 'Nathalia Arcuri',
+      full_name: 'Nathália Valente',
       username: 'nathalia_arcuri',
       avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
       bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',

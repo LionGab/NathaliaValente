@@ -2,10 +2,10 @@
 export const mockUsers = [
   {
     id: '1',
-    full_name: 'Nathalia Arcuri',
+    full_name: 'Nathália Valente',
     email: 'nath@clubnath.com',
     avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-    bio: 'Criadora do Me Poupe! e especialista em educação financeira. Mãe, empresária e apaixonada por ajudar outras mulheres.',
+    bio: 'Influenciadora digital com 35M+ seguidores, CEO da NAVA e especialista em maternidade consciente. Mãe, empresária e apaixonada por conectar mulheres através de experiências autênticas.',
     followers_count: 29000000,
     following_count: 500,
     posts_count: 1250,
@@ -50,8 +50,8 @@ export const mockPosts = [
   {
     id: '1',
     user_id: '1',
-    caption: 'Pessoal, hoje quero falar sobre algo muito importante: a importância de ter uma reserva de emergência! 💰\n\nMuitas mulheres me perguntam: "Nath, quanto devo guardar?"\n\nA regra é simples: 6 meses dos seus gastos essenciais. Se você gasta R$ 3.000 por mês, sua reserva deve ser de R$ 18.000.\n\nMas comece devagar! R$ 50 por mês já é um começo. O importante é começar! 🚀\n\n#EducacaoFinanceira #ReservaDeEmergencia #MePoupe',
-    category: 'Educação Financeira',
+    caption: 'Mamães, hoje quero falar sobre algo que mudou minha vida: o autocuidado não é egoísmo, é necessidade! 💕\n\nMuitas de vocês me perguntam: "Nath, como conciliar maternidade e autocuidado?"\n\nA resposta é simples: comece com 15 minutos por dia. Um banho relaxante, uma leitura, ou simplesmente respirar fundo.\n\nVocê não pode cuidar de ninguém se não cuidar de si mesma primeiro! 🌸\n\n#Autocuidado #MaternidadeConsciente #ClubNath',
+    category: 'Autocuidado',
     image_url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop',
     likes_count: 1250,
     comments_count: 89,
@@ -142,27 +142,28 @@ export const mockComments = [
 ];
 
 export const mockCategories = [
-  'Educação Financeira',
-  'Investimentos',
+  'Autocuidado',
+  'Maternidade Consciente',
   'Empreendedorismo',
   'Conquistas',
   'Dúvidas',
   'Dicas',
-  'Motivação'
+  'Motivação',
+  'Bem-estar'
 ];
 
 export const mockDailyQuotes = [
   {
     id: '1',
-    quote: 'O dinheiro não compra felicidade, mas compra liberdade. E liberdade é felicidade.',
-    author: 'Nathalia Arcuri',
+    quote: 'A maternidade é uma jornada de autoconhecimento. Cada desafio nos torna mais fortes e cada conquista nos aproxima da mulher que sempre fomos destinadas a ser.',
+    author: 'Nathália Valente',
     category: 'Motivação',
     date: new Date().toISOString()
   },
   {
     id: '2',
-    quote: 'Investir em conhecimento é o melhor investimento que você pode fazer.',
-    author: 'Nathalia Arcuri',
+    quote: 'Ser mãe não significa perder sua identidade. É descobrir uma versão ainda mais poderosa de quem você já é.',
+    author: 'Nathália Valente',
     category: 'Educação',
     date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   }

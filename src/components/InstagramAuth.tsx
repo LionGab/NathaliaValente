@@ -110,7 +110,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Cadastro realizado com sucesso!');
           showSuccess(
             'Cadastro realizado!',
-            'Bem-vinda à Nossa Maternidade!'
+            'Bem-vinda ao ClubNath!'
           );
 
           // Usar dados do usuário criado
@@ -139,7 +139,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           console.log('✅ Login realizado com sucesso!');
           showSuccess(
             'Login realizado!',
-            'Bem-vinda de volta à Nossa Maternidade!'
+            'Bem-vinda de volta ao ClubNath!'
           );
 
           // Usar dados do usuário logado
@@ -180,7 +180,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
       const mockUser = {
         id: 'demo-user-123',
         username: 'nathalia_arcuri',
-        full_name: 'Nathalia Arcuri',
+        full_name: 'Nathália Valente',
         profile_picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
         followers_count: 29000000,
         following_count: 500,
@@ -216,15 +216,12 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
               alt="Nossa Maternidade"
               className="w-24 h-24 rounded-3xl shadow-large mx-auto animate-float object-cover"
             />
-            <div className="absolute -top-2 -right-2 bg-accent-500 rounded-full px-3 py-1 shadow-lg">
-              <span className="text-xs font-bold text-white">VIP</span>
-            </div>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold gradient-text mb-2 tracking-tight">
-            Nossa Maternidade
+            ClubNath
           </h1>
           <p className="text-neutral-600 dark:text-neutral-400 font-medium">
-            Comunidade de Mães
+            Comunidade Exclusiva de Mães
           </p>
         </div>
 

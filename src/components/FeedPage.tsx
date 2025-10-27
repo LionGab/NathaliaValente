@@ -7,12 +7,10 @@ import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Sparkles, Crown } 
 import { PostComments } from './PostComments';
 import { LoadingSpinner, PostSkeleton } from './ui/LoadingSpinner';
 import { useMockData } from '../hooks/useMockData';
-// import { AnimatedCard } from './ui/AnimatedCard';
 import { Button } from './ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../hooks/useGestures';
 import { formatNumber, formatDate } from '../lib/utils';
 import { CommunityLogo } from './ui/Logo';
-import { PremiumFeatures } from './PremiumFeatures';
 import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
 import { FeaturedProductsCard } from './ProductShowcase';
@@ -162,8 +160,6 @@ export const FeedPage = () => {
       {/* Featured Products Card */}
       <FeaturedProductsCard />
 
-      {/* Premium Features Banner */}
-      <PremiumFeatures onUpgrade={() => console.log('Upgrade to VIP')} />
 
       {/* Community Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
