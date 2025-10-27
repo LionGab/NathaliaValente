@@ -13,6 +13,7 @@ import { formatNumber, formatDate } from '../lib/utils';
 import { DailyVerseCard } from './DailyVerseCard';
 import { OptimizedImage } from './ui/OptimizedImage';
 import { NAVAHeroSection } from './NAVAHeroSection';
+import { RoutineCalendar } from './RoutineCalendar';
 import type { Post } from '../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -189,7 +190,11 @@ export const FeedPage = () => {
         </div>
       </div>
 
-      <div className="space-y-6">
+      {/* Calendário de Rotina */}
+      <RoutineCalendar />
+
+      {/* Posts removidos - substituídos pelo Calendário de Rotina */}
+      {false && <div className="space-y-6">
         {posts.map((post, index) => (
           <article
             key={post.id}
@@ -259,11 +264,10 @@ export const FeedPage = () => {
                     className="flex items-center gap-2 sm:gap-2.5 text-claude-gray-600 dark:text-claude-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-200 group touch-target"
                   >
                     <Heart
-                      className={`w-5 h-5 ${
-                        post.user_has_liked
-                          ? 'fill-pink-500 text-pink-500 scale-110'
-                          : 'group-hover:scale-110'
-                      } transition-all duration-200`}
+                      className={`w-5 h-5 ${post.user_has_liked
+                        ? 'fill-pink-500 text-pink-500 scale-110'
+                        : 'group-hover:scale-110'
+                        } transition-all duration-200`}
                       strokeWidth={2}
                     />
                     <span className="text-sm font-semibold">
@@ -321,7 +325,7 @@ export const FeedPage = () => {
             <LoadingSpinner size="md" text="Carregando mais posts..." />
           </div>
         )}
-      </div>
+      </div>}
 
       {showCreatePost && (
         <Suspense fallback={<LoadingSpinner text="Carregando editor..." />}>
