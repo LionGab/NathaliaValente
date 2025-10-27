@@ -51,9 +51,9 @@ export const StorePage = () => {
     },
     {
       id: 5,
-      name: 'Baby Teste OLLIN',
-      price: 'R$ 45,00',
-      originalPrice: 'R$ 80,00',
+      name: 'Enxoval de Berço Completo',
+      price: 'R$ 280,00',
+      originalPrice: 'R$ 450,00',
       image: 'https://i.imgur.com/76haTca.jpg',
       author: 'Patricia M.',
       avatar: 'PM',
