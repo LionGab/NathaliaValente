@@ -20,11 +20,11 @@ export const usePWA = () => {
   useEffect(() => {
     // Check if app is already installed
     const checkIfInstalled = () => {
-      const isInstalled = 
+      const isInstalled =
         window.matchMedia('(display-mode: standalone)').matches ||
         (window.navigator as any).standalone ||
         document.referrer.includes('android-app://');
-      
+
       setPwaState(prev => ({ ...prev, isInstalled }));
     };
 
@@ -32,20 +32,20 @@ export const usePWA = () => {
     const handleBeforeInstallPrompt = (e: Event) => {
       // Don't prevent default - let the browser show its own prompt
       // e.preventDefault(); // REMOVED - This was causing the banner not to show
-      setPwaState(prev => ({ 
-        ...prev, 
-        canInstall: true, 
-        installPrompt: e 
+      setPwaState(prev => ({
+        ...prev,
+        canInstall: true,
+        installPrompt: e
       }));
     };
 
     // Handle app installed
     const handleAppInstalled = () => {
-      setPwaState(prev => ({ 
-        ...prev, 
-        isInstalled: true, 
-        canInstall: false, 
-        installPrompt: null 
+      setPwaState(prev => ({
+        ...prev,
+        isInstalled: true,
+        canInstall: false,
+        installPrompt: null
       }));
     };
 
@@ -63,7 +63,7 @@ export const usePWA = () => {
       if ('serviceWorker' in navigator) {
         try {
           const registration = await navigator.serviceWorker.register('/sw.js');
-          
+
           // Check for updates
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
@@ -103,11 +103,11 @@ export const usePWA = () => {
     if (pwaState.installPrompt) {
       const result = await pwaState.installPrompt.prompt();
       console.log('Install prompt result:', result);
-      
-      setPwaState(prev => ({ 
-        ...prev, 
-        canInstall: false, 
-        installPrompt: null 
+
+      setPwaState(prev => ({
+        ...prev,
+        canInstall: false,
+        installPrompt: null
       }));
     }
   };

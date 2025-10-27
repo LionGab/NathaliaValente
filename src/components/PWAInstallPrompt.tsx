@@ -23,7 +23,7 @@ export const PWAInstallPrompt = () => {
       // Don't prevent default - let the browser show its own prompt
       // e.preventDefault(); // REMOVED - This was causing the banner not to show
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      
+
       // Show our custom prompt after 2 seconds (if browser doesn't show its own)
       setTimeout(() => {
         setShowPrompt(true);
@@ -48,7 +48,7 @@ export const PWAInstallPrompt = () => {
 
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
+
     if (outcome === 'accepted') {
       setShowPrompt(false);
     }
@@ -67,7 +67,7 @@ export const PWAInstallPrompt = () => {
               <Download className="w-6 h-6 text-white" />
             </div>
           </div>
-          
+
           <div className="flex-1 min-w-0">
             <h3 className="text-white font-bold text-lg mb-1">
               Instalar ClubNath
@@ -75,7 +75,7 @@ export const PWAInstallPrompt = () => {
             <p className="text-white/90 text-sm mb-3">
               Acesso rápido, notificações e experiência nativa
             </p>
-            
+
             <div className="flex items-center gap-4 text-white/80 text-xs mb-3">
               <div className="flex items-center gap-1">
                 <Smartphone className="w-4 h-4" />
@@ -90,7 +90,7 @@ export const PWAInstallPrompt = () => {
                 <span>Super rápido</span>
               </div>
             </div>
-            
+
             <div className="flex gap-2">
               <button
                 onClick={handleInstall}

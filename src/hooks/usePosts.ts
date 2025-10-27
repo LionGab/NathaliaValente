@@ -83,7 +83,7 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
         }
       } catch (rpcError) {
         console.warn('RPC function failed, falling back to direct query:', rpcError);
-        
+
         // Fallback to direct query if RPC functions fail
         let query = supabase
           .from('posts')
@@ -112,7 +112,7 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
     } catch (err) {
       console.error('Error fetching posts:', err);
       setError(err as Error);
-      
+
       // Set empty array as fallback to prevent complete failure
       setPosts([]);
     } finally {

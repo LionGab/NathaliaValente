@@ -1,34 +1,32 @@
 {
-  // === AUTO-ACCEPT AGRESSIVO CURSOR ===
-  "claude": {
-    "autoAcceptChanges": true,
-    "autoApplyEdits": true,
-    "autoInstallDependencies": true,
-    "showWelcomeMessage": false,
-    "skipConfirmation": true,
-    "autoAccept": "always",
-    "autoAcceptDelay": 100,
-    "confirmBeforeAccept": false,
-    "autoAcceptThreshold": 0.3
+  "cursor.cpp.disabledLanguages": [],
+  "cursor.general.enableAutoAccept": true,
+  "cursor.general.autoAcceptChanges": true,
+  "cursor.general.enableAutoFormat": true,
+  "cursor.general.enableAutoCommit": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
   },
-  "editor": {
-    "autoSave": "afterDelay",
-    "autoSaveDelay": 100,
-    "formatOnSave": true,
-    "formatOnPaste": true,
-    "formatOnType": true,
-    "quickSuggestionsDelay": 0,
-    "suggestOnTriggerCharacters": true,
-    "suggestSelection": "first",
-    "acceptSuggestionOnCommitCharacter": true,
-    "acceptSuggestionOnEnter": "on"
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
   },
-  "cursor": {
-    "autoAccept": "always",
-    "autoAcceptDelay": 100,
-    "confirmBeforeAccept": false,
-    "autoAcceptThreshold": 0.3,
-    "inlineSuggest.mode": "automatic"
-  }
+  "tailwindCSS.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
 }
-
