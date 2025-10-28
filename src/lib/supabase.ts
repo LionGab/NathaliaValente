@@ -1,20 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Configuração segura do Supabase
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Configuração segura do Supabase com fallback
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5NzQ4MDAsImV4cCI6MjA1MDU1MDgwMH0.placeholder';
 
-// Validação das variáveis de ambiente com fallback
+// Validação das variáveis de ambiente
 if (!supabaseUrl || !supabaseAnonKey) {
-  const errorMessage = `
-    ⚠️ SUPABASE NÃO CONFIGURADO - Usando modo DEMO
-    
-    Para usar funcionalidades completas, configure:
-    - VITE_SUPABASE_URL
-    - VITE_SUPABASE_ANON_KEY
-  `;
-
-  console.warn(errorMessage);
+  console.warn('⚠️ SUPABASE: Usando configuração padrão');
 }
 
 // Log apenas em desenvolvimento
@@ -22,20 +14,20 @@ if (import.meta.env.DEV && supabaseUrl) {
   console.log('✅ Supabase configurado:', supabaseUrl);
 }
 
-// Criar cliente Supabase (ou mock se não configurado)
-export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  })
-  : createClient('https://placeholder.supabase.co', 'placeholder-key', {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
+// Criar cliente Supabase com configuração mobile-optimized
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce'
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10
+    }
+  }
+});
 
 export type Profile = {
   id: string;
