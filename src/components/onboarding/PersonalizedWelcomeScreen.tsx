@@ -12,7 +12,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
     const {
         onboardingData,
         getPersonalizedMessage,
-        getPersonalizedRitual,
+        getPersonalizedActivity,
         completeOnboarding
     } = useEssenceOnboarding();
 
@@ -32,8 +32,8 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
         triggerHaptic('heavy');
         completeOnboarding();
         // Aqui você redirecionaria para a primeira atividade personalizada
-        console.log('Iniciando atividade:', getPersonalizedRitual());
-    }, [completeOnboarding, getPersonalizedRitual, triggerHaptic]);
+        console.log('Iniciando atividade:', getPersonalizedActivity());
+    }, [completeOnboarding, getPersonalizedActivity, triggerHaptic]);
 
     const getArchetypeIcon = () => {
         switch (onboardingData.selectedArchetype) {
@@ -66,79 +66,79 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
     };
 
     return (
-        <div className="text-center space-y-8">
-            {/* Background with Archetype */}
+        <div className="text-center space-y-4 sm:space-y-6">
+            {/* Mobile-Optimized Background with Archetype */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className={`relative p-8 rounded-3xl bg-gradient-to-br ${getArchetypeColor()} dark:from-gray-800 dark:to-gray-900 border border-gray-200/50 dark:border-gray-700/50`}
+                className={`relative p-4 sm:p-6 rounded-2xl bg-gradient-to-br ${getArchetypeColor()} dark:from-gray-800 dark:to-gray-900 border border-gray-200/50 dark:border-gray-700/50`}
             >
-                {/* Archetype Icon */}
+                {/* Mobile-Optimized Archetype Icon */}
                 <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-                    className="text-8xl mb-6"
+                    className="text-5xl sm:text-6xl mb-4 sm:mb-6"
                 >
                     {getArchetypeIcon()}
                 </motion.div>
 
-                {/* Personalized Message */}
+                {/* Mobile-Optimized Personalized Message */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="space-y-6"
+                    className="space-y-3 sm:space-y-4"
                 >
-                    <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white leading-relaxed px-4">
+                    <h1 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white leading-relaxed px-2">
                         Bem-vinda à Nossa Maternidade
                     </h1>
 
-                    <blockquote className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed italic px-4">
+                    <blockquote className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed italic px-2">
                         "{getPersonalizedMessage()}"
                     </blockquote>
                 </motion.div>
 
-                {/* Sparkles Animation */}
+                {/* Mobile-Optimized Sparkles Animation */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.2 }}
-                    className="absolute top-4 right-4"
+                    className="absolute top-3 right-3 sm:top-4 sm:right-4"
                 >
-                    <Sparkles className="w-6 h-6 text-yellow-500 animate-pulse" />
+                    <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-yellow-500 animate-pulse" />
                 </motion.div>
             </motion.div>
 
-            {/* Ritual Information */}
+            {/* Mobile-Optimized Ritual Information */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0 }}
-                className="space-y-4"
+                className="space-y-3 sm:space-y-4"
             >
-                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-                            <Heart className="w-5 h-5 text-white" />
+                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">
                             Seu Primeiro Ritual
                         </h3>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        {getPersonalizedRitual()} - Um momento especial criado especialmente para você
+                    <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        {getPersonalizedActivity()} - Um momento especial criado especialmente para você
                     </p>
                 </div>
             </motion.div>
 
-            {/* Enhanced Start Button */}
+            {/* Mobile-Optimized Start Button */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 }}
-                className="pt-6"
+                className="pt-4 sm:pt-6"
             >
                 <motion.button
                     onClick={handleStartRitual}
@@ -150,7 +150,7 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                             handleStartRitual();
                         }
                     }}
-                    className="group relative w-full py-4 sm:py-5 px-6 sm:px-8 rounded-3xl font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl hover:shadow-pink-500/30 hover:shadow-2xl transition-all duration-500 overflow-hidden touch-target"
+                    className="group relative w-full py-3 sm:py-4 px-6 rounded-2xl font-bold text-sm sm:text-base bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-xl hover:shadow-pink-500/30 transition-all duration-300 overflow-hidden min-h-[48px]"
                     aria-label="Iniciar sua primeira atividade personalizada"
                     role="button"
                 >
@@ -162,27 +162,29 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     />
 
-                    <div className="relative flex items-center justify-center gap-3">
-                        <span>Começar minha primeira atividade</span>
+                    <div className="relative flex items-center justify-center gap-2">
+                        <span className="truncate">Começar minha primeira atividade</span>
                         <motion.div
-                            animate={{ x: [0, 5, 0] }}
+                            animate={{ x: [0, 3, 0] }}
                             transition={{ duration: 1, repeat: Infinity }}
                         >
-                            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         </motion.div>
                     </div>
                 </motion.button>
 
-                {/* Completion Status */}
+                {/* Mobile-Optimized Completion Status */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.5 }}
-                    className="text-center mt-4"
+                    className="text-center mt-3"
                 >
-                    <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-full text-sm font-medium">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Onboarding completo! Bem-vinda à Nossa Maternidade</span>
+                    <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-full text-xs font-medium">
+                        <CheckCircle className="w-3 h-3" />
+                        <span className="truncate max-w-[250px] sm:max-w-none">
+                            Onboarding completo! Bem-vinda à Nossa Maternidade
+                        </span>
                     </div>
                 </motion.div>
             </motion.div>
