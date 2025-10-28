@@ -44,21 +44,21 @@ export const DesireScreen: React.FC = () => {
     }, [previousStep, triggerHaptic]);
 
     return (
-        <div className="text-center space-y-8">
-            {/* Enhanced Header */}
+        <div className="text-center space-y-4 sm:space-y-6">
+            {/* Mobile-Optimized Header */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="space-y-6"
+                className="space-y-3 sm:space-y-4"
             >
                 <motion.div
                     initial={{ scale: 0, rotate: 180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                    className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-purple-500/30"
+                    className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-xl shadow-purple-500/30"
                 >
-                    <Sparkles className="w-10 h-10 text-white" />
+                    <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -71,7 +71,7 @@ export const DesireScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-4"
+                    className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-2"
                 >
                     O que você mais quer neste momento?
                 </motion.h1>
@@ -80,18 +80,18 @@ export const DesireScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl text-center leading-relaxed max-w-lg mx-auto px-4"
+                    className="text-gray-600 dark:text-gray-400 text-sm sm:text-base text-center leading-relaxed max-w-sm mx-auto px-2"
                 >
-                    Isso vai nos ajudar a criar um espaço feito sob medida para sua jornada materna.
+                    Isso vai nos ajudar a criar um espaço feito sob medida para você.
                 </motion.p>
             </motion.div>
 
-            {/* Enhanced Options */}
+            {/* Mobile-Optimized Options */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="space-y-5"
+                className="space-y-3 sm:space-y-4"
             >
                 {DESIRE_OPTIONS.map((desire, index) => (
                     <motion.button
@@ -99,7 +99,7 @@ export const DesireScreen: React.FC = () => {
                         initial={{ opacity: 0, x: -30, scale: 0.9 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         transition={{
-                            delay: 1.0 + index * 0.15,
+                            delay: 0.6 + index * 0.1,
                             type: "spring",
                             stiffness: 100,
                             damping: 15
@@ -113,9 +113,9 @@ export const DesireScreen: React.FC = () => {
                                 handleSelect(desire.id);
                             }
                         }}
-                        className={`group relative w-full p-6 sm:p-8 rounded-3xl text-left transition-all duration-500 overflow-hidden touch-target ${selectedDesire === desire.id
-                            ? `bg-gradient-to-r ${desire.color} shadow-2xl scale-105 border-2 border-purple-300 dark:border-purple-500`
-                            : 'bg-white/90 dark:bg-gray-800/90 backdrop-blur-md hover:shadow-xl hover:scale-102 border border-gray-200/50 dark:border-gray-700/50'
+                        className={`group relative w-full p-4 sm:p-6 rounded-2xl text-left transition-all duration-300 overflow-hidden min-h-[80px] ${selectedDesire === desire.id
+                            ? `bg-gradient-to-r ${desire.color} shadow-xl scale-105 border-2 border-purple-300 dark:border-purple-500`
+                            : 'bg-white/90 dark:bg-gray-800/90 backdrop-blur-md hover:shadow-lg border border-gray-200/50 dark:border-gray-700/50'
                             }`}
                         tabIndex={0}
                         role="button"
@@ -128,26 +128,26 @@ export const DesireScreen: React.FC = () => {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-3xl"
+                                className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-2xl"
                             />
                         )}
 
-                        <div className="relative flex items-center gap-5">
+                        <div className="relative flex items-center gap-3 sm:gap-4">
                             <motion.div
-                                className="text-5xl"
+                                className="text-3xl sm:text-4xl"
                                 whileHover={{ scale: 1.1, rotate: 5 }}
                                 transition={{ type: "spring", stiffness: 300 }}
                             >
                                 {desire.icon}
                             </motion.div>
 
-                            <div className="flex-1">
-                                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-1 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                     {desire.label}
                                 </h3>
                                 <p
                                     id={`desire-${desire.id}-description`}
-                                    className="text-sm sm:text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed"
+                                    className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors leading-relaxed line-clamp-2"
                                 >
                                     {desire.description}
                                 </p>
@@ -158,7 +158,7 @@ export const DesireScreen: React.FC = () => {
                                     initial={{ scale: 0, rotate: -180 }}
                                     animate={{ scale: 1, rotate: 0 }}
                                     transition={{ type: "spring", stiffness: 200 }}
-                                    className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-gray-800"
+                                    className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-gray-800 flex-shrink-0"
                                 >
                                     <motion.div
                                         initial={{ scale: 0 }}
@@ -166,33 +166,33 @@ export const DesireScreen: React.FC = () => {
                                         transition={{ delay: 0.2 }}
                                         className="text-white"
                                     >
-                                        <CheckCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+                                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                                     </motion.div>
                                 </motion.div>
                             )}
                         </div>
 
                         {/* Hover Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
                     </motion.button>
                 ))}
             </motion.div>
 
-            {/* Enhanced Navigation Buttons */}
+            {/* Mobile-Optimized Navigation Buttons */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
-                className="flex flex-col sm:flex-row gap-4 pt-6"
+                transition={{ delay: 0.8 }}
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6"
             >
                 <motion.button
                     onClick={handlePrevious}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 py-4 px-6 sm:px-8 rounded-2xl font-semibold text-lg border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 touch-target flex items-center justify-center gap-2"
+                    className="flex-1 py-3 sm:py-4 px-6 rounded-2xl font-semibold text-sm sm:text-base border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 min-h-[48px] flex items-center justify-center gap-2"
                     aria-label="Voltar para etapa anterior"
                 >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Voltar</span>
                 </motion.button>
 
@@ -207,8 +207,8 @@ export const DesireScreen: React.FC = () => {
                             handleNext();
                         }
                     }}
-                    className={`flex-1 py-4 px-6 sm:px-8 rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 touch-target flex items-center justify-center gap-2 ${selectedDesire
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg hover:shadow-xl hover:scale-105'
+                    className={`flex-1 py-3 sm:py-4 px-6 rounded-2xl font-semibold text-sm sm:text-base transition-all duration-300 min-h-[48px] flex items-center justify-center gap-2 ${selectedDesire
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg hover:shadow-xl'
                         : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                         }`}
                     aria-label={selectedDesire ? "Continuar para próxima etapa" : "Selecione um desejo para continuar"}
@@ -216,20 +216,22 @@ export const DesireScreen: React.FC = () => {
                     role="button"
                 >
                     <span>Continuar</span>
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.button>
             </motion.div>
 
-            {/* Selection Status */}
+            {/* Selection Status - Mobile Optimized */}
             {selectedDesire && (
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center"
                 >
-                    <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-full text-sm font-medium">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Desejo selecionado: {DESIRE_OPTIONS.find(d => d.id === selectedDesire)?.label}</span>
+                    <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-full text-xs font-medium">
+                        <CheckCircle className="w-3 h-3" />
+                        <span className="truncate max-w-[200px] sm:max-w-none">
+                            {DESIRE_OPTIONS.find(d => d.id === selectedDesire)?.label}
+                        </span>
                     </div>
                 </motion.div>
             )}

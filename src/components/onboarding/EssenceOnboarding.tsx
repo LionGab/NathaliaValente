@@ -10,14 +10,12 @@ import { EmotionalStateScreen } from './EmotionalStateScreen';
 import { DesireScreen } from './DesireScreen';
 import { ArchetypeSelectionScreen } from './ArchetypeSelectionScreen';
 import { PersonalizedWelcomeScreen } from './PersonalizedWelcomeScreen';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
 
 export const EssenceOnboarding: React.FC = () => {
   const {
     currentStep,
     isOnboardingActive,
-    isOnboardingComplete,
-    onboardingData
+    isOnboardingComplete
   } = useEssenceOnboarding();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -88,13 +86,13 @@ export const EssenceOnboarding: React.FC = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)]"></div>
       </div>
 
-      {/* Enhanced Progress Indicator */}
-      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10">
+      {/* Mobile-Optimized Progress Indicator */}
+      <div className="absolute top-4 sm:top-8 left-1/2 transform -translate-x-1/2 z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="flex items-center gap-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-full px-6 py-3 shadow-xl border border-white/20 dark:border-gray-700/20"
+          className="flex items-center gap-2 sm:gap-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-xl border border-white/20 dark:border-gray-700/20"
         >
           {[1, 2, 3, 4].map((step) => (
             <motion.div
@@ -102,7 +100,7 @@ export const EssenceOnboarding: React.FC = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.7 + step * 0.1 }}
-              className={`relative w-4 h-4 rounded-full transition-all duration-500 ${step <= currentStep
+              className={`relative w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${step <= currentStep
                   ? 'bg-gradient-to-r from-pink-500 to-purple-600 scale-110 shadow-lg shadow-pink-500/30'
                   : 'bg-gray-300 dark:bg-gray-600'
                 }`}
@@ -116,13 +114,13 @@ export const EssenceOnboarding: React.FC = () => {
               )}
             </motion.div>
           ))}
-          <div className="text-xs font-medium text-gray-600 dark:text-gray-400 ml-2">
+          <div className="text-xs font-medium text-gray-600 dark:text-gray-400 ml-1 sm:ml-2">
             {currentStep}/4
           </div>
         </motion.div>
       </div>
 
-      {/* Enhanced Skip Button */}
+      {/* Mobile-Optimized Skip Button */}
       <motion.button
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -131,18 +129,18 @@ export const EssenceOnboarding: React.FC = () => {
           const { skipOnboarding } = useEssenceOnboarding();
           skipOnboarding();
         }}
-        className="absolute top-8 right-8 z-10 group"
+        className="absolute top-4 sm:top-8 right-4 sm:right-8 z-10 group"
       >
-        <div className="flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20 dark:border-gray-700/20">
-          <span className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors text-sm font-medium">
+        <div className="flex items-center gap-1 sm:gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20 dark:border-gray-700/20">
+          <span className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors text-xs sm:text-sm font-medium">
             Pular
           </span>
           <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full group-hover:bg-gray-600 dark:group-hover:bg-gray-300 transition-colors"></div>
         </div>
       </motion.button>
 
-      {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+      {/* Main Content - Mobile Optimized */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-3 sm:p-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -150,7 +148,7 @@ export const EssenceOnboarding: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="w-full max-w-md"
+            className="w-full max-w-sm sm:max-w-md"
           >
             {renderStep()}
           </motion.div>

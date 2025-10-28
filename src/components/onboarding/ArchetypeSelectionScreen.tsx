@@ -62,21 +62,21 @@ export const ArchetypeSelectionScreen: React.FC = () => {
     }, [previousStep, triggerHaptic]);
 
     return (
-        <div className="text-center space-y-8">
-            {/* Enhanced Header */}
+        <div className="text-center space-y-4 sm:space-y-6">
+            {/* Mobile-Optimized Header */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="space-y-6"
+                className="space-y-3 sm:space-y-4"
             >
                 <motion.div
                     initial={{ scale: 0, rotate: -90 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                    className="relative w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-indigo-500/30"
+                    className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-xl shadow-indigo-500/30"
                 >
-                    <Crown className="w-10 h-10 text-white" />
+                    <Crown className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -89,16 +89,16 @@ export const ArchetypeSelectionScreen: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-4"
+                    className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-200 bg-clip-text text-transparent leading-tight text-center px-2"
                 >
-                    Qual destas essências mais se parece com você hoje?
+                    Qual essência mais se parece com você hoje?
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl text-center leading-relaxed max-w-lg mx-auto px-4"
+                    className="text-gray-600 dark:text-gray-400 text-sm sm:text-base text-center leading-relaxed max-w-sm mx-auto px-2"
                 >
                     Cada mãe tem sua própria força única. Descubra a sua.
                 </motion.p>
