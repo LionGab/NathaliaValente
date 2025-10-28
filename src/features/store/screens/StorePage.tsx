@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  TestTube2, ShoppingBag, Heart, Plus, Search, Filter, 
+import {
+  TestTube2, ShoppingBag, Heart, Plus, Search, Filter,
   Star, Eye, ShoppingCart, Share2, Clock,
   Truck, Shield, Award, TrendingUp, Grid, List
 } from 'lucide-react';
@@ -11,7 +11,7 @@ import { useHapticFeedback } from '../../../hooks/useGestures';
 
 export const StorePage = () => {
   const { triggerHaptic } = useHapticFeedback();
-  
+
   // Estados para funcionalidades da loja
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -119,8 +119,8 @@ export const StorePage = () => {
 
   const handleToggleFavorite = useCallback((productId: number) => {
     triggerHaptic('light');
-    setFavorites(prev => 
-      prev.includes(productId) 
+    setFavorites(prev =>
+      prev.includes(productId)
         ? prev.filter(id => id !== productId)
         : [...prev, productId]
     );
@@ -141,13 +141,13 @@ export const StorePage = () => {
 
   // Filtrar produtos
   const filteredProducts = desapegaProducts.filter(product => {
-    const matchesSearch = searchQuery === '' || 
+    const matchesSearch = searchQuery === '' ||
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.author.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = selectedCategory === 'all' || 
+
+    const matchesCategory = selectedCategory === 'all' ||
       product.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -164,7 +164,7 @@ export const StorePage = () => {
               </h1>
               <p className="text-gray-600 dark:text-gray-400 text-sm">Produtos cuidadosamente selecionados para você</p>
             </div>
-            
+
             {/* Carrinho e Favoritos */}
             <div className="flex items-center gap-3">
               <motion.button
@@ -207,7 +207,7 @@ export const StorePage = () => {
                 aria-label="Buscar produtos"
               />
             </div>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -280,21 +280,19 @@ export const StorePage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-200 ${
-                selectedCategory === category.id
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-200 ${selectedCategory === category.id
                   ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-              }`}
+                }`}
               aria-label={`Filtrar por ${category.name}`}
             >
               <span className="text-lg" aria-hidden="true">{category.icon}</span>
               <span className="font-medium text-sm">{category.name}</span>
               {category.count > 0 && (
-                <span className={`text-xs px-2 py-0.5 rounded-full ${
-                  selectedCategory === category.id
+                <span className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === category.id
                     ? 'bg-white/20 text-white'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                }`}>
+                  }`}>
                   {category.count}
                 </span>
               )}
@@ -772,20 +770,18 @@ export const StorePage = () => {
           </div>
 
           {/* Grid de produtos melhorado */}
-          <div className={`grid gap-6 ${
-            viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+          <div className={`grid gap-6 ${viewMode === 'grid'
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
               : 'grid-cols-1'
-          }`}>
+            }`}>
             {filteredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className={`${product.backgroundColor} rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group ${
-                  viewMode === 'list' ? 'flex gap-4' : ''
-                }`}
+                className={`${product.backgroundColor} rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group ${viewMode === 'list' ? 'flex gap-4' : ''
+                  }`}
               >
                 <div className={`space-y-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
                   {/* Imagem do produto */}
@@ -793,11 +789,10 @@ export const StorePage = () => {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className={`object-cover rounded-xl ${
-                        viewMode === 'list' 
-                          ? 'w-24 h-24' 
+                      className={`object-cover rounded-xl ${viewMode === 'list'
+                          ? 'w-24 h-24'
                           : 'w-full h-40'
-                      }`}
+                        }`}
                     />
                     <div className="absolute top-2 right-2 flex gap-1">
                       <motion.button
@@ -807,13 +802,12 @@ export const StorePage = () => {
                         className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full shadow-md hover:bg-white dark:hover:bg-gray-800 transition-colors"
                         aria-label={`${favorites.includes(product.id) ? 'Remover dos' : 'Adicionar aos'} favoritos`}
                       >
-                        <Heart 
-                          className={`w-4 h-4 ${
-                            favorites.includes(product.id) 
-                              ? 'fill-red-500 text-red-500' 
+                        <Heart
+                          className={`w-4 h-4 ${favorites.includes(product.id)
+                              ? 'fill-red-500 text-red-500'
                               : 'text-gray-600 dark:text-gray-400'
-                          }`} 
-                          aria-hidden="true" 
+                            }`}
+                          aria-hidden="true"
                         />
                       </motion.button>
                       <motion.button
@@ -826,7 +820,7 @@ export const StorePage = () => {
                         <Share2 className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
                       </motion.button>
                     </div>
-                    
+
                     {/* Badge de desconto */}
                     {product.originalPrice && (
                       <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -845,7 +839,7 @@ export const StorePage = () => {
                         {product.condition}
                       </p>
                     </div>
-                    
+
                     {/* Autor */}
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
@@ -922,7 +916,7 @@ export const StorePage = () => {
                   <p className="text-sm text-green-600 dark:text-green-400">Rastreamento em tempo real</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                 <div className="p-2 bg-blue-100 dark:bg-blue-800 rounded-lg">
                   <Shield className="w-5 h-5 text-blue-600" aria-hidden="true" />
@@ -932,7 +926,7 @@ export const StorePage = () => {
                   <p className="text-sm text-blue-600 dark:text-blue-400">Comunidade confiável</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
                 <div className="p-2 bg-purple-100 dark:bg-purple-800 rounded-lg">
                   <Award className="w-5 h-5 text-purple-600" aria-hidden="true" />

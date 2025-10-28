@@ -101,8 +101,8 @@ export const EssenceOnboarding: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.7 + step * 0.1 }}
               className={`relative w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${step <= currentStep
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 scale-110 shadow-lg shadow-pink-500/30'
-                  : 'bg-gray-300 dark:bg-gray-600'
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 scale-110 shadow-lg shadow-pink-500/30'
+                : 'bg-gray-300 dark:bg-gray-600'
                 }`}
             >
               {step <= currentStep && (

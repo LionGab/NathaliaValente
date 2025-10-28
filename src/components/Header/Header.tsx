@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
-import { 
-  User, Settings, LogOut, Heart, ShoppingBag, 
+import {
+  User, Settings, LogOut, Heart, ShoppingBag,
   Bell, ChevronDown, Award, BookOpen, HelpCircle
 } from 'lucide-react';
 
@@ -168,7 +168,7 @@ export const Header: React.FC = () => {
                           </p>
                           {/* Barra de progresso */}
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
-                            <div 
+                            <div
                               className="bg-gradient-to-r from-pink-500 to-purple-600 h-2 rounded-full transition-all duration-300"
                               style={{ width: `${progressPercentage}%` }}
                             ></div>
