@@ -6,7 +6,7 @@ import { useGestationalPersonalization } from '../../../hooks/useGestationalPers
 import { Header } from '../../../components/Header/Header';
 import {
   Calendar, Users, ShoppingBag, HelpCircle, Heart, Star, Baby, BookOpen, Shield,
-  Clock, TrendingUp, CheckCircle, Plus, Bell, Sparkles, Target, Award, 
+  Clock, TrendingUp, CheckCircle, Plus, Bell, Sparkles, Target, Award,
   ChevronRight, Activity, Zap, Moon, Sun
 } from 'lucide-react';
 import { EnhancedRoutinePreview } from '../components/EnhancedRoutinePreview';
@@ -16,7 +16,7 @@ const HomePageSimple = () => {
   const { profile } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
   const { gestationalData, isLoading: isLoadingGestational } = useGestationalPersonalization();
-  
+
   // Estados para melhorias de UX
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showNotifications, setShowNotifications] = useState(false);
@@ -259,7 +259,7 @@ const HomePageSimple = () => {
                 <p className="text-white/90 text-sm sm:text-base font-medium flex-1 leading-relaxed">
                   {gestationalData?.personalizedMessage || "Aproveite cada momento especial da sua jornada"}
                 </p>
-                
+
                 {/* CTAs com visual aprimorado */}
                 <div className="flex items-center gap-2">
                   <motion.button
@@ -400,7 +400,7 @@ const HomePageSimple = () => {
                 />
               </div>
             </div>
-            
+
             {/* Atividades da rotina */}
             <div className="space-y-3">
               <motion.div
@@ -558,7 +558,7 @@ const HomePageSimple = () => {
             >
               {/* Background pattern animado */}
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
+
               <div className="relative z-10 flex items-center gap-3">
                 <div className="p-2 bg-white/20 rounded-xl group-hover:bg-white/30 transition-colors duration-200">
                   <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />

@@ -147,12 +147,12 @@ export const FeedPage = () => {
 
   // Função para filtrar posts por busca e categoria
   const filteredPosts = posts.filter(post => {
-    const matchesSearch = searchQuery === '' || 
+    const matchesSearch = searchQuery === '' ||
       post.caption.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesCategory = !selectedCategory || post.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -276,7 +276,7 @@ export const FeedPage = () => {
               <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Comunidade</h1>
               <p className="text-gray-600 dark:text-gray-400 text-sm">Conecte-se com outras mães</p>
             </div>
-            
+
             {/* Estatísticas do usuário */}
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-pink-500/10 to-purple-500/10 px-3 py-2 rounded-xl">
@@ -285,7 +285,7 @@ export const FeedPage = () => {
                   Nível {userStats.level}
                 </span>
               </div>
-              
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -312,7 +312,7 @@ export const FeedPage = () => {
                 aria-label="Buscar na comunidade"
               />
             </div>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -383,21 +383,19 @@ export const FeedPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category.id === 'all' ? null : category.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 relative ${
-                  (category.id === 'all' && !selectedCategory) || selectedCategory === category.id
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 relative ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
                     ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
+                  }`}
                 aria-label={`Filtrar por ${category.name}`}
               >
                 <span className="text-sm">{category.icon}</span>
                 <span>{category.name}</span>
                 {category.count > 0 && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    (category.id === 'all' && !selectedCategory) || selectedCategory === category.id
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
                       ? 'bg-white/20 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                  }`}>
+                    }`}>
                     {category.count}
                   </span>
                 )}
@@ -426,11 +424,10 @@ export const FeedPage = () => {
                   <motion.div
                     key={group.id}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
-                      activeGroup === group.id
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${activeGroup === group.id
                         ? `border-pink-500 bg-gradient-to-r ${group.color}/10`
                         : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-pink-300 dark:hover:border-pink-600'
-                    }`}
+                      }`}
                     onClick={() => setActiveGroup(activeGroup === group.id ? null : group.id)}
                   >
                     <div className="flex items-center justify-between mb-2">
@@ -475,11 +472,10 @@ export const FeedPage = () => {
                   <motion.div
                     key={resource.id}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                      resource.urgent
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 ${resource.urgent
                         ? 'border-red-300 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30'
                         : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className={`p-2 rounded-lg bg-gradient-to-r ${resource.color}`}>
@@ -512,278 +508,278 @@ export const FeedPage = () => {
       <div className="max-w-full mx-auto px-4 py-6">
         <div className="space-y-6">
           {sortedPosts.map((post, index) => (
-          <motion.article
-            key={post.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-2xl hover:scale-[1.01] transition-all duration-500"
-            ref={index === sortedPosts.length - 1 ? lastPostRef : null}
-          >
-            <div className="p-4 sm:p-6">
-              {/* Header do Post Melhorado */}
-              <div className="flex items-start justify-between mb-4 sm:mb-5">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  {post.profiles?.avatar_url ? (
-                    <div className="relative">
-                      <img
-                        src={post.profiles.avatar_url}
-                        alt={post.profiles.full_name}
-                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-pink-100 dark:ring-pink-500/30"
-                      />
-                      {/* Indicador de nível do usuário */}
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">5</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="relative">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg shadow-lg">
-                        {post.profiles?.full_name?.charAt(0) || 'U'}
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">5</span>
-                      </div>
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
-                        {post.profiles?.full_name || 'Usuário Desconhecido'}
-                      </p>
-                      {post.has_badge && (
-                        <div className="flex items-center gap-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-2 py-0.5 rounded-full">
-                          <Crown className="w-3 h-3 text-pink-500" aria-hidden="true" />
-                          <span className="text-xs font-bold text-pink-600">Verificado</span>
+            <motion.article
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-2xl hover:scale-[1.01] transition-all duration-500"
+              ref={index === sortedPosts.length - 1 ? lastPostRef : null}
+            >
+              <div className="p-4 sm:p-6">
+                {/* Header do Post Melhorado */}
+                <div className="flex items-start justify-between mb-4 sm:mb-5">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    {post.profiles?.avatar_url ? (
+                      <div className="relative">
+                        <img
+                          src={post.profiles.avatar_url}
+                          alt={post.profiles.full_name}
+                          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-pink-100 dark:ring-pink-500/30"
+                        />
+                        {/* Indicador de nível do usuário */}
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-bold text-white">5</span>
                         </div>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                      <span>{formatDate(post.created_at)}</span>
-                      <span>•</span>
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" aria-hidden="true" />
-                        <span>{Math.floor(Math.random() * 1000) + 100} visualizações</span>
                       </div>
+                    ) : (
+                      <div className="relative">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg shadow-lg">
+                          {post.profiles?.full_name?.charAt(0) || 'U'}
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-bold text-white">5</span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
+                          {post.profiles?.full_name || 'Usuário Desconhecido'}
+                        </p>
+                        {post.has_badge && (
+                          <div className="flex items-center gap-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-2 py-0.5 rounded-full">
+                            <Crown className="w-3 h-3 text-pink-500" aria-hidden="true" />
+                            <span className="text-xs font-bold text-pink-600">Verificado</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                        <span>{formatDate(post.created_at)}</span>
+                        <span>•</span>
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" aria-hidden="true" />
+                          <span>{Math.floor(Math.random() * 1000) + 100} visualizações</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-2">
+                    <span
+                      className={`${getCategoryGradient(post.category)} px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-white shadow-lg`}
+                    >
+                      {post.category}
+                    </span>
+                    <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                      <TrendingUpIcon className="w-3 h-3" aria-hidden="true" />
+                      <span>#{index + 1} em trending</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end gap-2">
-                  <span
-                    className={`${getCategoryGradient(post.category)} px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-white shadow-lg`}
-                  >
-                    {post.category}
-                  </span>
-                  <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                    <TrendingUpIcon className="w-3 h-3" aria-hidden="true" />
-                    <span>#{index + 1} em trending</span>
+                {post.image_url && (
+                  <div className="relative mb-5 overflow-hidden rounded-2xl">
+                    <OptimizedImage
+                      src={post.image_url}
+                      alt="Post"
+                      className="w-full object-cover max-h-[500px] hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                    />
                   </div>
+                )}
+
+                <div className="mb-5">
+                  <p className="text-claude-gray-700 dark:text-claude-gray-300 leading-relaxed text-base">
+                    {post.caption.length > 200 ? (
+                      <>
+                        {post.caption.substring(0, 200)}...
+                        <button
+                          onClick={() => {
+                            // Toggle para mostrar texto completo
+                            const element = document.getElementById(`post-${post.id}`);
+                            if (element) {
+                              element.classList.toggle('line-clamp-3');
+                            }
+                          }}
+                          className="text-pink-600 hover:text-pink-700 font-medium ml-1"
+                        >
+                          Ver mais
+                        </button>
+                      </>
+                    ) : (
+                      post.caption
+                    )}
+                  </p>
                 </div>
-              </div>
 
-              {post.image_url && (
-                <div className="relative mb-5 overflow-hidden rounded-2xl">
-                  <OptimizedImage
-                    src={post.image_url}
-                    alt="Post"
-                    className="w-full object-cover max-h-[500px] hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
-                  />
-                </div>
-              )}
+                {post.has_badge && (
+                  <div className="flex items-center gap-3 mb-5 bg-gradient-to-r from-claude-orange-50 to-claude-orange-100/50 dark:from-claude-orange-500/10 dark:to-claude-orange-500/5 px-5 py-3 rounded-2xl border border-claude-orange-200/50 dark:border-claude-orange-500/20">
+                    <Award className="w-5 h-5 text-claude-orange-600 dark:text-claude-orange-500" />
+                    <span className="text-sm font-semibold text-claude-orange-700 dark:text-claude-orange-500">
+                      Nathy Aprovou
+                    </span>
+                  </div>
+                )}
 
-              <div className="mb-5">
-                <p className="text-claude-gray-700 dark:text-claude-gray-300 leading-relaxed text-base">
-                  {post.caption.length > 200 ? (
-                    <>
-                      {post.caption.substring(0, 200)}...
-                      <button 
-                        onClick={() => {
-                          // Toggle para mostrar texto completo
-                          const element = document.getElementById(`post-${post.id}`);
-                          if (element) {
-                            element.classList.toggle('line-clamp-3');
-                          }
-                        }}
-                        className="text-pink-600 hover:text-pink-700 font-medium ml-1"
-                      >
-                        Ver mais
-                      </button>
-                    </>
-                  ) : (
-                    post.caption
-                  )}
-                </p>
-              </div>
-
-              {post.has_badge && (
-                <div className="flex items-center gap-3 mb-5 bg-gradient-to-r from-claude-orange-50 to-claude-orange-100/50 dark:from-claude-orange-500/10 dark:to-claude-orange-500/5 px-5 py-3 rounded-2xl border border-claude-orange-200/50 dark:border-claude-orange-500/20">
-                  <Award className="w-5 h-5 text-claude-orange-600 dark:text-claude-orange-500" />
-                  <span className="text-sm font-semibold text-claude-orange-700 dark:text-claude-orange-500">
-                    Nathy Aprovou
-                  </span>
-                </div>
-              )}
-
-              {/* Seção de Interações Melhorada com Gamificação */}
-              <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
-                {/* Ações Principais com Gamificação */}
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-6">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => handleLike(post.id, post.user_has_liked || false)}
-                      className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-300 group"
-                      aria-label="Curtir post"
-                    >
-                      <Heart
-                        className={`w-6 h-6 ${post.user_has_liked
-                          ? 'fill-pink-500 text-pink-500'
-                          : 'group-hover:scale-110'
-                          } transition-all duration-300`}
-                        strokeWidth={2}
-                      />
-                      <span className="text-sm font-bold">
-                        {formatNumber(post.likes_count || 0)}
-                      </span>
-                      {post.likes_count && post.likes_count > 50 && (
-                        <div className="flex items-center gap-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-2 py-0.5 rounded-full">
-                          <Flame className="w-3 h-3 text-pink-500" aria-hidden="true" />
-                          <span className="text-xs font-bold text-pink-600">Hot!</span>
-                        </div>
-                      )}
-                    </motion.button>
-
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
-                      className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 transition-all duration-300 group"
-                      aria-label="Comentar no post"
-                    >
-                      <MessageCircle
-                        className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
-                        strokeWidth={2}
-                      />
-                      <span className="text-sm font-bold">
-                        {formatNumber(post.comments_count || 0)}
-                      </span>
-                    </motion.button>
-
-                    {isShareSupported && (
+                {/* Seção de Interações Melhorada com Gamificação */}
+                <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
+                  {/* Ações Principais com Gamificação */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-6">
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => handleSharePost(post as Post)}
-                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-all duration-300 group"
-                        aria-label="Compartilhar post"
+                        onClick={() => handleLike(post.id, post.user_has_liked || false)}
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition-all duration-300 group"
+                        aria-label="Curtir post"
                       >
-                        <Share2
+                        <Heart
+                          className={`w-6 h-6 ${post.user_has_liked
+                            ? 'fill-pink-500 text-pink-500'
+                            : 'group-hover:scale-110'
+                            } transition-all duration-300`}
+                          strokeWidth={2}
+                        />
+                        <span className="text-sm font-bold">
+                          {formatNumber(post.likes_count || 0)}
+                        </span>
+                        {post.likes_count && post.likes_count > 50 && (
+                          <div className="flex items-center gap-1 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-2 py-0.5 rounded-full">
+                            <Flame className="w-3 h-3 text-pink-500" aria-hidden="true" />
+                            <span className="text-xs font-bold text-pink-600">Hot!</span>
+                          </div>
+                        )}
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 transition-all duration-300 group"
+                        aria-label="Comentar no post"
+                      >
+                        <MessageCircle
                           className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
                           strokeWidth={2}
                         />
-                        <span className="text-sm font-bold">Compartilhar</span>
+                        <span className="text-sm font-bold">
+                          {formatNumber(post.comments_count || 0)}
+                        </span>
                       </motion.button>
-                    )}
+
+                      {isShareSupported && (
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleSharePost(post as Post)}
+                          className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-all duration-300 group"
+                          aria-label="Compartilhar post"
+                        >
+                          <Share2
+                            className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
+                            strokeWidth={2}
+                          />
+                          <span className="text-sm font-bold">Compartilhar</span>
+                        </motion.button>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleSavePost(post.id)}
+                        className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300"
+                        aria-label="Salvar post"
+                      >
+                        <Bookmark className="w-5 h-5" strokeWidth={2} />
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300"
+                        aria-label="Mais opções"
+                      >
+                        <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
+                      </motion.button>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => handleSavePost(post.id)}
-                      className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300"
-                      aria-label="Salvar post"
-                    >
-                      <Bookmark className="w-5 h-5" strokeWidth={2} />
-                    </motion.button>
-
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300"
-                      aria-label="Mais opções"
-                    >
-                      <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
-                    </motion.button>
-                  </div>
-                </div>
-
-                {/* Indicadores de Qualidade e Gamificação */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-xs">
-                    {post.has_badge && (
-                      <div className="flex items-center gap-1 text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20 px-2 py-1 rounded-full">
-                        <Crown className="w-4 h-4" aria-hidden="true" />
-                        <span className="font-bold">Verificado pela Nath</span>
+                  {/* Indicadores de Qualidade e Gamificação */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-xs">
+                      {post.has_badge && (
+                        <div className="flex items-center gap-1 text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20 px-2 py-1 rounded-full">
+                          <Crown className="w-4 h-4" aria-hidden="true" />
+                          <span className="font-bold">Verificado pela Nath</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                        <Clock className="w-4 h-4" aria-hidden="true" />
+                        <span>{formatDate(post.created_at)}</span>
                       </div>
-                    )}
-                    <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                      <Clock className="w-4 h-4" aria-hidden="true" />
-                      <span>{formatDate(post.created_at)}</span>
+                      <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                        <TrendingUp className="w-4 h-4" aria-hidden="true" />
+                        <span className="font-bold">#{index + 1} Trending</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
-                      <TrendingUp className="w-4 h-4" aria-hidden="true" />
-                      <span className="font-bold">#{index + 1} Trending</span>
-                    </div>
-                  </div>
 
-                  {/* Sistema de Pontos */}
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 px-2 py-1 rounded-full">
-                      <Zap className="w-3 h-3 text-yellow-500" aria-hidden="true" />
-                      <span className="text-xs font-bold text-yellow-600">
-                        +{Math.floor(Math.random() * 50) + 10} XP
-                      </span>
+                    {/* Sistema de Pontos */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 px-2 py-1 rounded-full">
+                        <Zap className="w-3 h-3 text-yellow-500" aria-hidden="true" />
+                        <span className="text-xs font-bold text-yellow-600">
+                          +{Math.floor(Math.random() * 50) + 10} XP
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {selectedPost === post.id && <PostComments postId={post.id} />}
-          </motion.article>
-        ))}
+              {selectedPost === post.id && <PostComments postId={post.id} />}
+            </motion.article>
+          ))}
 
-        {/* Seção de Estatísticas da Comunidade */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl p-6 border border-pink-200 dark:border-pink-800"
-        >
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-yellow-500" aria-hidden="true" />
-            Estatísticas da Comunidade
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Mães ativas</div>
+          {/* Seção de Estatísticas da Comunidade */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mt-8 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl p-6 border border-pink-200 dark:border-pink-800"
+          >
+            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-yellow-500" aria-hidden="true" />
+              Estatísticas da Comunidade
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Mães ativas</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">15K</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Posts hoje</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">98%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Satisfação</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1.2K</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Conquistas</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">15K</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Posts hoje</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">98%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Satisfação</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1.2K</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Conquistas</div>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Infinite scroll trigger */}
-        {hasMore && (
-          <div ref={lastPostRef} className="flex justify-center py-8">
-            <LoadingSpinner size="md" text="Carregando mais posts..." />
-          </div>
-        )}
+          {/* Infinite scroll trigger */}
+          {hasMore && (
+            <div ref={lastPostRef} className="flex justify-center py-8">
+              <LoadingSpinner size="md" text="Carregando mais posts..." />
+            </div>
+          )}
 
         </div>
       </div>
