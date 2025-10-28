@@ -213,40 +213,40 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Elements */}
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
+      {/* Mobile-Optimized Background Elements */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-48 h-48 sm:w-72 sm:h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
         <div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float"
+          className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-64 h-64 sm:w-96 sm:h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float"
           style={{ animationDelay: '1s' }}
         ></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse"></div>
       </div>
 
-      <div className="card-modern dark:card-dark-modern rounded-3xl p-8 sm:p-10 max-w-md w-full shadow-large relative z-10 animate-fade-in">
-        {/* Logo/Header */}
-        <div className="text-center mb-8">
-          <div className="relative inline-block mb-6">
+      <div className="card-modern dark:card-dark-modern rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 max-w-sm sm:max-w-md w-full shadow-large relative z-10 animate-fade-in">
+        {/* Mobile-Optimized Logo/Header */}
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="relative inline-block mb-4 sm:mb-6">
             <img
               src="/logos/clubnath-logo-final.jpg"
               alt="Nossa Maternidade"
-              className="w-24 h-24 rounded-3xl shadow-large mx-auto animate-float object-cover"
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl sm:rounded-3xl shadow-large mx-auto animate-float object-cover"
             />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold gradient-text mb-2 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mb-1 sm:mb-2 tracking-tight">
             Nossa Maternidade
           </h1>
-          <p className="text-neutral-600 dark:text-neutral-400 font-medium">
+          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-medium">
             Comunidade Exclusiva de Mães
           </p>
         </div>
 
-        {/* Auth Mode Toggle */}
-        <div className="flex bg-neutral-100 dark:bg-neutral-800 rounded-2xl p-1 mb-6">
+        {/* Mobile-Optimized Auth Mode Toggle */}
+        <div className="flex bg-neutral-100 dark:bg-neutral-800 rounded-xl sm:rounded-2xl p-1 mb-4 sm:mb-6">
           <button
             onClick={() => setAuthMode('login')}
-            className={`flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
               authMode === 'login'
                 ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
                 : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
@@ -256,7 +256,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           </button>
           <button
             onClick={() => setAuthMode('signup')}
-            className={`flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
               authMode === 'signup'
                 ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
                 : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
@@ -266,12 +266,12 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           </button>
         </div>
 
-        {/* Social Login Buttons */}
-        <div className="space-y-3 mb-6">
+        {/* Mobile-Optimized Social Login Buttons */}
+        <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
           <button
             onClick={() => handleSocialLogin('google')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 rounded-2xl font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-300 dark:hover:border-primary-600 hover:shadow-medium transition-all duration-300 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 rounded-xl sm:rounded-2xl font-medium text-sm sm:text-base text-neutral-700 dark:text-neutral-300 hover:border-primary-300 dark:hover:border-primary-600 hover:shadow-medium transition-all duration-300 disabled:opacity-50 min-h-[44px]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -297,41 +297,41 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           <button
             onClick={() => handleSocialLogin('apple')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white rounded-2xl font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 hover:shadow-medium transition-all duration-300 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white rounded-xl sm:rounded-2xl font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 hover:shadow-medium transition-all duration-300 disabled:opacity-50 min-h-[44px]"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
             </svg>
-            Continuar com Apple
+            <span className="text-sm sm:text-base">Continuar com Apple</span>
           </button>
 
           <button
             onClick={() => handleSocialLogin('instagram')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl font-medium hover:shadow-medium transition-all duration-300 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl sm:rounded-2xl font-medium hover:shadow-medium transition-all duration-300 disabled:opacity-50 min-h-[44px]"
           >
-            <Instagram className="w-5 h-5" />
-            Continuar com Instagram
+            <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-sm sm:text-base">Continuar com Instagram</span>
           </button>
         </div>
 
-        {/* Divider */}
-        <div className="relative mb-6">
+        {/* Mobile-Optimized Divider */}
+        <div className="relative mb-4 sm:mb-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-neutral-200 dark:border-neutral-700"></div>
           </div>
-          <div className="relative flex justify-center text-sm">
+          <div className="relative flex justify-center text-xs sm:text-sm">
             <span className="px-2 bg-white dark:bg-neutral-900 text-neutral-500 dark:text-neutral-400">
               ou
             </span>
           </div>
         </div>
 
-        {/* Email Form */}
-        <div className="space-y-4 mb-6">
+        {/* Mobile-Optimized Email Form */}
+        <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
           {authMode === 'signup' && (
             <div>
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5 sm:mb-2">
                 Nome completo
               </label>
               <input
@@ -343,7 +343,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, fullName: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
                   errors.fullName
                     ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
@@ -360,7 +360,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5 sm:mb-2">
               Email
             </label>
             <div className="relative">
@@ -373,7 +373,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, email: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 pl-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
                   errors.email
                     ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
@@ -381,7 +381,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                 placeholder="seu@email.com"
               />
               <Mail
-                className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                className={`absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${
                   errors.email ? 'text-error-500' : 'text-neutral-400'
                 }`}
               />
@@ -395,7 +395,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5 sm:mb-2">
               Senha
             </label>
             <div className="relative">
@@ -408,7 +408,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, password: '' });
                   }
                 }}
-                className={`w-full px-4 py-3 pr-12 rounded-2xl border-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
                   errors.password
                     ? 'border-error-500 focus:border-error-500'
                     : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
@@ -418,13 +418,13 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className={`absolute right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 ${
+                className={`absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 p-1 ${
                   errors.password
                     ? 'text-error-500'
                     : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
                 }`}
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
             {errors.password && (
@@ -436,7 +436,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           </div>
         </div>
 
-        {/* Email Auth Button */}
+        {/* Mobile-Optimized Email Auth Button */}
         <button
           onClick={handleEmailAuth}
           disabled={
@@ -445,7 +445,7 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             !formData.password ||
             (authMode === 'signup' && !formData.fullName)
           }
-          className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-2xl font-bold shadow-large hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 touch-target disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-bold shadow-large hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 sm:gap-3 min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <LoadingSpinner
@@ -455,26 +455,26 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
             />
           ) : (
             <>
-              <Mail className="w-5 h-5" />
-              <span>{authMode === 'signup' ? 'Criar Conta' : 'Entrar'}</span>
+              <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-base">{authMode === 'signup' ? 'Criar Conta' : 'Entrar'}</span>
             </>
           )}
         </button>
 
-        {/* Demo Button */}
+        {/* Mobile-Optimized Demo Button */}
         <button
           onClick={handleDemoLogin}
           disabled={isLoading}
-          className="w-full mt-3 py-3 px-6 rounded-2xl font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-300 disabled:opacity-50"
+          className="w-full mt-2 sm:mt-3 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium text-sm sm:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-300 disabled:opacity-50 min-h-[44px]"
         >
           🚀 Entrar como Demo
         </button>
 
-        {/* Trust Signals */}
-        <div className="mt-6 space-y-3 text-center">
+        {/* Mobile-Optimized Trust Signals */}
+        <div className="mt-4 sm:mt-6 space-y-2 sm:space-y-3 text-center">
           <div className="flex items-center justify-center gap-2 text-neutral-600 dark:text-neutral-400">
-            <Shield className="w-4 h-4 text-success-500" />
-            <p className="text-sm font-medium">Seus dados estão 100% seguros</p>
+            <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-success-500" />
+            <p className="text-xs sm:text-sm font-medium">Seus dados estão 100% seguros</p>
           </div>
           <p className="text-xs text-neutral-500 dark:text-neutral-500">
             ✨ Junte-se a milhares de mães inspiradoras ✨

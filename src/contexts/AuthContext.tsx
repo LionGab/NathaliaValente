@@ -209,41 +209,63 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signInDemo = async () => {
-    setIsDemoMode(true);
-    setLoading(false);
+    try {
+      setIsDemoMode(true);
+      setLoading(false);
 
-    // Criar um usuário demo mock
-    const demoUser = {
-      id: 'demo-user-123',
-      email: 'demo@clubnath.com',
-      user_metadata: {
+      // Criar um usuário demo mock
+      const demoUser = {
+        id: 'demo-user-123',
+        email: 'demo@nossamaternidade.com',
+        user_metadata: {
+          full_name: 'Nathália Valente',
+          avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
+        }
+      } as User;
+
+      const demoSession = {
+        user: demoUser,
+        access_token: 'demo-token',
+        refresh_token: 'demo-refresh-token',
+        expires_in: 3600,
+        expires_at: Date.now() + 3600000,
+        token_type: 'bearer'
+      } as Session;
+
+      setUser(demoUser);
+      setSession(demoSession);
+      setProfile({
+        id: 'demo-user-123',
         full_name: 'Nathália Valente',
-        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
-      }
-    } as User;
+        username: 'nathalia_valente',
+        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
+        followers_count: 29000000,
+        following_count: 500,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
 
-    const demoSession = {
-      user: demoUser,
-      access_token: 'demo-token',
-      refresh_token: 'demo-refresh-token',
-      expires_in: 3600,
-      expires_at: Date.now() + 3600000,
-      token_type: 'bearer'
-    } as Session;
+      // Salvar no localStorage para persistência
+      localStorage.setItem('clubnath_demo_mode', 'true');
+      localStorage.setItem('clubnath_demo_user', JSON.stringify(demoUser));
+      localStorage.setItem('clubnath_demo_profile', JSON.stringify({
+        id: 'demo-user-123',
+        full_name: 'Nathália Valente',
+        username: 'nathalia_valente',
+        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
+        followers_count: 29000000,
+        following_count: 500,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }));
 
-    setUser(demoUser);
-    setSession(demoSession);
-    setProfile({
-      id: 'demo-user-123',
-      full_name: 'Nathália Valente',
-      username: 'nathalia_arcuri',
-      avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-      bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
-      followers_count: 29000000,
-      following_count: 500,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    });
+      console.log('✅ Success: Modo Demo Ativado');
+    } catch (error) {
+      console.error('❌ Error: Erro ao ativar modo demo:', error);
+      setLoading(false);
+    }
   };
 
   const signOut = useCallback(async () => {
@@ -253,6 +275,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         setSession(null);
         setProfile(null);
+        
+        // Limpar localStorage do modo demo
+        localStorage.removeItem('clubnath_demo_mode');
+        localStorage.removeItem('clubnath_demo_user');
+        localStorage.removeItem('clubnath_demo_profile');
       } else {
         await supabase.auth.signOut();
         setProfile(null);
