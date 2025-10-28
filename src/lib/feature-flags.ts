@@ -26,7 +26,6 @@ export interface FeatureFlags {
 
     // External Integrations
     googleMaps: boolean;
-    firebase: boolean;
     stripe: boolean;
     openai: boolean;
 
@@ -69,7 +68,6 @@ export const getFeatureFlags = (): FeatureFlags => {
 
         // External Integrations
         googleMaps: !!import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-        firebase: !!import.meta.env.VITE_FIREBASE_API_KEY,
         stripe: !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
         openai: !!import.meta.env.VITE_OPENAI_API_KEY,
 
@@ -105,14 +103,6 @@ export const getApiConfig = () => {
         ollin: {
             apiKey: import.meta.env.VITE_OLLIN_API_KEY,
             baseUrl: import.meta.env.VITE_OLLIN_API_BASE_URL || 'https://api.babytest.com.br',
-        },
-        firebase: {
-            apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-            authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-            projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-            storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-            appId: import.meta.env.VITE_FIREBASE_APP_ID,
         },
         googleMaps: {
             apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
