@@ -35,6 +35,9 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "optimize-avatars": "node scripts/optimize-avatars.js",
     "prebuild": "npm run optimize-avatars",
+    "analyze:feedback": "node -e \"console.log('📊 Análise de feedback - Execute as queries SQL no Supabase Dashboard')\"",
+    "setup:database": "node -e \"console.log('🚀 Execute as migrações SQL no Supabase Dashboard')\"",
+    "test:feedback": "node -e \"console.log('💬 Teste o botão de feedback no app')\"",
     "prepare": "husky"
   },
   "dependencies": {

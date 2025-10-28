@@ -47,26 +47,72 @@
   animation: fade-in-up 0.6s ease-out forwards;
 }
 
-/* Mobile-First Touch Targets */
+/* Mobile-First Touch Targets - PREMIUM STANDARD */
 .touch-target {
+  min-height: 48px;
+  min-width: 48px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-target-sm {
   min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-target-lg {
+  min-height: 56px;
+  min-width: 56px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* PREMIUM TOUCH FEEDBACK */
+.touch-feedback {
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.touch-feedback:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+.touch-spacing {
+  margin: 8px;
+}
+
+.touch-spacing-sm {
+  margin: 4px;
+}
+
+.touch-spacing-lg {
+  margin: 12px;
 }
 
 /* Enhanced Mobile Interactions */
 @media (max-width: 768px) {
-  .touch-target {
-    min-height: 48px;
-    min-width: 48px;
-  }
 
   /* Larger touch targets for mobile */
   button,
-  [role="button"] {
+  [role="button"],
+  .btn,
+  [data-clickable="true"] {
     min-height: 48px;
+    min-width: 48px;
     padding: 12px 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Better spacing for mobile */
@@ -75,10 +121,118 @@
     padding-right: 1rem;
   }
 
+  .mobile-padding-sm {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .mobile-padding-lg {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
   /* Improved text readability on mobile */
+  /* PREMIUM Mobile Typography - Apple/Google Guidelines */
   .mobile-text {
     font-size: 16px;
+    /* Base 16px - prevents zoom on iOS */
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .mobile-text-sm {
+    font-size: 14px;
     line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .mobile-text-lg {
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* PREMIUM Mobile typography hierarchy */
+  h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Mobile spacing utilities */
+  .mobile-gap-sm {
+    gap: 0.5rem;
+  }
+
+  .mobile-gap {
+    gap: 0.75rem;
+  }
+
+  .mobile-gap-lg {
+    gap: 1rem;
+  }
+
+  /* Mobile card optimizations */
+  .mobile-card {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .mobile-card-sm {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .mobile-card-lg {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  /* Mobile Image Optimizations */
+  .mobile-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .mobile-image-square {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .mobile-image-hero {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+
+  .mobile-image-post {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
   }
 }
 
@@ -291,7 +445,7 @@
   min-width: 44px;
 }
 
-/* Safe Area Insets */
+/* Safe Area Insets - Enhanced for Mobile */
 .safe-area-inset {
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
@@ -313,6 +467,155 @@
 
 .safe-right {
   padding-right: env(safe-area-inset-right);
+}
+
+/* Mobile-specific safe area utilities */
+.pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+.pt-safe {
+  padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+}
+
+.px-safe {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.py-safe {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Maternal Design System - Enhanced */
+.maternal-gradient {
+  background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #e0f2fe 100%);
+}
+
+.maternal-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 182, 193, 0.1);
+}
+
+.maternal-button {
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+}
+
+.maternal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+}
+
+.maternal-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 182, 193, 0.3);
+  border-radius: 15px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.maternal-input:focus {
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+  outline: none;
+}
+
+/* Gestational Week Badge */
+.week-badge {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color: #8b5a96;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(255, 154, 158, 0.3);
+}
+
+/* Pregnancy Progress Bar */
+.pregnancy-progress {
+  background: linear-gradient(90deg, #ff6b9d 0%, #c44569 50%, #8b5a96 100%);
+  height: 6px;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Maternal Icons */
+.maternal-icon {
+  color: #ff6b9d;
+  filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+}
+
+/* Soft Shadows for Maternal Design */
+.maternal-shadow {
+  box-shadow: 0 4px 20px rgba(255, 182, 193, 0.15);
+}
+
+.maternal-shadow-lg {
+  box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2);
+}
+
+/* Maternal Animations */
+@keyframes maternal-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes maternal-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.maternal-float {
+  animation: maternal-float 3s ease-in-out infinite;
+}
+
+.maternal-pulse {
+  animation: maternal-pulse 2s ease-in-out infinite;
+}
+
+/* PREMIUM Mobile bottom navigation safe area */
+.mobile-bottom-nav {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 6rem);
+}
+
+/* PREMIUM Mobile header safe area */
+.mobile-header {
+  padding-top: calc(env(safe-area-inset-top) + 1.5rem);
+}
+
+/* PREMIUM Mobile content safe area */
+.mobile-content {
+  padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Dynamic viewport height for mobile browsers */
 }
 
 /* Modern Scrollbar */

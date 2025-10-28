@@ -27,7 +27,7 @@ export const useLazyLoading = (options: LazyLoadingOptions = {}): LazyLoadingRet
 
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
-    
+
     if (entry.isIntersecting) {
       setIsVisible(true);
       if (!hasBeenVisible) {
@@ -98,7 +98,7 @@ export const useLazyComponent = <T extends React.ComponentType<any>>(
     if (isVisible && !Component && !isLoading) {
       setIsLoading(true);
       setHasError(false);
-      
+
       importFunc()
         .then((module) => {
           setComponent(() => module.default);
@@ -197,7 +197,7 @@ export const usePerformanceMonitor = (componentName: string) => {
   useEffect(() => {
     const startTime = performance.now();
     setMountTime(startTime);
-    
+
     return () => {
       const endTime = performance.now();
       console.log(`${componentName} mounted for ${endTime - startTime}ms`);
@@ -206,12 +206,12 @@ export const usePerformanceMonitor = (componentName: string) => {
 
   useEffect(() => {
     renderStartTime.current = performance.now();
-    
+
     return () => {
       const endTime = performance.now();
       const renderDuration = endTime - renderStartTime.current;
       setRenderTime(renderDuration);
-      
+
       if (renderDuration > 16) { // More than one frame
         console.warn(`${componentName} render took ${renderDuration}ms`);
       }
@@ -262,28 +262,9 @@ export const useImageOptimization = (src: string, sizes?: string) => {
     setIsLoading(true);
     setHasError(false);
 
-    // Create optimized image URL based on device pixel ratio and container size
-    const createOptimizedUrl = (originalSrc: string) => {
-      const url = new URL(originalSrc);
-      const params = new URLSearchParams(url.search);
-      
-      // Add optimization parameters
-      const dpr = window.devicePixelRatio || 1;
-      params.set('dpr', dpr.toString());
-      
-      if (sizes) {
-        params.set('w', sizes);
-      }
-      
-      params.set('q', '80'); // Quality
-      params.set('f', 'webp'); // Format
-      
-      url.search = params.toString();
-      return url.toString();
-    };
-
-    const optimizedUrl = createOptimizedUrl(src);
-    setOptimizedSrc(optimizedUrl);
+    // For now, just use the original src without optimization
+    // In production, you would integrate with a service like Cloudinary, ImageKit, etc.
+    setOptimizedSrc(src);
 
     const img = new Image();
     img.onload = () => {
@@ -293,10 +274,8 @@ export const useImageOptimization = (src: string, sizes?: string) => {
     img.onerror = () => {
       setHasError(true);
       setIsLoading(false);
-      // Fallback to original src
-      setOptimizedSrc(src);
     };
-    img.src = optimizedUrl;
+    img.src = src;
   }, [src, sizes]);
 
   return { optimizedSrc, isLoading, hasError };

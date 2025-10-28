@@ -8,6 +8,7 @@ import {
 import { SimpleNathTips } from '../../../components/SimpleNathTips';
 import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
 import { useHapticFeedback } from '../../../hooks/useGestures';
+import { OptimizedImage } from '../../../components/OptimizedImage';
 
 export const StorePage = () => {
   const { triggerHaptic } = useHapticFeedback();
@@ -153,16 +154,17 @@ export const StorePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50">
-      {/* Header da Loja Melhorado */}
+      {/* Header da Loja Melhorado - Mobile Optimized */}
       <div className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
-        <div className="max-w-full mx-auto px-4 py-4">
+        <div className="max-w-full mx-auto px-3 sm:px-4 py-2 sm:py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
-                <ShoppingBag className="w-7 h-7 text-pink-500" aria-hidden="true" />
-                Loja Nossa Maternidade
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3 mobile-text-lg">
+                <ShoppingBag className="w-6 h-6 sm:w-7 sm:h-7 text-pink-500" aria-hidden="true" />
+                <span className="hidden sm:inline">Loja Nossa Maternidade</span>
+                <span className="sm:hidden">Loja</span>
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Produtos cuidadosamente selecionados para você</p>
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mobile-text-sm">Produtos cuidadosamente selecionados para você</p>
             </div>
 
             {/* Carrinho e Favoritos */}
@@ -194,8 +196,8 @@ export const StorePage = () => {
             </div>
           </div>
 
-          {/* Barra de busca e filtros */}
-          <div className="flex items-center gap-3 mb-4">
+          {/* Barra de busca e filtros - Mobile Optimized */}
+          <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true" />
               <input
@@ -203,7 +205,7 @@ export const StorePage = () => {
                 placeholder="Buscar produtos..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm mobile-text-sm touch-target"
                 aria-label="Buscar produtos"
               />
             </div>
@@ -212,13 +214,13 @@ export const StorePage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowFilters(!showFilters)}
-              className="p-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors touch-target"
               aria-label="Filtros"
             >
               <Filter className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
             </motion.button>
 
-            <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+            <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 touch-target">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -281,8 +283,8 @@ export const StorePage = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-200 ${selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                 }`}
               aria-label={`Filtrar por ${category.name}`}
             >
@@ -290,8 +292,8 @@ export const StorePage = () => {
               <span className="font-medium text-sm">{category.name}</span>
               {category.count > 0 && (
                 <span className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === category.id
-                    ? 'bg-white/20 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                  ? 'bg-white/20 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                   }`}>
                   {category.count}
                 </span>
@@ -321,16 +323,17 @@ export const StorePage = () => {
           </div>
 
           {/* Imagem abaixo */}
-          <div className="relative h-48 sm:h-64 md:h-80 max-w-2xl mx-auto rounded-xl overflow-hidden bg-pink-100">
-            <img
+          <div className="relative max-w-2xl mx-auto rounded-xl overflow-hidden bg-pink-100">
+            <OptimizedImage
               src="https://i.imgur.com/JPBuHrw.jpg"
               alt="Babytest by OLLIN"
-              className="w-full h-full object-cover"
+              className="mobile-image-hero"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-white">
-              <p className="text-xs sm:text-sm font-medium">Teste de Triagem Neonatal</p>
-              <p className="text-xs opacity-90">Prepare-se para a Maternidade com Confiança!</p>
+              <p className="text-xs sm:text-sm font-medium mobile-text-sm">Teste de Triagem Neonatal</p>
+              <p className="text-xs opacity-90 mobile-text-sm">Prepare-se para a Maternidade com Confiança!</p>
             </div>
           </div>
 
@@ -347,28 +350,28 @@ export const StorePage = () => {
         </div>
       </div>
 
-      {/* Primeiros Cuidados com o Recém-Nascido Section */}
-      <div className="space-y-6 sm:space-y-8">
+      {/* Primeiros Cuidados com o Recém-Nascido Section - Mobile Optimized */}
+      <div className="space-y-4 sm:space-y-6 lg:space-y-8">
         <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-white mb-2 sm:mb-3 mobile-text-lg">
             Primeiros Cuidados com o Recém-Nascido
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto px-2">
+          <p className="text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto px-2 mobile-text">
             Tudo que você precisa saber para cuidar do seu bebê nos primeiros dias em casa
           </p>
         </div>
 
-        {/* Cards de Cuidados */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Cards de Cuidados - Mobile Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Card 1: Alimentação */}
-          <div className="bg-gradient-to-br from-pink-50 to-rose-100 rounded-2xl p-4 sm:p-6 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
+          <div className="bg-gradient-to-br from-pink-50 to-rose-100 rounded-xl p-4 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
               <div className="p-2 sm:p-3 bg-pink-500 rounded-xl">
                 <TestTube2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-pink-800">Alimentação</h3>
+              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-pink-800 mobile-text">Alimentação</h3>
             </div>
-            <ul className="space-y-1.5 sm:space-y-2 text-pink-700 text-sm sm:text-base">
+            <ul className="space-y-1.5 sm:space-y-2 text-pink-700 text-xs sm:text-sm mobile-text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-pink-500 mt-1">•</span>
                 <span>Amamentação em livre demanda</span>
@@ -771,8 +774,8 @@ export const StorePage = () => {
 
           {/* Grid de produtos melhorado */}
           <div className={`grid gap-6 ${viewMode === 'grid'
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-              : 'grid-cols-1'
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+            : 'grid-cols-1'
             }`}>
             {filteredProducts.map((product, index) => (
               <motion.div
@@ -790,8 +793,8 @@ export const StorePage = () => {
                       src={product.image}
                       alt={product.name}
                       className={`object-cover rounded-xl ${viewMode === 'list'
-                          ? 'w-24 h-24'
-                          : 'w-full h-40'
+                        ? 'w-24 h-24'
+                        : 'w-full h-40'
                         }`}
                     />
                     <div className="absolute top-2 right-2 flex gap-1">
@@ -804,8 +807,8 @@ export const StorePage = () => {
                       >
                         <Heart
                           className={`w-4 h-4 ${favorites.includes(product.id)
-                              ? 'fill-red-500 text-red-500'
-                              : 'text-gray-600 dark:text-gray-400'
+                            ? 'fill-red-500 text-red-500'
+                            : 'text-gray-600 dark:text-gray-400'
                             }`}
                           aria-hidden="true"
                         />

@@ -11,7 +11,7 @@ import { useMockData } from '../../../hooks/useMockData';
 import { Button } from '../../../components/ui/Button';
 import { useInfiniteScroll, useHapticFeedback } from '../../../hooks/useGestures';
 import { formatNumber, formatDate } from '../../../lib/utils';
-import { OptimizedImage } from '../../../components/ui/OptimizedImage';
+import { OptimizedImage } from '../../../components/OptimizedImage';
 import type { Post } from '../../../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
@@ -268,13 +268,13 @@ export const FeedPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50">
-      {/* Header Melhorado com Estatísticas */}
+      {/* Header Melhorado com Estatísticas - Mobile Optimized */}
       <div className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-lg">
-        <div className="max-w-full mx-auto px-4 py-4">
+        <div className="max-w-full mx-auto px-3 sm:px-4 py-2 sm:py-3">
           <div className="flex items-center justify-between mb-4">
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Comunidade</h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Conecte-se com outras mães</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mobile-text-lg">Comunidade</h1>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mobile-text-sm">Conecte-se com outras mães</p>
             </div>
 
             {/* Estatísticas do usuário */}
@@ -373,19 +373,19 @@ export const FeedPage = () => {
         </div>
       </div>
 
-      {/* Categorias Melhoradas */}
-      <div className="sticky top-20 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
-        <div className="max-w-full mx-auto px-4 py-3">
-          <div className="flex gap-2 overflow-x-auto pb-2">
+      {/* Categorias Melhoradas - Mobile Scroll */}
+      <div className="sticky top-16 sm:top-20 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="max-w-full mx-auto px-3 sm:px-4 py-2 sm:py-3">
+          <div className="flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
             {categories.map((category) => (
               <motion.button
                 key={category.id}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category.id === 'all' ? null : category.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 relative ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
-                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 relative snap-start ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
+                  ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
                 aria-label={`Filtrar por ${category.name}`}
               >
@@ -393,8 +393,8 @@ export const FeedPage = () => {
                 <span>{category.name}</span>
                 {category.count > 0 && (
                   <span className={`text-xs px-1.5 py-0.5 rounded-full ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
-                      ? 'bg-white/20 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    ? 'bg-white/20 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}>
                     {category.count}
                   </span>
@@ -425,8 +425,8 @@ export const FeedPage = () => {
                     key={group.id}
                     whileHover={{ scale: 1.02 }}
                     className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${activeGroup === group.id
-                        ? `border-pink-500 bg-gradient-to-r ${group.color}/10`
-                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-pink-300 dark:hover:border-pink-600'
+                      ? `border-pink-500 bg-gradient-to-r ${group.color}/10`
+                      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-pink-300 dark:hover:border-pink-600'
                       }`}
                     onClick={() => setActiveGroup(activeGroup === group.id ? null : group.id)}
                   >
@@ -473,8 +473,8 @@ export const FeedPage = () => {
                     key={resource.id}
                     whileHover={{ scale: 1.02 }}
                     className={`p-4 rounded-xl border-2 transition-all duration-200 ${resource.urgent
-                        ? 'border-red-300 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30'
-                        : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
+                      ? 'border-red-300 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
                       }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
@@ -504,19 +504,19 @@ export const FeedPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Posts da Comunidade Melhorados */}
-      <div className="max-w-full mx-auto px-4 py-6">
-        <div className="space-y-6">
+      {/* Posts da Comunidade Melhorados - Mobile Optimized */}
+      <div className="max-w-full mx-auto px-4 py-4">
+        <div className="space-y-4">
           {sortedPosts.map((post, index) => (
             <motion.article
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-2xl hover:scale-[1.01] transition-all duration-500"
+              className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-xl transition-all duration-300"
               ref={index === sortedPosts.length - 1 ? lastPostRef : null}
             >
-              <div className="p-4 sm:p-6">
+              <div className="p-4">
                 {/* Header do Post Melhorado */}
                 <div className="flex items-start justify-between mb-4 sm:mb-5">
                   <div className="flex items-center gap-3 sm:gap-4">
@@ -579,18 +579,18 @@ export const FeedPage = () => {
                 </div>
 
                 {post.image_url && (
-                  <div className="relative mb-5 overflow-hidden rounded-2xl">
+                  <div className="relative mb-4 sm:mb-5 overflow-hidden rounded-xl sm:rounded-2xl">
                     <OptimizedImage
                       src={post.image_url}
                       alt="Post"
-                      className="w-full object-cover max-h-[500px] hover:scale-105 transition-transform duration-500"
+                      className="mobile-image-post hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                     />
                   </div>
                 )}
 
                 <div className="mb-5">
-                  <p className="text-claude-gray-700 dark:text-claude-gray-300 leading-relaxed text-base">
+                  <p className="text-claude-gray-700 dark:text-claude-gray-300 leading-relaxed text-sm sm:text-base mobile-text">
                     {post.caption.length > 200 ? (
                       <>
                         {post.caption.substring(0, 200)}...
@@ -754,7 +754,7 @@ export const FeedPage = () => {
               <Trophy className="w-5 h-5 text-yellow-500" aria-hidden="true" />
               Estatísticas da Comunidade
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="text-center">
                 <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">2.5K</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Mães ativas</div>

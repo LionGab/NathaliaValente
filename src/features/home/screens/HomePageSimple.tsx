@@ -125,15 +125,22 @@ const HomePageSimple = () => {
       {/* Header */}
       <Header />
 
-      <div className="max-w-full mx-auto px-3 sm:px-4 py-3 sm:py-4 pb-20 sm:pb-24">
+      <div className="max-w-full mx-auto px-4 py-4 mobile-bottom-nav">
         {/* Hero Card Melhorado - Hierarquia Visual Clara */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6"
+          initial={{ opacity: 0, y: -20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            type: "spring",
+            stiffness: 100
+          }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="mb-6 group"
         >
-          <div className="bg-gradient-to-br from-primary-500 via-secondary-500 to-accent-500 rounded-2xl p-4 sm:p-6 text-white shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-br from-pink-300 via-rose-200 to-orange-200 rounded-3xl p-6 text-gray-800 shadow-2xl relative overflow-hidden border border-pink-200/50">
             {/* Background Pattern Melhorado */}
             <div className="absolute inset-0 opacity-10" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E")`
@@ -145,10 +152,10 @@ const HomePageSimple = () => {
                 <div className="flex-1">
                   {/* Saudação personalizada com horário */}
                   <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight">
-                      Olá, {profile?.full_name?.split(' ')[0] || 'Mamãe'}! 👋
+                    <h1 className="text-3xl font-bold text-gray-800 leading-tight tracking-tight">
+                      Olá, {profile?.full_name?.split(' ')[0] || 'Mamãe'}! 👶
                     </h1>
-                    <div className="text-sm text-white/80 font-medium">
+                    <div className="text-sm text-pink-600 font-semibold bg-pink-100 px-3 py-1.5 rounded-full border border-pink-200">
                       {currentTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
@@ -156,19 +163,19 @@ const HomePageSimple = () => {
                   {/* Dados gestacionais com visual melhorado */}
                   {gestationalData && (
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/30">
-                        <span className="text-sm font-bold text-white tracking-wide">
+                      <div className="bg-pink-100 rounded-2xl px-4 py-2.5 border border-pink-200 shadow-lg">
+                        <span className="text-sm font-bold text-pink-700 tracking-wide">
                           {gestationalData.weeks} semanas
                         </span>
                       </div>
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/30">
-                        <span className="text-sm font-bold text-white tracking-wide">
+                      <div className="bg-purple-100 rounded-2xl px-4 py-2.5 border border-purple-200 shadow-lg">
+                        <span className="text-sm font-bold text-purple-700 tracking-wide">
                           {gestationalData.trimester}º trimestre
                         </span>
                       </div>
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/30 flex items-center gap-1">
-                        <Target className="w-3 h-3" aria-hidden="true" />
-                        <span className="text-sm font-bold text-white tracking-wide">
+                      <div className="bg-orange-100 rounded-2xl px-4 py-2.5 border border-orange-200 shadow-lg flex items-center gap-1.5">
+                        <Target className="w-3.5 h-3.5 text-orange-600" aria-hidden="true" />
+                        <span className="text-sm font-bold text-orange-700 tracking-wide">
                           {todayProgress}% hoje
                         </span>
                       </div>
@@ -256,8 +263,8 @@ const HomePageSimple = () => {
 
               {/* Mensagem personalizada e CTAs melhorados */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <p className="text-white/90 text-sm sm:text-base font-medium flex-1 leading-relaxed">
-                  {gestationalData?.personalizedMessage || "Aproveite cada momento especial da sua jornada"}
+                <p className="text-gray-700 text-base font-medium flex-1 leading-relaxed">
+                  🌸 {gestationalData?.personalizedMessage || "Aproveite cada momento especial da sua jornada"} 🌸
                 </p>
 
                 {/* CTAs com visual aprimorado */}
@@ -269,7 +276,7 @@ const HomePageSimple = () => {
                       triggerHaptic('light');
                       window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
                     }}
-                    className="bg-white text-pink-600 px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg text-sm tracking-wide hover:shadow-xl transition-all duration-200"
+                    className="bg-pink-500 text-white px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg text-sm tracking-wide hover:bg-pink-600 hover:shadow-xl transition-all duration-200"
                     aria-label="Compartilhar experiência"
                   >
                     <Heart className="w-4 h-4" aria-hidden="true" />
@@ -303,20 +310,20 @@ const HomePageSimple = () => {
             transition={{ delay: 0.2 }}
             className="mb-6"
           >
-            <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl p-5 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-xl">
-                    <BookOpen className="w-5 h-5 text-pink-200" aria-hidden="true" />
+                  <div className="p-3 bg-gradient-to-r from-pink-400 to-purple-400 rounded-xl">
+                    <BookOpen className="w-5 h-5 text-white" aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-lg tracking-wide">
+                    <h3 className="font-bold text-gray-800 text-xl tracking-wide">
                       Dicas {gestationalData.trimester}º trimestre
                     </h3>
-                    <p className="text-pink-200 text-sm">Personalizadas para você</p>
+                    <p className="text-gray-600 text-sm font-medium">Personalizadas para você</p>
                   </div>
                 </div>
-                <div className="text-sm text-pink-200 font-bold bg-pink-500/30 px-3 py-1.5 rounded-full border border-pink-400/30">
+                <div className="text-sm text-pink-700 font-bold bg-pink-200 px-4 py-2 rounded-full border border-pink-300 shadow-md">
                   {gestationalData.weeks} semanas
                 </div>
               </div>
@@ -329,12 +336,12 @@ const HomePageSimple = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + index * 0.1 }}
-                    className="flex items-start gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/15 transition-all duration-200 group"
+                    className="flex items-start gap-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-200 group border border-pink-200"
                   >
-                    <div className="p-1.5 bg-green-400/20 rounded-full group-hover:bg-green-400/30 transition-colors">
-                      <CheckCircle className="w-4 h-4 text-green-300" aria-hidden="true" />
+                    <div className="p-1.5 bg-green-400 rounded-full group-hover:bg-green-500 transition-colors">
+                      <CheckCircle className="w-4 h-4 text-white" aria-hidden="true" />
                     </div>
-                    <span className="text-sm text-pink-100 leading-relaxed font-medium flex-1">{tip}</span>
+                    <span className="text-sm text-gray-700 leading-relaxed font-semibold flex-1">{tip}</span>
                   </motion.div>
                 ))}
               </div>
@@ -346,7 +353,7 @@ const HomePageSimple = () => {
                   triggerHaptic('light');
                   window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
                 }}
-                className="w-full mt-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-200 text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-200 border border-pink-400/30"
+                className="w-full mt-4 bg-pink-500 text-white text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-pink-600 transition-all duration-200 shadow-md"
                 aria-label="Ver todas as dicas personalizadas"
               >
                 Ver todas as dicas
@@ -363,24 +370,24 @@ const HomePageSimple = () => {
           transition={{ delay: 0.25 }}
           className="mb-6"
         >
-          <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
+          <div className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-5 shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 rounded-xl">
-                  <Calendar className="w-5 h-5 text-blue-200" aria-hidden="true" />
+                <div className="p-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-xl">
+                  <Calendar className="w-5 h-5 text-white" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-lg tracking-wide">Minha Rotina</h3>
-                  <p className="text-blue-200 text-sm">Sua jornada diária</p>
+                  <h3 className="font-bold text-gray-800 text-xl tracking-wide">Minha Rotina</h3>
+                  <p className="text-gray-600 text-sm font-medium">Sua jornada diária</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="text-sm text-blue-200 font-bold bg-blue-500/30 px-3 py-1.5 rounded-full border border-blue-400/30">
+                <div className="text-sm text-blue-700 font-bold bg-blue-200 px-4 py-2 rounded-full border border-blue-300 shadow-md">
                   {streakCount} dias seguidos
                 </div>
                 <div className="flex items-center gap-1">
-                  <Zap className="w-4 h-4 text-yellow-400" aria-hidden="true" />
-                  <span className="text-yellow-400 font-bold text-sm">{streakCount}</span>
+                  <Zap className="w-4 h-4 text-yellow-500" aria-hidden="true" />
+                  <span className="text-yellow-600 font-bold text-sm">{streakCount}</span>
                 </div>
               </div>
             </div>
@@ -388,15 +395,15 @@ const HomePageSimple = () => {
             {/* Progresso do dia */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-semibold text-white/90">Progresso de hoje</span>
-                <span className="text-sm font-bold text-white">{todayProgress}%</span>
+                <span className="text-sm font-semibold text-gray-700">Progresso de hoje</span>
+                <span className="text-sm font-bold text-blue-700">{todayProgress}%</span>
               </div>
-              <div className="w-full bg-white/20 rounded-full h-2">
+              <div className="w-full bg-blue-200 rounded-full h-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${todayProgress}%` }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  className="bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full h-2 shadow-lg"
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full h-2 shadow-lg"
                 />
               </div>
             </div>
@@ -407,16 +414,16 @@ const HomePageSimple = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/15 transition-all duration-200 group"
+                className="flex items-center gap-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-200 group border border-blue-200"
               >
-                <div className="p-1.5 bg-green-400/20 rounded-full group-hover:bg-green-400/30 transition-colors">
-                  <CheckCircle className="w-4 h-4 text-green-300" aria-hidden="true" />
+                <div className="p-1.5 bg-green-400 rounded-full group-hover:bg-green-500 transition-colors">
+                  <CheckCircle className="w-4 h-4 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1">
-                  <span className="text-sm text-pink-100 font-medium">Meditação matinal (5 min)</span>
-                  <p className="text-xs text-pink-200">Conecte-se com seu bebê</p>
+                  <span className="text-sm text-gray-700 font-semibold">Meditação matinal (5 min)</span>
+                  <p className="text-xs text-gray-600 font-medium">Conecte-se com seu bebê</p>
                 </div>
-                <div className="text-xs text-green-300 font-bold">✓</div>
+                <div className="text-xs text-green-600 font-bold">✓</div>
               </motion.div>
 
               <motion.div
@@ -459,7 +466,7 @@ const HomePageSimple = () => {
                 triggerHaptic('light');
                 window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
               }}
-              className="w-full mt-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-200 text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-200 border border-blue-400/30"
+              className="w-full mt-4 bg-blue-500 text-white text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-600 transition-all duration-200 shadow-md"
               aria-label="Ver rotina completa e gerenciar atividades"
             >
               Ver rotina completa
@@ -475,8 +482,8 @@ const HomePageSimple = () => {
           transition={{ delay: 0.3 }}
           className="space-y-6"
         >
-          {/* Grid 2x2 com visual aprimorado */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Grid 2x2 - Mobile Optimized */}
+          <div className="grid grid-cols-2 gap-3">
             {quickActions.map((action, index) => (
               <motion.button
                 key={action.id}
@@ -486,7 +493,7 @@ const HomePageSimple = () => {
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleQuickAction(action.id)}
-                className={`${action.bgColor} text-white p-5 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden border border-white/20`}
+                className={`${action.bgColor} text-white p-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden border border-white/20`}
                 aria-label={`${action.title} - ${action.subtitle}`}
               >
                 {/* Background pattern animado */}
@@ -504,10 +511,10 @@ const HomePageSimple = () => {
 
                   {/* Texto com hierarquia visual clara */}
                   <div className="text-left flex-1">
-                    <h3 className="font-bold text-lg mb-2 text-white tracking-wide">
+                    <h3 className="font-bold text-base sm:text-lg mb-2 text-white tracking-wide mobile-text">
                       {action.title}
                     </h3>
-                    <p className="text-sm text-white/90 leading-relaxed font-medium">
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-medium mobile-text-sm">
                       {action.subtitle}
                     </p>
                   </div>
@@ -523,7 +530,7 @@ const HomePageSimple = () => {
             transition={{ delay: 0.7 }}
             className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/20"
           >
-            <div className="grid grid-cols-3 gap-4">
+            <div className="mobile-grid-2 sm:grid-cols-3 mobile-gap">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white mb-1">{streakCount}</div>
                 <div className="text-xs text-white/80 font-medium">Dias seguidos</div>

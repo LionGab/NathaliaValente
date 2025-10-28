@@ -4,7 +4,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
 import { CartProvider } from './contexts/CartContext';
 import { OptimizedBottomNav } from './components/navigation/OptimizedBottomNav';
-import { SmartHeader } from './components/navigation/SmartHeader';
+// Removed SmartHeader - using only Header component
 import { GestureNavigation } from './components/navigation/GestureNavigation';
 import { ContextualNavigation } from './components/navigation/ContextualNavigation';
 import { PerformanceDebug } from './components/PerformanceDebug';
@@ -24,6 +24,8 @@ import { NotificationContainer } from './components/ErrorNotification';
 import { useSupabaseNotifications } from './hooks/useSupabaseNotifications';
 import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/EssenceOnboardingContext';
 import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
+import { FeedbackButton } from './components/FeedbackButton';
+import { performanceMonitor, trackPageLoad } from './lib/performance';
 
 // Import direto para evitar problemas de lazy loading
 import HomePage from './features/home/screens/HomePageSimple';
@@ -168,8 +170,10 @@ function AppContent() {
 
       switch (currentPage) {
         case 'home':
+          trackPageLoad('home');
           return <HomePage />;
         case 'feed':
+          trackPageLoad('feed');
           return (
             <FeedErrorBoundary>
               <FeedPage />
@@ -207,7 +211,7 @@ function AppContent() {
     };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 transition-colors duration-500 safe-area-inset relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 transition-colors duration-500 mobile-content relative overflow-hidden">
         {/* Modern Background Elements */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
@@ -220,12 +224,7 @@ function AppContent() {
 
         <div className="relative z-10">
 
-          {/* Header Inteligente */}
-          <SmartHeader
-            onProfileClick={() => setCurrentPage('profile')}
-            onCreatePost={handleCreatePost}
-            onQuickAction={handleQuickAction}
-          />
+          {/* Header removido - cada página tem seu próprio header */}
 
           <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
 
@@ -259,6 +258,12 @@ function AppContent() {
 
           <PerformanceDebug />
           <NotificationContainer notifications={notifications} onClose={removeNotification} />
+
+          {/* Botão de Feedback Maternal */}
+          <FeedbackButton
+            userWeek={user?.gestational_week || 0}
+            userId={user?.id}
+          />
 
           {/* Toast Container */}
           <ToastContainer toasts={[]} onClose={() => { }} />

@@ -10,6 +10,7 @@ import { EmotionalStateScreen } from './EmotionalStateScreen';
 import { DesireScreen } from './DesireScreen';
 import { ArchetypeSelectionScreen } from './ArchetypeSelectionScreen';
 import { PersonalizedWelcomeScreen } from './PersonalizedWelcomeScreen';
+import { trackUserJourney } from '../../lib/analytics';
 
 export const EssenceOnboarding: React.FC = () => {
   const {
@@ -21,6 +22,9 @@ export const EssenceOnboarding: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Track onboarding start
+    trackUserJourney('onboarding_start');
+
     // Simular carregamento inicial
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -31,18 +35,49 @@ export const EssenceOnboarding: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-            <span className="text-3xl">✨</span>
-          </div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-            Preparando sua jornada
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            Criando um espaço único para você...
-          </p>
-        </div>
+      <div className="min-h-screen maternal-gradient flex items-center justify-center">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="w-24 h-24 maternal-button rounded-full flex items-center justify-center mx-auto mb-8 maternal-float"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <span className="text-4xl">👶</span>
+          </motion.div>
+          <motion.h2
+            className="text-3xl font-bold text-gray-800 mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            Preparando sua jornada maternal
+          </motion.h2>
+          <motion.p
+            className="text-gray-600 text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+          >
+            Criando um espaço único e acolhedor para você... 💗
+          </motion.p>
+          <motion.div
+            className="mt-8 flex justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <div className="flex space-x-2">
+              <div className="w-3 h-3 bg-pink-400 rounded-full maternal-pulse"></div>
+              <div className="w-3 h-3 bg-purple-400 rounded-full maternal-pulse" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-3 h-3 bg-indigo-400 rounded-full maternal-pulse" style={{ animationDelay: '0.4s' }}></div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     );
   }

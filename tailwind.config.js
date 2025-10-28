@@ -140,6 +140,15 @@ export default {
         '2xl': ['1.5rem', { lineHeight: '1.5', letterSpacing: '-0.02em' }],
         '3xl': ['1.875rem', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
         '4xl': ['2.25rem', { lineHeight: '1.3', letterSpacing: '-0.03em' }],
+        // Mobile-optimized typography
+        'mobile-xs': ['0.75rem', { lineHeight: '1.5' }],
+        'mobile-sm': ['0.875rem', { lineHeight: '1.5' }],
+        'mobile-base': ['1rem', { lineHeight: '1.6' }],
+        'mobile-lg': ['1.125rem', { lineHeight: '1.6' }],
+        'mobile-xl': ['1.25rem', { lineHeight: '1.5' }],
+        'mobile-2xl': ['1.5rem', { lineHeight: '1.4' }],
+        'mobile-3xl': ['1.875rem', { lineHeight: '1.3' }],
+        'mobile-4xl': ['2.25rem', { lineHeight: '1.2' }],
       },
       borderRadius: {
         '2xl': '1rem',
@@ -153,6 +162,21 @@ export default {
         'glow': '0 0 20px rgba(221, 87, 255, 0.3)',
         'glow-pink': '0 0 20px rgba(255, 59, 79, 0.3)',
         'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
+        // Mobile-optimized shadows
+        'mobile-soft': '0 1px 8px -2px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03)',
+        'mobile-medium': '0 2px 12px -3px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.03)',
+        'mobile-large': '0 4px 20px -4px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.08)',
+      },
+      spacing: {
+        // Mobile-optimized spacing
+        'mobile-xs': '0.25rem',   // 4px
+        'mobile-sm': '0.5rem',    // 8px
+        'mobile-md': '0.75rem',   // 12px
+        'mobile-lg': '1rem',      // 16px
+        'mobile-xl': '1.25rem',   // 20px
+        'mobile-2xl': '1.5rem',   // 24px
+        'mobile-3xl': '2rem',     // 32px
+        'mobile-4xl': '2.5rem',   // 40px
       },
       animation: {
         // ClubNath Design System Animations

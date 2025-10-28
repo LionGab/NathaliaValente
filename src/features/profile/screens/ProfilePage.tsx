@@ -83,11 +83,11 @@ export const ProfilePage = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pb-24">
+    <div className="max-w-4xl mx-auto px-4 py-4 mobile-bottom-nav">
       {/* Profile Header Mobile-First */}
-      <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+      <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-4 mb-4">
         {/* Profile Info */}
-        <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4 lg:mb-6">
           <div className="relative">
             <Avatar
               type={userAvatar}
@@ -110,7 +110,7 @@ export const ProfilePage = () => {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
+              <h2 className="text-base sm:text-lg lg:text-2xl font-bold text-gray-800 dark:text-white mobile-text-lg">
                 {profile?.full_name}
               </h2>
               {/* Verified badge - implement when needed */}
@@ -121,7 +121,7 @@ export const ProfilePage = () => {
               )}
             </div>
             {profile?.bio && (
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 leading-relaxed mobile-text-sm">
                 {profile.bio}
               </p>
             )}
@@ -210,21 +210,21 @@ export const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="text-center p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-            <p className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">{userPosts.length}</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Publicações</p>
+        {/* Stats - Mobile Optimized Grid */}
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <p className="text-lg font-bold text-gray-800 dark:text-white">{userPosts.length}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Publicações</p>
           </div>
-          <div className="text-center p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-            <p className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <p className="text-lg font-bold text-gray-800 dark:text-white">
               {userPosts.reduce((sum, post) => sum + (post.likes_count || 0), 0)}
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Curtidas</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Curtidas</p>
           </div>
-          <div className="text-center p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-            <p className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">{savedItems.length}</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Salvos</p>
+          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <p className="text-lg font-bold text-gray-800 dark:text-white">{savedItems.length}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Salvos</p>
           </div>
         </div>
 
@@ -325,7 +325,7 @@ export const ProfilePage = () => {
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
                   Compartilhe sua experiência e inspire outras mães da comunidade
                 </p>
-                <button 
+                <button
                   onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
                   className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
                 >
@@ -408,7 +408,7 @@ export const ProfilePage = () => {
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
                   Explore a comunidade e salve posts que te inspiram
                 </p>
-                <button 
+                <button
                   onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
                 >

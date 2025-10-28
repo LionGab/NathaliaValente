@@ -36,14 +36,15 @@ export const OptimizedBottomNav = ({
 }: OptimizedBottomNavProps) => {
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
 
-  // 5 tabs principais organizadas
+  // 5 tabs principais organizadas com design maternal
   const mainTabs = [
     {
       id: 'home',
       icon: Home,
       label: 'Início',
       color: 'text-pink-600 dark:text-pink-400',
-      bgColor: 'bg-pink-50 dark:bg-pink-900/20'
+      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
+      maternalColor: 'maternal-icon'
     },
     {
       id: 'feed',
@@ -113,14 +114,14 @@ export const OptimizedBottomNav = ({
   return (
     <>
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-white/20 dark:border-gray-700/20">
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-t border-white/20 dark:border-gray-700/20 pb-safe">
         <div className="px-4 py-2">
           {/* Ações Rápidas - Sempre Visíveis */}
           <div className="flex items-center justify-between mb-2">
             {/* Busca */}
             <button
               onClick={onSearch}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
+              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400"
               aria-label="Buscar conteúdo"
             >
               <Search className="w-5 h-5" aria-hidden="true" />
@@ -129,26 +130,26 @@ export const OptimizedBottomNav = ({
             {/* Notificações */}
             <button
               onClick={onNotifications}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 relative touch-target"
+              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 relative touch-target"
               aria-label="Ver notificações"
             >
               <Bell className="w-5 h-5" aria-hidden="true" />
               <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full" aria-hidden="true"></div>
             </button>
 
-            {/* Botão Criar Post - Central e Destacado */}
+            {/* Botão Criar Post - Central e Destacado com Design Maternal */}
             <button
               onClick={onCreatePost}
-              className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center touch-target"
+              className="w-14 h-14 maternal-button rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center touch-target maternal-float"
               aria-label="Criar nova publicação"
             >
-              <Plus className="w-6 h-6" aria-hidden="true" />
+              <Plus className="w-7 h-7" aria-hidden="true" />
             </button>
 
             {/* Menu Rápido */}
             <button
               onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
+              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
               aria-label={isQuickMenuOpen ? "Fechar menu rápido" : "Abrir menu rápido"}
               aria-expanded={isQuickMenuOpen}
             >
@@ -158,7 +159,7 @@ export const OptimizedBottomNav = ({
             {/* Favoritos */}
             <button
               onClick={() => onTabChange('favorites')}
-              className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
+              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
               aria-label="Ver favoritos"
             >
               <Heart className="w-5 h-5" aria-hidden="true" />
@@ -208,9 +209,9 @@ export const OptimizedBottomNav = ({
                 <button
                   key={tab.id}
                   onClick={() => onTabChange(tab.id)}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 min-w-0 flex-1 touch-target ${isActive
-                    ? `${tab.bgColor} ${tab.color}`
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 min-w-0 flex-1 touch-target ${isActive
+                    ? `${tab.bgColor} ${tab.color} maternal-shadow`
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                     }`}
                   role="tab"
                   aria-selected={isActive}
@@ -232,8 +233,8 @@ export const OptimizedBottomNav = ({
         </div>
       </div>
 
-      {/* Bottom Spacer */}
-      <div className="h-20"></div>
+      {/* Bottom Spacer - Mobile Safe Area */}
+      <div className="h-24 mobile-bottom-nav"></div>
     </>
   );
 };

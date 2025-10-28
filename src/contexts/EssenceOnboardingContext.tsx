@@ -11,6 +11,8 @@ import {
     FeminineArchetype,
     OnboardingStep
 } from '../types/essence-onboarding';
+// Configuração para pular onboarding em desenvolvimento
+const SKIP_ONBOARDING = import.meta.env.DEV;
 
 interface EssenceOnboardingContextType {
     // Estado do onboarding
@@ -72,8 +74,21 @@ export const EssenceOnboardingProvider: React.FC<{ children: React.ReactNode }> 
                 console.error('Erro ao carregar dados do onboarding:', error);
             }
         } else {
-            // Se não há dados salvos, iniciar onboarding
-            setIsOnboardingActive(true);
+            // Se não há dados salvos, verificar configuração
+            if (SKIP_ONBOARDING) {
+                // Pular onboarding em desenvolvimento
+                setOnboardingData({
+                    emotionalState: 'serena',
+                    currentDesire: 'orientacao',
+                    selectedArchetype: 'nutridora',
+                    completedAt: new Date().toISOString()
+                });
+                setIsOnboardingComplete(true);
+                setIsOnboardingActive(false);
+            } else {
+                // Iniciar onboarding normalmente
+                setIsOnboardingActive(true);
+            }
         }
     }, []);
 

@@ -1,6 +1,7 @@
-// Google Analytics 4 Integration
+// Google Analytics 4 Integration - Enhanced for Maternity App
 export const initAnalytics = () => {
-    if (import.meta.env.PROD && import.meta.env.VITE_GA_MEASUREMENT_ID) {
+    // Always initialize in development for testing
+    if (import.meta.env.VITE_GA_MEASUREMENT_ID) {
         // Load Google Analytics
         const script = document.createElement('script');
         script.async = true;
@@ -18,7 +19,18 @@ export const initAnalytics = () => {
         gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID, {
             page_title: 'Nossa Maternidade',
             page_location: window.location.href,
+            // Enhanced ecommerce for subscription tracking
+            send_page_view: true,
+            custom_map: {
+                'custom_parameter_1': 'user_week',
+                'custom_parameter_2': 'user_type',
+                'custom_parameter_3': 'subscription_status'
+            }
         });
+
+        console.log('✅ Analytics inicializado:', import.meta.env.VITE_GA_MEASUREMENT_ID);
+    } else {
+        console.warn('⚠️ VITE_GA_MEASUREMENT_ID não configurado');
     }
 };
 
@@ -109,6 +121,78 @@ export const trackError = (error: string, fatal: boolean = false) => {
     trackEvent('exception', {
         description: error,
         fatal: fatal,
+    });
+};
+
+// === MATERNITY-SPECIFIC EVENTS ===
+
+// Track pregnancy milestones
+export const trackPregnancyMilestone = (milestone: string, week: number) => {
+    trackEvent('pregnancy_milestone', {
+        event_category: 'pregnancy',
+        milestone: milestone,
+        week: week,
+        user_week: week
+    });
+};
+
+// Track NAT IA interactions
+export const trackNathIA = (action: 'query' | 'satisfied' | 'dissatisfied', queryLength?: number) => {
+    trackEvent('nathia_interaction', {
+        event_category: 'ai_assistant',
+        action: action,
+        query_length: queryLength,
+        user_type: 'gestante'
+    });
+};
+
+// Track community engagement
+export const trackCommunityEngagement = (action: 'post_created' | 'comment_added' | 'like_given', category?: string) => {
+    trackEvent('community_engagement', {
+        event_category: 'community',
+        action: action,
+        post_category: category,
+        user_type: 'gestante'
+    });
+};
+
+// Track subscription funnel
+export const trackSubscriptionFunnel = (step: 'paywall_viewed' | 'trial_started' | 'payment_completed' | 'cancelled', value?: number) => {
+    trackEvent('subscription_funnel', {
+        event_category: 'monetization',
+        funnel_step: step,
+        value: value,
+        currency: 'BRL'
+    });
+};
+
+// Track content consumption
+export const trackContentConsumption = (contentType: 'video' | 'article' | 'tip' | 'quote', week: number, duration?: number) => {
+    trackEvent('content_consumption', {
+        event_category: 'content',
+        content_type: contentType,
+        week: week,
+        duration_seconds: duration,
+        user_week: week
+    });
+};
+
+// Track user journey
+export const trackUserJourney = (step: 'onboarding_start' | 'onboarding_complete' | 'first_post' | 'first_nathia' | 'first_purchase') => {
+    trackEvent('user_journey', {
+        event_category: 'engagement',
+        journey_step: step,
+        user_type: 'gestante'
+    });
+};
+
+// Track app performance
+export const trackAppPerformance = (metric: 'load_time' | 'api_response' | 'image_load', value: number, unit: string = 'ms') => {
+    trackEvent('app_performance', {
+        event_category: 'performance',
+        metric_name: metric,
+        value: value,
+        unit: unit
     });
 };
 

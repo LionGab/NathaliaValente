@@ -45,18 +45,6 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Use lazy loading unless priority is true
-  const { isVisible, ref } = useLazyImage(
-    priority ? src : '',
-    placeholder || blurDataURL || ''
-  );
-
-  // Use image optimization
-  const { optimizedSrc, isLoading: isOptimizing, hasError: optimizationError } = useImageOptimization(
-    isVisible || priority ? src : '',
-    sizes
-  );
-
   const handleLoad = () => {
     setIsLoaded(true);
     onLoad?.();
@@ -67,9 +55,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
-  const imageSrc = isVisible || priority ? optimizedSrc : placeholder || blurDataURL || '';
-
-  if (hasError || optimizationError) {
+  if (hasError) {
     return fallback ? (
       <>{fallback}</>
     ) : (
@@ -98,9 +84,12 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   return (
     <div
-      ref={ref}
-      className={`relative overflow-hidden ${className}`}
-      style={{ width, height }}
+      className={`relative overflow-hidden mobile-image ${className}`}
+      style={{
+        width: width || '100%',
+        height: height || 'auto',
+        aspectRatio: width && height ? `${width}/${height}` : undefined
+      }}
     >
       {/* Placeholder/Blur */}
       {!isLoaded && (placeholder || blurDataURL) && (
@@ -120,7 +109,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       )}
 
       {/* Loading Spinner */}
-      {isOptimizing && !isLoaded && (
+      {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
           <motion.div
             animate={{ rotate: 360 }}
@@ -131,35 +120,19 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       )}
 
       {/* Main Image */}
-      <AnimatePresence>
-        {imageSrc && (
-          <motion.img
-            ref={imgRef}
-            src={imageSrc}
-            alt={alt}
-            width={width}
-            height={height}
-            loading={priority ? 'eager' : loading}
-            className={`w-full h-full transition-opacity duration-300 ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ objectFit, objectPosition }}
-            onLoad={handleLoad}
-            onError={handleError}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-            exit={{ opacity: 0 }}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Overlay for better accessibility */}
-      {!isLoaded && !isOptimizing && (
-        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-          <div className="text-gray-400 text-sm">Carregando...</div>
-        </div>
-      )}
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={priority ? 'eager' : loading}
+        className={`w-full h-full transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        style={{ objectFit, objectPosition }}
+        onLoad={handleLoad}
+        onError={handleError}
+      />
     </div>
   );
 };
