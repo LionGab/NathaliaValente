@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
@@ -21,7 +21,7 @@ import { ToastContainer } from './components/Toast';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
-import { useNotifications } from './hooks/useNotifications';
+import { useSupabaseNotifications } from './hooks/useSupabaseNotifications';
 import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/EssenceOnboardingContext';
 import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 
@@ -41,7 +41,8 @@ function AppContent() {
   const [authState, setAuthState] = useState<'loading' | 'instagram' | 'onboarding' | 'app'>(
     'loading'
   );
-  const { notifications, removeNotification } = useNotifications();
+  // Sistema de notificações via Supabase
+  const { notifications, removeNotification } = useSupabaseNotifications();
 
   // Estado para navegação otimizada
   const [showQuickActions, setShowQuickActions] = useState(false);

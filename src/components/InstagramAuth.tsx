@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Instagram, Shield, Mail, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { useNotifications } from '../hooks/useNotifications';
+// Sistema de notificações simples (sem Firebase)
 import { useAuth } from '../contexts/AuthContext';
 import { LoadingSpinner } from './LoadingSpinner';
 
@@ -29,7 +29,26 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
     fullName: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { showSuccess, showError, handleApiError, handleValidationError } = useNotifications();
+  // Sistema de notificações simples
+  const showSuccess = (message: string) => {
+    console.log('✅ Success:', message);
+    // Aqui você pode implementar um toast ou modal de sucesso
+  };
+  
+  const showError = (message: string) => {
+    console.error('❌ Error:', message);
+    // Aqui você pode implementar um toast ou modal de erro
+  };
+  
+  const handleApiError = (error: any, context: string) => {
+    console.error(`API Error in ${context}:`, error);
+    showError('Ocorreu um erro. Tente novamente.');
+  };
+  
+  const handleValidationError = (errors: Record<string, string>) => {
+    console.error('Validation errors:', errors);
+    setErrors(errors);
+  };
   const { signInDemo } = useAuth();
 
   const validateForm = () => {
