@@ -1,307 +1,411 @@
-/**
- * ClubNath VIP - AI Integration Service
- * Integra com múltiplas APIs de IA (OpenAI, Claude, Perplexity, Gemini)
- */
-
-import { apiConfig } from '../lib/api-config';
-
-export interface AIResponse {
-  content: string;
+interface AIProvider {
+  name: string;
+  apiKey: string;
+  baseUrl: string;
   model: string;
-  provider: string;
-  tokensUsed?: number;
-  cost?: number;
-}
-
-export interface AIRequest {
-  prompt: string;
   maxTokens?: number;
   temperature?: number;
-  systemPrompt?: string;
-  context?: string;
 }
 
-export class AIIntegrationService {
-  private config = apiConfig.getConfig();
+interface AIResponse {
+  content: string;
+  provider: string;
+  model: string;
+  usage?: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+  error?: string;
+}
 
-  /**
-   * Envia uma requisição para a API de IA primária configurada
-   */
-  async generateResponse(request: AIRequest): Promise<AIResponse> {
-    const primaryAI = this.config.ai.primary;
-    
-    switch (primaryAI) {
-      case 'openai':
-        return this.callOpenAI(request);
-      case 'claude':
-        return this.callClaude(request);
-      case 'perplexity':
-        return this.callPerplexity(request);
-      case 'gemini':
-        return this.callGemini(request);
-      default:
-        throw new Error(`API de IA não suportada: ${primaryAI}`);
-    }
-  }
+interface AIConfig {
+  providers: AIProvider[];
+  fallbackOrder: string[];
+  timeout: number;
+  retryAttempts: number;
+}
 
-  /**
-   * Chama a API do OpenAI
-   */
-  private async callOpenAI(request: AIRequest): Promise<AIResponse> {
-    const { apiKey, model } = this.config.ai.openai;
-    
-    if (!apiKey) {
-      throw new Error('OpenAI API key não configurada');
-    }
+class AIIntegrationService {
+  private config: AIConfig;
+  private isInitialized = false;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          ...(request.context ? [{ role: 'user', content: request.context }] : []),
-          { role: 'user', content: request.prompt }
-        ],
-        max_tokens: request.maxTokens || this.config.ai.maxTokens,
-        temperature: request.temperature || this.config.ai.temperature,
-        top_p: this.config.ai.topP,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    
-    return {
-      content: data.choices[0].message.content,
-      model: data.model,
-      provider: 'openai',
-      tokensUsed: data.usage?.total_tokens,
-    };
-  }
-
-  /**
-   * Chama a API do Claude (Anthropic)
-   */
-  private async callClaude(request: AIRequest): Promise<AIResponse> {
-    const { apiKey, model } = this.config.ai.claude;
-    
-    if (!apiKey) {
-      throw new Error('Claude API key não configurada');
-    }
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model,
-        max_tokens: request.maxTokens || this.config.ai.maxTokens,
-        temperature: request.temperature || this.config.ai.temperature,
-        messages: [
-          ...(request.systemPrompt ? [{ role: 'user', content: request.systemPrompt }] : []),
-          ...(request.context ? [{ role: 'user', content: request.context }] : []),
-          { role: 'user', content: request.prompt }
-        ],
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Claude API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    
-    return {
-      content: data.content[0].text,
-      model: data.model,
-      provider: 'claude',
-      tokensUsed: data.usage?.input_tokens + data.usage?.output_tokens,
-    };
-  }
-
-  /**
-   * Chama a API do Perplexity
-   */
-  private async callPerplexity(request: AIRequest): Promise<AIResponse> {
-    const { apiKey, model } = this.config.ai.perplexity;
-    
-    if (!apiKey) {
-      throw new Error('Perplexity API key não configurada');
-    }
-
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          ...(request.context ? [{ role: 'user', content: request.context }] : []),
-          { role: 'user', content: request.prompt }
-        ],
-        max_tokens: request.maxTokens || this.config.ai.maxTokens,
-        temperature: request.temperature || this.config.ai.temperature,
-        top_p: this.config.ai.topP,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Perplexity API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    
-    return {
-      content: data.choices[0].message.content,
-      model: data.model,
-      provider: 'perplexity',
-      tokensUsed: data.usage?.total_tokens,
-    };
-  }
-
-  /**
-   * Chama a API do Gemini (Google)
-   */
-  private async callGemini(request: AIRequest): Promise<AIResponse> {
-    const { apiKey, model } = this.config.ai.gemini;
-    
-    if (!apiKey) {
-      throw new Error('Gemini API key não configurada');
-    }
-
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `${request.systemPrompt ? request.systemPrompt + '\n\n' : ''}${request.context ? request.context + '\n\n' : ''}${request.prompt}`
-          }]
-        }],
-        generationConfig: {
-          maxOutputTokens: request.maxTokens || this.config.ai.maxTokens,
-          temperature: request.temperature || this.config.ai.temperature,
-          topP: this.config.ai.topP,
+  constructor() {
+    this.config = {
+      providers: [
+        {
+          name: 'openai',
+          apiKey: import.meta.env.VITE_OPENAI_API_KEY || 'demo-openai-key',
+          baseUrl: 'https://api.openai.com/v1',
+          model: 'gpt-4',
+          maxTokens: 2000,
+          temperature: 0.7
         },
-      }),
-    });
+        {
+          name: 'anthropic',
+          apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY || 'demo-anthropic-key',
+          baseUrl: 'https://api.anthropic.com/v1',
+          model: 'claude-3-sonnet-20240229',
+          maxTokens: 2000,
+          temperature: 0.7
+        },
+        {
+          name: 'gemini',
+          apiKey: import.meta.env.VITE_GEMINI_API_KEY || 'demo-gemini-key',
+          baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+          model: 'gemini-pro',
+          maxTokens: 2000,
+          temperature: 0.7
+        },
+        {
+          name: 'perplexity',
+          apiKey: import.meta.env.VITE_PERPLEXITY_API_KEY || 'demo-perplexity-key',
+          baseUrl: 'https://api.perplexity.ai',
+          model: 'llama-3.1-sonar-small-128k-online',
+          maxTokens: 2000,
+          temperature: 0.7
+        }
+      ],
+      fallbackOrder: ['openai', 'anthropic', 'gemini', 'perplexity'],
+      timeout: 30000,
+      retryAttempts: 2
+    };
+  }
+
+  private async makeRequest(provider: AIProvider, prompt: string, context?: any): Promise<AIResponse> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
+
+    try {
+      let response: Response;
+      let requestBody: any;
+
+      switch (provider.name) {
+        case 'openai':
+          requestBody = {
+            model: provider.model,
+            messages: [
+              {
+                role: 'system',
+                content: this.getSystemPrompt(context)
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
+            ],
+            max_tokens: provider.maxTokens,
+            temperature: provider.temperature
+          };
+          response = await fetch(`${provider.baseUrl}/chat/completions`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${provider.apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody),
+            signal: controller.signal
+          });
+          break;
+
+        case 'anthropic':
+          requestBody = {
+            model: provider.model,
+            max_tokens: provider.maxTokens,
+            temperature: provider.temperature,
+            messages: [
+              {
+                role: 'user',
+                content: `${this.getSystemPrompt(context)}\n\n${prompt}`
+              }
+            ]
+          };
+          response = await fetch(`${provider.baseUrl}/messages`, {
+      method: 'POST',
+      headers: {
+              'x-api-key': provider.apiKey,
+        'Content-Type': 'application/json',
+              'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify(requestBody),
+            signal: controller.signal
+          });
+          break;
+
+        case 'gemini':
+          requestBody = {
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `${this.getSystemPrompt(context)}\n\n${prompt}`
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              maxOutputTokens: provider.maxTokens,
+              temperature: provider.temperature
+            }
+          };
+          response = await fetch(`${provider.baseUrl}/models/${provider.model}:generateContent?key=${provider.apiKey}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody),
+            signal: controller.signal
+          });
+          break;
+
+        case 'perplexity':
+          requestBody = {
+            model: provider.model,
+        messages: [
+              {
+                role: 'system',
+                content: this.getSystemPrompt(context)
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
+            ],
+            max_tokens: provider.maxTokens,
+            temperature: provider.temperature
+          };
+          response = await fetch(`${provider.baseUrl}/chat/completions`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${provider.apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody),
+            signal: controller.signal
+          });
+          break;
+
+        default:
+          throw new Error(`Unsupported provider: ${provider.name}`);
+      }
+
+      clearTimeout(timeoutId);
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    
+      return this.parseResponse(data, provider.name, provider.model);
+
+    } catch (error) {
+      clearTimeout(timeoutId);
+      throw error;
+    }
+  }
+
+  private parseResponse(data: any, provider: string, model: string): AIResponse {
+    switch (provider) {
+      case 'openai':
+        return {
+          content: data.choices[0]?.message?.content || '',
+          provider,
+          model,
+          usage: data.usage
+        };
+
+      case 'anthropic':
+        return {
+          content: data.content[0]?.text || '',
+          provider,
+        model,
+          usage: data.usage
+        };
+
+      case 'gemini':
+        return {
+          content: data.candidates[0]?.content?.parts[0]?.text || '',
+          provider,
+          model
+        };
+
+      case 'perplexity':
+        return {
+          content: data.choices[0]?.message?.content || '',
+          provider,
+          model,
+          usage: data.usage
+        };
+
+      default:
     return {
-      content: data.candidates[0].content.parts[0].text,
-      model: data.model || model,
-      provider: 'gemini',
-      tokensUsed: data.usageMetadata?.totalTokenCount,
+          content: '',
+          provider,
+          model,
+          error: 'Unknown provider'
+        };
+    }
+  }
+
+  private getSystemPrompt(context?: any): string {
+    const basePrompt = `Você é NathIA, a assistente virtual especializada em maternidade do app "Nossa Maternidade". 
+
+Sua missão é apoiar, orientar e acolher mães em todas as fases da maternidade - desde a gravidez até os primeiros anos do bebê.
+
+CARACTERÍSTICAS:
+- Linguagem acolhedora, empática e maternal
+- Conhecimento especializado em gravidez, parto, pós-parto e cuidados infantis
+- Respostas práticas, seguras e baseadas em evidências
+- Sempre incentivar consulta com profissionais de saúde quando necessário
+- Foco no bem-estar emocional e físico da mãe
+
+CONTEXTO DO USUÁRIO:`;
+
+    if (context) {
+      const contextInfo = [];
+      if (context.gestationalWeek) contextInfo.push(`Semana gestacional: ${context.gestationalWeek}`);
+      if (context.trimester) contextInfo.push(`Trimestre: ${context.trimester}`);
+      if (context.babyAge) contextInfo.push(`Idade do bebê: ${context.babyAge}`);
+      if (context.preferences) contextInfo.push(`Preferências: ${context.preferences}`);
+      
+      return `${basePrompt}\n${contextInfo.join('\n')}\n\nResponda de forma personalizada e acolhedora.`;
+    }
+
+    return basePrompt;
+  }
+
+  async generateResponse(prompt: string, context?: any, preferredProvider?: string): Promise<AIResponse> {
+    const providers = preferredProvider 
+      ? this.config.providers.filter(p => p.name === preferredProvider)
+      : this.config.providers;
+
+    const fallbackProviders = preferredProvider 
+      ? [...this.config.fallbackOrder.filter(p => p !== preferredProvider), preferredProvider]
+      : this.config.fallbackOrder;
+
+    let lastError: Error | null = null;
+
+    for (const providerName of fallbackProviders) {
+      const provider = providers.find(p => p.name === providerName);
+      if (!provider) continue;
+
+      for (let attempt = 0; attempt < this.config.retryAttempts; attempt++) {
+        try {
+          const response = await this.makeRequest(provider, prompt, context);
+          if (response.content && !response.error) {
+            return response;
+          }
+        } catch (error) {
+          lastError = error as Error;
+          console.warn(`Attempt ${attempt + 1} failed for ${provider.name}:`, error);
+          
+          if (attempt < this.config.retryAttempts - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+          }
+        }
+      }
+    }
+
+    throw lastError || new Error('All AI providers failed');
+  }
+
+  // Métodos específicos para diferentes tipos de consultas
+  async getPregnancyAdvice(week: number, question: string): Promise<AIResponse> {
+    const context = {
+      gestationalWeek: week,
+      trimester: Math.ceil(week / 13),
+      preferences: 'gravidez'
     };
+
+    return this.generateResponse(question, context, 'anthropic');
   }
 
-  /**
-   * Gera uma resposta específica para mães (NathIA)
-   */
-  async generateNathIAResponse(prompt: string, context?: string): Promise<AIResponse> {
-    const systemPrompt = `Você é NathIA, a assistente virtual do ClubNath VIP, uma comunidade exclusiva de mães seguidoras da Nathália Valente. 
+  async getPostpartumSupport(question: string, babyAge?: string): Promise<AIResponse> {
+    const context = {
+      babyAge,
+      preferences: 'pós-parto'
+    };
 
-Sua personalidade:
-- Acolhedora e maternal
-- Conhece profundamente sobre maternidade, gravidez, pós-parto e cuidados com bebês
-- Sempre positiva e encorajadora
-- Fala de forma carinhosa e próxima
-- Conhece os produtos NAVA (bikinis) e OLLIN (saúde materna)
-- Respeita a fé cristã das mães
-- Oferece dicas práticas e realistas
-
-Sempre responda de forma:
-- Carinhosa e acolhedora
-- Prática e útil
-- Respeitosa com a jornada única de cada mãe
-- Encorajadora e positiva`;
-
-    return this.generateResponse({
-      prompt,
-      systemPrompt,
-      context,
-      maxTokens: 500,
-      temperature: 0.8,
-    });
+    return this.generateResponse(question, context, 'openai');
   }
 
-  /**
-   * Gera sugestões de produtos baseadas no perfil da mãe
-   */
-  async generateProductSuggestions(profile: {
-    stage: 'gravidez' | 'pos-parto' | 'maternidade';
-    interests: string[];
-    needs: string[];
-  }): Promise<AIResponse> {
-    const prompt = `Com base no perfil da mãe:
-- Estágio: ${profile.stage}
-- Interesses: ${profile.interests.join(', ')}
-- Necessidades: ${profile.needs.join(', ')}
+  async searchWebForInfo(query: string): Promise<AIResponse> {
+    const prompt = `Busque informações atualizadas sobre: ${query}. 
+    Foque em fontes confiáveis de saúde materna e infantil. 
+    Forneça informações práticas e seguras.`;
 
-Sugira produtos NAVA (bikinis) e OLLIN (saúde materna) que seriam úteis para ela. Seja específica e explique por que cada produto seria benéfico.`;
-
-    return this.generateNathIAResponse(prompt);
+    return this.generateResponse(prompt, { preferences: 'pesquisa' }, 'perplexity');
   }
 
-  /**
-   * Gera dicas personalizadas de maternidade
-   */
-  async generateMaternityTips(topic: string, stage?: string): Promise<AIResponse> {
-    const prompt = `Forneça dicas práticas e úteis sobre ${topic}${stage ? ` para mães em ${stage}` : ''}. 
-    Seja específica, prática e encorajadora. Inclua dicas que realmente funcionam no dia a dia.`;
+  async getEmotionalSupport(message: string, context?: any): Promise<AIResponse> {
+    const prompt = `Uma mãe está compartilhando: "${message}". 
+    Ofereça apoio emocional, validação e conselhos práticos. 
+    Seja empática e acolhedora.`;
 
-    return this.generateNathIAResponse(prompt);
+    return this.generateResponse(prompt, context, 'anthropic');
   }
 
-  /**
-   * Verifica se as APIs de IA estão configuradas
-   */
-  isAIConfigured(): boolean {
-    return apiConfig.isAPIConfigured('ai');
+  async getNutritionAdvice(question: string, context?: any): Promise<AIResponse> {
+    const prompt = `Conselho nutricional para mãe: ${question}. 
+    Foque em alimentação saudável durante gravidez/amamentação. 
+    Sempre recomende consulta com nutricionista quando necessário.`;
+
+    return this.generateResponse(prompt, context, 'gemini');
   }
 
-  /**
-   * Obtém informações sobre as APIs configuradas
-   */
-  getAIConfigInfo() {
-    const { ai } = this.config;
+  async getExerciseRecommendations(week: number, question: string): Promise<AIResponse> {
+    const context = {
+      gestationalWeek: week,
+      trimester: Math.ceil(week / 13),
+      preferences: 'exercícios'
+    };
+
+    const prompt = `Recomendações de exercícios seguros para gestante de ${week} semanas: ${question}. 
+    Foque em segurança e benefícios.`;
+
+    return this.generateResponse(prompt, context, 'openai');
+  }
+
+  async getSleepAdvice(question: string, babyAge?: string): Promise<AIResponse> {
+    const context = {
+      babyAge,
+      preferences: 'sono'
+    };
+
+    const prompt = `Conselhos sobre sono: ${question}. 
+    Inclua dicas para mãe e bebê.`;
+
+    return this.generateResponse(prompt, context, 'anthropic');
+  }
+
+  // Método para análise de sentimento
+  async analyzeMood(message: string): Promise<{ mood: string; confidence: number; suggestions: string[] }> {
+    const prompt = `Analise o estado emocional desta mensagem de uma mãe: "${message}". 
+    Responda em JSON com: mood (positivo/neutro/negativo), confidence (0-1), suggestions (array de sugestões).`;
+
+    try {
+      const response = await this.generateResponse(prompt, {}, 'openai');
+      const analysis = JSON.parse(response.content);
+      return analysis;
+    } catch (error) {
+      console.error('Error analyzing mood:', error);
     return {
-      primary: ai.primary,
-      configured: {
-        openai: !!ai.openai.apiKey,
-        claude: !!ai.claude.apiKey,
-        perplexity: !!ai.perplexity.apiKey,
-        gemini: !!ai.gemini.apiKey,
-      },
-      settings: {
-        maxTokens: ai.maxTokens,
-        temperature: ai.temperature,
-        topP: ai.topP,
-      },
-    };
+        mood: 'neutro',
+        confidence: 0.5,
+        suggestions: ['Considere conversar com um profissional de saúde mental']
+      };
+    }
+  }
+
+  // Método para gerar resumos de conversas
+  async generateConversationSummary(messages: string[]): Promise<AIResponse> {
+    const prompt = `Resuma esta conversa com uma mãe, destacando pontos principais e próximos passos sugeridos:\n\n${messages.join('\n')}`;
+
+    return this.generateResponse(prompt, {}, 'gemini');
   }
 }
 
-// Instância singleton
-export const aiService = new AIIntegrationService();
+// Create singleton instance
+export const aiIntegrationService = new AIIntegrationService();
+
+export default aiIntegrationService;
