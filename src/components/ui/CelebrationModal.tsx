@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Star, Crown, Gift, X } from 'lucide-react';
 
@@ -19,8 +19,20 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
     message,
     reward
 }) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+    const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+
     useEffect(() => {
         if (isOpen) {
+            // Save previously focused element
+            previouslyFocusedElement.current = document.activeElement as HTMLElement;
+
+            // Focus modal
+            modalRef.current?.focus();
+
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+
             // Trigger haptic feedback
             if ('vibrate' in navigator) {
                 navigator.vibrate([100, 50, 100]);
@@ -31,7 +43,22 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
                 onClose();
             }, 3000);
 
-            return () => clearTimeout(timer);
+            // Handle Escape key
+            const handleKeyDown = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                    onClose();
+                }
+            };
+
+            document.addEventListener('keydown', handleKeyDown);
+
+            return () => {
+                clearTimeout(timer);
+                document.removeEventListener('keydown', handleKeyDown);
+                document.body.style.overflow = '';
+                // Restore focus
+                previouslyFocusedElement.current?.focus();
+            };
         }
     }, [isOpen, onClose]);
 
@@ -74,14 +101,21 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
                     exit={{ opacity: 0 }}
                     className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                     onClick={onClose}
+                    role="presentation"
                 >
                     <motion.div
+                        ref={modalRef}
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         exit={{ scale: 0, rotate: 180 }}
                         transition={{ type: "spring", stiffness: 200, damping: 20 }}
                         className={`bg-gradient-to-br ${getBackgroundGradient()} rounded-3xl p-8 text-white text-center max-w-sm w-full relative overflow-hidden`}
                         onClick={(e) => e.stopPropagation()}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="celebration-title"
+                        aria-describedby="celebration-message"
+                        tabIndex={-1}
                     >
                         {/* Confetti Animation */}
                         <div className="absolute inset-0 pointer-events-none">
@@ -114,8 +148,9 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
                         <button
                             onClick={onClose}
                             className="absolute top-4 right-4 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                            aria-label="Fechar celebração"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-4 h-4" aria-hidden="true" />
                         </button>
 
                         {/* Icon */}
@@ -124,12 +159,14 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                             className="mb-4"
+                            aria-hidden="true"
                         >
                             {getIcon()}
                         </motion.div>
 
                         {/* Title */}
                         <motion.h2
+                            id="celebration-title"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
@@ -140,6 +177,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
 
                         {/* Message */}
                         <motion.p
+                            id="celebration-message"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}

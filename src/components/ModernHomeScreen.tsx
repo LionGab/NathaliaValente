@@ -232,7 +232,7 @@ export const ModernHomeScreen = ({
                   className={`${action.bgColor} p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105 group`}
                 >
                   <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="w-6 h-6 text-white" />
+                    <Icon className="w-6 h-6 text-white" aria-hidden="true" />
                   </div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                     {action.title}

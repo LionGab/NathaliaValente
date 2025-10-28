@@ -71,7 +71,7 @@ export const ThemeSelector: React.FC = () => {
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
             }`}
           >
-            <Icon className="w-4 h-4" />
+            <Icon className="w-4 h-4" aria-hidden="true" />
             {label}
           </button>
         ))}

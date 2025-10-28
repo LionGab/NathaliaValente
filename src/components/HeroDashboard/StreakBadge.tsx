@@ -52,7 +52,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({ streak, size = 'md' })
       
       {/* Main badge */}
       <div className={`relative ${getSizeClasses(size)} rounded-full bg-gradient-to-r ${getStreakColor(streak)} flex items-center justify-center text-white font-bold shadow-lg`}>
-        <Icon className="w-4 h-4" />
+        <Icon className="w-4 h-4" aria-hidden="true" />
         
         {/* Streak number */}
         <motion.div

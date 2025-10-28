@@ -1,5 +1,6 @@
-/* Import custom animations */
+/* Import custom styles */
 @import './styles/animations.css';
+@import './styles/typography.css';
 
 @tailwind base;
 @tailwind components;

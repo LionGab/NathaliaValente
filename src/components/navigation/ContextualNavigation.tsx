@@ -194,7 +194,7 @@ export const ContextualNavigation = ({
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 text-left group"
               >
                 <div className={`w-10 h-10 ${suggestion.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}>
-                  <Icon className="w-5 h-5 text-white" />
+                  <Icon className="w-5 h-5 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">

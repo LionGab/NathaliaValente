@@ -8,7 +8,11 @@
   "background_color": "#FFF9F5",
   "theme_color": "#EC4899",
   "orientation": "portrait-primary",
-  "categories": ["lifestyle", "social", "productivity"],
+  "categories": [
+    "lifestyle",
+    "social",
+    "productivity"
+  ],
   "prefer_related_applications": false,
   "dir": "ltr",
   "lang": "pt-BR",

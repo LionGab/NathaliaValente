@@ -1,0 +1,253 @@
+/* Typography System - Nossa Maternidade */
+
+/* Font Family Hierarchy */
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Text Size Scale - Mobile First */
+.text-display-2xl {
+  font-size: 2.5rem; /* 40px */
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.text-display-xl {
+  font-size: 2rem; /* 32px */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.text-display-lg {
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.text-display-md {
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.text-display-sm {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Heading Hierarchy */
+.heading-1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: white;
+}
+
+.heading-2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: white;
+}
+
+.heading-3 {
+  font-family: var(--font-primary);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: white;
+}
+
+.heading-4 {
+  font-family: var(--font-primary);
+  font-size: 1rem; /* 16px */
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: white;
+}
+
+/* Body Text Hierarchy */
+.body-large {
+  font-family: var(--font-primary);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.body-medium {
+  font-family: var(--font-primary);
+  font-size: 1rem; /* 16px */
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.body-small {
+  font-family: var(--font-primary);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.body-xs {
+  font-family: var(--font-primary);
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Label and Caption */
+.label-large {
+  font-family: var(--font-primary);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: white;
+}
+
+.label-medium {
+  font-family: var(--font-primary);
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: white;
+}
+
+.label-small {
+  font-family: var(--font-primary);
+  font-size: 0.6875rem; /* 11px */
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.caption {
+  font-family: var(--font-primary);
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.3;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Button Typography */
+.btn-primary {
+  font-family: var(--font-primary);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.btn-secondary {
+  font-family: var(--font-primary);
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+.btn-small {
+  font-family: var(--font-primary);
+  font-size: 0.6875rem; /* 11px */
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* Accessibility Improvements */
+.text-high-contrast {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.text-readable {
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .heading-1 {
+    font-size: 1.375rem; /* 22px */
+  }
+  
+  .heading-2 {
+    font-size: 1.125rem; /* 18px */
+  }
+  
+  .body-large {
+    font-size: 1rem; /* 16px */
+  }
+  
+  .btn-primary {
+    font-size: 0.8125rem; /* 13px */
+  }
+}
+
+/* Dark Mode Optimizations */
+@media (prefers-color-scheme: dark) {
+  .text-readable {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .text-secondary {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Focus and Interaction States */
+.focus-visible {
+  outline: 2px solid #ec4899;
+  outline-offset: 2px;
+}
+
+/* Text Selection */
+::selection {
+  background-color: rgba(236, 72, 153, 0.3);
+  color: white;
+}
+
+/* Smooth Font Loading */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+}

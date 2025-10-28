@@ -186,7 +186,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4" aria-hidden="true" />
               {label}
             </button>
           ))}
@@ -311,7 +311,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
                   Limpar Filtros
                 </Button>
                 {showCreateButton && (
-                  <Button onClick={handleCreateGroup} leftIcon={<Plus className="w-4 h-4" />}>
+                  <Button onClick={handleCreateGroup} leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}>
                     Criar Grupo
                   </Button>
                 )}

@@ -97,7 +97,9 @@ const HomePage = () => {
           {/* Personal Progress Hero - Substitui o hero genérico */}
           <div className="bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 rounded-3xl p-6 text-white shadow-2xl relative overflow-hidden">
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+            <div className="absolute inset-0 opacity-50">
+              <div className="absolute inset-0 bg-white/5 bg-[radial-gradient(circle_at_center,_transparent_0%,_white_2px,_transparent_2px)] bg-[length:60px_60px]"></div>
+            </div>
 
           <div className="relative z-10">
             {/* Greeting Personalizado */}
@@ -196,94 +198,96 @@ const HomePage = () => {
         </div>
       </motion.div>
 
-      {/* 🎯 HIERARCHY & PRIORITY - CTAs Primários */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mb-6"
-      >
-        <div className="grid grid-cols-2 gap-4">
-      {/* NathIA - CTA Principal */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => handleQuickAction('nathia')}
-        className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-3 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-colors">
-              <MessageCircle className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="font-bold text-lg">NathIA</h3>
-              <p className="text-sm text-purple-100">Sua assistente 24/7</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span>Online agora</span>
-          </div>
-        </div>
-      </motion.button>
-
-      {/* Comunidade - CTA Secundário */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => handleQuickAction('community')}
-        className="bg-gradient-to-br from-pink-500 to-rose-600 text-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-3 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-colors">
-              <Users className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="font-bold text-lg">Comunidade</h3>
-              <p className="text-sm text-pink-100">Conecte-se</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <TrendingUp className="w-4 h-4" />
-            <span>15K posts hoje</span>
-          </div>
-        </div>
-      </motion.button>
-    </div>
-  </motion.div>
-
-  {/* 🎯 GAMIFICATION - Daily Routine com Dopamina Visual */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.5 }}
-    className="mb-6"
-  >
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
-            <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg text-gray-800 dark:text-white">Minha Rotina</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {stats.todayCompleted}/{stats.totalTasks} concluídas hoje
-            </p>
-          </div>
-        </div>
-        <button
-          onClick={() => handleQuickAction('routine')}
-          className="text-blue-600 dark:text-blue-400 text-sm font-medium flex items-center gap-1 hover:text-blue-700 dark:hover:text-blue-300"
+        {/* 🎯 HIERARCHY & PRIORITY - CTAs Primários */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-6"
         >
-          Ver todas
-          <ChevronRight className="w-4 h-4" />
-        </button>
-      </div>
+          <div className="grid grid-cols-2 gap-4">
+            {/* NathIA - CTA Principal */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleQuickAction('nathia')}
+              className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
+              aria-label="Conversar com NathIA - Sua assistente 24/7"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-3 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-colors">
+                    <MessageCircle className="w-6 h-6" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">NathIA</h3>
+                    <p className="text-sm text-purple-100">Sua assistente 24/7</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span>Online agora</span>
+                </div>
+              </div>
+            </motion.button>
+
+            {/* Comunidade - CTA Secundário */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleQuickAction('community')}
+              className="bg-gradient-to-br from-pink-500 to-rose-600 text-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
+              aria-label="Acessar Comunidade - Conecte-se com outras mães"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-3 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-colors">
+                    <Users className="w-6 h-6" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">Comunidade</h3>
+                    <p className="text-sm text-pink-100">Conecte-se</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <TrendingUp className="w-4 h-4" aria-hidden="true" />
+                  <span>15K posts hoje</span>
+                </div>
+              </div>
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* 🎯 GAMIFICATION - Daily Routine com Dopamina Visual */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mb-6"
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                  <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-gray-800 dark:text-white">Minha Rotina</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {stats.todayCompleted}/{stats.totalTasks} concluídas hoje
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => handleQuickAction('routine')}
+                className="text-blue-600 dark:text-blue-400 text-sm font-medium flex items-center gap-1 hover:text-blue-700 dark:hover:text-blue-300"
+              >
+                Ver todas
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
 
       {/* Progress Bar com Animação */}
       <div className="mb-4">
@@ -598,18 +602,19 @@ const HomePage = () => {
     className="fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40 group"
     aria-label="Conversar com NathIA"
   >
-    <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" />
+    <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
   </motion.button>
 
-  {/* Celebration Modal */}
-  <CelebrationModal
-    isOpen={showCelebration}
-    onClose={() => setShowCelebration(false)}
-    type={celebrationType}
-    title={celebrationTitle}
-    message={celebrationMessage}
-    reward={celebrationReward}
-  />
+        {/* Celebration Modal */}
+        <CelebrationModal
+          isOpen={showCelebration}
+          onClose={() => setShowCelebration(false)}
+          type={celebrationType}
+          title={celebrationTitle}
+          message={celebrationMessage}
+          reward={celebrationReward}
+        />
+      </div>
     </div>
   );
 };

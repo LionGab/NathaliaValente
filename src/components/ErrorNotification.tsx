@@ -105,7 +105,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
         <div className="flex items-start gap-3">
           {/* Icon */}
           <div className={`flex-shrink-0 ${config.iconColor}`}>
-            <Icon className="w-6 h-6" />
+            <Icon className="w-6 h-6" aria-hidden="true" />
           </div>
 
           {/* Content */}

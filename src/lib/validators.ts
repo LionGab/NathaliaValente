@@ -289,7 +289,7 @@ export const validateCPF = (cpf: string): boolean => {
     sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
   }
   let remainder = sum % 11;
-  let digit1 = remainder < 2 ? 0 : 11 - remainder;
+  const digit1 = remainder < 2 ? 0 : 11 - remainder;
   
   if (parseInt(cleanCPF.charAt(9)) !== digit1) return false;
   
@@ -299,7 +299,7 @@ export const validateCPF = (cpf: string): boolean => {
     sum += parseInt(cleanCPF.charAt(i)) * (11 - i);
   }
   remainder = sum % 11;
-  let digit2 = remainder < 2 ? 0 : 11 - remainder;
+  const digit2 = remainder < 2 ? 0 : 11 - remainder;
   
   return parseInt(cleanCPF.charAt(10)) === digit2;
 };
@@ -323,7 +323,7 @@ export const validateCNPJ = (cnpj: string): boolean => {
     weight = weight === 9 ? 2 : weight + 1;
   }
   let remainder = sum % 11;
-  let digit1 = remainder < 2 ? 0 : 11 - remainder;
+  const digit1 = remainder < 2 ? 0 : 11 - remainder;
   
   if (parseInt(cleanCNPJ.charAt(12)) !== digit1) return false;
   
@@ -335,7 +335,7 @@ export const validateCNPJ = (cnpj: string): boolean => {
     weight = weight === 9 ? 2 : weight + 1;
   }
   remainder = sum % 11;
-  let digit2 = remainder < 2 ? 0 : 11 - remainder;
+  const digit2 = remainder < 2 ? 0 : 11 - remainder;
   
   return parseInt(cleanCNPJ.charAt(13)) === digit2;
 };

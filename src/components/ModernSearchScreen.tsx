@@ -238,7 +238,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 rounded-full flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-pink-500" />
+                          <Icon className="w-5 h-5 text-pink-500" aria-hidden="true" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-pink-600 dark:group-hover:text-pink-400">

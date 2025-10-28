@@ -103,7 +103,7 @@ export const ModernBottomNavigation = ({
                   onClick={action.onClick}
                   className={`p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 relative ${action.color}`}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5" aria-hidden="true" />
                   {action.hasNotification && (
                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full"></div>
                   )}

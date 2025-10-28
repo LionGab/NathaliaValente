@@ -75,50 +75,41 @@ const HomePageSimple = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50">
       {/* Header */}
       <Header />
 
-      <div className="max-w-full mx-auto px-4 py-4 pb-24">
-        {/* Banner Dinâmico da Comunidade */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6"
-        >
-          <DynamicHeroBanner />
-        </motion.div>
-
-        {/* Hero Card - Compacto e personalizado */}
+      <div className="max-w-full mx-auto px-3 sm:px-4 py-3 sm:py-4 pb-20 sm:pb-24">
+        {/* Hero Card - ULTRA COMPACTO (máx 128px) */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="mb-4"
         >
-          <div className="bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 rounded-2xl p-4 text-white shadow-xl relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-30" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          <div className="bg-gradient-to-br from-primary-500 via-secondary-500 to-accent-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-white shadow-xl relative overflow-hidden h-28 sm:h-32">
+            {/* Background Pattern Sutil */}
+            <div className="absolute inset-0 opacity-20" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E")`
             }}></div>
 
-            <div className="relative z-10">
-              {/* Header com nome e progresso */}
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h1 className="text-lg font-bold">
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              {/* Header compacto com hierarquia visual clara */}
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  {/* Título principal - Responsivo */}
+                  <h1 className="text-lg sm:text-xl font-bold mb-1 text-white leading-tight">
                     Olá, {profile?.full_name?.split(' ')[0] || 'Mamãe'}! 👋
                   </h1>
                   {gestationalData && (
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="bg-white/20 rounded-full px-2 py-1">
-                        <span className="text-xs font-semibold">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      <div className="bg-white/25 rounded-full px-2 sm:px-2.5 py-0.5 sm:py-1">
+                        <span className="text-xs font-bold text-white tracking-wide">
                           {gestationalData.weeks} semanas
                         </span>
                       </div>
-                      <div className="bg-white/20 rounded-full px-2 py-1">
-                        <span className="text-xs font-semibold">
+                      <div className="bg-white/25 rounded-full px-2 sm:px-2.5 py-0.5 sm:py-1">
+                        <span className="text-xs font-bold text-white tracking-wide">
                           {gestationalData.trimester}º trimestre
                         </span>
                       </div>
@@ -126,75 +117,75 @@ const HomePageSimple = () => {
                   )}
                 </div>
 
-                {/* Progresso gestacional com micrográfico */}
+                {/* Progresso gestacional responsivo */}
                 {gestationalData && (
-                  <div className="text-right">
-                    <div className="w-12 h-12 relative">
-                      <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
-                        <path
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke="rgba(255,255,255,0.3)"
-                          strokeWidth="2"
-                        />
-                        <path
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke="white"
-                          strokeWidth="2"
-                          strokeDasharray={`${(gestationalData.weeks / 40) * 100}, 100`}
-                        />
-                      </svg>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-xs font-bold">
-                          {Math.round((gestationalData.weeks / 40) * 100)}%
-                        </span>
-                      </div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 relative">
+                    <svg className="w-10 h-10 sm:w-12 sm:h-12 transform -rotate-90" viewBox="0 0 36 36">
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.3)"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeDasharray={`${(gestationalData.weeks / 40) * 100}, 100`}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xs font-black text-white">
+                        {Math.round((gestationalData.weeks / 40) * 100)}%
+                      </span>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Mensagem personalizada compacta */}
-              <p className="text-pink-100 text-sm mb-4">
-                {gestationalData?.personalizedMessage || "Acompanhe cada momento especial da sua gestação"}
-              </p>
+              {/* Mensagem e CTAs responsivos */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+                <p className="text-pink-100 text-xs sm:text-sm font-medium flex-1 leading-relaxed">
+                  {gestationalData?.personalizedMessage || "Aproveite cada momento especial"}
+                </p>
+                
+                {/* CTAs responsivos */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      triggerHaptic('light');
+                      window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
+                    }}
+                    className="bg-white text-pink-600 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg font-bold flex items-center gap-1 sm:gap-1.5 shadow-lg text-xs tracking-wide min-h-[36px] sm:min-h-[40px]"
+                    aria-label="Compartilhar memória"
+                  >
+                    <Heart className="w-3 h-3 sm:w-3.5 sm:h-3.5" aria-hidden="true" />
+                    <span className="hidden xs:inline">Compartilhar</span>
+                    <span className="xs:hidden">+</span>
+                  </motion.button>
 
-              {/* CTAs com hierarquia visual clara */}
-              <div className="flex items-center gap-2">
-                {/* CTA Primário - Destaque */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    triggerHaptic('light');
-                    window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
-                  }}
-                  className="bg-white text-pink-600 px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-lg text-sm"
-                >
-                  <Heart className="w-4 h-4" />
-                  Compartilhar memória
-                </motion.button>
-
-                {/* CTA Secundário - Mais sutil */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    triggerHaptic('light');
-                    // Scroll para seção de dicas ou navegar para tools
-                    document.getElementById('dicas-section')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="bg-white/20 text-white px-3 py-2 rounded-lg font-medium text-sm hover:bg-white/30 transition-colors"
-                >
-                  Ver todas as dicas
-                </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      triggerHaptic('light');
+                      document.getElementById('dicas-section')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="bg-white/25 text-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs hover:bg-white/35 transition-colors tracking-wide min-h-[36px] sm:min-h-[40px]"
+                    aria-label="Ver dicas"
+                  >
+                    Dicas
+                  </motion.button>
+                </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Dicas Personalizadas por Trimestre - Compacta e visível */}
+        {/* Dicas Personalizadas - ULTRA COMPACTA */}
         {gestationalData && (
           <motion.div
             id="dicas-section"
@@ -203,26 +194,27 @@ const HomePageSimple = () => {
             transition={{ delay: 0.2 }}
             className="mb-4"
           >
-            <div className="bg-white rounded-xl p-3 shadow-md border border-pink-100">
-              <div className="flex items-center justify-between mb-2">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+              <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-pink-100 rounded-lg">
-                    <BookOpen className="w-4 h-4 text-pink-600" />
+                  <div className="p-2 bg-pink-500/20 rounded-lg">
+                    <BookOpen className="w-4 h-4 text-pink-300" aria-hidden="true" />
                   </div>
-                  <h3 className="font-bold text-gray-800 text-sm">
+                  <h3 className="font-bold text-white text-base tracking-wide">
                     Dicas {gestationalData.trimester}º trimestre
                   </h3>
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-pink-200 font-semibold bg-pink-500/20 px-2 py-1 rounded-full">
                   {gestationalData.weeks} semanas
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                {gestationalData.healthTips.slice(0, 3).map((tip, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-xs text-gray-600 leading-relaxed">{tip}</span>
+              {/* Apenas 2 dicas visíveis sem scroll */}
+              <div className="space-y-2">
+                {gestationalData.healthTips.slice(0, 2).map((tip, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <span className="text-sm text-pink-100 leading-relaxed font-medium">{tip}</span>
                   </div>
                 ))}
               </div>
@@ -232,28 +224,55 @@ const HomePageSimple = () => {
                   triggerHaptic('light');
                   window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
                 }}
-                className="text-pink-600 text-xs font-medium mt-2 flex items-center gap-1 hover:text-pink-700 transition-colors"
+                className="text-pink-300 text-sm font-semibold mt-3 flex items-center gap-2 hover:text-pink-200 transition-colors"
               >
                 Ver todas as dicas
-                <TrendingUp className="w-3 h-3" />
+                <TrendingUp className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
           </motion.div>
         )}
 
-        {/* Minha Rotina - Seção Melhorada */}
+        {/* Minha Rotina - COMPACTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
           className="mb-4"
         >
-          <EnhancedRoutinePreview
-            onViewAll={() => {
-              triggerHaptic('light');
-              window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
-            }}
-          />
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-2 bg-blue-500/20 rounded-lg">
+                  <Calendar className="w-4 h-4 text-blue-300" aria-hidden="true" />
+                </div>
+                <h3 className="font-bold text-white text-base tracking-wide">Minha Rotina</h3>
+              </div>
+              <div className="text-xs text-blue-200 font-semibold bg-blue-500/20 px-2 py-1 rounded-full">Hoje</div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-4 h-4 text-green-400" aria-hidden="true" />
+                <span className="text-sm text-pink-100 font-medium">Meditação matinal (5 min)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-yellow-400" aria-hidden="true" />
+                <span className="text-sm text-pink-100 font-medium">Exercícios leves (15 min)</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                triggerHaptic('light');
+                window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+              }}
+              className="text-blue-300 text-sm font-semibold mt-3 flex items-center gap-2 hover:text-blue-200 transition-colors"
+            >
+              Ver rotina completa
+              <TrendingUp className="w-4 h-4" aria-hidden="true" />
+            </button>
+          </div>
         </motion.div>
 
         {/* Quick Actions Grid 2x2 - Layout Limpo e Funcional */}
@@ -275,6 +294,7 @@ const HomePageSimple = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleQuickAction(action.id)}
                 className={`${action.bgColor} text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden`}
+                aria-label={`${action.title} - ${action.subtitle}`}
               >
                 {/* Background pattern sutil */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -282,15 +302,15 @@ const HomePageSimple = () => {
                 <div className="relative z-10">
                   {/* Ícone maior */}
                   <div className="mb-4">
-                    <action.icon className="w-8 h-8" />
+                    <action.icon className="w-8 h-8" aria-hidden="true" />
                   </div>
 
-                  {/* Texto mais legível */}
+                  {/* Texto com hierarquia visual clara */}
                   <div className="text-left">
-                    <h3 className="font-bold text-base mb-1">
+                    <h3 className="font-bold text-lg mb-2 text-white tracking-wide">
                       {action.title}
                     </h3>
-                    <p className="text-sm opacity-90 leading-relaxed">
+                    <p className="text-sm text-white/90 leading-relaxed font-medium">
                       {action.subtitle}
                     </p>
                   </div>
@@ -314,10 +334,10 @@ const HomePageSimple = () => {
                 window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
               }}
               className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-3 group"
-              aria-label="Criar nova publicação"
+              aria-label="Criar nova publicação - Compartilhar Experiência"
             >
-              <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
-              <span className="font-semibold text-lg">Compartilhar Experiência</span>
+              <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
+              <span className="font-bold text-lg tracking-wide">Compartilhar Experiência</span>
             </motion.button>
           </motion.div>
         </motion.div>

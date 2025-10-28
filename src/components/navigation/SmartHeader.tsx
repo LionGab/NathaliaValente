@@ -113,7 +113,7 @@ export const SmartHeader = ({
                     onClick={action.onClick}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all duration-200 ${action.color} flex-shrink-0`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4" aria-hidden="true" />
                     {action.label}
                   </button>
                 );
