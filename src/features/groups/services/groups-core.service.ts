@@ -12,7 +12,7 @@ import type {
   Group,
   CreateGroupData,
   UpdateGroupData,
-  GroupSearchParams
+  GroupSearchParams,
 } from '../../../types/groups';
 
 /**
@@ -56,7 +56,7 @@ export const GroupsCoreService = {
         limit: params.limit,
         offset: params.offset,
         sortBy: params.sort_by,
-        sortOrder: params.sort_order
+        sortOrder: params.sort_order,
       });
 
       return groups as Group[];
@@ -88,16 +88,13 @@ export const GroupsCoreService = {
 
       if (user?.user) {
         try {
-          const membership = await GroupMembersRepository.findByGroupAndUser(
-            id,
-            user.user.id
-          );
+          const membership = await GroupMembersRepository.findByGroupAndUser(id, user.user.id);
 
           if (membership) {
             return {
               ...group,
               user_role: membership.role,
-              user_joined_at: membership.joined_at
+              user_joined_at: membership.joined_at,
             } as Group;
           }
         } catch (membershipError) {
@@ -146,20 +143,20 @@ export const GroupsCoreService = {
       const group = await GroupsRepository.create({
         ...data,
         creator_id: user.user.id,
-        max_members: data.max_members || 50
+        max_members: data.max_members || 50,
       });
 
       // 4. Adicionar criador como admin
       await GroupMembersRepository.create({
         group_id: group.id,
         user_id: user.user.id,
-        role: 'admin'
+        role: 'admin',
       });
 
       // 5. Retornar grupo com informações de membership
       return {
         ...group,
-        user_role: 'admin'
+        user_role: 'admin',
       } as Group;
     } catch (error) {
       console.error('Error creating group:', error);
@@ -239,5 +236,5 @@ export const GroupsCoreService = {
       console.error('Error fetching created groups:', error);
       throw new Error('Erro ao buscar grupos criados');
     }
-  }
+  },
 };

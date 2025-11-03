@@ -1,11 +1,11 @@
 /**
  * EXEMPLOS DE VALIDAÇÃO ZOD PARA PRODUTOS - CLUBNATH VIP
- * 
+ *
  * Este arquivo contém exemplos práticos de uso dos schemas de validação
  * para demonstrar como aplicar a validação em diferentes cenários.
  */
 
-import { 
+import {
   validateProduct,
   validateCreateProduct,
   validateUpdateProduct,
@@ -18,7 +18,7 @@ import {
   type Product,
   type CreateProductInput,
   type UpdateProductInput,
-  type ProductFilters
+  type ProductFilters,
 } from '../validation';
 
 // ============================================================================
@@ -28,11 +28,12 @@ import {
 export const exemploProdutoValido: Product = {
   id: '123e4567-e89b-12d3-a456-426614174000',
   name: 'Bikini Premium Nathália',
-  price: 89.90,
-  originalPrice: 119.90,
+  price: 89.9,
+  originalPrice: 119.9,
   category: 'roupas',
   subcategory: 'bikinis',
-  description: 'Bikini confortável e elegante para o verão, com design exclusivo da Nathália Valente',
+  description:
+    'Bikini confortável e elegante para o verão, com design exclusivo da Nathália Valente',
   shortDescription: 'Bikini premium com design exclusivo',
   status: 'ativo',
   isActive: true,
@@ -51,7 +52,7 @@ export const exemploProdutoValido: Product = {
     four: 20,
     three: 4,
     two: 1,
-    one: 1
+    one: 1,
   },
   ageRange: 'todas',
   safetyCertifications: ['INMETRO', 'CE'],
@@ -74,13 +75,14 @@ export const exemploProdutoValido: Product = {
   images: [
     'https://example.com/bikini-premium-1.jpg',
     'https://example.com/bikini-premium-2.jpg',
-    'https://example.com/bikini-premium-3.jpg'
+    'https://example.com/bikini-premium-3.jpg',
   ],
   seoTitle: 'Bikini Premium Nathália - Design Exclusivo',
-  seoDescription: 'Bikini confortável e elegante com design exclusivo da Nathália Valente. Perfeito para o verão!',
+  seoDescription:
+    'Bikini confortável e elegante com design exclusivo da Nathália Valente. Perfeito para o verão!',
   seoKeywords: ['bikini', 'verão', 'praia', 'nathália valente', 'premium'],
   createdAt: '2024-01-15T10:30:00Z',
-  updatedAt: '2024-01-20T14:45:00Z'
+  updatedAt: '2024-01-20T14:45:00Z',
 };
 
 // Validação do produto válido
@@ -121,20 +123,20 @@ export const exemploProdutoInvalido = {
   length: -10, // ❌ Dimensão negativa
   createdAt: 'data-invalida', // ❌ Data inválida
   seoTitle: 'A'.repeat(61), // ❌ Título SEO muito longo
-  seoDescription: 'A'.repeat(161) // ❌ Descrição SEO muito longa
+  seoDescription: 'A'.repeat(161), // ❌ Descrição SEO muito longa
 };
 
 // Validação do produto inválido
 export const validarProdutoInvalido = () => {
   const result = safeValidate(productSchema, exemploProdutoInvalido);
-  
+
   if (!result.success) {
     console.log('❌ Produto inválido - Erros encontrados:');
     result.errors.forEach((error, index) => {
       console.log(`${index + 1}. ${error}`);
     });
   }
-  
+
   return result;
 };
 
@@ -144,8 +146,8 @@ export const validarProdutoInvalido = () => {
 
 export const exemploCriacaoProduto: CreateProductInput = {
   name: 'Conjunto Bikini Nathy',
-  price: 129.90,
-  originalPrice: 159.90,
+  price: 129.9,
+  originalPrice: 159.9,
   category: 'roupas',
   subcategory: 'conjuntos',
   description: 'Conjunto completo de bikini com top e calcinha, ideal para o verão',
@@ -181,7 +183,7 @@ export const exemploCriacaoProduto: CreateProductInput = {
   image: 'https://example.com/conjunto-bikini.jpg',
   seoTitle: 'Conjunto Bikini Nathy - Promoção',
   seoDescription: 'Conjunto completo de bikini com desconto especial. Aproveite!',
-  seoKeywords: ['conjunto', 'bikini', 'promoção', 'verão']
+  seoKeywords: ['conjunto', 'bikini', 'promoção', 'verão'],
 };
 
 // Validação da criação de produto
@@ -202,12 +204,13 @@ export const validarCriacaoProduto = () => {
 
 export const exemploAtualizacaoProduto: UpdateProductInput = {
   id: '123e4567-e89b-12d3-a456-426614174000',
-  price: 79.90, // Preço reduzido
+  price: 79.9, // Preço reduzido
   isOnSale: true, // Agora está em promoção
   currentStock: 12, // Estoque atualizado
-  description: 'Bikini confortável e elegante para o verão, com design exclusivo da Nathália Valente. NOVA COR DISPONÍVEL!',
+  description:
+    'Bikini confortável e elegante para o verão, com design exclusivo da Nathália Valente. NOVA COR DISPONÍVEL!',
   tags: ['bikini', 'verão', 'praia', 'conforto', 'premium', 'nova-cor'],
-  updatedAt: new Date().toISOString()
+  updatedAt: new Date().toISOString(),
 };
 
 // Validação da atualização de produto
@@ -236,7 +239,7 @@ export const exemploFiltrosValidos: ProductFilters = {
   sortBy: 'price',
   sortOrder: 'asc',
   page: 1,
-  limit: 20
+  limit: 20,
 };
 
 export const exemploFiltrosInvalidos = {
@@ -249,13 +252,13 @@ export const exemploFiltrosInvalidos = {
   sortBy: 'campo_inexistente', // ❌ Campo de ordenação inválido
   sortOrder: 'invalid', // ❌ Ordem inválida
   page: 0, // ❌ Página inválida
-  limit: 200 // ❌ Limite muito alto
+  limit: 200, // ❌ Limite muito alto
 };
 
 // Validação de filtros
 export const validarFiltros = (filtros: unknown) => {
   const result = safeValidate(productFiltersSchema, filtros);
-  
+
   if (result.success) {
     console.log('✅ Filtros válidos:', result.data);
   } else {
@@ -264,7 +267,7 @@ export const validarFiltros = (filtros: unknown) => {
       console.log(`${index + 1}. ${error}`);
     });
   }
-  
+
   return result;
 };
 
@@ -301,7 +304,7 @@ export const validacaoTempoReal = {
   // Validação de formulário completo
   validarFormulario: (dados: Partial<Product>) => {
     const result = safeValidate(productSchema, dados);
-    
+
     if (result.success) {
       console.log('✅ Formulário válido');
       return { success: true, data: result.data, errors: [] };
@@ -309,7 +312,7 @@ export const validacaoTempoReal = {
       console.log('❌ Formulário inválido:', result.errors);
       return { success: false, data: null, errors: result.errors };
     }
-  }
+  },
 };
 
 // ============================================================================
@@ -320,14 +323,14 @@ export const tratamentoErros = {
   // Mapear erros para campos específicos
   mapearErrosParaCampos: (errors: string[]) => {
     const errosPorCampo: Record<string, string> = {};
-    
-    errors.forEach(error => {
+
+    errors.forEach((error) => {
       const [campo] = error.split(':');
       if (campo) {
         errosPorCampo[campo.trim()] = error;
       }
     });
-    
+
     return errosPorCampo;
   },
 
@@ -339,26 +342,26 @@ export const tratamentoErros = {
       'Categoria inválida': 'Selecione uma categoria válida',
       'Estoque não pode ser negativo': 'O estoque deve ser zero ou maior',
       'Nome deve ter no máximo 100 caracteres': 'O nome é muito longo (máx. 100 caracteres)',
-      'Preço máximo é R$ 999.999,99': 'O preço é muito alto (máx. R$ 999.999,99)'
+      'Preço máximo é R$ 999.999,99': 'O preço é muito alto (máx. R$ 999.999,99)',
     };
-    
+
     return mensagens[error] || error;
   },
 
   // Validar e retornar erros formatados
   validarComMensagensAmigaveis: (dados: unknown) => {
     const result = safeValidate(productSchema, dados);
-    
+
     if (result.success) {
       return { success: true, data: result.data, errors: [] };
     } else {
-      const errosAmigaveis = result.errors.map(erro => 
+      const errosAmigaveis = result.errors.map((erro) =>
         tratamentoErros.obterMensagemAmigavel(erro)
       );
-      
+
       return { success: false, data: null, errors: errosAmigaveis };
     }
-  }
+  },
 };
 
 // ============================================================================
@@ -368,32 +371,32 @@ export const tratamentoErros = {
 export const executarTodosExemplos = () => {
   console.log('🚀 EXECUTANDO EXEMPLOS DE VALIDAÇÃO ZOD - CLUBNATH VIP');
   console.log('='.repeat(60));
-  
+
   console.log('\n1️⃣ PRODUTO VÁLIDO:');
   validarProdutoValido();
-  
+
   console.log('\n2️⃣ PRODUTO INVÁLIDO:');
   validarProdutoInvalido();
-  
+
   console.log('\n3️⃣ CRIAÇÃO DE PRODUTO:');
   validarCriacaoProduto();
-  
+
   console.log('\n4️⃣ ATUALIZAÇÃO DE PRODUTO:');
   validarAtualizacaoProduto();
-  
+
   console.log('\n5️⃣ FILTROS VÁLIDOS:');
   validarFiltros(exemploFiltrosValidos);
-  
+
   console.log('\n6️⃣ FILTROS INVÁLIDOS:');
   validarFiltros(exemploFiltrosInvalidos);
-  
+
   console.log('\n7️⃣ VALIDAÇÃO EM TEMPO REAL:');
   console.log('Campo nome válido:', validacaoTempoReal.validarCampo('name', 'Bikini Teste'));
   console.log('Campo preço inválido:', validacaoTempoReal.validarCampo('price', -10));
-  
+
   console.log('\n8️⃣ TRATAMENTO DE ERROS:');
   const resultadoErros = tratamentoErros.validarComMensagensAmigaveis(exemploProdutoInvalido);
   console.log('Erros amigáveis:', resultadoErros.errors);
-  
+
   console.log('\n✅ EXEMPLOS CONCLUÍDOS!');
 };

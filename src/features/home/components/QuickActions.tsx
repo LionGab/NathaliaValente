@@ -1,13 +1,7 @@
 import React from 'react';
 import { Card } from '../../../components/ui/Card';
 import { motion } from 'framer-motion';
-import {
-  Calendar,
-  Users,
-  ShoppingBag,
-  HelpCircle,
-  ChevronRight
-} from 'lucide-react';
+import { Calendar, Users, ShoppingBag, HelpCircle, ChevronRight } from 'lucide-react';
 
 interface QuickAction {
   id: string;
@@ -25,7 +19,7 @@ const quickActions: QuickAction[] = [
     description: 'Organize seu dia',
     icon: <Calendar className="w-6 h-6" />,
     color: 'from-blue-500 to-cyan-500',
-    href: '/routine'
+    href: '/routine',
   },
   {
     id: 'community',
@@ -33,7 +27,7 @@ const quickActions: QuickAction[] = [
     description: 'Conecte-se',
     icon: <Users className="w-6 h-6" />,
     color: 'from-green-500 to-emerald-500',
-    href: '/community'
+    href: '/community',
   },
   {
     id: 'store',
@@ -41,7 +35,7 @@ const quickActions: QuickAction[] = [
     description: 'Produtos exclusivos',
     icon: <ShoppingBag className="w-6 h-6" />,
     color: 'from-purple-500 to-pink-500',
-    href: '/store'
+    href: '/store',
   },
   {
     id: 'support',
@@ -49,8 +43,8 @@ const quickActions: QuickAction[] = [
     description: 'Ajuda e dicas',
     icon: <HelpCircle className="w-6 h-6" />,
     color: 'from-orange-500 to-red-500',
-    href: '/support'
-  }
+    href: '/support',
+  },
 ];
 
 export const QuickActions: React.FC = () => {
@@ -69,7 +63,7 @@ export const QuickActions: React.FC = () => {
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <div className="relative z-10">
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-colors duration-300">
@@ -80,12 +74,8 @@ export const QuickActions: React.FC = () => {
                 <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" />
               </div>
 
-              <h3 className="font-bold text-lg mb-2 leading-tight">
-                {action.title}
-              </h3>
-              <p className="text-sm text-white/90 font-medium">
-                {action.description}
-              </p>
+              <h3 className="font-bold text-lg mb-2 leading-tight">{action.title}</h3>
+              <p className="text-sm text-white/90 font-medium">{action.description}</p>
             </div>
           </Card>
         </motion.div>

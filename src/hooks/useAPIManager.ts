@@ -33,7 +33,7 @@ export const useAPIManager = () => {
 
   const loadAPIConfig = async () => {
     try {
-      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
       const debugInfo = apiConfig.getDebugInfo();
       const isConfigured = {
@@ -49,7 +49,7 @@ export const useAPIManager = () => {
         error: null,
       });
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
         error: error instanceof Error ? error.message : 'Erro desconhecido',

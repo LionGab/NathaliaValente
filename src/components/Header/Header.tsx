@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  User, Settings, LogOut, Heart, ShoppingBag,
-  Bell, ChevronDown, Award, BookOpen, HelpCircle
+  User,
+  Settings,
+  LogOut,
+  Heart,
+  ShoppingBag,
+  Bell,
+  ChevronDown,
+  Award,
+  BookOpen,
+  HelpCircle,
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -19,10 +27,28 @@ export const Header: React.FC = () => {
     streak: 7,
     badges: ['Primeira Postagem', 'Apoiadora', 'Especialista em Amamentação'],
     notifications: [
-      { id: 1, title: 'Nova dica disponível', message: 'Dicas para o 2º trimestre', time: '2h', unread: true },
-      { id: 2, title: 'Parabéns!', message: 'Você completou 7 dias seguidos', time: '1d', unread: false },
-      { id: 3, title: 'Novo produto', message: 'Kit Baby o Boticário em promoção', time: '2d', unread: false }
-    ]
+      {
+        id: 1,
+        title: 'Nova dica disponível',
+        message: 'Dicas para o 2º trimestre',
+        time: '2h',
+        unread: true,
+      },
+      {
+        id: 2,
+        title: 'Parabéns!',
+        message: 'Você completou 7 dias seguidos',
+        time: '1d',
+        unread: false,
+      },
+      {
+        id: 3,
+        title: 'Novo produto',
+        message: 'Kit Baby o Boticário em promoção',
+        time: '2d',
+        unread: false,
+      },
+    ],
   };
 
   const progressPercentage = (userStats.points / userStats.nextLevel) * 100;
@@ -58,10 +84,10 @@ export const Header: React.FC = () => {
                 aria-label="Notificações"
               >
                 <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
-                {userStats.notifications.filter(n => n.unread).length > 0 && (
+                {userStats.notifications.filter((n) => n.unread).length > 0 && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-xs font-bold text-white">
-                      {userStats.notifications.filter(n => n.unread).length}
+                      {userStats.notifications.filter((n) => n.unread).length}
                     </span>
                   </div>
                 )}
@@ -84,11 +110,18 @@ export const Header: React.FC = () => {
                       </h3>
                       <div className="space-y-3 max-h-64 overflow-y-auto">
                         {userStats.notifications.map((notification) => (
-                          <div key={notification.id} className={`p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${notification.unread ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}>
+                          <div
+                            key={notification.id}
+                            className={`p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${notification.unread ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
+                          >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{notification.title}</h4>
-                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{notification.message}</p>
+                                <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
+                                  {notification.title}
+                                </h4>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                  {notification.message}
+                                </p>
                               </div>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-500">{notification.time}</span>
@@ -130,9 +163,14 @@ export const Header: React.FC = () => {
                   <p className="text-sm font-semibold text-gray-800 dark:text-white">
                     {profile?.full_name?.split(' ')[0] || 'Mamãe'}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Nível {userStats.level}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
+                    Nível {userStats.level}
+                  </p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                <ChevronDown
+                  className="w-4 h-4 text-gray-600 dark:text-gray-400"
+                  aria-hidden="true"
+                />
               </motion.button>
 
               {/* Dropdown do Meu Espaço */}
@@ -180,7 +218,9 @@ export const Header: React.FC = () => {
                       <div className="grid grid-cols-3 gap-3 mb-4">
                         <div className="text-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
                           <div className="text-lg font-bold text-pink-600">{userStats.streak}</div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400">Dias seguidos</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">
+                            Dias seguidos
+                          </div>
                         </div>
                         <div className="text-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
                           <div className="text-lg font-bold text-purple-600">12</div>
@@ -197,55 +237,80 @@ export const Header: React.FC = () => {
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'profile' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'profile' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <User className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <User
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Meu Perfil</span>
                         </button>
 
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'tools' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <BookOpen className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <BookOpen
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Minha Rotina</span>
                         </button>
 
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'store' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'store' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <ShoppingBag className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <ShoppingBag
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Minhas Compras</span>
                         </button>
 
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'feed' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Heart className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <Heart
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Favoritos</span>
                         </button>
 
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'tools' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Award className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <Award
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Conquistas</span>
                         </button>
 
@@ -254,22 +319,32 @@ export const Header: React.FC = () => {
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'tools' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <Settings
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Configurações</span>
                         </button>
 
                         <button
                           onClick={() => {
                             setShowUserMenu(false);
-                            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
+                            window.dispatchEvent(
+                              new CustomEvent('navigate', { detail: { page: 'tools' } })
+                            );
                           }}
                           className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <HelpCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                          <HelpCircle
+                            className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-gray-800 dark:text-white">Ajuda</span>
                         </button>
 

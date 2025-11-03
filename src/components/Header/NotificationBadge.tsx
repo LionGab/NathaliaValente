@@ -15,7 +15,7 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({ count }) =
       aria-label={`${count} notificações`}
     >
       <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-      
+
       {count > 0 && (
         <motion.div
           initial={{ scale: 0 }}

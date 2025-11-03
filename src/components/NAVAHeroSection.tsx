@@ -20,12 +20,8 @@ export const NAVAHeroSection: React.FC = () => {
           <ShoppingBag className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Produtos em Destaque
-          </h2>
-          <p className="text-pink-600 dark:text-pink-400">
-            Coleção exclusiva da Nathália
-          </p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Produtos em Destaque</h2>
+          <p className="text-pink-600 dark:text-pink-400">Coleção exclusiva da Nathália</p>
         </div>
       </div>
 
@@ -56,11 +52,10 @@ export const NAVAHeroSection: React.FC = () => {
                   <Heart className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">
-                NAVA
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">NAVA</p>
               <p className="text-sm text-gray-700 dark:text-gray-200 mb-4 line-clamp-2">
-                Design exclusivo da Nathália Valente. Perfeito para mães especiais, com tecido de alta qualidade e proteção UV.
+                Design exclusivo da Nathália Valente. Perfeito para mães especiais, com tecido de
+                alta qualidade e proteção UV.
               </p>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="text-xl sm:text-2xl font-bold text-pink-600 dark:text-pink-400">
@@ -103,11 +98,10 @@ export const NAVAHeroSection: React.FC = () => {
                   <Heart className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">
-                NAVA
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 font-medium">NAVA</p>
               <p className="text-sm text-gray-700 dark:text-gray-200 mb-4 line-clamp-2">
-                Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, ideal para momentos especiais na praia.
+                Conjunto exclusivo da Nathália Valente. Design sofisticado e elegante, ideal para
+                momentos especiais na praia.
               </p>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">

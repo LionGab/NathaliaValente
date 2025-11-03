@@ -13,10 +13,7 @@ export { borders, borderUtils } from './borders';
 export { animations, animationUtils } from './animations';
 
 // Design System Types
-export type {
-  ColorKey,
-  ColorShade,
-} from './colors';
+export type { ColorKey, ColorShade } from './colors';
 
 export type {
   TypographyKey,
@@ -30,11 +27,7 @@ export type {
   ResponsiveBreakpoint as SpacingBreakpoint,
 } from './spacing';
 
-export type {
-  ShadowKey,
-  ShadowValue,
-  ResponsiveBreakpoint as ShadowBreakpoint,
-} from './shadows';
+export type { ShadowKey, ShadowValue, ResponsiveBreakpoint as ShadowBreakpoint } from './shadows';
 
 export type {
   BorderKey,
@@ -44,13 +37,7 @@ export type {
   ResponsiveBreakpoint as BorderBreakpoint,
 } from './borders';
 
-export type {
-  AnimationKey,
-  DurationKey,
-  EasingKey,
-  KeyframeKey,
-  PresetKey,
-} from './animations';
+export type { AnimationKey, DurationKey, EasingKey, KeyframeKey, PresetKey } from './animations';
 
 // Design System Configuration
 export const designSystem = {
@@ -59,7 +46,14 @@ export const designSystem = {
     name: 'ClubNath',
     tagline: 'Sua comunidade exclusiva',
     description: 'Plataforma exclusiva para mães - acolhimento, conexão e pertencentimento',
-    values: ['Acolhimento', 'Conexão', 'Pertencentimento', 'Leveza', 'Espiritualidade', 'Modernidade'],
+    values: [
+      'Acolhimento',
+      'Conexão',
+      'Pertencentimento',
+      'Leveza',
+      'Espiritualidade',
+      'Modernidade',
+    ],
   },
 
   // Target Audience
@@ -152,16 +146,16 @@ export const designSystemUtils = {
 // Design System Validation
 export const validateDesignSystem = () => {
   const errors: string[] = [];
-  
+
   // Basic validation
   if (!designSystem.brand.name) {
     errors.push('Brand name is missing');
   }
-  
+
   if (!designSystem.audience.primary) {
     errors.push('Primary audience is missing');
   }
-  
+
   return {
     isValid: errors.length === 0,
     errors,
@@ -258,7 +252,7 @@ export const designSystemDocs = {
     colors: [
       'Ensure 4.5:1 contrast ratio for normal text',
       'Ensure 3:1 contrast ratio for large text',
-      'Don\'t rely on color alone to convey information',
+      "Don't rely on color alone to convey information",
       'Test with color blindness simulators',
     ],
     typography: [
@@ -274,21 +268,21 @@ export const designSystemDocs = {
       'Test with different input methods',
     ],
     shadows: [
-      'Don\'t rely on shadows for critical information',
-      'Ensure shadows don\'t interfere with readability',
+      "Don't rely on shadows for critical information",
+      "Ensure shadows don't interfere with readability",
       'Test shadows in high contrast mode',
       'Provide alternative visual cues',
     ],
     borders: [
       'Use borders to enhance accessibility',
       'Ensure borders are visible in high contrast mode',
-      'Don\'t rely on borders for critical information',
+      "Don't rely on borders for critical information",
       'Test with different zoom levels',
     ],
     animations: [
       'Respect prefers-reduced-motion',
       'Provide animation controls',
-      'Ensure animations don\'t cause seizures',
+      "Ensure animations don't cause seizures",
       'Test with different animation preferences',
     ],
   },

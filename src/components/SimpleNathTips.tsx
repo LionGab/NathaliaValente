@@ -9,13 +9,11 @@ export const SimpleNathTips: React.FC = () => {
           <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
             <span className="text-white text-xl">⭐</span>
           </div>
-          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white">
-            Dicas da Nath
-          </h2>
+          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white">Dicas da Nath</h2>
         </div>
         <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-          Conteúdo exclusivo e acolhedor para sua jornada materna. Dicas práticas, 
-          orientações especializadas e muito apoio emocional.
+          Conteúdo exclusivo e acolhedor para sua jornada materna. Dicas práticas, orientações
+          especializadas e muito apoio emocional.
         </p>
       </div>
 
@@ -28,9 +26,7 @@ export const SimpleNathTips: React.FC = () => {
                 <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
                   Primeiros Cuidados com o Recém-Nascido
                 </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Primeiros Cuidados
-                </p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Primeiros Cuidados</p>
               </div>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
@@ -58,9 +54,7 @@ export const SimpleNathTips: React.FC = () => {
                 <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
                   Amamentação: Guia Completo para Mães
                 </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Amamentação
-                </p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Amamentação</p>
               </div>
             </div>
             <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">

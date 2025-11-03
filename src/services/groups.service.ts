@@ -24,7 +24,7 @@ import type {
   GroupSearchParams,
   GroupPostFilters,
   UseGroupMembersOptions,
-  GroupService
+  GroupService,
 } from '../types/groups';
 
 /**
@@ -126,14 +126,16 @@ export const groupsService: GroupService = {
 
     let queryBuilder = supabase
       .from('group_posts')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_posts_user_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('group_id', groupId)
       .eq('is_approved', true)
       .order('created_at', { ascending: false })
@@ -171,7 +173,7 @@ export const groupsService: GroupService = {
           support: 0,
           pray: 0,
           hug: 0,
-          celebrate: 0
+          celebrate: 0,
         };
 
         reactions?.forEach((r) => {
@@ -198,7 +200,7 @@ export const groupsService: GroupService = {
         return {
           ...post,
           reactions_count: reactionsCount,
-          user_reaction: userReaction
+          user_reaction: userReaction,
         };
       })
     );
@@ -220,16 +222,18 @@ export const groupsService: GroupService = {
         media_url: data.media_url,
         media_type: data.media_type,
         parent_post_id: data.parent_post_id,
-        is_approved: true
+        is_approved: true,
       })
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_posts_user_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -248,17 +252,19 @@ export const groupsService: GroupService = {
         content: data.content,
         media_url: data.media_url,
         media_type: data.media_type,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', postId)
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_posts_user_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -271,10 +277,7 @@ export const groupsService: GroupService = {
 
   deleteGroupPost: async (postId: string): Promise<void> => {
     // TODO: Migrar para GroupsPostsService
-    const { error } = await supabase
-      .from('group_posts')
-      .delete()
-      .eq('id', postId);
+    const { error } = await supabase.from('group_posts').delete().eq('id', postId);
 
     if (error) {
       console.error('Error deleting group post:', error);
@@ -288,14 +291,16 @@ export const groupsService: GroupService = {
       .from('group_posts')
       .update({ is_pinned: true })
       .eq('id', postId)
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_posts_user_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -336,14 +341,16 @@ export const groupsService: GroupService = {
           .from('group_post_reactions')
           .update({ reaction_type: reaction })
           .eq('id', existingReaction.id)
-          .select(`
+          .select(
+            `
             *,
             user:profiles!group_post_reactions_user_id_fkey (
               id,
               full_name,
               avatar_url
             )
-          `)
+          `
+          )
           .single();
 
         if (error) {
@@ -360,16 +367,18 @@ export const groupsService: GroupService = {
       .insert({
         post_id: postId,
         user_id: user.user.id,
-        reaction_type: reaction
+        reaction_type: reaction,
       })
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_post_reactions_user_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -409,7 +418,8 @@ export const groupsService: GroupService = {
 
     let queryBuilder = supabase
       .from('group_invites')
-      .select(`
+      .select(
+        `
         *,
         group:groups!group_invites_group_id_fkey (
           id,
@@ -428,7 +438,8 @@ export const groupsService: GroupService = {
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('invited_user_id', user.user.id)
       .eq('status', 'pending')
       .order('created_at', { ascending: false });
@@ -463,9 +474,10 @@ export const groupsService: GroupService = {
         invited_by_user_id: user.user.id,
         message: data.message,
         expires_at: expiresAt.toISOString(),
-        status: 'pending'
+        status: 'pending',
       })
-      .select(`
+      .select(
+        `
         *,
         group:groups!group_invites_group_id_fkey (
           id,
@@ -484,7 +496,8 @@ export const groupsService: GroupService = {
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -495,13 +508,17 @@ export const groupsService: GroupService = {
     return invite as GroupInvite;
   },
 
-  respondToInvite: async (inviteId: string, status: 'accepted' | 'declined'): Promise<GroupInvite> => {
+  respondToInvite: async (
+    inviteId: string,
+    status: 'accepted' | 'declined'
+  ): Promise<GroupInvite> => {
     // TODO: Migrar para GroupsInvitesService
     const { data: invite, error: updateError } = await supabase
       .from('group_invites')
       .update({ status })
       .eq('id', inviteId)
-      .select(`
+      .select(
+        `
         *,
         group:groups!group_invites_group_id_fkey (
           id,
@@ -520,7 +537,8 @@ export const groupsService: GroupService = {
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (updateError) {
@@ -532,13 +550,11 @@ export const groupsService: GroupService = {
       const { data: user } = await supabase.auth.getUser();
       if (!user.user) throw new Error('Usuário não autenticado');
 
-      await supabase
-        .from('group_members')
-        .insert({
-          group_id: invite.group_id,
-          user_id: user.user.id,
-          role: 'member'
-        });
+      await supabase.from('group_members').insert({
+        group_id: invite.group_id,
+        user_id: user.user.id,
+        role: 'member',
+      });
     }
 
     return invite as GroupInvite;
@@ -555,7 +571,8 @@ export const groupsService: GroupService = {
 
     let queryBuilder = supabase
       .from('group_notifications')
-      .select(`
+      .select(
+        `
         *,
         group:groups!group_notifications_group_id_fkey (
           id,
@@ -564,7 +581,8 @@ export const groupsService: GroupService = {
           category,
           is_private
         )
-      `)
+      `
+      )
       .eq('user_id', user.user.id)
       .order('created_at', { ascending: false });
 
@@ -610,5 +628,5 @@ export const groupsService: GroupService = {
       console.error('Error marking all notifications as read:', error);
       throw new Error('Erro ao marcar todas as notificações como lidas');
     }
-  }
+  },
 };

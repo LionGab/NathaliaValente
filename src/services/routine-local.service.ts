@@ -8,7 +8,7 @@ const SYNC_QUEUE_STORE = 'routine_sync_queue';
 localforage.config({
   name: 'ClubNath',
   storeName: ROUTINE_STORE,
-  description: 'Offline storage for routines'
+  description: 'Offline storage for routines',
 });
 
 export class RoutineLocalService {
@@ -18,12 +18,12 @@ export class RoutineLocalService {
   constructor() {
     this.store = localforage.createInstance({
       name: 'ClubNath',
-      storeName: ROUTINE_STORE
+      storeName: ROUTINE_STORE,
     });
-    
+
     this.syncQueue = localforage.createInstance({
       name: 'ClubNath',
-      storeName: SYNC_QUEUE_STORE
+      storeName: SYNC_QUEUE_STORE,
     });
   }
 
@@ -60,9 +60,11 @@ export class RoutineLocalService {
 
   async getSyncQueue(): Promise<Array<{ action: 'upsert' | 'delete'; routineId: string }>> {
     const queue: Array<{ action: 'upsert' | 'delete'; routineId: string }> = [];
-    await this.syncQueue.iterate<{ action: 'upsert' | 'delete'; routineId: string }, void>((item) => {
-      queue.push(item);
-    });
+    await this.syncQueue.iterate<{ action: 'upsert' | 'delete'; routineId: string }, void>(
+      (item) => {
+        queue.push(item);
+      }
+    );
     return queue;
   }
 

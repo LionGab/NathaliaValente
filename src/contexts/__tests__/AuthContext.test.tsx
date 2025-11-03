@@ -47,7 +47,10 @@ const TestComponent = () => {
       <button data-testid="signin" onClick={() => signIn('test@example.com', 'password')}>
         Sign In
       </button>
-      <button data-testid="signup" onClick={() => signUp('test@example.com', 'password', 'Test User')}>
+      <button
+        data-testid="signup"
+        onClick={() => signUp('test@example.com', 'password', 'Test User')}
+      >
         Sign Up
       </button>
       <button data-testid="signout" onClick={() => signOut()}>
@@ -62,11 +65,7 @@ const TestComponent = () => {
 
 // Wrapper com AuthProvider
 const renderWithAuthProvider = (ui: React.ReactElement) => {
-  return render(
-    <AuthProvider>
-      {ui}
-    </AuthProvider>
-  );
+  return render(<AuthProvider>{ui}</AuthProvider>);
 };
 
 describe('AuthContext', () => {
@@ -219,11 +218,7 @@ describe('AuthContext', () => {
       fireEvent.click(screen.getByTestId('signin'));
 
       await waitFor(() => {
-        expect(handleError).toHaveBeenCalledWith(
-          mockError,
-          { action: 'sign_in' },
-          'auth'
-        );
+        expect(handleError).toHaveBeenCalledWith(mockError, { action: 'sign_in' }, 'auth');
       });
     });
   });
@@ -268,7 +263,7 @@ describe('AuthContext', () => {
 
     it('deve tratar erro de signup', async () => {
       const mockError = new Error('Email already exists');
-      
+
       vi.mocked(supabase.auth.getSession).mockResolvedValue({
         data: { session: null },
         error: null,
@@ -404,16 +399,19 @@ describe('AuthContext', () => {
       renderWithAuthProvider(<TestComponent />);
 
       const authStateChangeCallback = vi.mocked(supabase.auth.onAuthStateChange).mock.calls[0][0];
-      
+
       // Simular mÃºltiplas mudanÃ§as rÃ¡pidas
       await authStateChangeCallback('SIGNED_IN', mockSession);
       await authStateChangeCallback('SIGNED_IN', mockSession);
       await authStateChangeCallback('SIGNED_IN', mockSession);
 
       // Aguardar o debounce
-      await waitFor(() => {
-        expect(mockFrom).toHaveBeenCalledTimes(1);
-      }, { timeout: 200 });
+      await waitFor(
+        () => {
+          expect(mockFrom).toHaveBeenCalledTimes(1);
+        },
+        { timeout: 200 }
+      );
     });
   });
 });

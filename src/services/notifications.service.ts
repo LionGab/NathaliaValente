@@ -17,7 +17,7 @@ export interface NotificationPreferences {
   journal_reminders: boolean;
   sos_followup: boolean;
   quiet_hours_start: string; // "22:00"
-  quiet_hours_end: string;   // "07:00"
+  quiet_hours_end: string; // "07:00"
   timezone: string;
   created_at?: string;
   updated_at?: string;
@@ -25,7 +25,15 @@ export interface NotificationPreferences {
 
 export interface NotificationTemplate {
   id: string;
-  type: 'daily_quote' | 'feed_highlight' | 'social' | 'engagement' | 'premium' | 'prayer' | 'journal' | 'sos';
+  type:
+    | 'daily_quote'
+    | 'feed_highlight'
+    | 'social'
+    | 'engagement'
+    | 'premium'
+    | 'prayer'
+    | 'journal'
+    | 'sos';
   title: string;
   body: string;
   icon?: string;
@@ -108,7 +116,7 @@ class NotificationsService {
       const registration = await navigator.serviceWorker.ready;
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: this.vapidKey
+        applicationServerKey: this.vapidKey,
       });
 
       // Salvar subscription no Supabase
@@ -121,16 +129,16 @@ class NotificationsService {
   }
 
   private async saveSubscription(subscription: PushSubscription) {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { error } = await supabase
-      .from('push_subscriptions')
-      .upsert({
-        user_id: user.id,
-        subscription: subscription.toJSON(),
-        created_at: new Date().toISOString()
-      });
+    const { error } = await supabase.from('push_subscriptions').upsert({
+      user_id: user.id,
+      subscription: subscription.toJSON(),
+      created_at: new Date().toISOString(),
+    });
 
     if (error) {
       console.error('Erro ao salvar subscription:', error);
@@ -156,17 +164,19 @@ class NotificationsService {
     return data || this.getDefaultPreferences(userId);
   }
 
-  async updateNotificationPreferences(preferences: Partial<NotificationPreferences>): Promise<boolean> {
-    const { data: { user } } = await supabase.auth.getUser();
+  async updateNotificationPreferences(
+    preferences: Partial<NotificationPreferences>
+  ): Promise<boolean> {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return false;
 
-    const { error } = await supabase
-      .from('notification_preferences')
-      .upsert({
-        user_id: user.id,
-        ...preferences,
-        updated_at: new Date().toISOString()
-      });
+    const { error } = await supabase.from('notification_preferences').upsert({
+      user_id: user.id,
+      ...preferences,
+      updated_at: new Date().toISOString(),
+    });
 
     if (error) {
       console.error('Erro ao atualizar preferências:', error);
@@ -189,7 +199,7 @@ class NotificationsService {
       sos_followup: true,
       quiet_hours_start: '22:00',
       quiet_hours_end: '07:00',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
   }
 
@@ -207,7 +217,7 @@ class NotificationsService {
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         scheduled_time: '08:00',
-        priority: 'normal'
+        priority: 'normal',
       },
       feed_highlight: {
         id: 'feed_highlight',
@@ -217,7 +227,7 @@ class NotificationsService {
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         scheduled_time: '20:00',
-        priority: 'normal'
+        priority: 'normal',
       },
       social_interaction: {
         id: 'social_interaction',
@@ -226,7 +236,7 @@ class NotificationsService {
         body: 'Alguém interagiu com seu post!',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
-        priority: 'normal'
+        priority: 'normal',
       },
       engagement_reminder: {
         id: 'engagement_reminder',
@@ -235,7 +245,7 @@ class NotificationsService {
         body: 'Veja o que rolou na Nossa Maternidade enquanto você estava fora',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
-        priority: 'low'
+        priority: 'low',
       },
       prayer_notification: {
         id: 'prayer_notification',
@@ -244,7 +254,7 @@ class NotificationsService {
         body: 'Uma mãe precisa de suas orações',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
-        priority: 'normal'
+        priority: 'normal',
       },
       journal_reminder: {
         id: 'journal_reminder',
@@ -253,7 +263,7 @@ class NotificationsService {
         body: 'Que tal refletir sobre seu dia?',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
-        priority: 'normal'
+        priority: 'normal',
       },
       sos_followup: {
         id: 'sos_followup',
@@ -263,8 +273,8 @@ class NotificationsService {
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         priority: 'high',
-        requires_interaction: true
-      }
+        requires_interaction: true,
+      },
     };
   }
 
@@ -272,7 +282,11 @@ class NotificationsService {
   // ENVIO DE NOTIFICAÇÕES
   // =====================================================
 
-  async sendNotification(templateId: string, userId: string, customData?: Record<string, any>): Promise<boolean> {
+  async sendNotification(
+    templateId: string,
+    userId: string,
+    customData?: Record<string, any>
+  ): Promise<boolean> {
     const templates = this.getNotificationTemplates();
     const template = templates[templateId];
 
@@ -296,7 +310,7 @@ class NotificationsService {
     const notificationData = {
       ...template,
       ...customData,
-      user_id: userId
+      user_id: userId,
     };
 
     try {
@@ -317,7 +331,7 @@ class NotificationsService {
     if (this.serviceWorker) {
       this.serviceWorker.postMessage({
         type: 'SEND_NOTIFICATION',
-        data
+        data,
       });
     } else {
       // Fallback para notificação direta
@@ -327,7 +341,7 @@ class NotificationsService {
           icon: data.icon,
           badge: data.badge,
           tag: data.id,
-          data: data.data
+          data: data.data,
         });
       }
     }
@@ -335,15 +349,24 @@ class NotificationsService {
 
   private isNotificationEnabled(type: string, preferences: NotificationPreferences): boolean {
     switch (type) {
-      case 'daily_quote': return preferences.daily_quotes;
-      case 'feed_highlight': return preferences.feed_highlights;
-      case 'social': return preferences.social_interactions;
-      case 'engagement': return preferences.engagement_reminders;
-      case 'premium': return preferences.premium_offers;
-      case 'prayer': return preferences.prayer_notifications;
-      case 'journal': return preferences.journal_reminders;
-      case 'sos': return preferences.sos_followup;
-      default: return false;
+      case 'daily_quote':
+        return preferences.daily_quotes;
+      case 'feed_highlight':
+        return preferences.feed_highlights;
+      case 'social':
+        return preferences.social_interactions;
+      case 'engagement':
+        return preferences.engagement_reminders;
+      case 'premium':
+        return preferences.premium_offers;
+      case 'prayer':
+        return preferences.prayer_notifications;
+      case 'journal':
+        return preferences.journal_reminders;
+      case 'sos':
+        return preferences.sos_followup;
+      default:
+        return false;
     }
   }
 
@@ -371,16 +394,14 @@ class NotificationsService {
     title: string,
     body: string
   ): Promise<void> {
-    const { error } = await supabase
-      .from('notification_logs')
-      .insert({
-        user_id: userId,
-        notification_type: type,
-        title,
-        body,
-        sent_at: new Date().toISOString(),
-        status: 'sent'
-      });
+    const { error } = await supabase.from('notification_logs').insert({
+      user_id: userId,
+      notification_type: type,
+      title,
+      body,
+      sent_at: new Date().toISOString(),
+      status: 'sent',
+    });
 
     if (error) {
       console.error('Erro ao logar notificação:', error);
@@ -392,7 +413,7 @@ class NotificationsService {
       .from('notification_logs')
       .update({
         opened_at: new Date().toISOString(),
-        status: 'opened'
+        status: 'opened',
       })
       .eq('id', notificationId);
 
@@ -406,7 +427,7 @@ class NotificationsService {
       .from('notification_logs')
       .update({
         clicked_at: new Date().toISOString(),
-        status: 'clicked'
+        status: 'clicked',
       })
       .eq('id', notificationId);
 
@@ -439,7 +460,11 @@ class NotificationsService {
     }
   }
 
-  private async scheduleNotification(userId: string, templateId: string, time: string): Promise<void> {
+  private async scheduleNotification(
+    userId: string,
+    templateId: string,
+    time: string
+  ): Promise<void> {
     // Implementar agendamento usando setTimeout ou biblioteca de cron
     // Por enquanto, vamos usar uma abordagem simples
     const now = new Date();
@@ -476,12 +501,14 @@ class NotificationsService {
     if (!lastActivity) return;
 
     const lastActive = new Date(lastActivity.last_active_at);
-    const daysSinceLastActive = Math.floor((Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24));
+    const daysSinceLastActive = Math.floor(
+      (Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24)
+    );
 
     // Enviar lembrete se não ativo há mais de 2 dias
     if (daysSinceLastActive >= 2) {
       await this.sendNotification('engagement_reminder', userId, {
-        days_inactive: daysSinceLastActive
+        days_inactive: daysSinceLastActive,
       });
     }
   }
@@ -496,8 +523,8 @@ class NotificationsService {
       body: customBody,
       data: {
         interaction_type: interactionType,
-        ...data
-      }
+        ...data,
+      },
     });
   }
 

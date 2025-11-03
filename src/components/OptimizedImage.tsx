@@ -39,7 +39,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   fallback,
   loading = 'lazy',
   objectFit = 'cover',
-  objectPosition = 'center'
+  objectPosition = 'center',
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -88,7 +88,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       style={{
         width: width || '100%',
         height: height || 'auto',
-        aspectRatio: width && height ? `${width}/${height}` : undefined
+        aspectRatio: width && height ? `${width}/${height}` : undefined,
       }}
     >
       {/* Placeholder/Blur */}
@@ -113,7 +113,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             className="w-6 h-6 border-2 border-pink-500 border-t-transparent rounded-full"
           />
         </div>
@@ -127,8 +127,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         width={width}
         height={height}
         loading={priority ? 'eager' : loading}
-        className={`w-full h-full transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+        className={`w-full h-full transition-opacity duration-300 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
         style={{ objectFit, objectPosition }}
         onLoad={handleLoad}
         onError={handleError}
@@ -178,12 +179,8 @@ export const VirtualList: React.FC<{
   overscan?: number;
   className?: string;
 }> = ({ items, itemHeight, containerHeight, renderItem, overscan = 5, className = '' }) => {
-  const { containerRef, visibleItems, totalHeight, offsetY, handleScroll, startIndex } = useVirtualScroll(
-    items,
-    itemHeight,
-    containerHeight,
-    overscan
-  );
+  const { containerRef, visibleItems, totalHeight, offsetY, handleScroll, startIndex } =
+    useVirtualScroll(items, itemHeight, containerHeight, overscan);
 
   return (
     <div
@@ -199,14 +196,11 @@ export const VirtualList: React.FC<{
             position: 'absolute',
             top: 0,
             left: 0,
-            right: 0
+            right: 0,
           }}
         >
           {visibleItems.map((item, index) => (
-            <div
-              key={startIndex + index}
-              style={{ height: itemHeight }}
-            >
+            <div key={startIndex + index} style={{ height: itemHeight }}>
               {renderItem(item, startIndex + index)}
             </div>
           ))}

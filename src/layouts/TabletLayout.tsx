@@ -50,11 +50,7 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
       {/* Main Layout */}
       <div className="flex-1 relative z-10">
         {/* Header */}
-        {showHeader && (
-          <Header
-            onProfileClick={onProfileClick}
-          />
-        )}
+        {showHeader && <Header onProfileClick={onProfileClick} />}
 
         {/* Content Area with Sidebar */}
         <div className="flex-1 flex-row">
@@ -66,24 +62,18 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
           )}
 
           {/* Main Content */}
-          <div className={`flex-1 ${showHeader ? 'pt-2' : 'pt-4'} ${showNavigation ? 'pb-20' : 'pb-4'} ${className}`}>
+          <div
+            className={`flex-1 ${showHeader ? 'pt-2' : 'pt-4'} ${showNavigation ? 'pb-20' : 'pb-4'} ${className}`}
+          >
             {children}
           </div>
         </div>
 
         {/* Bottom Navigation */}
-        {showNavigation && (
-          <Navigation
-            currentPage={currentPage}
-            onNavigate={onNavigate}
-          />
-        )}
+        {showNavigation && <Navigation currentPage={currentPage} onNavigate={onNavigate} />}
 
         {/* Notifications */}
-        <NotificationContainer
-          notifications={notifications}
-          onClose={removeNotification}
-        />
+        <NotificationContainer notifications={notifications} onClose={removeNotification} />
       </div>
     </div>
   );

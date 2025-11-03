@@ -43,7 +43,7 @@ class PerformanceMonitor {
       enableUserTiming: true,
       sampleRate: 1.0,
       maxMetrics: 1000,
-      reportInterval: 30000 // 30 segundos
+      reportInterval: 30000, // 30 segundos
     };
 
     this.initialize();
@@ -138,7 +138,7 @@ class PerformanceMonitor {
           const resource = entry as PerformanceResourceTiming;
           this.recordMetric('resource_load_time', resource.duration, 'timing', {
             type: resource.initiatorType,
-            name: resource.name
+            name: resource.name,
           });
         }
       });
@@ -148,11 +148,21 @@ class PerformanceMonitor {
 
   private setupNavigationTiming(): void {
     window.addEventListener('load', () => {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
+
       this.recordMetric('TTFB', navigation.responseStart - navigation.requestStart, 'timing');
-      this.recordMetric('DOM_ready', navigation.domContentLoadedEventEnd - navigation.navigationStart, 'timing');
-      this.recordMetric('load_complete', navigation.loadEventEnd - navigation.navigationStart, 'timing');
+      this.recordMetric(
+        'DOM_ready',
+        navigation.domContentLoadedEventEnd - navigation.navigationStart,
+        'timing'
+      );
+      this.recordMetric(
+        'load_complete',
+        navigation.loadEventEnd - navigation.navigationStart,
+        'timing'
+      );
     });
   }
 
@@ -187,7 +197,12 @@ class PerformanceMonitor {
     }
   }
 
-  public recordMetric(name: string, value: number, type: 'timing' | 'counter' | 'gauge', tags?: Record<string, string>): void {
+  public recordMetric(
+    name: string,
+    value: number,
+    type: 'timing' | 'counter' | 'gauge',
+    tags?: Record<string, string>
+  ): void {
     // Aplicar sample rate
     if (Math.random() > this.config.sampleRate) return;
 
@@ -196,7 +211,7 @@ class PerformanceMonitor {
       value,
       timestamp: new Date(),
       type,
-      tags
+      tags,
     };
 
     this.metrics.push(metric);
@@ -214,7 +229,7 @@ class PerformanceMonitor {
 
   public startTiming(name: string): () => void {
     const startTime = performance.now();
-    
+
     return () => {
       const endTime = performance.now();
       const duration = endTime - startTime;
@@ -224,7 +239,7 @@ class PerformanceMonitor {
 
   public measureAsync<T>(name: string, fn: () => Promise<T>): Promise<T> {
     const endTiming = this.startTiming(name);
-    
+
     return fn().finally(() => {
       endTiming();
     });
@@ -232,7 +247,7 @@ class PerformanceMonitor {
 
   public measureSync<T>(name: string, fn: () => T): T {
     const endTiming = this.startTiming(name);
-    
+
     try {
       return fn();
     } finally {
@@ -242,17 +257,17 @@ class PerformanceMonitor {
 
   public getMetrics(name?: string): PerformanceMetric[] {
     if (name) {
-      return this.metrics.filter(metric => metric.name === name);
+      return this.metrics.filter((metric) => metric.name === name);
     }
     return [...this.metrics];
   }
 
   public getWebVitals(): WebVitals | null {
-    const fcp = this.metrics.find(m => m.name === 'FCP')?.value || 0;
-    const lcp = this.metrics.find(m => m.name === 'LCP')?.value || 0;
-    const fid = this.metrics.find(m => m.name === 'FID')?.value || 0;
-    const cls = this.metrics.find(m => m.name === 'CLS')?.value || 0;
-    const ttfb = this.metrics.find(m => m.name === 'TTFB')?.value || 0;
+    const fcp = this.metrics.find((m) => m.name === 'FCP')?.value || 0;
+    const lcp = this.metrics.find((m) => m.name === 'LCP')?.value || 0;
+    const fid = this.metrics.find((m) => m.name === 'FID')?.value || 0;
+    const cls = this.metrics.find((m) => m.name === 'CLS')?.value || 0;
+    const ttfb = this.metrics.find((m) => m.name === 'TTFB')?.value || 0;
 
     if (fcp === 0 && lcp === 0 && fid === 0 && cls === 0 && ttfb === 0) {
       return null;
@@ -303,7 +318,7 @@ class PerformanceMonitor {
     const metrics = this.getMetrics(name);
     if (metrics.length === 0) return 0;
 
-    const sorted = metrics.map(m => m.value).sort((a, b) => a - b);
+    const sorted = metrics.map((m) => m.value).sort((a, b) => a - b);
     const index = Math.ceil((percentile / 100) * sorted.length) - 1;
     return sorted[index] || 0;
   }
@@ -314,7 +329,7 @@ class PerformanceMonitor {
     try {
       // Aqui você pode enviar para seu serviço de analytics
       // Por exemplo: Google Analytics, Mixpanel, etc.
-      
+
       if (import.meta.env.DEV) {
         console.log('Reporting metrics:', this.metrics);
       }
@@ -332,7 +347,7 @@ class PerformanceMonitor {
 
   public updateConfig(newConfig: Partial<PerformanceConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    
+
     if (newConfig.reportInterval) {
       this.stopReporting();
       this.startReporting();
@@ -361,7 +376,12 @@ export const startPerformanceTimer = (name: string) => {
   return performanceMonitor.startTiming(name);
 };
 
-export const recordPerformanceMetric = (name: string, value: number, type: 'timing' | 'counter' | 'gauge' = 'timing', tags?: Record<string, string>) => {
+export const recordPerformanceMetric = (
+  name: string,
+  value: number,
+  type: 'timing' | 'counter' | 'gauge' = 'timing',
+  tags?: Record<string, string>
+) => {
   performanceMonitor.recordMetric(name, value, type, tags);
 };
 
@@ -375,6 +395,6 @@ export const usePerformanceMonitor = () => {
     getMetrics: performanceMonitor.getMetrics.bind(performanceMonitor),
     getWebVitals: performanceMonitor.getWebVitals.bind(performanceMonitor),
     getPerformanceScore: performanceMonitor.getPerformanceScore.bind(performanceMonitor),
-    clearMetrics: performanceMonitor.clearMetrics.bind(performanceMonitor)
+    clearMetrics: performanceMonitor.clearMetrics.bind(performanceMonitor),
   };
 };

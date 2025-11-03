@@ -20,7 +20,9 @@ export const usePerformance = () => {
   useEffect(() => {
     const measurePerformance = () => {
       // Measure page load time
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
       const loadTime = navigation ? navigation.loadEventEnd - navigation.fetchStart : 0;
 
       // Measure memory usage (if available)
@@ -32,8 +34,9 @@ export const usePerformance = () => {
 
       // Calculate cache hit rate
       const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-      const cachedResources = resources.filter(resource => resource.transferSize === 0);
-      const cacheHitRate = resources.length > 0 ? (cachedResources.length / resources.length) * 100 : 0;
+      const cachedResources = resources.filter((resource) => resource.transferSize === 0);
+      const cacheHitRate =
+        resources.length > 0 ? (cachedResources.length / resources.length) * 100 : 0;
 
       setMetrics({
         loadTime: Math.round(loadTime),
@@ -62,13 +65,13 @@ export const usePerformance = () => {
 
   const measureRenderTime = (componentName: string, startTime: number) => {
     const renderTime = performance.now() - startTime;
-    
+
     // Log slow renders (> 16ms for 60fps)
     if (renderTime > 16) {
       console.warn(`Slow render detected in ${componentName}: ${renderTime.toFixed(2)}ms`);
     }
 
-    setMetrics(prev => ({
+    setMetrics((prev) => ({
       ...prev,
       renderTime: Math.round(renderTime * 100) / 100,
     }));
@@ -78,7 +81,7 @@ export const usePerformance = () => {
 
   const logPerformanceIssue = (issue: string, details?: any) => {
     console.warn(`Performance Issue: ${issue}`, details);
-    
+
     // In production, you might want to send this to an analytics service
     if (import.meta.env.PROD) {
       // Example: send to analytics

@@ -52,7 +52,9 @@ class SupabaseRealtimeService {
   // Chat Messages
   async sendMessage(roomId: string, message: string, metadata?: any): Promise<ChatMessage | null> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
@@ -62,7 +64,7 @@ class SupabaseRealtimeService {
           user_id: user.id,
           message,
           is_user: true,
-          metadata
+          metadata,
         })
         .select()
         .single();
@@ -75,18 +77,24 @@ class SupabaseRealtimeService {
     }
   }
 
-  async getMessages(roomId: string, limit: number = 50, offset: number = 0): Promise<ChatMessage[]> {
+  async getMessages(
+    roomId: string,
+    limit: number = 50,
+    offset: number = 0
+  ): Promise<ChatMessage[]> {
     try {
       const { data, error } = await supabase
         .from('chat_messages')
-        .select(`
+        .select(
+          `
           *,
           profiles:user_id (
             id,
             full_name,
             avatar_url
           )
-        `)
+        `
+        )
         .eq('room_id', roomId)
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
@@ -101,10 +109,7 @@ class SupabaseRealtimeService {
 
   async updateMessage(messageId: string, updates: Partial<ChatMessage>): Promise<boolean> {
     try {
-      const { error } = await supabase
-        .from('chat_messages')
-        .update(updates)
-        .eq('id', messageId);
+      const { error } = await supabase.from('chat_messages').update(updates).eq('id', messageId);
 
       if (error) throw error;
       return true;
@@ -116,10 +121,7 @@ class SupabaseRealtimeService {
 
   async deleteMessage(messageId: string): Promise<boolean> {
     try {
-      const { error } = await supabase
-        .from('chat_messages')
-        .delete()
-        .eq('id', messageId);
+      const { error } = await supabase.from('chat_messages').delete().eq('id', messageId);
 
       if (error) throw error;
       return true;
@@ -130,9 +132,15 @@ class SupabaseRealtimeService {
   }
 
   // Chat Rooms
-  async createRoom(name: string, type: 'direct' | 'group' | 'community', participants: string[]): Promise<ChatRoom | null> {
+  async createRoom(
+    name: string,
+    type: 'direct' | 'group' | 'community',
+    participants: string[]
+  ): Promise<ChatRoom | null> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
@@ -141,7 +149,7 @@ class SupabaseRealtimeService {
           name,
           type,
           participants: [...participants, user.id],
-          created_by: user.id
+          created_by: user.id,
         })
         .select()
         .single();
@@ -156,12 +164,15 @@ class SupabaseRealtimeService {
 
   async getRooms(): Promise<ChatRoom[]> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
         .from('chat_rooms')
-        .select(`
+        .select(
+          `
           *,
           last_message:chat_messages!last_message_id (
             id,
@@ -169,7 +180,8 @@ class SupabaseRealtimeService {
             created_at,
             user_id
           )
-        `)
+        `
+        )
         .contains('participants', [user.id])
         .order('updated_at', { ascending: false });
 
@@ -183,16 +195,16 @@ class SupabaseRealtimeService {
 
   async joinRoom(roomId: string): Promise<boolean> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
-      const { error } = await supabase
-        .from('chat_room_participants')
-        .insert({
-          room_id: roomId,
-          user_id: user.id,
-          joined_at: new Date().toISOString()
-        });
+      const { error } = await supabase.from('chat_room_participants').insert({
+        room_id: roomId,
+        user_id: user.id,
+        joined_at: new Date().toISOString(),
+      });
 
       if (error) throw error;
       return true;
@@ -204,7 +216,9 @@ class SupabaseRealtimeService {
 
   async leaveRoom(roomId: string): Promise<boolean> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const { error } = await supabase
@@ -222,9 +236,13 @@ class SupabaseRealtimeService {
   }
 
   // Real-time subscriptions
-  subscribeToRoom(roomId: string, onMessage: (message: ChatMessage) => void, onTyping?: (typing: TypingIndicator) => void): RealtimeChannel {
+  subscribeToRoom(
+    roomId: string,
+    onMessage: (message: ChatMessage) => void,
+    onTyping?: (typing: TypingIndicator) => void
+  ): RealtimeChannel {
     const channelName = `room:${roomId}`;
-    
+
     // Unsubscribe from existing channel if it exists
     if (this.channels.has(channelName)) {
       this.unsubscribeFromRoom(roomId);
@@ -238,7 +256,7 @@ class SupabaseRealtimeService {
           event: 'INSERT',
           schema: 'public',
           table: 'chat_messages',
-          filter: `room_id=eq.${roomId}`
+          filter: `room_id=eq.${roomId}`,
         },
         (payload: RealtimePostgresChangesPayload<ChatMessage>) => {
           onMessage(payload.new as ChatMessage);
@@ -250,7 +268,7 @@ class SupabaseRealtimeService {
           event: 'UPDATE',
           schema: 'public',
           table: 'chat_messages',
-          filter: `room_id=eq.${roomId}`
+          filter: `room_id=eq.${roomId}`,
         },
         (payload: RealtimePostgresChangesPayload<ChatMessage>) => {
           onMessage(payload.new as ChatMessage);
@@ -262,7 +280,7 @@ class SupabaseRealtimeService {
           event: 'DELETE',
           schema: 'public',
           table: 'chat_messages',
-          filter: `room_id=eq.${roomId}`
+          filter: `room_id=eq.${roomId}`,
         },
         (payload: RealtimePostgresChangesPayload<ChatMessage>) => {
           // Handle message deletion
@@ -283,7 +301,7 @@ class SupabaseRealtimeService {
 
   subscribeToTyping(roomId: string, onTyping: (typing: TypingIndicator) => void): RealtimeChannel {
     const channelName = `typing:${roomId}`;
-    
+
     const channel = supabase
       .channel(channelName)
       .on('broadcast', { event: 'typing' }, (payload) => {
@@ -297,12 +315,14 @@ class SupabaseRealtimeService {
 
   async sendTypingIndicator(roomId: string, isTyping: boolean): Promise<void> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const channelName = `typing:${roomId}`;
       const channel = this.channels.get(channelName);
-      
+
       if (channel) {
         await channel.send({
           type: 'broadcast',
@@ -311,8 +331,8 @@ class SupabaseRealtimeService {
             user_id: user.id,
             user_name: user.user_metadata?.full_name || 'Usuário',
             is_typing: isTyping,
-            timestamp: new Date().toISOString()
-          }
+            timestamp: new Date().toISOString(),
+          },
         });
 
         // Auto-stop typing after 3 seconds
@@ -320,13 +340,13 @@ class SupabaseRealtimeService {
           const timeoutId = setTimeout(() => {
             this.sendTypingIndicator(roomId, false);
           }, 3000);
-          
+
           // Clear existing timeout
           const existingTimeout = this.typingTimeouts.get(roomId);
           if (existingTimeout) {
             clearTimeout(existingTimeout);
           }
-          
+
           this.typingTimeouts.set(roomId, timeoutId);
         } else {
           const existingTimeout = this.typingTimeouts.get(roomId);
@@ -344,7 +364,7 @@ class SupabaseRealtimeService {
   unsubscribeFromRoom(roomId: string): void {
     const channelName = `room:${roomId}`;
     const channel = this.channels.get(channelName);
-    
+
     if (channel) {
       supabase.removeChannel(channel);
       this.channels.delete(channelName);
@@ -353,7 +373,7 @@ class SupabaseRealtimeService {
     // Also unsubscribe from typing
     const typingChannelName = `typing:${roomId}`;
     const typingChannel = this.channels.get(typingChannelName);
-    
+
     if (typingChannel) {
       supabase.removeChannel(typingChannel);
       this.channels.delete(typingChannelName);
@@ -363,16 +383,16 @@ class SupabaseRealtimeService {
   // Message reactions
   async addReaction(messageId: string, emoji: string): Promise<boolean> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
-      const { error } = await supabase
-        .from('message_reactions')
-        .insert({
-          message_id: messageId,
-          user_id: user.id,
-          emoji
-        });
+      const { error } = await supabase.from('message_reactions').insert({
+        message_id: messageId,
+        user_id: user.id,
+        emoji,
+      });
 
       if (error) throw error;
       return true;
@@ -384,7 +404,9 @@ class SupabaseRealtimeService {
 
   async removeReaction(messageId: string, emoji: string): Promise<boolean> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const { error } = await supabase
@@ -405,7 +427,9 @@ class SupabaseRealtimeService {
   // File uploads
   async uploadFile(file: File, roomId: string): Promise<string | null> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
 
       const fileExt = file.name.split('.').pop();
@@ -418,9 +442,9 @@ class SupabaseRealtimeService {
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('chat-files')
-        .getPublicUrl(filePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('chat-files').getPublicUrl(filePath);
 
       return publicUrl;
     } catch (error) {
@@ -435,7 +459,7 @@ class SupabaseRealtimeService {
       supabase.removeChannel(channel);
     });
     this.channels.clear();
-    
+
     this.typingTimeouts.forEach((timeout) => {
       clearTimeout(timeout);
     });

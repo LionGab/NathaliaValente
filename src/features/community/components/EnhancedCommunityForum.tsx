@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Users, 
-  MessageCircle, 
-  Heart, 
-  Share2, 
-  Bookmark, 
+import {
+  Users,
+  MessageCircle,
+  Heart,
+  Share2,
+  Bookmark,
   MoreHorizontal,
   Filter,
   Search,
@@ -18,7 +18,7 @@ import {
   TrendingUp,
   Shield,
   Eye,
-  Lock
+  Lock,
 } from 'lucide-react';
 
 interface CommunityPost {
@@ -81,10 +81,13 @@ const mockGroups: CommunityGroup[] = [
     category: 'Gravidez',
     icon: '🤱',
     color: 'from-pink-500 to-rose-500',
-    rules: ['Respeite todas as mães', 'Não compartilhe informações médicas sem consultar um profissional'],
+    rules: [
+      'Respeite todas as mães',
+      'Não compartilhe informações médicas sem consultar um profissional',
+    ],
     moderators: ['Dr. Ana Costa', 'Maria Silva'],
     isJoined: true,
-    lastActivity: '2 horas atrás'
+    lastActivity: '2 horas atrás',
   },
   {
     id: '2',
@@ -99,7 +102,7 @@ const mockGroups: CommunityGroup[] = [
     rules: ['Foque em experiências positivas', 'Seja respeitosa com diferentes opiniões'],
     moderators: ['Consultora Lactação', 'Enfermeira Obstétrica'],
     isJoined: true,
-    lastActivity: '30 min atrás'
+    lastActivity: '30 min atrás',
   },
   {
     id: '3',
@@ -114,7 +117,7 @@ const mockGroups: CommunityGroup[] = [
     rules: ['Mantenha confidencialidade', 'Seja empática e acolhedora'],
     moderators: ['Psicóloga Perinatal', 'Doula Patricia'],
     isJoined: false,
-    lastActivity: '1 hora atrás'
+    lastActivity: '1 hora atrás',
   },
   {
     id: '4',
@@ -129,8 +132,8 @@ const mockGroups: CommunityGroup[] = [
     rules: ['Consulte sempre um profissional', 'Compartilhe apenas exercícios seguros'],
     moderators: ['Prof. Maria Silva', 'Fisioterapeuta'],
     isJoined: true,
-    lastActivity: '4 horas atrás'
-  }
+    lastActivity: '4 horas atrás',
+  },
 ];
 
 const mockPosts: CommunityPost[] = [
@@ -141,19 +144,19 @@ const mockPosts: CommunityPost[] = [
       name: 'Maria Silva',
       avatar: '/avatars/maria.jpg',
       verified: true,
-      level: 5
+      level: 5,
     },
     content: {
       text: 'Meninas, estou no 8º mês e descobri alguns exercícios que estão me ajudando muito com as dores nas costas! Quem mais está passando por isso?',
       images: ['/images/exercicio-gravidez.jpg'],
       category: 'Gravidez',
-      tags: ['exercícios', 'dores nas costas', '8º mês']
+      tags: ['exercícios', 'dores nas costas', '8º mês'],
     },
     engagement: {
       likes: 45,
       comments: 12,
       shares: 8,
-      views: 234
+      views: 234,
     },
     timestamp: '2 horas atrás',
     isLiked: false,
@@ -163,8 +166,8 @@ const mockPosts: CommunityPost[] = [
       id: '1',
       name: 'Gravidez & Gestação',
       type: 'public',
-      memberCount: 15420
-    }
+      memberCount: 15420,
+    },
   },
   {
     id: '2',
@@ -173,18 +176,18 @@ const mockPosts: CommunityPost[] = [
       name: 'Ana Costa',
       avatar: '/avatars/ana.jpg',
       verified: true,
-      level: 8
+      level: 8,
     },
     content: {
       text: 'Dica importante para as mamães de primeira viagem: a amamentação pode ser desafiadora nos primeiros dias, mas é normal! Não desistam, vocês são capazes! 💪',
       category: 'Amamentação',
-      tags: ['primeira viagem', 'amamentação', 'dicas']
+      tags: ['primeira viagem', 'amamentação', 'dicas'],
     },
     engagement: {
       likes: 89,
       comments: 23,
       shares: 15,
-      views: 456
+      views: 456,
     },
     timestamp: '4 horas atrás',
     isLiked: true,
@@ -194,12 +197,20 @@ const mockPosts: CommunityPost[] = [
       id: '2',
       name: 'Amamentação & Cuidados',
       type: 'verified',
-      memberCount: 8932
-    }
-  }
+      memberCount: 8932,
+    },
+  },
 ];
 
-const categories = ['Todos', 'Gravidez', 'Amamentação', 'Pós-Parto', 'Saúde', 'Exercícios', 'Emocional'];
+const categories = [
+  'Todos',
+  'Gravidez',
+  'Amamentação',
+  'Pós-Parto',
+  'Saúde',
+  'Exercícios',
+  'Emocional',
+];
 const sortOptions = ['Mais recentes', 'Mais populares', 'Mais comentados', 'Mais curtidos'];
 
 export const EnhancedCommunityForum: React.FC = () => {
@@ -211,49 +222,55 @@ export const EnhancedCommunityForum: React.FC = () => {
   const [posts, setPosts] = useState<CommunityPost[]>(mockPosts);
   const [groups, setGroups] = useState<CommunityGroup[]>(mockGroups);
 
-  const filteredPosts = posts.filter(post => {
+  const filteredPosts = posts.filter((post) => {
     const matchesGroup = selectedGroup === 'all' || post.group?.id === selectedGroup;
-    const matchesCategory = selectedCategory === 'Todos' || post.content.category === selectedCategory;
-    const matchesSearch = searchQuery === '' || 
+    const matchesCategory =
+      selectedCategory === 'Todos' || post.content.category === selectedCategory;
+    const matchesSearch =
+      searchQuery === '' ||
       post.content.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+      post.content.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return matchesGroup && matchesCategory && matchesSearch;
   });
 
   const handleLike = (postId: string) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
-        ? { 
-            ...post, 
-            isLiked: !post.isLiked,
-            engagement: {
-              ...post.engagement,
-              likes: post.isLiked ? post.engagement.likes - 1 : post.engagement.likes + 1
+    setPosts(
+      posts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              isLiked: !post.isLiked,
+              engagement: {
+                ...post.engagement,
+                likes: post.isLiked ? post.engagement.likes - 1 : post.engagement.likes + 1,
+              },
             }
-          }
-        : post
-    ));
+          : post
+      )
+    );
   };
 
   const handleBookmark = (postId: string) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
-        ? { ...post, isBookmarked: !post.isBookmarked }
-        : post
-    ));
+    setPosts(
+      posts.map((post) =>
+        post.id === postId ? { ...post, isBookmarked: !post.isBookmarked } : post
+      )
+    );
   };
 
   const handleJoinGroup = (groupId: string) => {
-    setGroups(groups.map(group => 
-      group.id === groupId 
-        ? { 
-            ...group, 
-            isJoined: !group.isJoined,
-            memberCount: group.isJoined ? group.memberCount - 1 : group.memberCount + 1
-          }
-        : group
-    ));
+    setGroups(
+      groups.map((group) =>
+        group.id === groupId
+          ? {
+              ...group,
+              isJoined: !group.isJoined,
+              memberCount: group.isJoined ? group.memberCount - 1 : group.memberCount + 1,
+            }
+          : group
+      )
+    );
   };
 
   const getGroupIcon = (type: string) => {
@@ -298,7 +315,10 @@ export const EnhancedCommunityForum: React.FC = () => {
       <div className="mb-6 space-y-4">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden="true" />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+            aria-hidden="true"
+          />
           <label htmlFor="community-search" className="sr-only">
             Buscar na comunidade
           </label>
@@ -318,7 +338,7 @@ export const EnhancedCommunityForum: React.FC = () => {
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center gap-2 px-4 py-2 bg-pink-100 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-xl hover:bg-pink-200 dark:hover:bg-pink-900/30 transition-colors"
-            aria-label={showFilters ? "Fechar filtros" : "Abrir filtros"}
+            aria-label={showFilters ? 'Fechar filtros' : 'Abrir filtros'}
           >
             <Filter className="w-4 h-4" />
             <span>Filtros</span>
@@ -355,7 +375,7 @@ export const EnhancedCommunityForum: React.FC = () => {
                     aria-label="Selecionar grupo"
                   >
                     <option value="all">Todos os grupos</option>
-                    {groups.map(group => (
+                    {groups.map((group) => (
                       <option key={group.id} value={group.id}>
                         {group.name}
                       </option>
@@ -374,7 +394,7 @@ export const EnhancedCommunityForum: React.FC = () => {
                     className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     aria-label="Selecionar categoria"
                   >
-                    {categories.map(category => (
+                    {categories.map((category) => (
                       <option key={category} value={category}>
                         {category}
                       </option>
@@ -393,7 +413,7 @@ export const EnhancedCommunityForum: React.FC = () => {
                     className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     aria-label="Ordenar posts"
                   >
-                    {sortOptions.map(option => (
+                    {sortOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
                       </option>
@@ -408,9 +428,7 @@ export const EnhancedCommunityForum: React.FC = () => {
 
       {/* Groups Section */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
-          Grupos Temáticos
-        </h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Grupos Temáticos</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {groups.map((group) => (
             <motion.div
@@ -421,15 +439,17 @@ export const EnhancedCommunityForum: React.FC = () => {
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${group.color} flex items-center justify-center text-2xl`}>
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${group.color} flex items-center justify-center text-2xl`}
+                  >
                     {group.icon}
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-800 dark:text-white">
-                      {group.name}
-                    </h3>
+                    <h3 className="font-bold text-gray-800 dark:text-white">{group.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getGroupColor(group.type)}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getGroupColor(group.type)}`}
+                      >
                         {getGroupIcon(group.type)}
                         <span className="ml-1 capitalize">{group.type}</span>
                       </span>
@@ -443,15 +463,15 @@ export const EnhancedCommunityForum: React.FC = () => {
                       ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                       : 'bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700'
                   }`}
-                  aria-label={group.isJoined ? `Sair do grupo ${group.name}` : `Entrar no grupo ${group.name}`}
+                  aria-label={
+                    group.isJoined ? `Sair do grupo ${group.name}` : `Entrar no grupo ${group.name}`
+                  }
                 >
                   {group.isJoined ? 'Sair' : 'Entrar'}
                 </button>
               </div>
 
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                {group.description}
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{group.description}</p>
 
               <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-4">
@@ -473,10 +493,8 @@ export const EnhancedCommunityForum: React.FC = () => {
 
       {/* Posts Feed */}
       <div className="space-y-6">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-          Posts Recentes
-        </h2>
-        
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">Posts Recentes</h2>
+
         {filteredPosts.map((post, index) => (
           <motion.article
             key={post.id}
@@ -508,9 +526,7 @@ export const EnhancedCommunityForum: React.FC = () => {
                     {post.group && (
                       <>
                         <span>•</span>
-                        <span className="text-pink-600 dark:text-pink-400">
-                          {post.group.name}
-                        </span>
+                        <span className="text-pink-600 dark:text-pink-400">{post.group.name}</span>
                       </>
                     )}
                   </div>
@@ -536,7 +552,7 @@ export const EnhancedCommunityForum: React.FC = () => {
               <p className="text-gray-800 dark:text-white leading-relaxed mb-3">
                 {post.content.text}
               </p>
-              
+
               {/* Tags */}
               <div className="flex flex-wrap gap-2">
                 {post.content.tags.map((tag) => (
@@ -567,8 +583,8 @@ export const EnhancedCommunityForum: React.FC = () => {
                 <button
                   onClick={() => handleLike(post.id)}
                   className={`flex items-center gap-2 transition-colors ${
-                    post.isLiked 
-                      ? 'text-pink-600 dark:text-pink-400' 
+                    post.isLiked
+                      ? 'text-pink-600 dark:text-pink-400'
                       : 'text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400'
                   }`}
                   aria-label={post.isLiked ? 'Descurtir post' : 'Curtir post'}
@@ -596,8 +612,8 @@ export const EnhancedCommunityForum: React.FC = () => {
               <button
                 onClick={() => handleBookmark(post.id)}
                 className={`p-2 rounded-full transition-colors ${
-                  post.isBookmarked 
-                    ? 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20' 
+                  post.isBookmarked
+                    ? 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20'
                     : 'text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/20'
                 }`}
                 aria-label={post.isBookmarked ? 'Remover dos salvos' : 'Salvar post'}

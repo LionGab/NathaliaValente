@@ -36,33 +36,48 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
-  const showToast = useCallback((toast: Omit<Toast, 'id'>) => {
-    const id = Math.random().toString(36).substring(7);
-    const newToast = { ...toast, id };
-    
-    setToasts((prev) => [...prev, newToast]);
+  const showToast = useCallback(
+    (toast: Omit<Toast, 'id'>) => {
+      const id = Math.random().toString(36).substring(7);
+      const newToast = { ...toast, id };
 
-    const duration = toast.duration || 3000;
-    setTimeout(() => {
-      removeToast(id);
-    }, duration);
-  }, [removeToast]);
+      setToasts((prev) => [...prev, newToast]);
 
-  const success = useCallback((title: string, message?: string) => {
-    showToast({ type: 'success', title, message });
-  }, [showToast]);
+      const duration = toast.duration || 3000;
+      setTimeout(() => {
+        removeToast(id);
+      }, duration);
+    },
+    [removeToast]
+  );
 
-  const error = useCallback((title: string, message?: string) => {
-    showToast({ type: 'error', title, message, duration: 5000 });
-  }, [showToast]);
+  const success = useCallback(
+    (title: string, message?: string) => {
+      showToast({ type: 'success', title, message });
+    },
+    [showToast]
+  );
 
-  const info = useCallback((title: string, message?: string) => {
-    showToast({ type: 'info', title, message });
-  }, [showToast]);
+  const error = useCallback(
+    (title: string, message?: string) => {
+      showToast({ type: 'error', title, message, duration: 5000 });
+    },
+    [showToast]
+  );
 
-  const warning = useCallback((title: string, message?: string) => {
-    showToast({ type: 'warning', title, message, duration: 4000 });
-  }, [showToast]);
+  const info = useCallback(
+    (title: string, message?: string) => {
+      showToast({ type: 'info', title, message });
+    },
+    [showToast]
+  );
+
+  const warning = useCallback(
+    (title: string, message?: string) => {
+      showToast({ type: 'warning', title, message, duration: 4000 });
+    },
+    [showToast]
+  );
 
   return (
     <ToastContext.Provider value={{ showToast, success, error, info, warning }}>
@@ -114,13 +129,9 @@ const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-0.5">{icons[toast.type]}</div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-gray-900 dark:text-white">
-            {toast.title}
-          </p>
+          <p className="text-sm font-semibold text-gray-900 dark:text-white">{toast.title}</p>
           {toast.message && (
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-              {toast.message}
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{toast.message}</p>
           )}
         </div>
         <button

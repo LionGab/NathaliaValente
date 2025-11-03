@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  Users, 
-  Video, 
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
+  Video,
   ExternalLink,
   Plus,
   Filter,
@@ -17,7 +17,7 @@ import {
   Share2,
   Bookmark,
   Bell,
-  BellOff
+  BellOff,
 } from 'lucide-react';
 
 interface Event {
@@ -54,7 +54,8 @@ const mockEvents: Event[] = [
   {
     id: '1',
     title: 'Workshop: Preparação para o Parto',
-    description: 'Aprenda técnicas de respiração, relaxamento e posições para o trabalho de parto com especialistas.',
+    description:
+      'Aprenda técnicas de respiração, relaxamento e posições para o trabalho de parto com especialistas.',
     date: new Date('2024-02-15'),
     time: '19:00',
     duration: 120,
@@ -66,7 +67,7 @@ const mockEvents: Event[] = [
     organizer: {
       name: 'Dr. Ana Costa',
       avatar: '/avatars/ana.jpg',
-      verified: true
+      verified: true,
     },
     tags: ['parto', 'preparação', 'respiração'],
     isBookmarked: false,
@@ -75,7 +76,7 @@ const mockEvents: Event[] = [
     price: 'free',
     image: '/images/workshop-parto.jpg',
     requirements: ['Cadastro prévio', 'Conexão com internet'],
-    materials: ['Roupas confortáveis', 'Água']
+    materials: ['Roupas confortáveis', 'Água'],
   },
   {
     id: '2',
@@ -92,7 +93,7 @@ const mockEvents: Event[] = [
     organizer: {
       name: 'Consultora Lactação',
       avatar: '/avatars/consultora.jpg',
-      verified: true
+      verified: true,
     },
     tags: ['amamentação', 'apoio', 'presencial'],
     isBookmarked: true,
@@ -100,12 +101,13 @@ const mockEvents: Event[] = [
     isRecurring: true,
     recurringPattern: 'weekly',
     price: 'free',
-    image: '/images/encontro-amamentacao.jpg'
+    image: '/images/encontro-amamentacao.jpg',
   },
   {
     id: '3',
     title: 'Curso Online: Nutrição na Gravidez',
-    description: 'Aprenda sobre alimentação saudável durante a gestação com nutricionista especializada.',
+    description:
+      'Aprenda sobre alimentação saudável durante a gestação com nutricionista especializada.',
     date: new Date('2024-02-20'),
     time: '20:00',
     duration: 60,
@@ -117,17 +119,17 @@ const mockEvents: Event[] = [
     organizer: {
       name: 'Nutricionista Carla',
       avatar: '/avatars/carla.jpg',
-      verified: true
+      verified: true,
     },
     tags: ['nutrição', 'gravidez', 'alimentação'],
     isBookmarked: false,
     isRegistered: false,
     isRecurring: false,
     price: 'paid',
-    priceValue: 29.90,
+    priceValue: 29.9,
     image: '/images/curso-nutricao.jpg',
-    requirements: ['Cadastro no site', 'Pagamento antecipado']
-  }
+    requirements: ['Cadastro no site', 'Pagamento antecipado'],
+  },
 ];
 
 const categories = ['Todos', 'Educação', 'Apoio', 'Exercícios', 'Saúde', 'Social'];
@@ -143,21 +145,20 @@ export const EventsCalendar: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [events, setEvents] = useState<Event[]>(mockEvents);
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = events.filter((event) => {
     const matchesCategory = selectedCategory === 'Todos' || event.category === selectedCategory;
     const matchesType = selectedType === 'Todos' || event.type === selectedType;
-    const matchesSearch = searchQuery === '' || 
+    const matchesSearch =
+      searchQuery === '' ||
       event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+      event.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return matchesCategory && matchesType && matchesSearch;
   });
 
   const getEventsForDate = (date: Date) => {
-    return filteredEvents.filter(event => 
-      event.date.toDateString() === date.toDateString()
-    );
+    return filteredEvents.filter((event) => event.date.toDateString() === date.toDateString());
   };
 
   const getDaysInMonth = (date: Date) => {
@@ -169,22 +170,22 @@ export const EventsCalendar: React.FC = () => {
     const startingDayOfWeek = firstDay.getDay();
 
     const days = [];
-    
+
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-    
+
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
-    
+
     return days;
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentDate(prev => {
+    setCurrentDate((prev) => {
       const newDate = new Date(prev);
       if (direction === 'prev') {
         newDate.setMonth(prev.getMonth() - 1);
@@ -196,16 +197,18 @@ export const EventsCalendar: React.FC = () => {
   };
 
   const handleEventAction = (eventId: string, action: 'bookmark' | 'register') => {
-    setEvents(events.map(event => {
-      if (event.id === eventId) {
-        if (action === 'bookmark') {
-          return { ...event, isBookmarked: !event.isBookmarked };
-        } else {
-          return { ...event, isRegistered: !event.isRegistered };
+    setEvents(
+      events.map((event) => {
+        if (event.id === eventId) {
+          if (action === 'bookmark') {
+            return { ...event, isBookmarked: !event.isBookmarked };
+          } else {
+            return { ...event, isRegistered: !event.isRegistered };
+          }
         }
-      }
-      return event;
-    }));
+        return event;
+      })
+    );
   };
 
   const formatDate = (date: Date) => {
@@ -213,7 +216,7 @@ export const EventsCalendar: React.FC = () => {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -248,8 +251,18 @@ export const EventsCalendar: React.FC = () => {
   };
 
   const monthNames = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
   ];
 
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -270,7 +283,10 @@ export const EventsCalendar: React.FC = () => {
       <div className="mb-6 space-y-4">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden="true" />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+            aria-hidden="true"
+          />
           <label htmlFor="events-search" className="sr-only">
             Buscar eventos
           </label>
@@ -291,7 +307,7 @@ export const EventsCalendar: React.FC = () => {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2 px-4 py-2 bg-pink-100 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-xl hover:bg-pink-200 dark:hover:bg-pink-900/30 transition-colors"
-              aria-label={showFilters ? "Fechar filtros" : "Abrir filtros"}
+              aria-label={showFilters ? 'Fechar filtros' : 'Abrir filtros'}
             >
               <Filter className="w-4 h-4" />
               <span>Filtros</span>
@@ -353,7 +369,7 @@ export const EventsCalendar: React.FC = () => {
                     className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     aria-label="Selecionar categoria"
                   >
-                    {categories.map(category => (
+                    {categories.map((category) => (
                       <option key={category} value={category}>
                         {category}
                       </option>
@@ -372,7 +388,7 @@ export const EventsCalendar: React.FC = () => {
                     className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     aria-label="Selecionar tipo de evento"
                   >
-                    {eventTypes.map(type => (
+                    {eventTypes.map((type) => (
                       <option key={type} value={type}>
                         {type}
                       </option>
@@ -419,8 +435,11 @@ export const EventsCalendar: React.FC = () => {
 
           {/* Calendar Grid */}
           <div className="grid grid-cols-7 gap-1 mb-4">
-            {weekDays.map(day => (
-              <div key={day} className="p-3 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
+            {weekDays.map((day) => (
+              <div
+                key={day}
+                className="p-3 text-center text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
                 {day}
               </div>
             ))}
@@ -440,24 +459,30 @@ export const EventsCalendar: React.FC = () => {
                 <motion.div
                   key={day.toISOString()}
                   className={`h-24 p-2 border border-gray-100 dark:border-gray-700 rounded-lg cursor-pointer transition-all ${
-                    isToday ? 'bg-pink-50 dark:bg-pink-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+                    isToday
+                      ? 'bg-pink-50 dark:bg-pink-900/20'
+                      : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                   } ${isSelected ? 'ring-2 ring-pink-500' : ''}`}
                   onClick={() => setSelectedDate(day)}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <div className={`text-sm font-medium mb-1 ${
-                    isToday ? 'text-pink-600 dark:text-pink-400' : 'text-gray-800 dark:text-white'
-                  }`}>
+                  <div
+                    className={`text-sm font-medium mb-1 ${
+                      isToday ? 'text-pink-600 dark:text-pink-400' : 'text-gray-800 dark:text-white'
+                    }`}
+                  >
                     {day.getDate()}
                   </div>
                   <div className="space-y-1">
-                    {dayEvents.slice(0, 2).map(event => (
+                    {dayEvents.slice(0, 2).map((event) => (
                       <div
                         key={event.id}
                         className={`text-xs px-2 py-1 rounded truncate ${
-                          event.type === 'online' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' :
-                          event.type === 'presencial' ? 'bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400' :
-                          'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                          event.type === 'online'
+                            ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                            : event.type === 'presencial'
+                              ? 'bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400'
+                              : 'bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
                         }`}
                       >
                         {event.title}
@@ -509,7 +534,9 @@ export const EventsCalendar: React.FC = () => {
                         {event.title}
                       </h3>
                       <div className="flex items-center gap-2 mb-2">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getEventTypeColor(event.type)}`}>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${getEventTypeColor(event.type)}`}
+                        >
                           {getEventTypeIcon(event.type)}
                           <span className="ml-1 capitalize">{event.type}</span>
                         </span>
@@ -527,13 +554,15 @@ export const EventsCalendar: React.FC = () => {
                       <button
                         onClick={() => handleEventAction(event.id, 'bookmark')}
                         className={`p-2 rounded-full transition-colors ${
-                          event.isBookmarked 
-                            ? 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20' 
+                          event.isBookmarked
+                            ? 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20'
                             : 'text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/20'
                         }`}
                         aria-label={event.isBookmarked ? 'Remover dos salvos' : 'Salvar evento'}
                       >
-                        <Bookmark className={`w-5 h-5 ${event.isBookmarked ? 'fill-current' : ''}`} />
+                        <Bookmark
+                          className={`w-5 h-5 ${event.isBookmarked ? 'fill-current' : ''}`}
+                        />
                       </button>
                       <button
                         onClick={() => handleEventAction(event.id, 'register')}
@@ -542,7 +571,9 @@ export const EventsCalendar: React.FC = () => {
                             ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                             : 'bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700'
                         }`}
-                        aria-label={event.isRegistered ? 'Cancelar inscrição' : 'Inscrever-se no evento'}
+                        aria-label={
+                          event.isRegistered ? 'Cancelar inscrição' : 'Inscrever-se no evento'
+                        }
                       >
                         {event.isRegistered ? 'Inscrito' : 'Inscrever-se'}
                       </button>
@@ -560,7 +591,9 @@ export const EventsCalendar: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4" />
-                      <span>{formatTime(event.time)} ({event.duration}min)</span>
+                      <span>
+                        {formatTime(event.time)} ({event.duration}min)
+                      </span>
                     </div>
                     {event.type === 'presencial' && event.location && (
                       <div className="flex items-center gap-2">
@@ -570,7 +603,9 @@ export const EventsCalendar: React.FC = () => {
                     )}
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4" />
-                      <span>{event.currentParticipants}/{event.maxParticipants || '∞'} participantes</span>
+                      <span>
+                        {event.currentParticipants}/{event.maxParticipants || '∞'} participantes
+                      </span>
                     </div>
                   </div>
 

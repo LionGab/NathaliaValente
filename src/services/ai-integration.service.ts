@@ -39,7 +39,7 @@ class AIIntegrationService {
           baseUrl: 'https://api.openai.com/v1',
           model: 'gpt-4',
           maxTokens: 2000,
-          temperature: 0.7
+          temperature: 0.7,
         },
         {
           name: 'anthropic',
@@ -47,7 +47,7 @@ class AIIntegrationService {
           baseUrl: 'https://api.anthropic.com/v1',
           model: 'claude-3-sonnet-20240229',
           maxTokens: 2000,
-          temperature: 0.7
+          temperature: 0.7,
         },
         {
           name: 'gemini',
@@ -55,7 +55,7 @@ class AIIntegrationService {
           baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
           model: 'gemini-pro',
           maxTokens: 2000,
-          temperature: 0.7
+          temperature: 0.7,
         },
         {
           name: 'perplexity',
@@ -63,16 +63,20 @@ class AIIntegrationService {
           baseUrl: 'https://api.perplexity.ai',
           model: 'llama-3.1-sonar-small-128k-online',
           maxTokens: 2000,
-          temperature: 0.7
-        }
+          temperature: 0.7,
+        },
       ],
       fallbackOrder: ['openai', 'anthropic', 'gemini', 'perplexity'],
       timeout: 30000,
-      retryAttempts: 2
+      retryAttempts: 2,
     };
   }
 
-  private async makeRequest(provider: AIProvider, prompt: string, context?: any): Promise<AIResponse> {
+  private async makeRequest(
+    provider: AIProvider,
+    prompt: string,
+    context?: any
+  ): Promise<AIResponse> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
@@ -87,24 +91,24 @@ class AIIntegrationService {
             messages: [
               {
                 role: 'system',
-                content: this.getSystemPrompt(context)
+                content: this.getSystemPrompt(context),
               },
               {
                 role: 'user',
-                content: prompt
-              }
+                content: prompt,
+              },
             ],
             max_tokens: provider.maxTokens,
-            temperature: provider.temperature
+            temperature: provider.temperature,
           };
           response = await fetch(`${provider.baseUrl}/chat/completions`, {
             method: 'POST',
             headers: {
-              'Authorization': `Bearer ${provider.apiKey}`,
-              'Content-Type': 'application/json'
+              Authorization: `Bearer ${provider.apiKey}`,
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestBody),
-            signal: controller.signal
+            signal: controller.signal,
           });
           break;
 
@@ -116,19 +120,19 @@ class AIIntegrationService {
             messages: [
               {
                 role: 'user',
-                content: `${this.getSystemPrompt(context)}\n\n${prompt}`
-              }
-            ]
+                content: `${this.getSystemPrompt(context)}\n\n${prompt}`,
+              },
+            ],
           };
           response = await fetch(`${provider.baseUrl}/messages`, {
-      method: 'POST',
-      headers: {
+            method: 'POST',
+            headers: {
               'x-api-key': provider.apiKey,
-        'Content-Type': 'application/json',
-              'anthropic-version': '2023-06-01'
+              'Content-Type': 'application/json',
+              'anthropic-version': '2023-06-01',
             },
             body: JSON.stringify(requestBody),
-            signal: controller.signal
+            signal: controller.signal,
           });
           break;
 
@@ -138,50 +142,53 @@ class AIIntegrationService {
               {
                 parts: [
                   {
-                    text: `${this.getSystemPrompt(context)}\n\n${prompt}`
-                  }
-                ]
-              }
+                    text: `${this.getSystemPrompt(context)}\n\n${prompt}`,
+                  },
+                ],
+              },
             ],
             generationConfig: {
               maxOutputTokens: provider.maxTokens,
-              temperature: provider.temperature
-            }
-          };
-          response = await fetch(`${provider.baseUrl}/models/${provider.model}:generateContent?key=${provider.apiKey}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
+              temperature: provider.temperature,
             },
-            body: JSON.stringify(requestBody),
-            signal: controller.signal
-          });
+          };
+          response = await fetch(
+            `${provider.baseUrl}/models/${provider.model}:generateContent?key=${provider.apiKey}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody),
+              signal: controller.signal,
+            }
+          );
           break;
 
         case 'perplexity':
           requestBody = {
             model: provider.model,
-        messages: [
+            messages: [
               {
                 role: 'system',
-                content: this.getSystemPrompt(context)
+                content: this.getSystemPrompt(context),
               },
               {
                 role: 'user',
-                content: prompt
-              }
+                content: prompt,
+              },
             ],
             max_tokens: provider.maxTokens,
-            temperature: provider.temperature
+            temperature: provider.temperature,
           };
           response = await fetch(`${provider.baseUrl}/chat/completions`, {
             method: 'POST',
             headers: {
-              'Authorization': `Bearer ${provider.apiKey}`,
-              'Content-Type': 'application/json'
+              Authorization: `Bearer ${provider.apiKey}`,
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestBody),
-            signal: controller.signal
+            signal: controller.signal,
           });
           break;
 
@@ -191,13 +198,12 @@ class AIIntegrationService {
 
       clearTimeout(timeoutId);
 
-    if (!response.ok) {
+      if (!response.ok) {
         throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-    }
+      }
 
-    const data = await response.json();
+      const data = await response.json();
       return this.parseResponse(data, provider.name, provider.model);
-
     } catch (error) {
       clearTimeout(timeoutId);
       throw error;
@@ -211,22 +217,22 @@ class AIIntegrationService {
           content: data.choices[0]?.message?.content || '',
           provider,
           model,
-          usage: data.usage
+          usage: data.usage,
         };
 
       case 'anthropic':
         return {
           content: data.content[0]?.text || '',
           provider,
-        model,
-          usage: data.usage
+          model,
+          usage: data.usage,
         };
 
       case 'gemini':
         return {
           content: data.candidates[0]?.content?.parts[0]?.text || '',
           provider,
-          model
+          model,
         };
 
       case 'perplexity':
@@ -234,15 +240,15 @@ class AIIntegrationService {
           content: data.choices[0]?.message?.content || '',
           provider,
           model,
-          usage: data.usage
+          usage: data.usage,
         };
 
       default:
-    return {
+        return {
           content: '',
           provider,
           model,
-          error: 'Unknown provider'
+          error: 'Unknown provider',
         };
     }
   }
@@ -263,30 +269,35 @@ CONTEXTO DO USUÁRIO:`;
 
     if (context) {
       const contextInfo = [];
-      if (context.gestationalWeek) contextInfo.push(`Semana gestacional: ${context.gestationalWeek}`);
+      if (context.gestationalWeek)
+        contextInfo.push(`Semana gestacional: ${context.gestationalWeek}`);
       if (context.trimester) contextInfo.push(`Trimestre: ${context.trimester}`);
       if (context.babyAge) contextInfo.push(`Idade do bebê: ${context.babyAge}`);
       if (context.preferences) contextInfo.push(`Preferências: ${context.preferences}`);
-      
+
       return `${basePrompt}\n${contextInfo.join('\n')}\n\nResponda de forma personalizada e acolhedora.`;
     }
 
     return basePrompt;
   }
 
-  async generateResponse(prompt: string, context?: any, preferredProvider?: string): Promise<AIResponse> {
-    const providers = preferredProvider 
-      ? this.config.providers.filter(p => p.name === preferredProvider)
+  async generateResponse(
+    prompt: string,
+    context?: any,
+    preferredProvider?: string
+  ): Promise<AIResponse> {
+    const providers = preferredProvider
+      ? this.config.providers.filter((p) => p.name === preferredProvider)
       : this.config.providers;
 
-    const fallbackProviders = preferredProvider 
-      ? [...this.config.fallbackOrder.filter(p => p !== preferredProvider), preferredProvider]
+    const fallbackProviders = preferredProvider
+      ? [...this.config.fallbackOrder.filter((p) => p !== preferredProvider), preferredProvider]
       : this.config.fallbackOrder;
 
     let lastError: Error | null = null;
 
     for (const providerName of fallbackProviders) {
-      const provider = providers.find(p => p.name === providerName);
+      const provider = providers.find((p) => p.name === providerName);
       if (!provider) continue;
 
       for (let attempt = 0; attempt < this.config.retryAttempts; attempt++) {
@@ -298,9 +309,9 @@ CONTEXTO DO USUÁRIO:`;
         } catch (error) {
           lastError = error as Error;
           console.warn(`Attempt ${attempt + 1} failed for ${provider.name}:`, error);
-          
+
           if (attempt < this.config.retryAttempts - 1) {
-            await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+            await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
           }
         }
       }
@@ -314,7 +325,7 @@ CONTEXTO DO USUÁRIO:`;
     const context = {
       gestationalWeek: week,
       trimester: Math.ceil(week / 13),
-      preferences: 'gravidez'
+      preferences: 'gravidez',
     };
 
     return this.generateResponse(question, context, 'anthropic');
@@ -323,7 +334,7 @@ CONTEXTO DO USUÁRIO:`;
   async getPostpartumSupport(question: string, babyAge?: string): Promise<AIResponse> {
     const context = {
       babyAge,
-      preferences: 'pós-parto'
+      preferences: 'pós-parto',
     };
 
     return this.generateResponse(question, context, 'openai');
@@ -357,7 +368,7 @@ CONTEXTO DO USUÁRIO:`;
     const context = {
       gestationalWeek: week,
       trimester: Math.ceil(week / 13),
-      preferences: 'exercícios'
+      preferences: 'exercícios',
     };
 
     const prompt = `Recomendações de exercícios seguros para gestante de ${week} semanas: ${question}. 
@@ -369,7 +380,7 @@ CONTEXTO DO USUÁRIO:`;
   async getSleepAdvice(question: string, babyAge?: string): Promise<AIResponse> {
     const context = {
       babyAge,
-      preferences: 'sono'
+      preferences: 'sono',
     };
 
     const prompt = `Conselhos sobre sono: ${question}. 
@@ -379,7 +390,9 @@ CONTEXTO DO USUÁRIO:`;
   }
 
   // Método para análise de sentimento
-  async analyzeMood(message: string): Promise<{ mood: string; confidence: number; suggestions: string[] }> {
+  async analyzeMood(
+    message: string
+  ): Promise<{ mood: string; confidence: number; suggestions: string[] }> {
     const prompt = `Analise o estado emocional desta mensagem de uma mãe: "${message}". 
     Responda em JSON com: mood (positivo/neutro/negativo), confidence (0-1), suggestions (array de sugestões).`;
 
@@ -389,10 +402,10 @@ CONTEXTO DO USUÁRIO:`;
       return analysis;
     } catch (error) {
       console.error('Error analyzing mood:', error);
-    return {
+      return {
         mood: 'neutro',
         confidence: 0.5,
-        suggestions: ['Considere conversar com um profissional de saúde mental']
+        suggestions: ['Considere conversar com um profissional de saúde mental'],
       };
     }
   }

@@ -3,9 +3,21 @@
 // Sistema de Estudos Bíblicos Personalizados
 // =====================================================
 
-export type StudyCategory = 'maternity' | 'postpartum' | 'parenting' | 'self-care' | 'relationships' | 'faith';
+export type StudyCategory =
+  | 'maternity'
+  | 'postpartum'
+  | 'parenting'
+  | 'self-care'
+  | 'relationships'
+  | 'faith';
 export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
-export type MoodType = 'grateful' | 'struggling' | 'hopeful' | 'overwhelmed' | 'peaceful' | 'anxious';
+export type MoodType =
+  | 'grateful'
+  | 'struggling'
+  | 'hopeful'
+  | 'overwhelmed'
+  | 'peaceful'
+  | 'anxious';
 
 export interface BibleStudy {
   id: string;
@@ -124,22 +136,22 @@ export interface BibleStudyService {
   getBibleStudies: (filters?: BibleStudyFilters) => Promise<BibleStudy[]>;
   getBibleStudyById: (id: string) => Promise<BibleStudy>;
   getDailyStudy: (userId: string, day?: number) => Promise<DailyStudyResult>;
-  
+
   // Progresso
   getUserProgress: (userId: string) => Promise<UserBibleProgress[]>;
   updateProgress: (data: UpdateProgressData) => Promise<UserBibleProgress>;
   getStudyStreak: (userId: string) => Promise<number>;
-  
+
   // Planos
   getStudyPlans: (category?: StudyCategory) => Promise<StudyPlan[]>;
   enrollInPlan: (userId: string, planId: string) => Promise<UserStudyPlan>;
   getUserPlans: (userId: string) => Promise<UserStudyPlan[]>;
-  
+
   // Versículos Favoritos
   getFavoriteVerses: (userId: string) => Promise<FavoriteVerse[]>;
   addFavoriteVerse: (data: CreateFavoriteVerseData) => Promise<FavoriteVerse>;
   removeFavoriteVerse: (id: string) => Promise<void>;
-  
+
   // Reflexões
   getDailyReflections: (userId: string, limit?: number) => Promise<DailyReflection[]>;
   createReflection: (data: CreateReflectionData) => Promise<DailyReflection>;
@@ -222,13 +234,13 @@ export const STUDY_CATEGORIES: Record<StudyCategory, string> = {
   parenting: 'Criação de Filhos',
   'self-care': 'Autocuidado',
   relationships: 'Relacionamentos',
-  faith: 'Fé e Espiritualidade'
+  faith: 'Fé e Espiritualidade',
 };
 
 export const DIFFICULTY_LEVELS: Record<DifficultyLevel, string> = {
   beginner: 'Iniciante',
   intermediate: 'Intermediário',
-  advanced: 'Avançado'
+  advanced: 'Avançado',
 };
 
 export const MOOD_TYPES: Record<MoodType, string> = {
@@ -237,7 +249,7 @@ export const MOOD_TYPES: Record<MoodType, string> = {
   hopeful: 'Esperançosa',
   overwhelmed: 'Sobrecarregada',
   peaceful: 'Pacífica',
-  anxious: 'Ansiosa'
+  anxious: 'Ansiosa',
 };
 
 export const MOOD_EMOJIS: Record<MoodType, string> = {
@@ -246,7 +258,7 @@ export const MOOD_EMOJIS: Record<MoodType, string> = {
   hopeful: '✨',
   overwhelmed: '😰',
   peaceful: '😌',
-  anxious: '😟'
+  anxious: '😟',
 };
 
 export const STUDY_CATEGORY_EMOJIS: Record<StudyCategory, string> = {
@@ -255,13 +267,13 @@ export const STUDY_CATEGORY_EMOJIS: Record<StudyCategory, string> = {
   parenting: '👨‍👩‍👧‍👦',
   'self-care': '💆‍♀️',
   relationships: '💕',
-  faith: '⛪'
+  faith: '⛪',
 };
 
 export const DIFFICULTY_COLORS: Record<DifficultyLevel, string> = {
   beginner: 'green',
   intermediate: 'yellow',
-  advanced: 'red'
+  advanced: 'red',
 };
 
 // =====================================================
@@ -296,7 +308,7 @@ export const getMoodColor = (mood: MoodType): string => {
     hopeful: 'text-blue-600 bg-blue-100',
     overwhelmed: 'text-red-600 bg-red-100',
     peaceful: 'text-purple-600 bg-purple-100',
-    anxious: 'text-yellow-600 bg-yellow-100'
+    anxious: 'text-yellow-600 bg-yellow-100',
   };
   return colors[mood];
 };
@@ -308,7 +320,7 @@ export const getCategoryColor = (category: StudyCategory): string => {
     parenting: 'text-blue-600 bg-blue-100',
     'self-care': 'text-green-600 bg-green-100',
     relationships: 'text-red-600 bg-red-100',
-    faith: 'text-indigo-600 bg-indigo-100'
+    faith: 'text-indigo-600 bg-indigo-100',
   };
   return colors[category];
 };
@@ -317,7 +329,7 @@ export const getDifficultyColor = (difficulty: DifficultyLevel): string => {
   const colors = {
     beginner: 'text-green-600 bg-green-100',
     intermediate: 'text-yellow-600 bg-yellow-100',
-    advanced: 'text-red-600 bg-red-100'
+    advanced: 'text-red-600 bg-red-100',
   };
   return colors[difficulty];
 };
@@ -327,37 +339,38 @@ export const generateStudyEncouragement = (streakDays: number, mood: MoodType): 
     grateful: [
       'Que lindo ver sua gratidão! Continue cultivando esse coração agradecido.',
       'Sua gratidão é um presente para todos ao seu redor.',
-      'Deus se alegra com seu coração grato!'
+      'Deus se alegra com seu coração grato!',
     ],
     struggling: [
       'Você é mais forte do que imagina. Cada dia é uma vitória.',
       'Lutar não é fraqueza - é coragem em ação.',
-      'Deus está com você em cada batalha.'
+      'Deus está com você em cada batalha.',
     ],
     hopeful: [
       'Sua esperança é um farol para outros!',
       'Que lindo ver sua fé brilhando!',
-      'A esperança nunca decepciona quando está em Deus.'
+      'A esperança nunca decepciona quando está em Deus.',
     ],
     overwhelmed: [
       'Respire fundo. Você não precisa carregar tudo sozinha.',
       'Um passo de cada vez. Você vai conseguir.',
-      'Deus te dá força para cada momento.'
+      'Deus te dá força para cada momento.',
     ],
     peaceful: [
       'Que benção ver sua paz interior!',
       'Sua tranquilidade é um presente para sua família.',
-      'A paz de Deus está guardando seu coração.'
+      'A paz de Deus está guardando seu coração.',
     ],
     anxious: [
       'Deus cuida de você. Confie no processo.',
       'A ansiedade não define quem você é.',
-      'Você está nas mãos de quem te ama infinitamente.'
-    ]
+      'Você está nas mãos de quem te ama infinitamente.',
+    ],
   };
 
   const moodEncouragements = encouragements[mood];
-  const randomEncouragement = moodEncouragements[Math.floor(Math.random() * moodEncouragements.length)];
+  const randomEncouragement =
+    moodEncouragements[Math.floor(Math.random() * moodEncouragements.length)];
 
   if (streakDays > 0) {
     return `${randomEncouragement} E que lindo ver sua dedicação de ${streakDays} dias seguidos!`;
@@ -373,7 +386,7 @@ export const getStudyRecommendation = (mood: MoodType, category?: StudyCategory)
     hopeful: 'Vamos explorar a esperança e os planos de Deus?',
     overwhelmed: 'Que tal focar em descanso e paz interior?',
     peaceful: 'Que lindo momento para estudar sobre a paz de Deus!',
-    anxious: 'Vamos trabalhar juntas na ansiedade e confiança?'
+    anxious: 'Vamos trabalhar juntas na ansiedade e confiança?',
   };
 
   return recommendations[mood];
@@ -383,11 +396,11 @@ export const formatStudyDate = (dateString: string): string => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-  
+
   if (diffInDays === 0) return 'Hoje';
   if (diffInDays === 1) return 'Ontem';
   if (diffInDays < 7) return `${diffInDays} dias atrás`;
-  
+
   return date.toLocaleDateString('pt-BR');
 };
 
@@ -403,22 +416,25 @@ export const getRatingStars = (rating: number): string => {
   return '★'.repeat(rating) + '☆'.repeat(5 - rating);
 };
 
-export const calculateStudyStats = (progress: UserBibleProgress[]): {
+export const calculateStudyStats = (
+  progress: UserBibleProgress[]
+): {
   totalStudies: number;
   totalTime: number;
   averageRating: number;
   completionRate: number;
 } => {
-  const completed = progress.filter(p => p.completed_at);
+  const completed = progress.filter((p) => p.completed_at);
   const totalTime = progress.reduce((sum, p) => sum + p.time_spent, 0);
-  const ratings = progress.filter(p => p.rating).map(p => p.rating!);
-  const averageRating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : 0;
+  const ratings = progress.filter((p) => p.rating).map((p) => p.rating!);
+  const averageRating =
+    ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : 0;
   const completionRate = progress.length > 0 ? (completed.length / progress.length) * 100 : 0;
 
   return {
     totalStudies: completed.length,
     totalTime,
     averageRating: Math.round(averageRating * 10) / 10,
-    completionRate: Math.round(completionRate)
+    completionRate: Math.round(completionRate),
   };
 };

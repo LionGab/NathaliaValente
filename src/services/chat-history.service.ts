@@ -15,7 +15,7 @@ import type {
   UpdateMemoryPreferencesData,
   NathIAPrompt,
   NathIAResponse,
-  ChatHistoryService
+  ChatHistoryService,
 } from '../types/chat-history';
 import {
   NATHIA_PERSONALITY,
@@ -23,7 +23,7 @@ import {
   buildContextSummary,
   generateGreeting,
   getTopicsFromMessages,
-  getMoodIndicators
+  getMoodIndicators,
 } from '../types/chat-history';
 
 // =====================================================
@@ -36,15 +36,7 @@ export const chatHistoryService: ChatHistoryService = {
   // =====================================================
 
   async getChatHistory(filters: ChatHistoryFilters): Promise<ChatMessage[]> {
-    const {
-      user_id,
-      session_id,
-      sender,
-      limit = 50,
-      offset = 0,
-      start_date,
-      end_date
-    } = filters;
+    const { user_id, session_id, sender, limit = 50, offset = 0, start_date, end_date } = filters;
 
     let queryBuilder = supabase
       .from('chat_history')
@@ -89,7 +81,7 @@ export const chatHistoryService: ChatHistoryService = {
       .insert({
         ...data,
         user_id: user.user.id,
-        session_id: data.session_id || crypto.randomUUID()
+        session_id: data.session_id || crypto.randomUUID(),
       })
       .select('*')
       .single();
@@ -107,7 +99,7 @@ export const chatHistoryService: ChatHistoryService = {
       .from('chat_history')
       .update({
         ...data,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', id)
       .select('*')
@@ -122,10 +114,7 @@ export const chatHistoryService: ChatHistoryService = {
   },
 
   async deleteChatMessage(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('chat_history')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('chat_history').delete().eq('id', id);
 
     if (error) {
       console.error('Error deleting chat message:', error);
@@ -134,10 +123,7 @@ export const chatHistoryService: ChatHistoryService = {
   },
 
   async clearChatHistory(userId: string, sessionId?: string): Promise<void> {
-    let queryBuilder = supabase
-      .from('chat_history')
-      .delete()
-      .eq('user_id', userId);
+    let queryBuilder = supabase.from('chat_history').delete().eq('user_id', userId);
 
     if (sessionId) {
       queryBuilder = queryBuilder.eq('session_id', sessionId);
@@ -180,7 +166,7 @@ export const chatHistoryService: ChatHistoryService = {
       .from('chat_summaries')
       .insert({
         ...data,
-        user_id: user.user.id
+        user_id: user.user.id,
       })
       .select('*')
       .single();
@@ -210,10 +196,7 @@ export const chatHistoryService: ChatHistoryService = {
   },
 
   async deleteChatSummary(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('chat_summaries')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('chat_summaries').delete().eq('id', id);
 
     if (error) {
       console.error('Error deleting chat summary:', error);
@@ -232,7 +215,8 @@ export const chatHistoryService: ChatHistoryService = {
       .eq('user_id', userId)
       .single();
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = no rows returned
       console.error('Error fetching memory preferences:', error);
       throw new Error('Erro ao buscar preferências');
     }
@@ -245,13 +229,16 @@ export const chatHistoryService: ChatHistoryService = {
     return data;
   },
 
-  async updateMemoryPreferences(userId: string, data: UpdateMemoryPreferencesData): Promise<MemoryPreferences> {
+  async updateMemoryPreferences(
+    userId: string,
+    data: UpdateMemoryPreferencesData
+  ): Promise<MemoryPreferences> {
     const { data: preferences, error } = await supabase
       .from('memory_preferences')
       .upsert({
         user_id: userId,
         ...data,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select('*')
       .single();
@@ -271,7 +258,7 @@ export const chatHistoryService: ChatHistoryService = {
   async getChatContext(userId: string): Promise<ChatContext> {
     // Usar a função SQL para obter contexto completo
     const { data, error } = await supabase.rpc('get_chat_context_for_ai', {
-      p_user_id: userId
+      p_user_id: userId,
     });
 
     if (error) {
@@ -310,8 +297,8 @@ export const chatHistoryService: ChatHistoryService = {
         topics,
         mood_indicators: moodIndicators,
         has_memory: useMemory,
-        last_interaction: recent_messages[0]?.created_at
-      }
+        last_interaction: recent_messages[0]?.created_at,
+      },
     };
   },
 
@@ -327,15 +314,15 @@ export const chatHistoryService: ChatHistoryService = {
     } else {
       // CSV format
       const headers = ['Data', 'Remetente', 'Mensagem', 'Tipo'];
-      const rows = messages.map(msg => [
+      const rows = messages.map((msg) => [
         new Date(msg.created_at).toLocaleString('pt-BR'),
         msg.sender === 'user' ? 'Usuária' : 'NathIA',
         msg.message.replace(/"/g, '""'), // Escape quotes
-        msg.message_type
+        msg.message_type,
       ]);
 
       const csvContent = [headers, ...rows]
-        .map(row => row.map(cell => `"${cell}"`).join(','))
+        .map((row) => row.map((cell) => `"${cell}"`).join(','))
         .join('\n');
 
       return csvContent;
@@ -350,7 +337,6 @@ export const chatHistoryService: ChatHistoryService = {
       throw new Error('Erro ao limpar histórico antigo');
     }
   },
-
 };
 
 // =====================================================
@@ -362,7 +348,7 @@ async function createDefaultMemoryPreferences(userId: string): Promise<MemoryPre
     .from('memory_preferences')
     .insert({
       user_id: userId,
-      ...DEFAULT_MEMORY_PREFERENCES
+      ...DEFAULT_MEMORY_PREFERENCES,
     })
     .select('*')
     .single();
@@ -394,14 +380,17 @@ DIRETRIZES:
 - Encoraje a buscar ajuda profissional quando necessário`;
 
   if (useMemory) {
-    return basePrompt + `
+    return (
+      basePrompt +
+      `
 
 MEMÓRIA:
 - Você tem acesso ao histórico de conversas anteriores
 - Reconheça se já conversou com esta mãe antes
 - Faça referências ao que foi discutido anteriormente
 - Personalize suas respostas baseadas no contexto
-- Seja consistente com informações já compartilhadas`;
+- Seja consistente com informações já compartilhadas`
+    );
   }
 
   return basePrompt;
@@ -412,10 +401,12 @@ function buildRecentMessagesText(messages: ChatMessage[]): string {
 
   const recentMessages = messages.slice(0, 10).reverse(); // Últimas 10, em ordem cronológica
 
-  return recentMessages.map(msg => {
-    const sender = msg.sender === 'user' ? 'Usuária' : 'NathIA';
-    return `${sender}: ${msg.message}`;
-  }).join('\n');
+  return recentMessages
+    .map((msg) => {
+      const sender = msg.sender === 'user' ? 'Usuária' : 'NathIA';
+      return `${sender}: ${msg.message}`;
+    })
+    .join('\n');
 }
 
 // =====================================================
@@ -443,7 +434,7 @@ export const generateNathIAResponse = async (
       session_id: sessionId,
       message: userMessage,
       sender: 'user',
-      message_type: 'text'
+      message_type: 'text',
     });
 
     await chatHistoryService.createChatMessage({
@@ -454,8 +445,8 @@ export const generateNathIAResponse = async (
       metadata: {
         model: 'claude-3-5-sonnet',
         tokens_used: response.metadata?.tokens_used,
-        context_used: prompt.context_summary.length > 0
-      }
+        context_used: prompt.context_summary.length > 0,
+      },
     });
 
     // Criar resumo se necessário
@@ -469,16 +460,17 @@ export const generateNathIAResponse = async (
       topics_detected: prompt.user_context?.topics || [],
       mood_indicators: prompt.user_context?.mood_indicators || {},
       session_id: sessionId,
-      metadata: response.metadata || {}
+      metadata: response.metadata || {},
     };
-
   } catch (error) {
     console.error('Error generating NathIA response:', error);
     throw new Error('Erro ao gerar resposta do NathIA');
   }
 };
 
-const callClaudeAPI = async (prompt: NathIAPrompt): Promise<{ message: string; metadata?: any }> => {
+const callClaudeAPI = async (
+  prompt: NathIAPrompt
+): Promise<{ message: string; metadata?: any }> => {
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
 
   if (!apiKey) {
@@ -501,7 +493,7 @@ Responda com empatia e continuidade, considerando o contexto quando disponível.
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
+      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
@@ -509,10 +501,10 @@ Responda com empatia e continuidade, considerando o contexto quando disponível.
       messages: [
         {
           role: 'user',
-          content: fullPrompt
-        }
-      ]
-    })
+          content: fullPrompt,
+        },
+      ],
+    }),
   });
 
   if (!response.ok) {
@@ -525,8 +517,8 @@ Responda com empatia e continuidade, considerando o contexto quando disponível.
     message: data.content[0].text,
     metadata: {
       tokens_used: data.usage?.total_tokens,
-      model: data.model
-    }
+      model: data.model,
+    },
   };
 };
 
@@ -546,7 +538,7 @@ const createConversationSummary = async (
       session_id: sessionId,
       summary,
       topics,
-      mood_indicators: moodIndicators
+      mood_indicators: moodIndicators,
     });
   } catch (error) {
     console.error('Error creating conversation summary:', error);
@@ -561,21 +553,21 @@ const createConversationSummary = async (
 export const useChatHistory = (userId: string, sessionId?: string) => {
   return {
     queryKey: ['chat-history', userId, sessionId],
-    queryFn: () => chatHistoryService.getChatHistory({ user_id: userId, session_id: sessionId })
+    queryFn: () => chatHistoryService.getChatHistory({ user_id: userId, session_id: sessionId }),
   };
 };
 
 export const useChatContext = (userId: string) => {
   return {
     queryKey: ['chat-context', userId],
-    queryFn: () => chatHistoryService.getChatContext(userId)
+    queryFn: () => chatHistoryService.getChatContext(userId),
   };
 };
 
 export const useMemoryPreferences = (userId: string) => {
   return {
     queryKey: ['memory-preferences', userId],
-    queryFn: () => chatHistoryService.getMemoryPreferences(userId)
+    queryFn: () => chatHistoryService.getMemoryPreferences(userId),
   };
 };
 

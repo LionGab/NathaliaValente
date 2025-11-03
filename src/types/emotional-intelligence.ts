@@ -28,7 +28,13 @@ export type EmotionCategory =
   | 'reflective'
   | 'uncertain';
 
-export type NotificationTone = 'gentle' | 'balanced' | 'motivational' | 'calming' | 'warm' | 'enthusiastic';
+export type NotificationTone =
+  | 'gentle'
+  | 'balanced'
+  | 'motivational'
+  | 'calming'
+  | 'warm'
+  | 'enthusiastic';
 
 export type SupportLevel = 'none' | 'gentle_suggestion' | 'supportive_checkin' | 'direct_offer';
 

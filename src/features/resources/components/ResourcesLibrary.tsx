@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Search, 
-  Filter, 
-  BookOpen, 
-  Video, 
-  FileText, 
+import {
+  Search,
+  Filter,
+  BookOpen,
+  Video,
+  FileText,
   Heart,
   Clock,
   User,
   Star,
   ChevronDown,
-  X
+  X,
 } from 'lucide-react';
 
 interface Resource {
@@ -33,7 +33,8 @@ const mockResources: Resource[] = [
   {
     id: '1',
     title: 'Guia Completo da Amamentação',
-    description: 'Tudo que você precisa saber sobre amamentação, desde os primeiros dias até o desmame natural.',
+    description:
+      'Tudo que você precisa saber sobre amamentação, desde os primeiros dias até o desmame natural.',
     type: 'guide',
     category: 'Amamentação',
     author: 'Dr. Ana Costa',
@@ -41,7 +42,7 @@ const mockResources: Resource[] = [
     likes: 234,
     tags: ['amamentação', 'bebê', 'primeiros dias', 'dicas'],
     publishedAt: '2024-01-15',
-    featured: true
+    featured: true,
   },
   {
     id: '2',
@@ -54,7 +55,7 @@ const mockResources: Resource[] = [
     likes: 189,
     tags: ['exercícios', 'gravidez', 'saúde', 'bem-estar'],
     publishedAt: '2024-01-12',
-    featured: true
+    featured: true,
   },
   {
     id: '3',
@@ -66,7 +67,7 @@ const mockResources: Resource[] = [
     readTime: '12 min',
     likes: 156,
     tags: ['nutrição', 'gravidez', 'alimentação', 'suplementos'],
-    publishedAt: '2024-01-10'
+    publishedAt: '2024-01-10',
   },
   {
     id: '4',
@@ -78,7 +79,7 @@ const mockResources: Resource[] = [
     readTime: '6 min',
     likes: 298,
     tags: ['sono', 'bebê', 'rotina', 'dicas'],
-    publishedAt: '2024-01-08'
+    publishedAt: '2024-01-08',
   },
   {
     id: '5',
@@ -90,7 +91,7 @@ const mockResources: Resource[] = [
     readTime: '20 min',
     likes: 167,
     tags: ['parto', 'respiração', 'relaxamento', 'preparação'],
-    publishedAt: '2024-01-05'
+    publishedAt: '2024-01-05',
   },
   {
     id: '6',
@@ -102,8 +103,8 @@ const mockResources: Resource[] = [
     readTime: '18 min',
     likes: 203,
     tags: ['pós-parto', 'cuidados', 'recuperação', 'bebê'],
-    publishedAt: '2024-01-03'
-  }
+    publishedAt: '2024-01-03',
+  },
 ];
 
 const categories = ['Todos', 'Amamentação', 'Exercícios', 'Nutrição', 'Sono', 'Parto', 'Pós-Parto'];
@@ -116,19 +117,22 @@ export const ResourcesLibrary: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const filteredResources = useMemo(() => {
-    return mockResources.filter(resource => {
-      const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           resource.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      const matchesCategory = selectedCategory === 'Todos' || resource.category === selectedCategory;
-      
-      const matchesType = selectedType === 'Todos' || 
-                         (selectedType === 'Artigo' && resource.type === 'article') ||
-                         (selectedType === 'Vídeo' && resource.type === 'video') ||
-                         (selectedType === 'Guia' && resource.type === 'guide') ||
-                         (selectedType === 'Dica' && resource.type === 'tip');
-      
+    return mockResources.filter((resource) => {
+      const matchesSearch =
+        resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        resource.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      const matchesCategory =
+        selectedCategory === 'Todos' || resource.category === selectedCategory;
+
+      const matchesType =
+        selectedType === 'Todos' ||
+        (selectedType === 'Artigo' && resource.type === 'article') ||
+        (selectedType === 'Vídeo' && resource.type === 'video') ||
+        (selectedType === 'Guia' && resource.type === 'guide') ||
+        (selectedType === 'Dica' && resource.type === 'tip');
+
       return matchesSearch && matchesCategory && matchesType;
     });
   }, [searchQuery, selectedCategory, selectedType]);
@@ -179,7 +183,10 @@ export const ResourcesLibrary: React.FC = () => {
       <div className="mb-8 space-y-4">
         {/* Search Bar */}
         <div className="relative max-w-2xl mx-auto">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden="true" />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+            aria-hidden="true"
+          />
           <label htmlFor="search-resources" className="sr-only">
             Buscar recursos, dicas, artigos
           </label>
@@ -202,7 +209,9 @@ export const ResourcesLibrary: React.FC = () => {
           >
             <Filter className="w-5 h-5" />
             <span>Filtros</span>
-            <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`}
+            />
           </button>
         </div>
 
@@ -280,7 +289,8 @@ export const ResourcesLibrary: React.FC = () => {
       {/* Results Count */}
       <div className="mb-6">
         <p className="text-gray-600 dark:text-gray-400">
-          {filteredResources.length} recurso{filteredResources.length !== 1 ? 's' : ''} encontrado{filteredResources.length !== 1 ? 's' : ''}
+          {filteredResources.length} recurso{filteredResources.length !== 1 ? 's' : ''} encontrado
+          {filteredResources.length !== 1 ? 's' : ''}
         </p>
       </div>
 
@@ -305,16 +315,16 @@ export const ResourcesLibrary: React.FC = () => {
 
             {/* Image Placeholder */}
             <div className="h-48 bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 flex items-center justify-center">
-              <div className="text-6xl opacity-50">
-                {getTypeIcon(resource.type)}
-              </div>
+              <div className="text-6xl opacity-50">{getTypeIcon(resource.type)}</div>
             </div>
 
             {/* Content */}
             <div className="p-6">
               {/* Type and Category */}
               <div className="flex items-center gap-2 mb-3">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(resource.type)}`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(resource.type)}`}
+                >
                   {getTypeIcon(resource.type)}
                 </span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">

@@ -33,16 +33,17 @@ export async function createPost(data: {
 
   try {
     const result = await supabaseWithRetry(
-      () => supabase
-        .from('posts')
-        .insert({
-          user_id: data.userId,
-          caption: data.caption,
-          category: data.category,
-          image_url: data.imageUrl,
-        })
-        .select()
-        .single(),
+      () =>
+        supabase
+          .from('posts')
+          .insert({
+            user_id: data.userId,
+            caption: data.caption,
+            category: data.category,
+            image_url: data.imageUrl,
+          })
+          .select()
+          .single(),
       { feature: 'posts', retries: 2 }
     );
 
@@ -74,11 +75,7 @@ export async function deletePost(
   userId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { error } = await supabase
-      .from('posts')
-      .delete()
-      .eq('id', postId)
-      .eq('user_id', userId);
+    const { error } = await supabase.from('posts').delete().eq('id', postId).eq('user_id', userId);
 
     if (error) throw error;
 
@@ -132,7 +129,11 @@ export async function uploadPostImage(
 }> {
   try {
     // Smart compress image before upload (only if needed)
-    const { file: compressedFile, compressed, stats } = await smartCompressImage(file, {
+    const {
+      file: compressedFile,
+      compressed,
+      stats,
+    } = await smartCompressImage(file, {
       maxWidth: 1920,
       maxHeight: 1080,
       quality: 0.85,
@@ -171,9 +172,7 @@ export async function uploadPostImage(
 /**
  * Add Nathy Badge to a post
  */
-export async function addNathyBadge(
-  postId: string
-): Promise<{ success: boolean; error?: string }> {
+export async function addNathyBadge(postId: string): Promise<{ success: boolean; error?: string }> {
   try {
     const { error } = await supabase.from('nathy_badges').insert({
       post_id: postId,

@@ -48,11 +48,6 @@ export interface ProductReview {
   helpful: number;
 }
 
-export type ProductCategory =
-  | 'bikinis'
-  | 'leggings'
-  | 'acessorios'
-  | 'colecoes'
-  | 'novidades';
+export type ProductCategory = 'bikinis' | 'leggings' | 'acessorios' | 'colecoes' | 'novidades';
 
 export type ProductBrand = 'NAVA' | 'OLLIN';

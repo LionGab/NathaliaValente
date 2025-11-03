@@ -12,12 +12,12 @@ export const useHapticFeedback = () => {
         heavy: [50],
         success: [20, 10, 20],
         warning: [30, 20, 30],
-        error: [50, 20, 50, 20, 50]
+        error: [50, 20, 50, 20, 50],
       };
-      
+
       navigator.vibrate(patterns[type]);
     }
-    
+
     // Fallback para dispositivos sem vibração
     if (!('vibrate' in navigator)) {
       // Simular feedback visual
@@ -40,6 +40,6 @@ export const useHapticFeedback = () => {
     triggerWarning,
     triggerError,
     triggerLight,
-    triggerHeavy
+    triggerHeavy,
   };
 };

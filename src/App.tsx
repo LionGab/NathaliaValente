@@ -22,10 +22,13 @@ import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
 import { useSupabaseNotifications } from './hooks/useSupabaseNotifications';
-import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/EssenceOnboardingContext';
+import {
+  EssenceOnboardingProvider,
+  useEssenceOnboarding,
+} from './contexts/EssenceOnboardingContext';
 import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 import { FeedbackButton } from './components/FeedbackButton';
-import { performanceMonitor, trackPageLoad } from './lib/performance';
+import { trackPageLoad } from './lib/performance';
 
 // Import direto para evitar problemas de lazy loading
 import HomePage from './features/home/screens/HomePageSimple';
@@ -157,17 +160,6 @@ function AppContent() {
   // Show main app
   if (authState === 'app' && user) {
     const renderPage = () => {
-      const LoadingSpinner = () => (
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="flex flex-col items-center gap-4">
-            <div className="spinner-modern w-12 h-12"></div>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 animate-pulse">
-              Carregando...
-            </p>
-          </div>
-        </div>
-      );
-
       switch (currentPage) {
         case 'home':
           trackPageLoad('home');
@@ -223,7 +215,6 @@ function AppContent() {
         </div>
 
         <div className="relative z-10">
-
           {/* Header removido - cada página tem seu próprio header */}
 
           <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
@@ -260,13 +251,10 @@ function AppContent() {
           <NotificationContainer notifications={notifications} onClose={removeNotification} />
 
           {/* Botão de Feedback Maternal */}
-          <FeedbackButton
-            userWeek={user?.gestational_week || 0}
-            userId={user?.id}
-          />
+          <FeedbackButton userWeek={user?.gestational_week || 0} userId={user?.id} />
 
           {/* Toast Container */}
-          <ToastContainer toasts={[]} onClose={() => { }} />
+          <ToastContainer toasts={[]} onClose={() => {}} />
         </div>
       </div>
     );

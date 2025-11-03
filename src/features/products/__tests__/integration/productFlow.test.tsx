@@ -9,23 +9,21 @@ import { mockProducts } from '../../../../test/mocks/supabase';
 // Mock do productService
 vi.mock('../../services/productService', () => ({
   productService: {
-    getProducts: vi.fn()
-  }
+    getProducts: vi.fn(),
+  },
 }));
 
 const createTestWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { retry: false },
-      mutations: { retry: false }
-    }
+      mutations: { retry: false },
+    },
   });
 
   return ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        {children}
-      </CartProvider>
+      <CartProvider>{children}</CartProvider>
     </QueryClientProvider>
   );
 };

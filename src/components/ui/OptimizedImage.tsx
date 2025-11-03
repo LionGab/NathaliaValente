@@ -20,11 +20,11 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   className,
   width,
   height,
-  sizes = "(max-width: 768px) 100vw, 50vw",
+  sizes = '(max-width: 768px) 100vw, 50vw',
   priority = false,
   placeholder = 'empty',
   onLoad,
-  onError
+  onError,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -43,18 +43,13 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Gerar srcSet para diferentes tamanhos
   const generateSrcSet = (baseSrc: string) => {
     const sizes = [320, 640, 1024, 1280];
-    return sizes
-      .map(size => `${baseSrc}?w=${size} ${size}w`)
-      .join(', ');
+    return sizes.map((size) => `${baseSrc}?w=${size} ${size}w`).join(', ');
   };
 
   if (hasError) {
     return (
-      <div 
-        className={cn(
-          "bg-gray-200 dark:bg-gray-700 flex items-center justify-center",
-          className
-        )}
+      <div
+        className={cn('bg-gray-200 dark:bg-gray-700 flex items-center justify-center', className)}
         style={{ width, height }}
       >
         <span className="text-gray-400 text-sm">Erro ao carregar</span>
@@ -63,18 +58,18 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   }
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
+    <div className={cn('relative overflow-hidden', className)}>
       {isLoading && placeholder === 'blur' && (
-        <div 
+        <div
           className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse"
           style={{ width, height }}
         />
       )}
-      
+
       <img
         src={src}
         alt={alt}
-        loading={priority ? "eager" : "lazy"}
+        loading={priority ? 'eager' : 'lazy'}
         srcSet={generateSrcSet(src)}
         sizes={sizes}
         width={width}
@@ -82,8 +77,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
-          "object-cover transition-opacity duration-300",
-          isLoading ? "opacity-0" : "opacity-100",
+          'object-cover transition-opacity duration-300',
+          isLoading ? 'opacity-0' : 'opacity-100',
           className
         )}
         style={{ width, height }}

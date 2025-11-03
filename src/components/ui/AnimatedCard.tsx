@@ -10,13 +10,13 @@ interface AnimatedCardProps {
   delay?: number;
 }
 
-export const AnimatedCard = ({ 
-  children, 
-  className, 
-  hover = true, 
-  tap = true, 
+export const AnimatedCard = ({
+  children,
+  className,
+  hover = true,
+  tap = true,
   glow = false,
-  delay = 0 
+  delay = 0,
 }: AnimatedCardProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -41,9 +41,9 @@ export const AnimatedCard = ({
         glow && 'hover:shadow-pink-500/25',
         className
       )}
-      style={{ 
+      style={{
         animationDelay: `${delay}ms`,
-        animation: 'fadeInUp 0.6s ease-out forwards'
+        animation: 'fadeInUp 0.6s ease-out forwards',
       }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

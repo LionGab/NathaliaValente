@@ -14,29 +14,27 @@ interface LazyLoadingReturn {
 }
 
 export const useLazyLoading = (options: LazyLoadingOptions = {}): LazyLoadingReturn => {
-  const {
-    root = null,
-    rootMargin = '0px',
-    threshold = 0.1,
-    triggerOnce = true
-  } = options;
+  const { root = null, rootMargin = '0px', threshold = 0.1, triggerOnce = true } = options;
 
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenVisible, setHasBeenVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
-  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
 
-    if (entry.isIntersecting) {
-      setIsVisible(true);
-      if (!hasBeenVisible) {
-        setHasBeenVisible(true);
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        if (!hasBeenVisible) {
+          setHasBeenVisible(true);
+        }
+      } else if (!triggerOnce) {
+        setIsVisible(false);
       }
-    } else if (!triggerOnce) {
-      setIsVisible(false);
-    }
-  }, [hasBeenVisible, triggerOnce]);
+    },
+    [hasBeenVisible, triggerOnce]
+  );
 
   useEffect(() => {
     const element = ref.current;
@@ -45,7 +43,7 @@ export const useLazyLoading = (options: LazyLoadingOptions = {}): LazyLoadingRet
     const observer = new IntersectionObserver(handleIntersection, {
       root,
       rootMargin,
-      threshold
+      threshold,
     });
 
     observer.observe(element);
@@ -146,7 +144,7 @@ export const useVirtualScroll = <T>(
     offsetY,
     handleScroll,
     startIndex,
-    endIndex
+    endIndex,
   };
 };
 
@@ -168,10 +166,7 @@ export const useDebounce = <T>(value: T, delay: number): T => {
 };
 
 // Hook for throttled scroll
-export const useThrottle = <T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number
-): T => {
+export const useThrottle = <T extends (...args: any[]) => any>(callback: T, delay: number): T => {
   const [isThrottled, setIsThrottled] = useState(false);
 
   const throttledCallback = useCallback(
@@ -212,7 +207,8 @@ export const usePerformanceMonitor = (componentName: string) => {
       const renderDuration = endTime - renderStartTime.current;
       setRenderTime(renderDuration);
 
-      if (renderDuration > 16) { // More than one frame
+      if (renderDuration > 16) {
+        // More than one frame
         console.warn(`${componentName} render took ${renderDuration}ms`);
       }
     };
@@ -236,7 +232,7 @@ export const useMemoryMonitor = () => {
         setMemoryInfo({
           usedJSHeapSize: memory.usedJSHeapSize,
           totalJSHeapSize: memory.totalJSHeapSize,
-          jsHeapSizeLimit: memory.jsHeapSizeLimit
+          jsHeapSizeLimit: memory.jsHeapSizeLimit,
         });
       }
     };

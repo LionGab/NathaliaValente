@@ -37,25 +37,25 @@ const sizeClasses: Record<AvatarSize, string> = {
   sm: 'w-12 h-12', // 48px
   md: 'w-20 h-20', // 80px
   lg: 'w-30 h-30', // 120px
-  xl: 'w-40 h-40'  // 160px
+  xl: 'w-40 h-40', // 160px
 };
 
 const badgeConfig: Record<AvatarBadge, { icon: string; color: string; label: string }> = {
   premium: {
     icon: '👑',
     color: 'bg-yellow-500',
-    label: 'Membro Premium'
+    label: 'Membro Premium',
   },
   verified: {
     icon: '✓',
     color: 'bg-blue-500',
-    label: 'Verificado'
+    label: 'Verificado',
   },
   nathy: {
     icon: '💜',
     color: 'bg-pink-500',
-    label: 'Nathy Aprovou'
-  }
+    label: 'Nathy Aprovou',
+  },
 };
 
 const avatarLabels: Record<AvatarType, string> = {
@@ -70,7 +70,7 @@ const avatarLabels: Record<AvatarType, string> = {
   hijab: 'Mãe com hijab',
   blackpower: 'Mãe black power',
   asiatica: 'Mãe asiática',
-  cadeirante: 'Mãe cadeirante'
+  cadeirante: 'Mãe cadeirante',
 };
 
 export const Avatar: FC<AvatarProps> = ({
@@ -80,7 +80,7 @@ export const Avatar: FC<AvatarProps> = ({
   onClick,
   className,
   alt,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
 }) => {
   const badgeInfo = badge ? badgeConfig[badge] : null;
   const avatarLabel = avatarLabels[type];
@@ -120,9 +120,7 @@ export const Avatar: FC<AvatarProps> = ({
           aria-label={badgeInfo.label}
           title={badgeInfo.label}
         >
-          <span className="text-xs font-bold">
-            {badgeInfo.icon}
-          </span>
+          <span className="text-xs font-bold">{badgeInfo.icon}</span>
         </div>
       )}
     </div>
@@ -143,7 +141,7 @@ const getAvatarNumber = (type: AvatarType): string => {
     hijab: '09',
     blackpower: '10',
     asiatica: '11',
-    cadeirante: '12'
+    cadeirante: '12',
   };
   return numbers[type];
 };
@@ -165,12 +163,21 @@ export const AvatarGrid: FC<AvatarGridProps> = ({
   onSelect,
   size = 'md',
   showLabels = false,
-  className
+  className,
 }) => {
   const allAvatars: AvatarType[] = [
-    'exausta', 'oracao', 'radiante', 'vulneravel',
-    'pensativa', 'determinada', 'gravida', 'amamentando',
-    'hijab', 'blackpower', 'asiatica', 'cadeirante'
+    'exausta',
+    'oracao',
+    'radiante',
+    'vulneravel',
+    'pensativa',
+    'determinada',
+    'gravida',
+    'amamentando',
+    'hijab',
+    'blackpower',
+    'asiatica',
+    'cadeirante',
   ];
 
   return (
@@ -198,11 +205,7 @@ export const AvatarGrid: FC<AvatarGridProps> = ({
           aria-label={`Selecionar avatar ${avatarLabels[avatar]}`}
         >
           <div className="flex flex-col items-center gap-2">
-            <Avatar
-              type={avatar}
-              size={size}
-              aria-label={avatarLabels[avatar]}
-            />
+            <Avatar type={avatar} size={size} aria-label={avatarLabels[avatar]} />
             {showLabels && (
               <span className="text-xs text-center text-gray-600 dark:text-gray-400 font-medium">
                 {avatarLabels[avatar]}
@@ -238,24 +241,15 @@ export const AvatarPreview: FC<AvatarPreviewProps> = ({
   name,
   badge,
   size = 'lg',
-  className
+  className,
 }) => {
   return (
     <div className={cn('flex flex-col items-center gap-3 p-4', className)}>
-      <Avatar
-        type={type}
-        size={size}
-        badge={badge}
-        aria-label={name || avatarLabels[type]}
-      />
+      <Avatar type={type} size={size} badge={badge} aria-label={name || avatarLabels[type]} />
       {name && (
         <div className="text-center">
-          <h3 className="font-semibold text-gray-900 dark:text-white">
-            {name}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {avatarLabels[type]}
-          </p>
+          <h3 className="font-semibold text-gray-900 dark:text-white">{name}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{avatarLabels[type]}</p>
         </div>
       )}
     </div>
@@ -269,30 +263,39 @@ export const AvatarPreview: FC<AvatarPreviewProps> = ({
 export const useAvatar = () => {
   const getRandomAvatar = (): AvatarType => {
     const avatars: AvatarType[] = [
-      'exausta', 'oracao', 'radiante', 'vulneravel',
-      'pensativa', 'determinada', 'gravida', 'amamentando',
-      'hijab', 'blackpower', 'asiatica', 'cadeirante'
+      'exausta',
+      'oracao',
+      'radiante',
+      'vulneravel',
+      'pensativa',
+      'determinada',
+      'gravida',
+      'amamentando',
+      'hijab',
+      'blackpower',
+      'asiatica',
+      'cadeirante',
     ];
     return avatars[Math.floor(Math.random() * avatars.length)];
   };
 
   const getAvatarByMood = (mood: string): AvatarType => {
     const moodMap: Record<string, AvatarType> = {
-      'tired': 'exausta',
-      'exhausted': 'exausta',
-      'prayer': 'oracao',
-      'spiritual': 'oracao',
-      'happy': 'radiante',
-      'joyful': 'radiante',
-      'sad': 'vulneravel',
-      'vulnerable': 'vulneravel',
-      'thoughtful': 'pensativa',
-      'thinking': 'pensativa',
-      'determined': 'determinada',
-      'strong': 'determinada',
-      'pregnant': 'gravida',
-      'breastfeeding': 'amamentando',
-      'nursing': 'amamentando'
+      tired: 'exausta',
+      exhausted: 'exausta',
+      prayer: 'oracao',
+      spiritual: 'oracao',
+      happy: 'radiante',
+      joyful: 'radiante',
+      sad: 'vulneravel',
+      vulnerable: 'vulneravel',
+      thoughtful: 'pensativa',
+      thinking: 'pensativa',
+      determined: 'determinada',
+      strong: 'determinada',
+      pregnant: 'gravida',
+      breastfeeding: 'amamentando',
+      nursing: 'amamentando',
     };
 
     return moodMap[mood.toLowerCase()] || getRandomAvatar();
@@ -300,12 +303,12 @@ export const useAvatar = () => {
 
   const getAvatarByContext = (context: string): AvatarType => {
     const contextMap: Record<string, AvatarType> = {
-      'postpartum': 'exausta',
+      postpartum: 'exausta',
       'new-mom': 'vulneravel',
-      'experienced': 'determinada',
-      'spiritual': 'oracao',
-      'celebration': 'radiante',
-      'reflection': 'pensativa'
+      experienced: 'determinada',
+      spiritual: 'oracao',
+      celebration: 'radiante',
+      reflection: 'pensativa',
     };
 
     return contextMap[context.toLowerCase()] || getRandomAvatar();
@@ -316,10 +319,19 @@ export const useAvatar = () => {
     getAvatarByMood,
     getAvatarByContext,
     allAvatars: [
-      'exausta', 'oracao', 'radiante', 'vulneravel',
-      'pensativa', 'determinada', 'gravida', 'amamentando',
-      'hijab', 'blackpower', 'asiatica', 'cadeirante'
-    ] as AvatarType[]
+      'exausta',
+      'oracao',
+      'radiante',
+      'vulneravel',
+      'pensativa',
+      'determinada',
+      'gravida',
+      'amamentando',
+      'hijab',
+      'blackpower',
+      'asiatica',
+      'cadeirante',
+    ] as AvatarType[],
   };
 };
 

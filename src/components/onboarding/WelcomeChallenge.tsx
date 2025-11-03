@@ -16,7 +16,7 @@ const challengeOptions = [
     description: 'Compartilhe algo especial com a comunidade',
     icon: Heart,
     category: 'social',
-    points: 20
+    points: 20,
   },
   {
     id: 'first_journal',
@@ -24,7 +24,7 @@ const challengeOptions = [
     description: 'Comece seu diário de gratidão e crescimento',
     icon: BookOpen,
     category: 'journal',
-    points: 15
+    points: 15,
   },
   {
     id: 'first_habit',
@@ -32,7 +32,7 @@ const challengeOptions = [
     description: 'Estabeleça uma rotina positiva',
     icon: Target,
     category: 'habits',
-    points: 10
+    points: 10,
   },
   {
     id: 'complete_profile',
@@ -40,14 +40,14 @@ const challengeOptions = [
     description: 'Adicione uma foto e bio para se conectar melhor',
     icon: Star,
     category: 'profile',
-    points: 5
-  }
+    points: 5,
+  },
 ];
 
 export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
   onComplete,
   userGoals,
-  userName
+  userName,
 }) => {
   const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
   const [isCompleting, setIsCompleting] = useState(false);
@@ -59,17 +59,19 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
       'Bem-estar mental': ['first_journal', 'first_habit'],
       'Conexão social': ['first_post', 'complete_profile'],
       'Crescimento pessoal': ['first_journal', 'first_habit'],
-      'Organização': ['first_habit', 'complete_profile'],
-      'Fé e espiritualidade': ['first_journal', 'first_post']
+      Organização: ['first_habit', 'complete_profile'],
+      'Fé e espiritualidade': ['first_journal', 'first_post'],
     };
 
-    const prioritizedIds = userGoals.flatMap(goal => goalPriorities[goal as keyof typeof goalPriorities] || []);
+    const prioritizedIds = userGoals.flatMap(
+      (goal) => goalPriorities[goal as keyof typeof goalPriorities] || []
+    );
     const uniquePrioritized = [...new Set(prioritizedIds)];
 
     return challengeOptions.sort((a, b) => {
       const aIndex = uniquePrioritized.indexOf(a.id);
       const bIndex = uniquePrioritized.indexOf(b.id);
-      
+
       if (aIndex === -1 && bIndex === -1) return 0;
       if (aIndex === -1) return 1;
       if (bIndex === -1) return -1;
@@ -91,14 +93,14 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
         .from('profiles')
         .update({
           welcome_challenge: selectedChallenge,
-          welcome_challenge_accepted_at: new Date().toISOString()
+          welcome_challenge_accepted_at: new Date().toISOString(),
         })
         .eq('id', user.id);
 
       if (error) throw error;
 
       // Conceder badge "Primeira vez" se for o primeiro desafio
-      const challenge = challengeOptions.find(c => c.id === selectedChallenge);
+      const challenge = challengeOptions.find((c) => c.id === selectedChallenge);
       if (challenge) {
         // Aqui você integraria com o sistema de badges
         console.log(`Badge "Primeira vez" concedido por: ${challenge.title}`);
@@ -122,9 +124,7 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
           <div className="w-20 h-20 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Bem-vinda, {userName}! 🌸
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Bem-vinda, {userName}! 🌸</h1>
           <p className="text-gray-600 text-lg">
             Que tal começar sua jornada com um pequeno desafio personalizado?
           </p>
@@ -153,11 +153,11 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
           <h3 className="text-xl font-semibold text-gray-900 mb-4">
             Escolha seu primeiro desafio:
           </h3>
-          
+
           {personalizedChallenges.map((challenge) => {
             const Icon = challenge.icon;
             const isSelected = selectedChallenge === challenge.id;
-            
+
             return (
               <button
                 key={challenge.id}
@@ -169,21 +169,17 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
                 }`}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    isSelected ? 'bg-pink-500' : 'bg-gray-100'
-                  }`}>
-                    <Icon className={`w-6 h-6 ${
-                      isSelected ? 'text-white' : 'text-gray-600'
-                    }`} />
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      isSelected ? 'bg-pink-500' : 'bg-gray-100'
+                    }`}
+                  >
+                    <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
                   </div>
-                  
+
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 mb-1">
-                      {challenge.title}
-                    </h4>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {challenge.description}
-                    </p>
+                    <h4 className="font-semibold text-gray-900 mb-1">{challenge.title}</h4>
+                    <p className="text-sm text-gray-600 mb-2">{challenge.description}</p>
                     <div className="flex items-center gap-2">
                       <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
                         +{challenge.points} pontos
@@ -193,10 +189,8 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
                       </span>
                     </div>
                   </div>
-                  
-                  {isSelected && (
-                    <CheckCircle className="w-6 h-6 text-pink-500" />
-                  )}
+
+                  {isSelected && <CheckCircle className="w-6 h-6 text-pink-500" />}
                 </div>
               </button>
             );
@@ -211,7 +205,7 @@ export const WelcomeChallenge: React.FC<WelcomeChallengeProps> = ({
           >
             Pular por enquanto
           </button>
-          
+
           <button
             onClick={handleCompleteChallenge}
             disabled={!selectedChallenge || isCompleting}

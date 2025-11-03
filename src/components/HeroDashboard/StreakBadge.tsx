@@ -39,21 +39,25 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({ streak, size = 'md' })
     <motion.div
       initial={{ scale: 0, rotate: -180 }}
       animate={{ scale: 1, rotate: 0 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 200, 
+      transition={{
+        type: 'spring',
+        stiffness: 200,
         damping: 15,
-        delay: 0.2 
+        delay: 0.2,
       }}
       className={`relative ${getSizeClasses(size)}`}
     >
       {/* Glow effect */}
-      <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${getStreakColor(streak)} opacity-20 blur-sm`} />
-      
+      <div
+        className={`absolute inset-0 rounded-full bg-gradient-to-r ${getStreakColor(streak)} opacity-20 blur-sm`}
+      />
+
       {/* Main badge */}
-      <div className={`relative ${getSizeClasses(size)} rounded-full bg-gradient-to-r ${getStreakColor(streak)} flex items-center justify-center text-white font-bold shadow-lg`}>
+      <div
+        className={`relative ${getSizeClasses(size)} rounded-full bg-gradient-to-r ${getStreakColor(streak)} flex items-center justify-center text-white font-bold shadow-lg`}
+      >
         <Icon className="w-4 h-4" aria-hidden="true" />
-        
+
         {/* Streak number */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}

@@ -10,7 +10,11 @@ import type {
   EmotionDetectionConfig,
   DiaryEntry,
 } from '../types/emotional-intelligence';
-import { POSITIVE_EMOTIONS, NEGATIVE_EMOTIONS, DEFAULT_ALGORITHM_CONFIG } from '../types/emotional-intelligence';
+import {
+  POSITIVE_EMOTIONS,
+  NEGATIVE_EMOTIONS,
+  DEFAULT_ALGORITHM_CONFIG,
+} from '../types/emotional-intelligence';
 
 // ============================================
 // EMOTION KEYWORDS (Portuguese - Brazilian)
@@ -52,7 +56,16 @@ export const EMOTION_KEYWORDS: Record<EmotionCategory, string[]> = {
     'serenidade',
     'pacífica',
   ],
-  proud: ['orgulhosa', 'realizada', 'conquista', 'sucesso', 'consegui', 'orgulho', 'vitória', 'alcancei'],
+  proud: [
+    'orgulhosa',
+    'realizada',
+    'conquista',
+    'sucesso',
+    'consegui',
+    'orgulho',
+    'vitória',
+    'alcancei',
+  ],
   hopeful: [
     'esperança',
     'otimista',
@@ -506,15 +519,12 @@ export function analyzeEmotionalPatterns(entries: DiaryEntry[]): {
     .slice(0, 5);
 
   // Calculate average sentiment
-  const averageSentiment =
-    entries.reduce((sum, e) => sum + e.sentiment_score, 0) / entries.length;
+  const averageSentiment = entries.reduce((sum, e) => sum + e.sentiment_score, 0) / entries.length;
 
   // Calculate mood volatility (standard deviation of sentiment)
   const sentimentVariance =
-    entries.reduce(
-      (sum, e) => sum + Math.pow(e.sentiment_score - averageSentiment, 2),
-      0
-    ) / entries.length;
+    entries.reduce((sum, e) => sum + Math.pow(e.sentiment_score - averageSentiment, 2), 0) /
+    entries.length;
   const moodVolatility = Math.sqrt(sentimentVariance);
 
   // Time-based sentiment analysis
@@ -526,10 +536,7 @@ export function analyzeEmotionalPatterns(entries: DiaryEntry[]): {
   // Stress and overwhelm metrics
   const stressEntries = entries.filter((e) => e.primary_emotion === 'stressed');
   const overwhelmEntries = entries.filter((e) => e.primary_emotion === 'overwhelmed');
-  const stressLevel = Math.min(
-    5,
-    Math.ceil((stressEntries.length / entries.length) * 5)
-  );
+  const stressLevel = Math.min(5, Math.ceil((stressEntries.length / entries.length) * 5));
   const overwhelmScore = overwhelmEntries.length / entries.length;
 
   // Positive metrics

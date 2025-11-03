@@ -34,7 +34,7 @@ export class ErrorHandler {
       message: 'Erro de autenticação',
       details: error,
       timestamp: new Date(),
-      context: 'authentication'
+      context: 'authentication',
     };
 
     // Mapear erros específicos do Supabase
@@ -65,7 +65,7 @@ export class ErrorHandler {
       message: 'Erro de conexão',
       details: error,
       timestamp: new Date(),
-      context: 'network'
+      context: 'network',
     };
 
     if (error?.message?.includes('timeout')) {
@@ -92,7 +92,7 @@ export class ErrorHandler {
       message: 'Erro de validação',
       details: error,
       timestamp: new Date(),
-      context: 'validation'
+      context: 'validation',
     };
 
     if (field) {
@@ -112,7 +112,7 @@ export class ErrorHandler {
       message: 'Permissão insuficiente',
       details: error,
       timestamp: new Date(),
-      context: 'permission'
+      context: 'permission',
     };
 
     this.logError(permissionError);
@@ -128,7 +128,7 @@ export class ErrorHandler {
       message: 'Erro na API',
       details: error,
       timestamp: new Date(),
-      context: 'api'
+      context: 'api',
     };
 
     if (endpoint) {
@@ -159,7 +159,7 @@ export class ErrorHandler {
       message: 'Ocorreu um erro inesperado',
       details: error,
       timestamp: new Date(),
-      context: context || 'unknown'
+      context: context || 'unknown',
     };
 
     this.logError(genericError);
@@ -171,7 +171,7 @@ export class ErrorHandler {
    */
   private logError(error: AppError): void {
     this.errorLog.push(error);
-    
+
     // Manter apenas os últimos 100 erros
     if (this.errorLog.length > 100) {
       this.errorLog = this.errorLog.slice(-100);
@@ -217,16 +217,21 @@ export class ErrorHandler {
   /**
    * Obtém estatísticas de erros
    */
-  getErrorStats(): { total: number; byCode: Record<string, number>; byContext: Record<string, number> } {
+  getErrorStats(): {
+    total: number;
+    byCode: Record<string, number>;
+    byContext: Record<string, number>;
+  } {
     const stats = {
       total: this.errorLog.length,
       byCode: {} as Record<string, number>,
-      byContext: {} as Record<string, number>
+      byContext: {} as Record<string, number>,
     };
 
-    this.errorLog.forEach(error => {
+    this.errorLog.forEach((error) => {
       stats.byCode[error.code] = (stats.byCode[error.code] || 0) + 1;
-      stats.byContext[error.context || 'unknown'] = (stats.byContext[error.context || 'unknown'] || 0) + 1;
+      stats.byContext[error.context || 'unknown'] =
+        (stats.byContext[error.context || 'unknown'] || 0) + 1;
     });
 
     return stats;
@@ -241,23 +246,23 @@ export const handleError = (error: any, context?: string): AppError => {
   if (error?.message?.includes('auth') || error?.message?.includes('login')) {
     return errorHandler.handleAuthError(error);
   }
-  
+
   if (error?.message?.includes('network') || error?.message?.includes('fetch')) {
     return errorHandler.handleNetworkError(error);
   }
-  
+
   if (error?.message?.includes('validation') || error?.message?.includes('invalid')) {
     return errorHandler.handleValidationError(error);
   }
-  
+
   if (error?.message?.includes('permission') || error?.message?.includes('forbidden')) {
     return errorHandler.handlePermissionError(error);
   }
-  
+
   if (error?.status || error?.response) {
     return errorHandler.handleAPIError(error);
   }
-  
+
   return errorHandler.handleGenericError(error, context);
 };
 

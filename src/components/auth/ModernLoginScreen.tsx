@@ -4,7 +4,17 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Heart, Sparkles, AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  ArrowRight,
+  Heart,
+  Sparkles,
+  AlertCircle,
+  CheckCircle,
+} from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface ModernLoginScreenProps {
@@ -16,13 +26,13 @@ interface ModernLoginScreenProps {
   error?: string;
 }
 
-export const ModernLoginScreen = ({ 
-  onLogin, 
-  onSocialLogin, 
-  onForgotPassword, 
-  onSignUp, 
+export const ModernLoginScreen = ({
+  onLogin,
+  onSocialLogin,
+  onForgotPassword,
+  onSignUp,
   isLoading = false,
-  error 
+  error,
 }: ModernLoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,7 +60,7 @@ export const ModernLoginScreen = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) return;
     if (emailError || passwordError) return;
 
@@ -64,8 +74,14 @@ export const ModernLoginScreen = ({
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-200/20 dark:bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/10 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '1s' }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/10 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '2s' }}
+        ></div>
       </div>
 
       <div className="w-full max-w-md relative z-10">
@@ -80,7 +96,7 @@ export const ModernLoginScreen = ({
               <Sparkles className="w-3 h-3 text-white" />
             </div>
           </div>
-          
+
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Bem-vinda de volta
           </h1>
@@ -99,9 +115,11 @@ export const ModernLoginScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'email' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <Mail
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'email' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type="email"
@@ -114,8 +132,8 @@ export const ModernLoginScreen = ({
                     emailError
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'email'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 {email && !emailError && (
@@ -139,9 +157,11 @@ export const ModernLoginScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'password' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <Lock
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'password' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -154,8 +174,8 @@ export const ModernLoginScreen = ({
                     passwordError
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'password'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 <button
@@ -252,9 +272,7 @@ export const ModernLoginScreen = ({
               <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
                 <span className="text-black text-xs font-bold">🍎</span>
               </div>
-              <span className="font-semibold group-hover:text-gray-200">
-                Apple
-              </span>
+              <span className="font-semibold group-hover:text-gray-200">Apple</span>
             </button>
 
             <button
@@ -264,9 +282,7 @@ export const ModernLoginScreen = ({
               <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
                 <span className="text-blue-600 text-xs font-bold">f</span>
               </div>
-              <span className="font-semibold group-hover:text-blue-100">
-                Facebook
-              </span>
+              <span className="font-semibold group-hover:text-blue-100">Facebook</span>
             </button>
           </div>
 

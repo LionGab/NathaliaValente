@@ -62,13 +62,13 @@ export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
       bg-red-500 text-white
       hover:bg-red-600 focus:ring-red-500
       active:scale-95
-    `
+    `,
   };
 
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm min-h-[36px]',
     md: 'px-4 py-2 text-sm min-h-[44px]',
-    lg: 'px-6 py-3 text-base min-h-[52px]'
+    lg: 'px-6 py-3 text-base min-h-[52px]',
   };
 
   const buttonClasses = `
@@ -89,27 +89,25 @@ export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
       aria-busy={loading}
       {...(motionProps || {
         whileHover: { scale: 1.02 },
-        whileTap: { scale: 0.98 }
+        whileTap: { scale: 0.98 },
       })}
       {...props}
     >
       {loading && (
-        <div 
+        <div
           className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"
           aria-hidden="true"
         />
       )}
-      
+
       {!loading && leftIcon && (
         <span className="flex-shrink-0" aria-hidden="true">
           {leftIcon}
         </span>
       )}
-      
-      <span className={loading ? 'opacity-0' : ''}>
-        {children}
-      </span>
-      
+
+      <span className={loading ? 'opacity-0' : ''}>{children}</span>
+
       {!loading && rightIcon && (
         <span className="flex-shrink-0" aria-hidden="true">
           {rightIcon}

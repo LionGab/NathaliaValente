@@ -4,20 +4,20 @@
  */
 
 import { useState, useEffect } from 'react';
-import { 
-  Home, 
-  MessageCircle, 
-  User, 
-  Plus, 
-  Heart, 
-  Users, 
+import {
+  Home,
+  MessageCircle,
+  User,
+  Plus,
+  Heart,
+  Users,
   Star,
   Clock,
   TrendingUp,
   Bell,
   Search,
   BookOpen,
-  ShoppingBag
+  ShoppingBag,
 } from 'lucide-react';
 
 interface ContextualNavigationProps {
@@ -36,7 +36,7 @@ export const ContextualNavigation = ({
   currentTab,
   userBehavior,
   onNavigate,
-  onQuickAction
+  onQuickAction,
 }: ContextualNavigationProps) => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -53,7 +53,7 @@ export const ContextualNavigation = ({
           label: 'Devocional Matinal',
           description: 'Comece o dia com fé',
           color: 'bg-yellow-500',
-          action: 'devotional'
+          action: 'devotional',
         });
       }
 
@@ -63,7 +63,7 @@ export const ContextualNavigation = ({
           label: 'Reflexão do Dia',
           description: 'Compartilhe suas conquistas',
           color: 'bg-pink-500',
-          action: 'reflection'
+          action: 'reflection',
         });
       }
 
@@ -74,7 +74,7 @@ export const ContextualNavigation = ({
           label: 'Continuar Conversa',
           description: 'Retome onde parou',
           color: 'bg-purple-500',
-          action: 'continue_chat'
+          action: 'continue_chat',
         });
       }
 
@@ -85,7 +85,7 @@ export const ContextualNavigation = ({
           label: 'Seus Grupos',
           description: 'Veja as últimas atualizações',
           color: 'bg-blue-500',
-          action: 'my_groups'
+          action: 'my_groups',
         });
       }
 
@@ -96,7 +96,7 @@ export const ContextualNavigation = ({
           label: 'Tour do App',
           description: 'Conheça as funcionalidades',
           color: 'bg-indigo-500',
-          action: 'app_tour'
+          action: 'app_tour',
         });
       }
 
@@ -107,14 +107,14 @@ export const ContextualNavigation = ({
           label: 'Criar Post',
           description: 'Compartilhe algo especial',
           color: 'bg-green-500',
-          action: 'create_post'
+          action: 'create_post',
         },
         {
           icon: Search,
           label: 'Buscar',
           description: 'Encontre o que precisa',
           color: 'bg-gray-500',
-          action: 'search'
+          action: 'search',
         }
       );
 
@@ -127,7 +127,7 @@ export const ContextualNavigation = ({
   // Mostra sugestões quando o usuário fica inativo
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    
+
     const resetTimeout = () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
@@ -137,7 +137,7 @@ export const ContextualNavigation = ({
 
     // Reset timeout em qualquer interação
     const events = ['click', 'scroll', 'touchstart', 'keydown'];
-    events.forEach(event => {
+    events.forEach((event) => {
       document.addEventListener(event, resetTimeout, { passive: true });
     });
 
@@ -145,7 +145,7 @@ export const ContextualNavigation = ({
 
     return () => {
       clearTimeout(timeout);
-      events.forEach(event => {
+      events.forEach((event) => {
         document.removeEventListener(event, resetTimeout);
       });
     };
@@ -171,9 +171,7 @@ export const ContextualNavigation = ({
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-pink-500" />
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-              Sugestões para você
-            </h3>
+            <h3 className="font-semibold text-gray-900 dark:text-gray-100">Sugestões para você</h3>
           </div>
           <button
             onClick={() => setShowSuggestions(false)}
@@ -193,7 +191,9 @@ export const ContextualNavigation = ({
                 onClick={() => handleSuggestionClick(suggestion)}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 text-left group"
               >
-                <div className={`w-10 h-10 ${suggestion.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}>
+                <div
+                  className={`w-10 h-10 ${suggestion.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}
+                >
                   <Icon className="w-5 h-5 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">

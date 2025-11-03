@@ -10,7 +10,7 @@ type PostCommentsProps = {
 export const PostComments = ({ postId }: PostCommentsProps) => {
   const [newComment, setNewComment] = useState('');
   const { user } = useAuth();
-  
+
   // Use React Query hooks
   const { data: comments = [], isLoading } = usePostComments(postId);
   const createCommentMutation = useCreateComment();

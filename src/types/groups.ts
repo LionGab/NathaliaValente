@@ -3,11 +3,11 @@
 // Santuário Digital de Empatia e Pertencimento
 // =====================================================
 
-export type GroupCategory = 
-  | 'Fé' 
-  | 'Amamentação' 
-  | 'Pós-Parto' 
-  | 'Mães Solo' 
+export type GroupCategory =
+  | 'Fé'
+  | 'Amamentação'
+  | 'Pós-Parto'
+  | 'Mães Solo'
   | 'Criação'
   | 'Bem-estar'
   | 'Educação'
@@ -19,13 +19,13 @@ export type GroupRole = 'admin' | 'moderator' | 'member';
 
 export type ReactionType = 'like' | 'love' | 'support' | 'pray' | 'hug' | 'celebrate';
 
-export type NotificationType = 
-  | 'new_post' 
-  | 'new_member' 
-  | 'group_invite' 
+export type NotificationType =
+  | 'new_post'
+  | 'new_member'
+  | 'group_invite'
   | 'post_mentioned'
-  | 'post_reaction' 
-  | 'group_updated' 
+  | 'post_reaction'
+  | 'group_updated'
   | 'moderation_action';
 
 export type InviteStatus = 'pending' | 'accepted' | 'declined' | 'expired';
@@ -49,7 +49,7 @@ export interface Group {
   rules?: string;
   created_at: string;
   updated_at: string;
-  
+
   // Relacionamentos
   creator?: {
     id: string;
@@ -69,7 +69,7 @@ export interface GroupMember {
   last_seen_at: string;
   is_muted: boolean;
   is_banned: boolean;
-  
+
   // Relacionamentos
   user?: {
     id: string;
@@ -92,7 +92,7 @@ export interface GroupPost {
   is_approved: boolean;
   created_at: string;
   updated_at: string;
-  
+
   // Relacionamentos
   user?: {
     id: string;
@@ -115,7 +115,7 @@ export interface GroupPostReaction {
   user_id: string;
   reaction_type: ReactionType;
   created_at: string;
-  
+
   // Relacionamentos
   user?: {
     id: string;
@@ -133,7 +133,7 @@ export interface GroupInvite {
   status: InviteStatus;
   expires_at: string;
   created_at: string;
-  
+
   // Relacionamentos
   group?: Group;
   invited_user?: {
@@ -158,7 +158,7 @@ export interface GroupNotification {
   data?: Record<string, any>;
   is_read: boolean;
   created_at: string;
-  
+
   // Relacionamentos
   group?: Group;
 }
@@ -338,30 +338,30 @@ export interface GroupService {
   createGroup: (data: CreateGroupData) => Promise<Group>;
   updateGroup: (id: string, data: UpdateGroupData) => Promise<Group>;
   deleteGroup: (id: string) => Promise<void>;
-  
+
   // Membros
   getGroupMembers: (groupId: string, options?: UseGroupMembersOptions) => Promise<GroupMember[]>;
   joinGroup: (groupId: string) => Promise<GroupMember>;
   leaveGroup: (groupId: string) => Promise<void>;
   updateMemberRole: (groupId: string, userId: string, role: GroupRole) => Promise<GroupMember>;
   removeMember: (groupId: string, userId: string) => Promise<void>;
-  
+
   // Posts
   getGroupPosts: (groupId: string, options?: UseGroupPostsOptions) => Promise<GroupPost[]>;
   createGroupPost: (groupId: string, data: CreateGroupPostData) => Promise<GroupPost>;
   updateGroupPost: (postId: string, data: UpdateGroupPostData) => Promise<GroupPost>;
   deleteGroupPost: (postId: string) => Promise<void>;
   pinGroupPost: (postId: string) => Promise<GroupPost>;
-  
+
   // Reações
   reactToPost: (postId: string, reaction: ReactionType) => Promise<GroupPostReaction>;
   removeReaction: (postId: string, reaction: ReactionType) => Promise<void>;
-  
+
   // Convites
   getGroupInvites: (groupId?: string) => Promise<GroupInvite[]>;
   createGroupInvite: (groupId: string, data: CreateGroupInviteData) => Promise<GroupInvite>;
   respondToInvite: (inviteId: string, status: 'accepted' | 'declined') => Promise<GroupInvite>;
-  
+
   // Notificações
   getGroupNotifications: (unreadOnly?: boolean) => Promise<GroupNotification[]>;
   markNotificationAsRead: (notificationId: string) => Promise<GroupNotification>;
@@ -374,7 +374,7 @@ export interface GroupService {
 
 export const GROUP_CATEGORIES: GroupCategory[] = [
   'Fé',
-  'Amamentação', 
+  'Amamentação',
   'Pós-Parto',
   'Mães Solo',
   'Criação',
@@ -382,18 +382,18 @@ export const GROUP_CATEGORIES: GroupCategory[] = [
   'Educação',
   'Relacionamentos',
   'Carreira',
-  'Outros'
+  'Outros',
 ];
 
 export const GROUP_ROLES: GroupRole[] = ['admin', 'moderator', 'member'];
 
 export const REACTION_TYPES: ReactionType[] = [
   'like',
-  'love', 
+  'love',
   'support',
   'pray',
   'hug',
-  'celebrate'
+  'celebrate',
 ];
 
 export const REACTION_EMOJIS: Record<ReactionType, string> = {
@@ -402,7 +402,7 @@ export const REACTION_EMOJIS: Record<ReactionType, string> = {
   support: '🤝',
   pray: '🙏',
   hug: '🤗',
-  celebrate: '🎉'
+  celebrate: '🎉',
 };
 
 export const REACTION_LABELS: Record<ReactionType, string> = {
@@ -411,7 +411,7 @@ export const REACTION_LABELS: Record<ReactionType, string> = {
   support: 'Apoiar',
   pray: 'Orar',
   hug: 'Abraçar',
-  celebrate: 'Celebrar'
+  celebrate: 'Celebrar',
 };
 
 export const MAX_GROUPS_PER_USER = 5;
@@ -432,32 +432,32 @@ export const MIN_GROUP_DESCRIPTION_LENGTH = 10;
 
 export const getCategoryColor = (category: GroupCategory): string => {
   const colors: Record<GroupCategory, string> = {
-    'Fé': 'from-purple-500 to-indigo-600',
-    'Amamentação': 'from-pink-500 to-rose-600',
+    Fé: 'from-purple-500 to-indigo-600',
+    Amamentação: 'from-pink-500 to-rose-600',
     'Pós-Parto': 'from-blue-500 to-cyan-600',
     'Mães Solo': 'from-orange-500 to-red-600',
-    'Criação': 'from-green-500 to-emerald-600',
+    Criação: 'from-green-500 to-emerald-600',
     'Bem-estar': 'from-teal-500 to-blue-600',
-    'Educação': 'from-yellow-500 to-orange-600',
-    'Relacionamentos': 'from-red-500 to-pink-600',
-    'Carreira': 'from-gray-500 to-slate-600',
-    'Outros': 'from-indigo-500 to-purple-600'
+    Educação: 'from-yellow-500 to-orange-600',
+    Relacionamentos: 'from-red-500 to-pink-600',
+    Carreira: 'from-gray-500 to-slate-600',
+    Outros: 'from-indigo-500 to-purple-600',
   };
   return colors[category] || colors['Outros'];
 };
 
 export const getCategoryIcon = (category: GroupCategory): string => {
   const icons: Record<GroupCategory, string> = {
-    'Fé': '🙏',
-    'Amamentação': '🤱',
+    Fé: '🙏',
+    Amamentação: '🤱',
     'Pós-Parto': '👶',
     'Mães Solo': '💪',
-    'Criação': '🌱',
+    Criação: '🌱',
     'Bem-estar': '💚',
-    'Educação': '📚',
-    'Relacionamentos': '💕',
-    'Carreira': '💼',
-    'Outros': '🌟'
+    Educação: '📚',
+    Relacionamentos: '💕',
+    Carreira: '💼',
+    Outros: '🌟',
   };
   return icons[category] || icons['Outros'];
 };
@@ -466,7 +466,7 @@ export const getRoleLabel = (role: GroupRole): string => {
   const labels: Record<GroupRole, string> = {
     admin: 'Administradora',
     moderator: 'Moderadora',
-    member: 'Membro'
+    member: 'Membro',
   };
   return labels[role];
 };
@@ -475,7 +475,7 @@ export const getRoleColor = (role: GroupRole): string => {
   const colors: Record<GroupRole, string> = {
     admin: 'text-red-600 bg-red-100',
     moderator: 'text-blue-600 bg-blue-100',
-    member: 'text-gray-600 bg-gray-100'
+    member: 'text-gray-600 bg-gray-100',
   };
   return colors[role];
 };
@@ -518,7 +518,7 @@ export const formatGroupAge = (createdAt: string): string => {
   const now = new Date();
   const created = new Date(createdAt);
   const diffInDays = Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
-  
+
   if (diffInDays === 0) return 'Hoje';
   if (diffInDays === 1) return 'Ontem';
   if (diffInDays < 7) return `${diffInDays} dias`;

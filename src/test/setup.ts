@@ -14,7 +14,7 @@ afterEach(() => {
 // Mock do window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -76,28 +76,28 @@ vi.mock('./lib/supabase', () => ({
       single: vi.fn().mockReturnThis(),
       then: vi.fn().mockResolvedValue({
         data: [],
-        error: null
-      })
+        error: null,
+      }),
     })),
     auth: {
       getUser: vi.fn().mockResolvedValue({
         data: { user: null },
-        error: null
+        error: null,
       }),
       signInWithPassword: vi.fn().mockResolvedValue({
         data: { user: null, session: null },
-        error: null
+        error: null,
       }),
       signUp: vi.fn().mockResolvedValue({
         data: { user: null, session: null },
-        error: null
+        error: null,
       }),
       signOut: vi.fn().mockResolvedValue({
-        error: null
+        error: null,
       }),
       onAuthStateChange: vi.fn().mockReturnValue({
-        data: { subscription: { unsubscribe: vi.fn() } }
-      })
-    }
-  }
+        data: { subscription: { unsubscribe: vi.fn() } },
+      }),
+    },
+  },
 }));

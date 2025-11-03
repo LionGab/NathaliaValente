@@ -1,6 +1,11 @@
 import { Users, Lock } from 'lucide-react';
 import type { Group } from '../../types/groups';
-import { getCategoryIcon, getCategoryColor, formatGroupMemberCount, isGroupFull } from '../../types/groups';
+import {
+  getCategoryIcon,
+  getCategoryColor,
+  formatGroupMemberCount,
+  isGroupFull,
+} from '../../types/groups';
 
 interface GroupCardProps {
   group: Group;
@@ -10,7 +15,7 @@ interface GroupCardProps {
 export function GroupCard({ group, onSelect }: GroupCardProps) {
   const memberCount = formatGroupMemberCount(group.current_members);
   const isFull = isGroupFull(group);
-  
+
   return (
     <button
       onClick={() => onSelect?.({ id: group.id, name: group.name })}
@@ -18,7 +23,9 @@ export function GroupCard({ group, onSelect }: GroupCardProps) {
     >
       {/* Header com categoria */}
       <div className="flex items-start justify-between mb-3">
-        <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${getCategoryColor(group.category)} text-white text-xs font-medium flex items-center gap-1`}>
+        <div
+          className={`px-3 py-1 rounded-full bg-gradient-to-r ${getCategoryColor(group.category)} text-white text-xs font-medium flex items-center gap-1`}
+        >
           <span>{getCategoryIcon(group.category)}</span>
           <span>{group.category}</span>
         </div>
@@ -46,7 +53,7 @@ export function GroupCard({ group, onSelect }: GroupCardProps) {
             {memberCount} {isFull ? '(Cheio)' : 'membros'}
           </span>
         </div>
-        
+
         {group.user_role && (
           <span className="text-xs px-2 py-1 rounded-full bg-claude-orange-100 dark:bg-claude-orange-900 text-claude-orange-700 dark:text-claude-orange-300">
             Membro
@@ -56,4 +63,3 @@ export function GroupCard({ group, onSelect }: GroupCardProps) {
     </button>
   );
 }
-

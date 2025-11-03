@@ -57,7 +57,7 @@ export interface JournalStreak {
 class JournalingService {
   private static instance: JournalingService;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): JournalingService {
     if (!JournalingService.instance) {
@@ -70,23 +70,27 @@ class JournalingService {
   // CRUD OPERATIONS
   // =====================================================
 
-  async createJournalEntry(entry: Omit<JournalEntry, 'id' | 'word_count' | 'created_at' | 'updated_at'>): Promise<JournalEntry | null> {
+  async createJournalEntry(
+    entry: Omit<JournalEntry, 'id' | 'word_count' | 'created_at' | 'updated_at'>
+  ): Promise<JournalEntry | null> {
     const wordCount = entry.content.trim().split(/\s+/).length;
 
     const { data, error } = await supabase
       .from('journal_entries')
       .insert({
         ...entry,
-        word_count: wordCount
+        word_count: wordCount,
       })
-      .select(`
+      .select(
+        `
         *,
         prompt:journal_prompts(*),
         user:profiles!journal_entries_user_id_fkey(
           id,
           full_name
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -100,27 +104,31 @@ class JournalingService {
     return data;
   }
 
-  async getJournalEntries(options: {
-    userId?: string;
-    limit?: number;
-    offset?: number;
-    mood?: string;
-    promptId?: string;
-    dateFrom?: string;
-    dateTo?: string;
-  } = {}): Promise<JournalEntry[]> {
+  async getJournalEntries(
+    options: {
+      userId?: string;
+      limit?: number;
+      offset?: number;
+      mood?: string;
+      promptId?: string;
+      dateFrom?: string;
+      dateTo?: string;
+    } = {}
+  ): Promise<JournalEntry[]> {
     const { userId, limit = 20, offset = 0, mood, promptId, dateFrom, dateTo } = options;
 
     let query = supabase
       .from('journal_entries')
-      .select(`
+      .select(
+        `
         *,
         prompt:journal_prompts(*),
         user:profiles!journal_entries_user_id_fkey(
           id,
           full_name
         )
-      `)
+      `
+      )
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -157,14 +165,16 @@ class JournalingService {
   async getJournalEntryById(entryId: string): Promise<JournalEntry | null> {
     const { data, error } = await supabase
       .from('journal_entries')
-      .select(`
+      .select(
+        `
         *,
         prompt:journal_prompts(*),
         user:profiles!journal_entries_user_id_fkey(
           id,
           full_name
         )
-      `)
+      `
+      )
       .eq('id', entryId)
       .single();
 
@@ -187,7 +197,7 @@ class JournalingService {
       .from('journal_entries')
       .update({
         ...updateData,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', entryId);
 
@@ -200,10 +210,7 @@ class JournalingService {
   }
 
   async deleteJournalEntry(entryId: string): Promise<boolean> {
-    const { error } = await supabase
-      .from('journal_entries')
-      .delete()
-      .eq('id', entryId);
+    const { error } = await supabase.from('journal_entries').delete().eq('id', entryId);
 
     if (error) {
       console.error('Erro ao deletar entrada de journal:', error);
@@ -217,11 +224,13 @@ class JournalingService {
   // PROMPTS
   // =====================================================
 
-  async getJournalPrompts(options: {
-    category?: string;
-    difficulty?: string;
-    limit?: number;
-  } = {}): Promise<JournalPrompt[]> {
+  async getJournalPrompts(
+    options: {
+      category?: string;
+      difficulty?: string;
+      limit?: number;
+    } = {}
+  ): Promise<JournalPrompt[]> {
     const { category, difficulty, limit = 50 } = options;
 
     let query = supabase
@@ -250,10 +259,7 @@ class JournalingService {
   }
 
   async getRandomPrompt(category?: string): Promise<JournalPrompt | null> {
-    let query = supabase
-      .from('journal_prompts')
-      .select('*')
-      .eq('is_active', true);
+    let query = supabase.from('journal_prompts').select('*').eq('is_active', true);
 
     if (category) {
       query = query.eq('category', category);
@@ -304,7 +310,7 @@ class JournalingService {
       entries_this_month: 0,
       average_word_count: 0,
       mood_distribution: {},
-      favorite_prompts: []
+      favorite_prompts: [],
     };
 
     try {
@@ -353,7 +359,7 @@ class JournalingService {
         .eq('user_id', userId);
 
       if (moodData) {
-        moodData.forEach(entry => {
+        moodData.forEach((entry) => {
           stats.mood_distribution[entry.mood] = (stats.mood_distribution[entry.mood] || 0) + 1;
         });
       }
@@ -366,12 +372,15 @@ class JournalingService {
         .not('prompt_id', 'is', null);
 
       if (promptData) {
-        const promptCounts = promptData.reduce((acc, entry) => {
-          if (entry.prompt_id) {
-            acc[entry.prompt_id] = (acc[entry.prompt_id] || 0) + 1;
-          }
-          return acc;
-        }, {} as Record<string, number>);
+        const promptCounts = promptData.reduce(
+          (acc, entry) => {
+            if (entry.prompt_id) {
+              acc[entry.prompt_id] = (acc[entry.prompt_id] || 0) + 1;
+            }
+            return acc;
+          },
+          {} as Record<string, number>
+        );
 
         stats.favorite_prompts = Object.entries(promptCounts)
           .map(([prompt_id, count]) => ({ prompt_id, count }))
@@ -389,7 +398,6 @@ class JournalingService {
         const totalWords = wordCountData.reduce((sum, entry) => sum + entry.word_count, 0);
         stats.average_word_count = Math.round(totalWords / wordCountData.length);
       }
-
     } catch (error) {
       console.error('Erro ao calcular estatísticas:', error);
     }
@@ -409,7 +417,7 @@ class JournalingService {
         current_streak: 0,
         longest_streak: 0,
         last_entry_date: '',
-        streak_start_date: ''
+        streak_start_date: '',
       };
     }
 
@@ -471,16 +479,14 @@ class JournalingService {
     const longestStreak = Math.max(newStreak, currentStreak?.longest_streak || 0);
 
     // Atualizar ou criar streak
-    await supabase
-      .from('user_journal_streaks')
-      .upsert({
-        user_id: userId,
-        current_streak: newStreak,
-        longest_streak: longestStreak,
-        last_entry_date: today,
-        streak_start_date: streakStartDate,
-        updated_at: new Date().toISOString()
-      });
+    await supabase.from('user_journal_streaks').upsert({
+      user_id: userId,
+      current_streak: newStreak,
+      longest_streak: longestStreak,
+      last_entry_date: today,
+      streak_start_date: streakStartDate,
+      updated_at: new Date().toISOString(),
+    });
   }
 
   // =====================================================
@@ -514,7 +520,7 @@ class JournalingService {
 
     await notificationsService.sendNotification('journal_reminder', userId, {
       streak: streak.current_streak,
-      body: reminderMessage
+      body: reminderMessage,
     });
   }
 
@@ -522,23 +528,29 @@ class JournalingService {
   // SEARCH AND FILTERS
   // =====================================================
 
-  async searchJournalEntries(userId: string, query: string, options: {
-    limit?: number;
-    offset?: number;
-    mood?: string;
-  } = {}): Promise<JournalEntry[]> {
+  async searchJournalEntries(
+    userId: string,
+    query: string,
+    options: {
+      limit?: number;
+      offset?: number;
+      mood?: string;
+    } = {}
+  ): Promise<JournalEntry[]> {
     const { limit = 20, offset = 0, mood } = options;
 
     let searchQuery = supabase
       .from('journal_entries')
-      .select(`
+      .select(
+        `
         *,
         prompt:journal_prompts(*),
         user:profiles!journal_entries_user_id_fkey(
           id,
           full_name
         )
-      `)
+      `
+      )
       .eq('user_id', userId)
       .textSearch('content', query)
       .order('created_at', { ascending: false })
@@ -558,16 +570,24 @@ class JournalingService {
     return data || [];
   }
 
-  async getJournalEntriesByMood(userId: string, mood: string, limit: number = 20): Promise<JournalEntry[]> {
+  async getJournalEntriesByMood(
+    userId: string,
+    mood: string,
+    limit: number = 20
+  ): Promise<JournalEntry[]> {
     return this.getJournalEntries({ userId, mood, limit });
   }
 
-  async getJournalEntriesByDateRange(userId: string, startDate: string, endDate: string): Promise<JournalEntry[]> {
+  async getJournalEntriesByDateRange(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<JournalEntry[]> {
     return this.getJournalEntries({
       userId,
       dateFrom: startDate,
       dateTo: endDate,
-      limit: 100
+      limit: 100,
     });
   }
 
@@ -575,7 +595,10 @@ class JournalingService {
   // ANALYTICS
   // =====================================================
 
-  async getJournalTrends(userId: string, days: number = 30): Promise<Array<{ date: string; count: number; mood: string }>> {
+  async getJournalTrends(
+    userId: string,
+    days: number = 30
+  ): Promise<Array<{ date: string; count: number; mood: string }>> {
     const { data, error } = await supabase
       .from('journal_entries')
       .select('created_at, mood')
@@ -587,21 +610,27 @@ class JournalingService {
       return [];
     }
 
-    const dailyData = data?.reduce((acc, entry) => {
-      const date = entry.created_at.split('T')[0];
-      if (!acc[date]) {
-        acc[date] = { count: 0, mood: entry.mood };
-      }
-      acc[date].count++;
-      return acc;
-    }, {} as Record<string, { count: number; mood: string }>) || {};
+    const dailyData =
+      data?.reduce(
+        (acc, entry) => {
+          const date = entry.created_at.split('T')[0];
+          if (!acc[date]) {
+            acc[date] = { count: 0, mood: entry.mood };
+          }
+          acc[date].count++;
+          return acc;
+        },
+        {} as Record<string, { count: number; mood: string }>
+      ) || {};
 
     return Object.entries(dailyData)
       .map(([date, data]) => ({ date, ...data }))
       .sort((a, b) => a.date.localeCompare(b.date));
   }
 
-  async getPopularPrompts(): Promise<Array<{ prompt_id: string; count: number; prompt: JournalPrompt }>> {
+  async getPopularPrompts(): Promise<
+    Array<{ prompt_id: string; count: number; prompt: JournalPrompt }>
+  > {
     const { data, error } = await supabase
       .from('journal_entries')
       .select('prompt_id, prompt:journal_prompts(*)')
@@ -612,20 +641,24 @@ class JournalingService {
       return [];
     }
 
-    const promptCounts = data?.reduce((acc, entry) => {
-      if (entry.prompt_id) {
-        acc[entry.prompt_id] = (acc[entry.prompt_id] || 0) + 1;
-      }
-      return acc;
-    }, {} as Record<string, number>) || {};
+    const promptCounts =
+      data?.reduce(
+        (acc, entry) => {
+          if (entry.prompt_id) {
+            acc[entry.prompt_id] = (acc[entry.prompt_id] || 0) + 1;
+          }
+          return acc;
+        },
+        {} as Record<string, number>
+      ) || {};
 
     return Object.entries(promptCounts)
       .map(([prompt_id, count]) => ({
         prompt_id,
         count,
-        prompt: data?.find(d => d.prompt_id === prompt_id)?.prompt as any
+        prompt: data?.find((d) => d.prompt_id === prompt_id)?.prompt as any,
       }))
-      .filter(item => item.prompt)
+      .filter((item) => item.prompt)
       .sort((a, b) => b.count - a.count)
       .slice(0, 10) as Array<{ prompt_id: string; count: number; prompt: JournalPrompt }>;
   }

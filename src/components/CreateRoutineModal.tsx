@@ -17,7 +17,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({ isOpen, 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!title.trim() || !validateTime(time)) {
       return;
     }
@@ -27,15 +27,15 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({ isOpen, 
         title: title.trim(),
         icon,
         time,
-        frequency
+        frequency,
       });
-      
+
       // Reset form
       setTitle('');
       setIcon(RoutineIcon.Feeding);
       setTime('08:00');
       setFrequency(RoutineFrequency.Daily);
-      
+
       onClose();
     } catch (error) {
       console.error('Erro ao criar rotina:', error);
@@ -48,13 +48,13 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({ isOpen, 
     { value: RoutineIcon.Feeding, emoji: '🍼', label: 'Alimentação' },
     { value: RoutineIcon.Bathing, emoji: '🛁', label: 'Banho' },
     { value: RoutineIcon.Sleeping, emoji: '😴', label: 'Sono' },
-    { value: RoutineIcon.Activities, emoji: '🎨', label: 'Atividades' }
+    { value: RoutineIcon.Activities, emoji: '🎨', label: 'Atividades' },
   ];
 
   const frequencyOptions = [
     { value: RoutineFrequency.Daily, label: 'Diário' },
     { value: RoutineFrequency.Weekdays, label: 'Segunda a Sexta' },
-    { value: RoutineFrequency.Weekends, label: 'Fins de Semana' }
+    { value: RoutineFrequency.Weekends, label: 'Fins de Semana' },
   ];
 
   return (
@@ -66,9 +66,7 @@ export const CreateRoutineModal: React.FC<CreateRoutineModalProps> = ({ isOpen, 
             <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
               <Calendar className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Nova Rotina
-            </h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Nova Rotina</h2>
           </div>
           <button
             onClick={onClose}

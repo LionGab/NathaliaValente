@@ -79,10 +79,7 @@ export const ModernOnboardingFlow = () => {
         onboarding_goals: data.goals,
       };
 
-      const { error } = await supabase
-        .from('profiles')
-        .update(updateData)
-        .eq('id', user.id);
+      const { error } = await supabase.from('profiles').update(updateData).eq('id', user.id);
 
       if (error) {
         console.error('Error completing onboarding:', error);
@@ -128,9 +125,7 @@ export const ModernOnboardingFlow = () => {
             <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Quase lá! ✨
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Quase lá! ✨</h2>
             <p className="text-gray-600 dark:text-gray-400">
               Preparando sua experiência personalizada...
             </p>
@@ -145,40 +140,38 @@ export const ModernOnboardingFlow = () => {
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-200/30 dark:bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/30 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/30 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '1s' }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/20 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '2s' }}
+        ></div>
       </div>
 
       {/* Progress Indicator */}
       {currentStep !== 'welcome' && (
         <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10">
-          <ModernProgressIndicator 
-            currentStep={getCurrentStepIndex()} 
-            totalSteps={getTotalSteps()} 
+          <ModernProgressIndicator
+            currentStep={getCurrentStepIndex()}
+            totalSteps={getTotalSteps()}
           />
         </div>
       )}
 
       {/* Main Content */}
-      <div className={`relative z-10 transition-all duration-300 ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+      <div
+        className={`relative z-10 transition-all duration-300 ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
+      >
         {currentStep === 'welcome' && (
-          <ModernWelcomeScreen 
-            onNext={handleWelcomeNext} 
-            onSkip={handleWelcomeSkip} 
-          />
+          <ModernWelcomeScreen onNext={handleWelcomeNext} onSkip={handleWelcomeSkip} />
         )}
         {currentStep === 'profile' && (
-          <ModernProfileSetup 
-            fullName={fullName} 
-            onNext={handleProfileNext} 
-            onBack={goBack} 
-          />
+          <ModernProfileSetup fullName={fullName} onNext={handleProfileNext} onBack={goBack} />
         )}
         {currentStep === 'goals' && (
-          <ModernGoalsSelection 
-            onNext={handleGoalsNext} 
-            onBack={goBack} 
-          />
+          <ModernGoalsSelection onNext={handleGoalsNext} onBack={goBack} />
         )}
         {currentStep === 'tour' && (
           <ModernFeatureTour

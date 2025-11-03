@@ -45,11 +45,13 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
       tests[0] = {
         name: 'Configuração Supabase',
         status: supabaseConfigured ? 'success' : 'error',
-        message: supabaseConfigured ? 'Supabase configurado corretamente' : 'Supabase não configurado',
+        message: supabaseConfigured
+          ? 'Supabase configurado corretamente'
+          : 'Supabase não configurado',
         details: {
           url: apiConfig.getConfig().supabase.url ? 'Configurada' : 'Não configurada',
           anonKey: apiConfig.getConfig().supabase.anonKey ? 'Configurada' : 'Não configurada',
-        }
+        },
       };
     } catch (error) {
       tests[0] = {
@@ -71,7 +73,7 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
         details: {
           primary: aiConfig.primary,
           configured: aiConfig.configured,
-        }
+        },
       };
     } catch (error) {
       tests[1] = {
@@ -89,11 +91,13 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
       tests[2] = {
         name: 'Configuração Pagamentos',
         status: paymentConfigured ? 'success' : 'error',
-        message: paymentConfigured ? 'Sistemas de pagamento configurados' : 'Nenhum sistema de pagamento configurado',
+        message: paymentConfigured
+          ? 'Sistemas de pagamento configurados'
+          : 'Nenhum sistema de pagamento configurado',
         details: {
           stripe: paymentConfig.stripe.configured ? 'Configurado' : 'Não configurado',
           paypal: paymentConfig.paypal.configured ? 'Configurado' : 'Não configurado',
-        }
+        },
       };
     } catch (error) {
       tests[2] = {
@@ -116,7 +120,7 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
             response: response.content.substring(0, 100) + '...',
             provider: response.provider,
             model: response.model,
-          }
+          },
         };
       } else {
         tests[3] = {
@@ -140,11 +144,13 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
       tests[4] = {
         name: 'Validação Geral',
         status: validation.isValid ? 'success' : 'error',
-        message: validation.isValid ? 'Todas as configurações essenciais estão presentes' : 'Configurações em falta',
+        message: validation.isValid
+          ? 'Todas as configurações essenciais estão presentes'
+          : 'Configurações em falta',
         details: {
           isValid: validation.isValid,
           missing: validation.missing,
-        }
+        },
       };
     } catch (error) {
       tests[4] = {
@@ -166,7 +172,11 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
     // Implementar testes individuais aqui se necessário
     // Por simplicidade, vamos apenas simular
     setTimeout(() => {
-      newResults[testIndex] = { ...newResults[testIndex], status: 'success', message: 'Teste concluído' };
+      newResults[testIndex] = {
+        ...newResults[testIndex],
+        status: 'success',
+        message: 'Teste concluído',
+      };
       setTestResults([...newResults]);
     }, 1000);
   };
@@ -183,9 +193,7 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
               <TestTube className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                Teste das APIs
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Teste das APIs</h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Verifique se todas as integrações estão funcionando
               </p>
@@ -202,18 +210,15 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
         {/* Test Results */}
         <div className="space-y-4 mb-6">
           {testResults.map((test, index) => (
-            <div
-              key={index}
-              className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4"
-            >
+            <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  {test.status === 'pending' && <Loader className="w-5 h-5 text-yellow-500 animate-spin" />}
+                  {test.status === 'pending' && (
+                    <Loader className="w-5 h-5 text-yellow-500 animate-spin" />
+                  )}
                   {test.status === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
                   {test.status === 'error' && <XCircle className="w-5 h-5 text-red-500" />}
-                  <h3 className="font-semibold text-gray-900 dark:text-white">
-                    {test.name}
-                  </h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{test.name}</h3>
                 </div>
                 {test.status === 'pending' && (
                   <button
@@ -224,9 +229,7 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
                   </button>
                 )}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {test.message}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{test.message}</p>
               {test.details && (
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-xs">
                   <pre className="text-gray-600 dark:text-gray-400">
@@ -268,25 +271,23 @@ export const APITestPanel: React.FC<APITestPanelProps> = ({ isOpen, onClose }) =
         {/* Summary */}
         {testResults.length > 0 && (
           <div className="mt-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-              Resumo dos Testes
-            </h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Resumo dos Testes</h3>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-green-500">
-                  {testResults.filter(t => t.status === 'success').length}
+                  {testResults.filter((t) => t.status === 'success').length}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Sucessos</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-red-500">
-                  {testResults.filter(t => t.status === 'error').length}
+                  {testResults.filter((t) => t.status === 'error').length}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Erros</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-yellow-500">
-                  {testResults.filter(t => t.status === 'pending').length}
+                  {testResults.filter((t) => t.status === 'pending').length}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Pendentes</div>
               </div>

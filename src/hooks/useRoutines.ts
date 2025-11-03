@@ -24,20 +24,20 @@ export function useRoutines() {
       }
       return local;
     },
-    staleTime: Infinity // Cache local nunca expira
+    staleTime: Infinity, // Cache local nunca expira
   });
 
   // 2. Background sync com Supabase
   const { data: remoteRoutines, isLoading: remoteLoading } = useQuery({
     queryKey: [ROUTINES_QUERY_KEY, 'remote', user?.id],
-    queryFn: () => user ? routineRemoteService.getAll(user.id) : Promise.resolve([]),
+    queryFn: () => (user ? routineRemoteService.getAll(user.id) : Promise.resolve([])),
     enabled: !!user,
     staleTime: 5 * 60 * 1000, // 5 minutos
     onSuccess: async (remote) => {
       // Sincronizar local com remote
       const local = await routineLocalService.getAll();
-      const toUpdate = remote.filter(r => {
-        const localItem = local.find(l => l.id === r.id);
+      const toUpdate = remote.filter((r) => {
+        const localItem = local.find((l) => l.id === r.id);
         return !localItem || new Date(r.updated_at) > new Date(localItem.updated_at);
       });
 
@@ -48,7 +48,7 @@ export function useRoutines() {
       if (toUpdate.length > 0) {
         queryClient.invalidateQueries([ROUTINES_QUERY_KEY, 'local']);
       }
-    }
+    },
   });
 
   // 3. Realtime subscriptions
@@ -72,7 +72,7 @@ export function useRoutines() {
   return {
     routines: localRoutines,
     loading: localLoading,
-    syncing: remoteLoading
+    syncing: remoteLoading,
   };
 }
 
@@ -83,18 +83,18 @@ export function useCreateRoutine() {
   return useMutation({
     mutationFn: async (input: CreateRoutineInput) => {
       if (!user) throw new Error('User not authenticated');
-      
+
       // 1. Criar no Supabase
       const routine = await routineRemoteService.create(user.id, input);
-      
+
       // 2. Salvar no cache local
       await routineLocalService.save(routine);
-      
+
       return routine;
     },
     onSuccess: () => {
       queryClient.invalidateQueries([ROUTINES_QUERY_KEY]);
-    }
+    },
   });
 }
 
@@ -105,15 +105,15 @@ export function useUpdateRoutine() {
     mutationFn: async (input: UpdateRoutineInput) => {
       // 1. Atualizar no Supabase
       const routine = await routineRemoteService.update(input);
-      
+
       // 2. Atualizar cache local
       await routineLocalService.save(routine);
-      
+
       return routine;
     },
     onSuccess: () => {
       queryClient.invalidateQueries([ROUTINES_QUERY_KEY]);
-    }
+    },
   });
 }
 
@@ -128,7 +128,7 @@ export function useToggleRoutine() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([ROUTINES_QUERY_KEY]);
-    }
+    },
   });
 }
 
@@ -142,6 +142,6 @@ export function useDeleteRoutine() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([ROUTINES_QUERY_KEY]);
-    }
+    },
   });
 }

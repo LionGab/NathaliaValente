@@ -35,14 +35,16 @@ export const ModernProfileSetup = ({ fullName, onNext, onBack }: ModernProfileSe
   const [nicknameOption, setNicknameOption] = useState<'first' | 'custom'>('first');
 
   const handleNext = () => {
-    const finalNickname = nicknameOption === 'first' ? firstName : customNickname.trim() || firstName;
+    const finalNickname =
+      nicknameOption === 'first' ? firstName : customNickname.trim() || firstName;
     onNext({
       nickname: finalNickname,
       avatarEmoji: selectedEmoji,
     });
   };
 
-  const canProceed = nicknameOption === 'first' || (nicknameOption === 'custom' && customNickname.trim().length > 0);
+  const canProceed =
+    nicknameOption === 'first' || (nicknameOption === 'custom' && customNickname.trim().length > 0);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
@@ -81,7 +83,7 @@ export const ModernProfileSetup = ({ fullName, onNext, onBack }: ModernProfileSe
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Escolha seu avatar
             </h3>
-            
+
             <div className="grid grid-cols-6 gap-3 max-w-md mx-auto">
               {AVATAR_EMOJIS.map(({ emoji, name }) => (
                 <button
@@ -112,16 +114,20 @@ export const ModernProfileSetup = ({ fullName, onNext, onBack }: ModernProfileSe
             </h3>
 
             {/* First Name Option */}
-            <label className={`group flex items-center gap-4 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
-              nicknameOption === 'first'
-                ? 'border-pink-400 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 shadow-md'
-                : 'border-gray-200 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-600'
-            }`}>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+            <label
+              className={`group flex items-center gap-4 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
                 nicknameOption === 'first'
-                  ? 'border-pink-500 bg-pink-500'
-                  : 'border-gray-300 dark:border-gray-600'
-              }`}>
+                  ? 'border-pink-400 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 shadow-md'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-600'
+              }`}
+            >
+              <div
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                  nicknameOption === 'first'
+                    ? 'border-pink-500 bg-pink-500'
+                    : 'border-gray-300 dark:border-gray-600'
+                }`}
+              >
                 {nicknameOption === 'first' && (
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 )}
@@ -130,23 +136,25 @@ export const ModernProfileSetup = ({ fullName, onNext, onBack }: ModernProfileSe
                 <span className="font-semibold text-gray-900 dark:text-white text-lg">
                   {firstName}
                 </span>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Usar meu primeiro nome
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Usar meu primeiro nome</p>
               </div>
             </label>
 
             {/* Custom Name Option */}
-            <label className={`group flex items-start gap-4 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
-              nicknameOption === 'custom'
-                ? 'border-pink-400 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 shadow-md'
-                : 'border-gray-200 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-600'
-            }`}>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 mt-1 ${
+            <label
+              className={`group flex items-start gap-4 p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
                 nicknameOption === 'custom'
-                  ? 'border-pink-500 bg-pink-500'
-                  : 'border-gray-300 dark:border-gray-600'
-              }`}>
+                  ? 'border-pink-400 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 shadow-md'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-600'
+              }`}
+            >
+              <div
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 mt-1 ${
+                  nicknameOption === 'custom'
+                    ? 'border-pink-500 bg-pink-500'
+                    : 'border-gray-300 dark:border-gray-600'
+                }`}
+              >
                 {nicknameOption === 'custom' && (
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 )}

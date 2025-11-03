@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useState, ReactNode, useRef, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useRef,
+  useCallback,
+} from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '../lib/supabase';
 import { authWithRetry } from '../lib/apiClient';
@@ -79,51 +87,57 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [user, fetchProfile]);
 
   // Função debounced para processar mudanças de auth
-  const processAuthChange = useCallback(async (session: Session | null) => {
-    // Cancelar timeout anterior se existir
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
-    }
-
-    // Debounce de 100ms para evitar múltiplos processamentos
-    debounceTimeoutRef.current = setTimeout(async () => {
-      // Evitar processamento simultâneo
-      if (isProcessingAuthRef.current) {
-        return;
+  const processAuthChange = useCallback(
+    async (session: Session | null) => {
+      // Cancelar timeout anterior se existir
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
       }
 
-      isProcessingAuthRef.current = true;
-
-      try {
-        setSession(session);
-        setUser(session?.user ?? null);
-
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-        } else {
-          setProfile(null);
-          // Limpar cache de profiles processados
-          fetchProfileRef.current.clear();
+      // Debounce de 100ms para evitar múltiplos processamentos
+      debounceTimeoutRef.current = setTimeout(async () => {
+        // Evitar processamento simultâneo
+        if (isProcessingAuthRef.current) {
+          return;
         }
 
-        setLoading(false);
-      } catch (error) {
-        if (import.meta.env.DEV) {
-          console.error('Error processing auth change:', error);
+        isProcessingAuthRef.current = true;
+
+        try {
+          setSession(session);
+          setUser(session?.user ?? null);
+
+          if (session?.user) {
+            await fetchProfile(session.user.id);
+          } else {
+            setProfile(null);
+            // Limpar cache de profiles processados
+            fetchProfileRef.current.clear();
+          }
+
+          setLoading(false);
+        } catch (error) {
+          if (import.meta.env.DEV) {
+            console.error('Error processing auth change:', error);
+          }
+          setLoading(false);
+        } finally {
+          isProcessingAuthRef.current = false;
         }
-        setLoading(false);
-      } finally {
-        isProcessingAuthRef.current = false;
-      }
-    }, 100);
-  }, [fetchProfile]);
+      }, 100);
+    },
+    [fetchProfile]
+  );
 
   useEffect(() => {
     // Carregar sessão inicial
     const initializeAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+
         if (error) {
           if (import.meta.env.DEV) {
             console.error('Error getting initial session:', error);
@@ -148,7 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (import.meta.env.DEV) {
         console.log('Auth state changed:', event, session?.user?.id);
       }
-      
+
       await processAuthChange(session);
     });
 
@@ -181,10 +195,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     try {
       const result = await authWithRetry(
-        () => supabase.auth.signInWithPassword({
-          email,
-          password,
-        }),
+        () =>
+          supabase.auth.signInWithPassword({
+            email,
+            password,
+          }),
         { feature: 'auth', retries: 2 }
       );
 
@@ -199,11 +214,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       return { error: null };
     } catch (err) {
-      const errorDetails = handleError(
-        err as Error,
-        { action: 'sign_in' },
-        'auth'
-      );
+      const errorDetails = handleError(err as Error, { action: 'sign_in' }, 'auth');
       return { error: errorDetails.userFriendlyMessage };
     }
   };
@@ -219,8 +230,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         email: 'demo@nossamaternidade.com',
         user_metadata: {
           full_name: 'Nathália Valente',
-          avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
-        }
+          avatar_url:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        },
       } as User;
 
       const demoSession = {
@@ -229,7 +241,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         refresh_token: 'demo-refresh-token',
         expires_in: 3600,
         expires_at: Date.now() + 3600000,
-        token_type: 'bearer'
+        token_type: 'bearer',
       } as Session;
 
       setUser(demoUser);
@@ -238,28 +250,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         id: 'demo-user-123',
         full_name: 'Nathália Valente',
         username: 'nathalia_valente',
-        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+        avatar_url:
+          'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
         bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
         followers_count: 29000000,
         following_count: 500,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       });
 
       // Salvar no localStorage para persistência
       localStorage.setItem('clubnath_demo_mode', 'true');
       localStorage.setItem('clubnath_demo_user', JSON.stringify(demoUser));
-      localStorage.setItem('clubnath_demo_profile', JSON.stringify({
-        id: 'demo-user-123',
-        full_name: 'Nathália Valente',
-        username: 'nathalia_valente',
-        avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-        bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
-        followers_count: 29000000,
-        following_count: 500,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }));
+      localStorage.setItem(
+        'clubnath_demo_profile',
+        JSON.stringify({
+          id: 'demo-user-123',
+          full_name: 'Nathália Valente',
+          username: 'nathalia_valente',
+          avatar_url:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
+          bio: 'Empreendedora, investidora e mãe. CEO da NAVA e criadora do Me Poupe!',
+          followers_count: 29000000,
+          following_count: 500,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+      );
 
       console.log('✅ Success: Modo Demo Ativado');
     } catch (error) {
@@ -275,7 +292,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         setSession(null);
         setProfile(null);
-        
+
         // Limpar localStorage do modo demo
         localStorage.removeItem('clubnath_demo_mode');
         localStorage.removeItem('clubnath_demo_user');
@@ -284,11 +301,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await supabase.auth.signOut();
         setProfile(null);
       }
-      
+
       // Limpar refs e cache
       fetchProfileRef.current.clear();
       isProcessingAuthRef.current = false;
-      
+
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
         debounceTimeoutRef.current = null;

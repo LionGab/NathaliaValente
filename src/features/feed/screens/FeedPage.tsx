@@ -4,7 +4,62 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { usePosts, useLikePost, useSaveItem } from '../../../hooks/useQueries';
 import { useWebShare } from '../../../hooks';
 import { getCategoryGradient } from '../../../constants/colors';
-import { Heart, MessageCircle, Award, Plus, Bookmark, Share2, Filter, Users, Star, HelpCircle, Calendar, TrendingUp, Shield, Baby, Lightbulb, Coffee, Clock, Target, CheckCircle, AlertCircle, ThumbsUp, MessageSquare, Share, Flag, MoreHorizontal, Search, Bell, Zap, Crown, Sparkles, UserPlus, MessageSquarePlus, Eye, EyeOff, Lock, Unlock, ChevronDown, ChevronUp, Flame, TrendingUp as TrendingUpIcon, BookOpen, Users2, HeartHandshake, Brain, Stethoscope, DollarSign, Rocket, Baby2, MessageSquareText, Trophy, Search as SearchIcon, Filter as FilterIcon, SortAsc, SortDesc } from 'lucide-react';
+import {
+  Heart,
+  MessageCircle,
+  Award,
+  Plus,
+  Bookmark,
+  Share2,
+  Filter,
+  Users,
+  Star,
+  HelpCircle,
+  Calendar,
+  TrendingUp,
+  Shield,
+  Baby,
+  Lightbulb,
+  Coffee,
+  Clock,
+  Target,
+  CheckCircle,
+  AlertCircle,
+  ThumbsUp,
+  MessageSquare,
+  Share,
+  Flag,
+  MoreHorizontal,
+  Search,
+  Bell,
+  Zap,
+  Crown,
+  Sparkles,
+  UserPlus,
+  MessageSquarePlus,
+  Eye,
+  EyeOff,
+  Lock,
+  Unlock,
+  ChevronDown,
+  ChevronUp,
+  Flame,
+  TrendingUp as TrendingUpIcon,
+  BookOpen,
+  Users2,
+  HeartHandshake,
+  Brain,
+  Stethoscope,
+  DollarSign,
+  Rocket,
+  Baby2,
+  MessageSquareText,
+  Trophy,
+  Search as SearchIcon,
+  Filter as FilterIcon,
+  SortAsc,
+  SortDesc,
+} from 'lucide-react';
 import { PostComments } from '../../../components/PostComments';
 import { LoadingSpinner, PostSkeleton } from '../../../components/ui/LoadingSpinner';
 import { useMockData } from '../../../hooks/useMockData';
@@ -16,7 +71,9 @@ import type { Post } from '../../../lib/supabase';
 
 // Lazy load the CreatePostModal since it's only shown when needed
 const CreatePostModal = lazy(() =>
-  import('../../../components/CreatePostModal').then((module) => ({ default: module.CreatePostModal }))
+  import('../../../components/CreatePostModal').then((module) => ({
+    default: module.CreatePostModal,
+  }))
 );
 
 export const FeedPage = () => {
@@ -40,7 +97,7 @@ export const FeedPage = () => {
     commentsCount: 89,
     level: 5,
     nextLevelProgress: 75,
-    badges: ['Primeira Postagem', 'Apoiadora', 'Especialista em Amamentação']
+    badges: ['Primeira Postagem', 'Apoiadora', 'Especialista em Amamentação'],
   });
 
   // Dados de grupos temáticos
@@ -52,7 +109,7 @@ export const FeedPage = () => {
       memberCount: 1247,
       icon: '🤰',
       color: 'from-pink-500 to-rose-500',
-      isPrivate: false
+      isPrivate: false,
     },
     {
       id: 'amamentacao-suporte',
@@ -61,7 +118,7 @@ export const FeedPage = () => {
       memberCount: 2156,
       icon: '🍼',
       color: 'from-blue-500 to-cyan-500',
-      isPrivate: false
+      isPrivate: false,
     },
     {
       id: 'maes-empresarias',
@@ -70,7 +127,7 @@ export const FeedPage = () => {
       memberCount: 892,
       icon: '💼',
       color: 'from-purple-500 to-violet-500',
-      isPrivate: true
+      isPrivate: true,
     },
     {
       id: 'desabafos-seguros',
@@ -79,8 +136,8 @@ export const FeedPage = () => {
       memberCount: 3456,
       icon: '💭',
       color: 'from-indigo-500 to-blue-500',
-      isPrivate: true
-    }
+      isPrivate: true,
+    },
   ];
 
   // Recursos de apoio emocional
@@ -92,7 +149,7 @@ export const FeedPage = () => {
       phone: '188',
       icon: HeartHandshake,
       color: 'from-red-500 to-pink-500',
-      urgent: true
+      urgent: true,
     },
     {
       id: 'mental-health',
@@ -100,7 +157,7 @@ export const FeedPage = () => {
       description: 'Recursos para bem-estar emocional',
       icon: Brain,
       color: 'from-purple-500 to-indigo-500',
-      urgent: false
+      urgent: false,
     },
     {
       id: 'medical-support',
@@ -108,8 +165,8 @@ export const FeedPage = () => {
       description: 'Orientações de saúde durante a gestação',
       icon: Stethoscope,
       color: 'from-green-500 to-emerald-500',
-      urgent: false
-    }
+      urgent: false,
+    },
   ];
 
   // Use mock data for better experience
@@ -126,7 +183,7 @@ export const FeedPage = () => {
 
   // Filter posts by category if selected
   const posts = selectedCategory
-    ? allPosts.filter(post => post.category === selectedCategory)
+    ? allPosts.filter((post) => post.category === selectedCategory)
     : allPosts;
 
   const loading = mockLoading || realLoading;
@@ -135,19 +192,68 @@ export const FeedPage = () => {
   // Categories for filtering - Focadas em ajudar realmente as mães
   const categories = [
     { id: 'all', name: 'Todos', icon: '📱', color: 'from-gray-500 to-gray-600', count: 0 },
-    { id: 'Apoio Emocional', name: 'Apoio Emocional', icon: '🤗', color: 'from-pink-500 to-rose-500', count: 45 },
-    { id: 'Dicas Práticas', name: 'Dicas Práticas', icon: '💡', color: 'from-yellow-500 to-orange-500', count: 78 },
-    { id: 'Saúde & Bem-estar', name: 'Saúde & Bem-estar', icon: '🏥', color: 'from-green-500 to-emerald-500', count: 92 },
-    { id: 'Educação Financeira', name: 'Educação Financeira', icon: '💰', color: 'from-blue-500 to-cyan-500', count: 34 },
-    { id: 'Empreendedorismo', name: 'Empreendedorismo', icon: '🚀', color: 'from-purple-500 to-violet-500', count: 56 },
-    { id: 'Maternidade', name: 'Maternidade', icon: '👶', color: 'from-pink-400 to-purple-400', count: 123 },
-    { id: 'Desabafo', name: 'Desabafo', icon: '💭', color: 'from-indigo-500 to-blue-500', count: 67 },
-    { id: 'Conquistas', name: 'Conquistas', icon: '🏆', color: 'from-yellow-400 to-orange-400', count: 89 }
+    {
+      id: 'Apoio Emocional',
+      name: 'Apoio Emocional',
+      icon: '🤗',
+      color: 'from-pink-500 to-rose-500',
+      count: 45,
+    },
+    {
+      id: 'Dicas Práticas',
+      name: 'Dicas Práticas',
+      icon: '💡',
+      color: 'from-yellow-500 to-orange-500',
+      count: 78,
+    },
+    {
+      id: 'Saúde & Bem-estar',
+      name: 'Saúde & Bem-estar',
+      icon: '🏥',
+      color: 'from-green-500 to-emerald-500',
+      count: 92,
+    },
+    {
+      id: 'Educação Financeira',
+      name: 'Educação Financeira',
+      icon: '💰',
+      color: 'from-blue-500 to-cyan-500',
+      count: 34,
+    },
+    {
+      id: 'Empreendedorismo',
+      name: 'Empreendedorismo',
+      icon: '🚀',
+      color: 'from-purple-500 to-violet-500',
+      count: 56,
+    },
+    {
+      id: 'Maternidade',
+      name: 'Maternidade',
+      icon: '👶',
+      color: 'from-pink-400 to-purple-400',
+      count: 123,
+    },
+    {
+      id: 'Desabafo',
+      name: 'Desabafo',
+      icon: '💭',
+      color: 'from-indigo-500 to-blue-500',
+      count: 67,
+    },
+    {
+      id: 'Conquistas',
+      name: 'Conquistas',
+      icon: '🏆',
+      color: 'from-yellow-400 to-orange-400',
+      count: 89,
+    },
   ];
 
   // Função para filtrar posts por busca e categoria
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = searchQuery === '' ||
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch =
+      searchQuery === '' ||
       post.caption.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -257,7 +363,7 @@ export const FeedPage = () => {
               className="bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 h-48 rounded-2xl animate-pulse"
               style={{
                 backgroundSize: '200% 100%',
-                animation: 'shimmer 2s infinite linear'
+                animation: 'shimmer 2s infinite linear',
               }}
             />
           ))}
@@ -273,8 +379,12 @@ export const FeedPage = () => {
         <div className="max-w-full mx-auto px-3 sm:px-4 py-2 sm:py-3">
           <div className="flex items-center justify-between mb-4">
             <div className="flex-1">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mobile-text-lg">Comunidade</h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mobile-text-sm">Conecte-se com outras mães</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mobile-text-lg">
+                Comunidade
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mobile-text-sm">
+                Conecte-se com outras mães
+              </p>
             </div>
 
             {/* Estatísticas do usuário */}
@@ -302,7 +412,10 @@ export const FeedPage = () => {
           {/* Barra de busca e filtros */}
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 relative">
-              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true" />
+              <SearchIcon
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
+                aria-hidden="true"
+              />
               <input
                 type="text"
                 placeholder="Buscar posts, usuários..."
@@ -355,10 +468,14 @@ export const FeedPage = () => {
               >
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ordenar por:</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Ordenar por:
+                    </span>
                     <select
                       value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value as 'recent' | 'popular' | 'trending')}
+                      onChange={(e) =>
+                        setSortBy(e.target.value as 'recent' | 'popular' | 'trending')
+                      }
                       className="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
                     >
                       <option value="recent">Mais recentes</option>
@@ -383,19 +500,24 @@ export const FeedPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category.id === 'all' ? null : category.id)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 relative snap-start ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
-                  ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 relative snap-start ${
+                  (category.id === 'all' && !selectedCategory) || selectedCategory === category.id
+                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
                 aria-label={`Filtrar por ${category.name}`}
               >
                 <span className="text-sm">{category.icon}</span>
                 <span>{category.name}</span>
                 {category.count > 0 && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${(category.id === 'all' && !selectedCategory) || selectedCategory === category.id
-                    ? 'bg-white/20 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                    }`}>
+                  <span
+                    className={`text-xs px-1.5 py-0.5 rounded-full ${
+                      (category.id === 'all' && !selectedCategory) ||
+                      selectedCategory === category.id
+                        ? 'bg-white/20 text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    }`}
+                  >
                     {category.count}
                   </span>
                 )}
@@ -424,22 +546,29 @@ export const FeedPage = () => {
                   <motion.div
                     key={group.id}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${activeGroup === group.id
-                      ? `border-pink-500 bg-gradient-to-r ${group.color}/10`
-                      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-pink-300 dark:hover:border-pink-600'
-                      }`}
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
+                      activeGroup === group.id
+                        ? `border-pink-500 bg-gradient-to-r ${group.color}/10`
+                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-pink-300 dark:hover:border-pink-600'
+                    }`}
                     onClick={() => setActiveGroup(activeGroup === group.id ? null : group.id)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{group.icon}</span>
                         <div>
-                          <h4 className="font-semibold text-gray-800 dark:text-white">{group.name}</h4>
-                          <p className="text-xs text-gray-600 dark:text-gray-400">{group.description}</p>
+                          <h4 className="font-semibold text-gray-800 dark:text-white">
+                            {group.name}
+                          </h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">
+                            {group.description}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {group.isPrivate && <Lock className="w-4 h-4 text-gray-400" aria-hidden="true" />}
+                        {group.isPrivate && (
+                          <Lock className="w-4 h-4 text-gray-400" aria-hidden="true" />
+                        )}
                         <span className="text-sm text-gray-500 dark:text-gray-400">
                           {formatNumber(group.memberCount)} membros
                         </span>
@@ -472,18 +601,23 @@ export const FeedPage = () => {
                   <motion.div
                     key={resource.id}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 ${resource.urgent
-                      ? 'border-red-300 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30'
-                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
-                      }`}
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                      resource.urgent
+                        ? 'border-red-300 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30'
+                        : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
+                    }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className={`p-2 rounded-lg bg-gradient-to-r ${resource.color}`}>
                         <resource.icon className="w-5 h-5 text-white" aria-hidden="true" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 dark:text-white">{resource.title}</h4>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">{resource.description}</p>
+                        <h4 className="font-semibold text-gray-800 dark:text-white">
+                          {resource.title}
+                        </h4>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {resource.description}
+                        </p>
                       </div>
                     </div>
                     {resource.phone && (
@@ -635,10 +769,11 @@ export const FeedPage = () => {
                         aria-label="Curtir post"
                       >
                         <Heart
-                          className={`w-6 h-6 ${post.user_has_liked
-                            ? 'fill-pink-500 text-pink-500'
-                            : 'group-hover:scale-110'
-                            } transition-all duration-300`}
+                          className={`w-6 h-6 ${
+                            post.user_has_liked
+                              ? 'fill-pink-500 text-pink-500'
+                              : 'group-hover:scale-110'
+                          } transition-all duration-300`}
                           strokeWidth={2}
                         />
                         <span className="text-sm font-bold">
@@ -780,7 +915,6 @@ export const FeedPage = () => {
               <LoadingSpinner size="md" text="Carregando mais posts..." />
             </div>
           )}
-
         </div>
       </div>
 

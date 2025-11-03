@@ -21,7 +21,8 @@ export const usePosts = (page = 0, limit = 20) => {
     queryFn: async (): Promise<Post[]> => {
       const { data, error } = await supabase
         .from('posts')
-        .select(`
+        .select(
+          `
           id,
           user_id,
           caption,
@@ -35,14 +36,15 @@ export const usePosts = (page = 0, limit = 20) => {
             full_name,
             avatar_url
           )
-        `)
+        `
+        )
         .order('created_at', { ascending: false })
         .range(page * limit, (page + 1) * limit - 1);
 
       if (error) throw error;
 
       // Get likes count separately for better performance
-      const postIds = data?.map(post => post.id) || [];
+      const postIds = data?.map((post) => post.id) || [];
       let likesData: any[] = [];
 
       if (postIds.length > 0) {
@@ -55,16 +57,18 @@ export const usePosts = (page = 0, limit = 20) => {
       }
 
       // Transform the data to match our Post type
-      return data?.map(post => {
-        const likesCount = likesData.filter(like => like.post_id === post.id).length;
-        return {
-          ...post,
-          profiles: Array.isArray(post.profiles) ? post.profiles[0] : post.profiles,
-          likes_count: likesCount,
-          comments_count: 0, // Will be loaded separately if needed
-          user_has_liked: false, // Will be set by the component based on current user
-        } as Post;
-      }) || [];
+      return (
+        data?.map((post) => {
+          const likesCount = likesData.filter((like) => like.post_id === post.id).length;
+          return {
+            ...post,
+            profiles: Array.isArray(post.profiles) ? post.profiles[0] : post.profiles,
+            likes_count: likesCount,
+            comments_count: 0, // Will be loaded separately if needed
+            user_has_liked: false, // Will be set by the component based on current user
+          } as Post;
+        }) || []
+      );
     },
     // Cache posts for 1 minute (optimized for real-time feel)
     staleTime: 1 * 60 * 1000,
@@ -83,7 +87,8 @@ export const usePost = (postId: string) => {
     queryFn: async (): Promise<Post | null> => {
       const { data, error } = await supabase
         .from('posts')
-        .select(`
+        .select(
+          `
           *,
           profiles!posts_user_id_fkey (
             id,
@@ -93,18 +98,21 @@ export const usePost = (postId: string) => {
           post_likes!left (
             user_id
           )
-        `)
+        `
+        )
         .eq('id', postId)
         .single();
 
       if (error) throw error;
 
-      return data ? {
-        ...data,
-        profiles: data.profiles,
-        likes_count: data.post_likes?.length || 0,
-        user_has_liked: false,
-      } : null;
+      return data
+        ? {
+            ...data,
+            profiles: data.profiles,
+            likes_count: data.post_likes?.length || 0,
+            user_has_liked: false,
+          }
+        : null;
     },
     enabled: !!postId,
     staleTime: 2 * 60 * 1000,
@@ -117,23 +125,27 @@ export const usePostComments = (postId: string) => {
     queryFn: async (): Promise<Comment[]> => {
       const { data, error } = await supabase
         .from('comments')
-        .select(`
+        .select(
+          `
           *,
           profiles!comments_user_id_fkey (
             id,
             full_name,
             avatar_url
           )
-        `)
+        `
+        )
         .eq('post_id', postId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
 
-      return data?.map(comment => ({
-        ...comment,
-        profiles: comment.profiles,
-      })) || [];
+      return (
+        data?.map((comment) => ({
+          ...comment,
+          profiles: comment.profiles,
+        })) || []
+      );
     },
     enabled: !!postId,
     staleTime: 1 * 60 * 1000, // Comments change more frequently
@@ -167,11 +179,7 @@ export const useProfile = (userId: string) => {
   return useQuery({
     queryKey: queryKeys.profile(userId),
     queryFn: async (): Promise<Profile | null> => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
+      const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
 
       if (error) throw error;
       return data;
@@ -210,7 +218,8 @@ export const useSavedItems = () => {
 
       const { data, error } = await supabase
         .from('saved_items')
-        .select(`
+        .select(
+          `
           *,
           posts!saved_items_post_id_fkey (
             id,
@@ -224,7 +233,8 @@ export const useSavedItems = () => {
               avatar_url
             )
           )
-        `)
+        `
+        )
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
@@ -256,12 +266,10 @@ export const useLikePost = () => {
         if (error) throw error;
       } else {
         // Add like
-        const { error } = await supabase
-          .from('post_likes')
-          .insert({
-            post_id: postId,
-            user_id: user.id,
-          });
+        const { error } = await supabase.from('post_likes').insert({
+          post_id: postId,
+          user_id: user.id,
+        });
 
         if (error) throw error;
       }
@@ -309,7 +317,15 @@ export const useSaveItem = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async ({ postId, type, content }: { postId?: string; type: 'post' | 'quote' | 'verse'; content?: string }) => {
+    mutationFn: async ({
+      postId,
+      type,
+      content,
+    }: {
+      postId?: string;
+      type: 'post' | 'quote' | 'verse';
+      content?: string;
+    }) => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase

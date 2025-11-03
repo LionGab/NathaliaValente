@@ -18,9 +18,9 @@ import type {
   CreateReflectionData,
   DailyStudyResult,
   NathIAStudyContext,
-  NathIAStudyResponse
+  NathIAStudyResponse,
 } from '../types/bible-studies';
-import { 
+import {
   STUDY_CATEGORIES,
   DIFFICULTY_LEVELS,
   MOOD_TYPES,
@@ -28,7 +28,7 @@ import {
   getStreakMessage,
   generateStudyEncouragement,
   getStudyRecommendation,
-  calculateStudyStats
+  calculateStudyStats,
 } from '../types/bible-studies';
 
 // =====================================================
@@ -39,15 +39,9 @@ export const bibleStudiesService: BibleStudyService = {
   // =====================================================
   // ESTUDOS
   // =====================================================
-  
+
   async getBibleStudies(filters: BibleStudyFilters = {}): Promise<BibleStudy[]> {
-    const {
-      category,
-      difficulty_level,
-      day,
-      limit = 50,
-      offset = 0
-    } = filters;
+    const { category, difficulty_level, day, limit = 50, offset = 0 } = filters;
 
     let queryBuilder = supabase
       .from('bible_studies')
@@ -59,11 +53,11 @@ export const bibleStudiesService: BibleStudyService = {
     if (category) {
       queryBuilder = queryBuilder.eq('category', category);
     }
-    
+
     if (difficulty_level) {
       queryBuilder = queryBuilder.eq('difficulty_level', difficulty_level);
     }
-    
+
     if (day) {
       queryBuilder = queryBuilder.eq('day', day);
     }
@@ -79,11 +73,7 @@ export const bibleStudiesService: BibleStudyService = {
   },
 
   async getBibleStudyById(id: string): Promise<BibleStudy> {
-    const { data, error } = await supabase
-      .from('bible_studies')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data, error } = await supabase.from('bible_studies').select('*').eq('id', id).single();
 
     if (error) {
       console.error('Error fetching bible study:', error);
@@ -96,7 +86,7 @@ export const bibleStudiesService: BibleStudyService = {
   async getDailyStudy(userId: string, day?: number): Promise<DailyStudyResult> {
     const { data, error } = await supabase.rpc('get_daily_study', {
       p_user_id: userId,
-      p_day: day
+      p_day: day,
     });
 
     if (error) {
@@ -109,11 +99,11 @@ export const bibleStudiesService: BibleStudyService = {
     }
 
     const result = data[0];
-    
+
     // Buscar próximo estudo
-    const nextStudy = await this.getBibleStudies({ 
+    const nextStudy = await this.getBibleStudies({
       day: result.day + 1,
-      limit: 1 
+      limit: 1,
     });
 
     return {
@@ -131,12 +121,12 @@ export const bibleStudiesService: BibleStudyService = {
         difficulty_level: result.difficulty_level,
         estimated_time: result.estimated_time,
         created_at: result.created_at,
-        updated_at: result.updated_at
+        updated_at: result.updated_at,
       },
       isCompleted: result.is_completed,
       userProgress: result.user_progress,
       streakDays: result.streak_days || 0,
-      nextStudy: nextStudy[0]
+      nextStudy: nextStudy[0],
     };
   },
 
@@ -169,7 +159,7 @@ export const bibleStudiesService: BibleStudyService = {
       p_user_reflection: progressData.userReflection || null,
       p_prayer_response: progressData.prayerResponse || null,
       p_practical_application: progressData.practicalApplication || null,
-      p_rating: progressData.rating || null
+      p_rating: progressData.rating || null,
     });
 
     if (error) {
@@ -195,7 +185,7 @@ export const bibleStudiesService: BibleStudyService = {
 
   async getStudyStreak(userId: string): Promise<number> {
     const { data, error } = await supabase.rpc('calculate_study_streak', {
-      p_user_id: userId
+      p_user_id: userId,
     });
 
     if (error) {
@@ -236,7 +226,7 @@ export const bibleStudiesService: BibleStudyService = {
       .from('user_study_plans')
       .insert({
         user_id: userId,
-        plan_id: planId
+        plan_id: planId,
       })
       .select('*')
       .single();
@@ -252,7 +242,8 @@ export const bibleStudiesService: BibleStudyService = {
   async getUserPlans(userId: string): Promise<UserStudyPlan[]> {
     const { data, error } = await supabase
       .from('user_study_plans')
-      .select(`
+      .select(
+        `
         *,
         study_plans (
           name,
@@ -261,7 +252,8 @@ export const bibleStudiesService: BibleStudyService = {
           total_days,
           difficulty_level
         )
-      `)
+      `
+      )
       .eq('user_id', userId)
       .eq('is_active', true)
       .order('started_at', { ascending: false });
@@ -301,7 +293,7 @@ export const bibleStudiesService: BibleStudyService = {
       .from('favorite_verses')
       .insert({
         ...data,
-        user_id: user.user.id
+        user_id: user.user.id,
       })
       .select('*')
       .single();
@@ -315,10 +307,7 @@ export const bibleStudiesService: BibleStudyService = {
   },
 
   async removeFavoriteVerse(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('favorite_verses')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('favorite_verses').delete().eq('id', id);
 
     if (error) {
       console.error('Error removing favorite verse:', error);
@@ -354,7 +343,7 @@ export const bibleStudiesService: BibleStudyService = {
       .from('daily_reflections')
       .insert({
         ...data,
-        user_id: user.user.id
+        user_id: user.user.id,
       })
       .select('*')
       .single();
@@ -367,7 +356,10 @@ export const bibleStudiesService: BibleStudyService = {
     return reflection;
   },
 
-  async updateReflection(id: string, data: Partial<CreateReflectionData>): Promise<DailyReflection> {
+  async updateReflection(
+    id: string,
+    data: Partial<CreateReflectionData>
+  ): Promise<DailyReflection> {
     const { data: reflection, error } = await supabase
       .from('daily_reflections')
       .update(data)
@@ -381,7 +373,7 @@ export const bibleStudiesService: BibleStudyService = {
     }
 
     return reflection;
-  }
+  },
 };
 
 // =====================================================
@@ -394,18 +386,19 @@ export const getNathIAStudyContext = async (userId: string): Promise<NathIAStudy
       bibleStudiesService.getDailyStudy(userId).catch(() => null),
       bibleStudiesService.getDailyReflections(userId, 5),
       bibleStudiesService.getFavoriteVerses(userId),
-      bibleStudiesService.getStudyStreak(userId)
+      bibleStudiesService.getStudyStreak(userId),
     ]);
 
     // Determinar humor baseado nas reflexões recentes
     const recentMoods = reflections
-      .filter(r => r.mood)
+      .filter((r) => r.mood)
       .slice(0, 3)
-      .map(r => r.mood!);
-    
-    const userMood = recentMoods.length > 0 
-      ? recentMoods[0] // Usar o humor mais recente
-      : 'hopeful'; // Default
+      .map((r) => r.mood!);
+
+    const userMood =
+      recentMoods.length > 0
+        ? recentMoods[0] // Usar o humor mais recente
+        : 'hopeful'; // Default
 
     // Identificar necessidades espirituais
     const spiritualNeeds: string[] = [];
@@ -422,7 +415,7 @@ export const getNathIAStudyContext = async (userId: string): Promise<NathIAStudy
       favoriteVerses,
       studyStreak: streak,
       userMood,
-      spiritualNeeds
+      spiritualNeeds,
     };
   } catch (error) {
     console.error('Error getting NathIA study context:', error);
@@ -431,7 +424,7 @@ export const getNathIAStudyContext = async (userId: string): Promise<NathIAStudy
       favoriteVerses: [],
       studyStreak: 0,
       userMood: 'hopeful',
-      spiritualNeeds: ['apoio', 'encorajamento']
+      spiritualNeeds: ['apoio', 'encorajamento'],
     };
   }
 };
@@ -442,9 +435,9 @@ export const generateNathIAStudyResponse = async (
 ): Promise<NathIAStudyResponse> => {
   try {
     const context = await getNathIAStudyContext(userId);
-    
+
     // Determinar se deve sugerir um estudo
-    const shouldSuggestStudy = 
+    const shouldSuggestStudy =
       userMessage.toLowerCase().includes('estudo') ||
       userMessage.toLowerCase().includes('bíblia') ||
       userMessage.toLowerCase().includes('versículo') ||
@@ -461,22 +454,23 @@ export const generateNathIAStudyResponse = async (
     if (context.currentStudy && !shouldSuggestStudy) {
       // Usuário já tem um estudo em andamento
       message = `Miga, vejo que você está no ${context.currentStudy.day}º dia do estudo "${context.currentStudy.title}". Como está sendo essa reflexão para você?`;
-      
+
       if (context.studyStreak > 0) {
         message += ` Que lindo ver sua dedicação de ${context.studyStreak} dias seguidos! 💜`;
       }
     } else if (shouldSuggestStudy) {
       // Sugerir um estudo baseado no contexto
-      const studies = await bibleStudiesService.getBibleStudies({ 
+      const studies = await bibleStudiesService.getBibleStudies({
         category: context.userMood === 'overwhelmed' ? 'postpartum' : 'maternity',
-        limit: 1 
+        limit: 1,
       });
-      
+
       if (studies.length > 0) {
         suggestedStudy = studies[0];
         message = `Que tal um momento de reflexão espiritual? Tenho um estudo perfeito para você: "${suggestedStudy.title}". ${getStudyRecommendation(context.userMood)}`;
       } else {
-        message = 'Que tal dedicarmos um tempo para reflexão espiritual hoje? Posso te ajudar a encontrar um estudo que faça sentido para o que você está vivendo.';
+        message =
+          'Que tal dedicarmos um tempo para reflexão espiritual hoje? Posso te ajudar a encontrar um estudo que faça sentido para o que você está vivendo.';
       }
     } else {
       // Resposta geral baseada no humor
@@ -486,20 +480,26 @@ export const generateNathIAStudyResponse = async (
 
     // Adicionar oração personalizada
     if (context.userMood === 'overwhelmed') {
-      prayer = 'Pai, ajuda esta mãe a encontrar descanso em ti. Dá-lhe força para cada momento e paz para seu coração.';
+      prayer =
+        'Pai, ajuda esta mãe a encontrar descanso em ti. Dá-lhe força para cada momento e paz para seu coração.';
     } else if (context.userMood === 'struggling') {
-      prayer = 'Senhor, fortalece esta mulher corajosa. Mostra-lhe que ela é mais forte do que imagina e que tu estás com ela.';
+      prayer =
+        'Senhor, fortalece esta mulher corajosa. Mostra-lhe que ela é mais forte do que imagina e que tu estás com ela.';
     } else if (context.userMood === 'grateful') {
-      prayer = 'Obrigada, Pai, por esta mãe grata. Continua abençoando-a e mostrando-lhe tuas maravilhas.';
+      prayer =
+        'Obrigada, Pai, por esta mãe grata. Continua abençoando-a e mostrando-lhe tuas maravilhas.';
     }
 
     // Dica prática baseada no contexto
     if (context.spiritualNeeds.includes('descanso')) {
-      practicalTip = 'Que tal dedicar 10 minutos hoje para ler um versículo e respirar fundo? Pequenos momentos de conexão com Deus fazem toda diferença.';
+      practicalTip =
+        'Que tal dedicar 10 minutos hoje para ler um versículo e respirar fundo? Pequenos momentos de conexão com Deus fazem toda diferença.';
     } else if (context.spiritualNeeds.includes('força')) {
-      practicalTip = 'Escreva um versículo de força em um post-it e cole onde você vê todos os dias. A Palavra de Deus é nossa fortaleza!';
+      practicalTip =
+        'Escreva um versículo de força em um post-it e cole onde você vê todos os dias. A Palavra de Deus é nossa fortaleza!';
     } else if (context.spiritualNeeds.includes('paz')) {
-      practicalTip = 'Quando sentir ansiedade, respire fundo e repita: "A paz de Deus guarda meu coração". A respiração consciente acalma a alma.';
+      practicalTip =
+        'Quando sentir ansiedade, respire fundo e repita: "A paz de Deus guarda meu coração". A respiração consciente acalma a alma.';
     }
 
     return {
@@ -508,14 +508,14 @@ export const generateNathIAStudyResponse = async (
       encouragement,
       prayer,
       practicalTip,
-      contextUsed: true
+      contextUsed: true,
     };
-
   } catch (error) {
     console.error('Error generating NathIA study response:', error);
     return {
-      message: 'Que tal dedicarmos um tempo para reflexão espiritual hoje? Estou aqui para te apoiar nessa jornada de fé. 💜',
-      contextUsed: false
+      message:
+        'Que tal dedicarmos um tempo para reflexão espiritual hoje? Estou aqui para te apoiar nessa jornada de fé. 💜',
+      contextUsed: false,
     };
   }
 };
@@ -527,42 +527,42 @@ export const generateNathIAStudyResponse = async (
 export const useBibleStudies = (filters?: BibleStudyFilters) => {
   return {
     queryKey: ['bible-studies', filters],
-    queryFn: () => bibleStudiesService.getBibleStudies(filters)
+    queryFn: () => bibleStudiesService.getBibleStudies(filters),
   };
 };
 
 export const useDailyStudy = (userId: string, day?: number) => {
   return {
     queryKey: ['daily-study', userId, day],
-    queryFn: () => bibleStudiesService.getDailyStudy(userId, day)
+    queryFn: () => bibleStudiesService.getDailyStudy(userId, day),
   };
 };
 
 export const useUserProgress = (userId: string) => {
   return {
     queryKey: ['user-progress', userId],
-    queryFn: () => bibleStudiesService.getUserProgress(userId)
+    queryFn: () => bibleStudiesService.getUserProgress(userId),
   };
 };
 
 export const useStudyStreak = (userId: string) => {
   return {
     queryKey: ['study-streak', userId],
-    queryFn: () => bibleStudiesService.getStudyStreak(userId)
+    queryFn: () => bibleStudiesService.getStudyStreak(userId),
   };
 };
 
 export const useFavoriteVerses = (userId: string) => {
   return {
     queryKey: ['favorite-verses', userId],
-    queryFn: () => bibleStudiesService.getFavoriteVerses(userId)
+    queryFn: () => bibleStudiesService.getFavoriteVerses(userId),
   };
 };
 
 export const useDailyReflections = (userId: string, limit?: number) => {
   return {
     queryKey: ['daily-reflections', userId, limit],
-    queryFn: () => bibleStudiesService.getDailyReflections(userId, limit)
+    queryFn: () => bibleStudiesService.getDailyReflections(userId, limit),
   };
 };
 

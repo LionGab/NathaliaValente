@@ -52,14 +52,12 @@ export const ThemeSelector: React.FC = () => {
   const themes = [
     { value: 'light', label: 'Claro', icon: Sun },
     { value: 'dark', label: 'Escuro', icon: Moon },
-    { value: 'system', label: 'Sistema', icon: Monitor }
+    { value: 'system', label: 'Sistema', icon: Monitor },
   ] as const;
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-        Aparência
-      </h3>
+      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Aparência</h3>
       <div className="space-y-1">
         {themes.map(({ value, label, icon: Icon }) => (
           <button

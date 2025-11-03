@@ -32,7 +32,18 @@ export const WelcomeScreen = ({ onNext, onSkip }: WelcomeScreenProps) => {
             Criado pela Nath, para mães como você
           </p>
           <p className="text-base text-claude-gray-600 dark:text-claude-gray-400">
-            Um espaço seguro de <span className="font-semibold text-nath-lavender-600 dark:text-nath-lavender-400">fé</span>, <span className="font-semibold text-nath-pink-600 dark:text-nath-pink-400">autenticidade</span> e <span className="font-semibold text-nath-peach-600 dark:text-nath-peach-400">sororidade</span>
+            Um espaço seguro de{' '}
+            <span className="font-semibold text-nath-lavender-600 dark:text-nath-lavender-400">
+              fé
+            </span>
+            ,{' '}
+            <span className="font-semibold text-nath-pink-600 dark:text-nath-pink-400">
+              autenticidade
+            </span>{' '}
+            e{' '}
+            <span className="font-semibold text-nath-peach-600 dark:text-nath-peach-400">
+              sororidade
+            </span>
           </p>
         </div>
       </div>
@@ -81,7 +92,10 @@ export const WelcomeScreen = ({ onNext, onSkip }: WelcomeScreenProps) => {
       <div className="absolute top-10 left-10 text-6xl opacity-10 dark:opacity-5 animate-pulse">
         💕
       </div>
-      <div className="absolute bottom-10 right-10 text-6xl opacity-10 dark:opacity-5 animate-pulse" style={{ animationDelay: '1s' }}>
+      <div
+        className="absolute bottom-10 right-10 text-6xl opacity-10 dark:opacity-5 animate-pulse"
+        style={{ animationDelay: '1s' }}
+      >
         🌸
       </div>
     </div>

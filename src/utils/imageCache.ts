@@ -17,7 +17,7 @@ class ImageCache {
     try {
       const data = JSON.parse(cached);
       const now = Date.now();
-      return (now - data.timestamp) < this.maxAge;
+      return now - data.timestamp < this.maxAge;
     } catch {
       return false;
     }
@@ -47,10 +47,13 @@ class ImageCache {
       }
     }
 
-    this.cache.set(key, JSON.stringify({
-      url: cachedUrl,
-      timestamp: Date.now()
-    }));
+    this.cache.set(
+      key,
+      JSON.stringify({
+        url: cachedUrl,
+        timestamp: Date.now(),
+      })
+    );
   }
 
   // Clear cache
@@ -101,13 +104,14 @@ export const optimizeImageUrl = (
 // Preload images
 export const preloadImages = (urls: string[]): Promise<void[]> => {
   return Promise.all(
-    urls.map(url =>
-      new Promise<void>((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve();
-        img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-        img.src = url;
-      })
+    urls.map(
+      (url) =>
+        new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+          img.src = url;
+        })
     )
   );
 };
@@ -144,7 +148,7 @@ export const compressImage = (
           if (blob) {
             const compressedFile = new File([blob], file.name, {
               type: 'image/jpeg',
-              lastModified: Date.now()
+              lastModified: Date.now(),
             });
             resolve(compressedFile);
           } else {
@@ -177,8 +181,8 @@ export const getImageDimensions = (url: string): Promise<{ width: number; height
 export const generateResponsiveUrls = (baseUrl: string) => {
   const sizes = [320, 640, 1024, 1920];
 
-  return sizes.map(size => ({
+  return sizes.map((size) => ({
     url: optimizeImageUrl(baseUrl, size),
-    width: size
+    width: size,
   }));
 };

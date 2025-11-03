@@ -55,21 +55,25 @@ class PrayersService {
   // CRUD OPERATIONS
   // =====================================================
 
-  async createPrayer(prayer: Omit<PrayerPost, 'id' | 'amen_count' | 'created_at' | 'updated_at'>): Promise<PrayerPost | null> {
+  async createPrayer(
+    prayer: Omit<PrayerPost, 'id' | 'amen_count' | 'created_at' | 'updated_at'>
+  ): Promise<PrayerPost | null> {
     const { data, error } = await supabase
       .from('prayer_posts')
       .insert({
         ...prayer,
-        amen_count: 0
+        amen_count: 0,
       })
-      .select(`
+      .select(
+        `
         *,
         user:profiles!prayer_posts_user_id_fkey(
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) {
@@ -80,24 +84,28 @@ class PrayersService {
     return data;
   }
 
-  async getPrayers(options: {
-    limit?: number;
-    offset?: number;
-    category?: string;
-    userId?: string;
-  } = {}): Promise<PrayerPost[]> {
+  async getPrayers(
+    options: {
+      limit?: number;
+      offset?: number;
+      category?: string;
+      userId?: string;
+    } = {}
+  ): Promise<PrayerPost[]> {
     const { limit = 20, offset = 0, category, userId } = options;
 
     let query = supabase
       .from('prayer_posts')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!prayer_posts_user_id_fkey(
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -122,14 +130,16 @@ class PrayersService {
   async getPrayerById(prayerId: string): Promise<PrayerPost | null> {
     const { data, error } = await supabase
       .from('prayer_posts')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!prayer_posts_user_id_fkey(
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('id', prayerId)
       .single();
 
@@ -146,7 +156,7 @@ class PrayersService {
       .from('prayer_posts')
       .update({
         ...updates,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', prayerId);
 
@@ -159,10 +169,7 @@ class PrayersService {
   }
 
   async deletePrayer(prayerId: string): Promise<boolean> {
-    const { error } = await supabase
-      .from('prayer_posts')
-      .delete()
-      .eq('id', prayerId);
+    const { error } = await supabase.from('prayer_posts').delete().eq('id', prayerId);
 
     if (error) {
       console.error('Erro ao deletar oração:', error);
@@ -190,12 +197,10 @@ class PrayersService {
     }
 
     // Adicionar amen
-    const { error: amenError } = await supabase
-      .from('prayer_amens')
-      .insert({
-        prayer_id: prayerId,
-        user_id: userId
-      });
+    const { error: amenError } = await supabase.from('prayer_amens').insert({
+      prayer_id: prayerId,
+      user_id: userId,
+    });
 
     if (amenError) {
       console.error('Erro ao adicionar amen:', amenError);
@@ -204,7 +209,7 @@ class PrayersService {
 
     // Atualizar contador
     const { error: countError } = await supabase.rpc('increment_prayer_amen_count', {
-      prayer_id: prayerId
+      prayer_id: prayerId,
     });
 
     if (countError) {
@@ -228,7 +233,7 @@ class PrayersService {
 
     // Atualizar contador
     const { error: countError } = await supabase.rpc('decrement_prayer_amen_count', {
-      prayer_id: prayerId
+      prayer_id: prayerId,
     });
 
     if (countError) {
@@ -252,7 +257,7 @@ class PrayersService {
       return new Set();
     }
 
-    return new Set(data?.map(amen => amen.prayer_id) || []);
+    return new Set(data?.map((amen) => amen.prayer_id) || []);
   }
 
   // =====================================================
@@ -265,14 +270,12 @@ class PrayersService {
       total_amens: 0,
       prayers_today: 0,
       amens_given: 0,
-      prayers_shared: 0
+      prayers_shared: 0,
     };
 
     try {
       // Total de orações
-      let prayersQuery = supabase
-        .from('prayer_posts')
-        .select('id', { count: 'exact' });
+      let prayersQuery = supabase.from('prayer_posts').select('id', { count: 'exact' });
 
       if (userId) {
         prayersQuery = prayersQuery.eq('user_id', userId);
@@ -282,9 +285,7 @@ class PrayersService {
       stats.total_prayers = totalPrayers || 0;
 
       // Total de amens
-      let amensQuery = supabase
-        .from('prayer_amens')
-        .select('id', { count: 'exact' });
+      let amensQuery = supabase.from('prayer_amens').select('id', { count: 'exact' });
 
       if (userId) {
         amensQuery = amensQuery.eq('user_id', userId);
@@ -325,7 +326,6 @@ class PrayersService {
 
         stats.prayers_shared = prayersShared || 0;
       }
-
     } catch (error) {
       console.error('Erro ao buscar estatísticas:', error);
     }
@@ -348,14 +348,14 @@ class PrayersService {
 
     // Enviar notificação para usuários ativos
     const { notificationsService } = await import('./notifications.service');
-    
+
     for (const user of activeUsers) {
       if (user.user_id !== prayer.user_id) {
         await notificationsService.sendNotification('prayer_notification', user.user_id, {
           prayer_id: prayer.id,
           prayer_content: prayer.content.substring(0, 100) + '...',
           is_anonymous: prayer.is_anonymous,
-          user_name: prayer.is_anonymous ? 'Uma mãe' : prayer.user?.full_name
+          user_name: prayer.is_anonymous ? 'Uma mãe' : prayer.user?.full_name,
         });
       }
     }
@@ -367,12 +367,12 @@ class PrayersService {
 
     // Notificar o autor da oração
     const { notificationsService } = await import('./notifications.service');
-    
+
     await notificationsService.sendNotification('social_interaction', prayer.user_id, {
       type: 'prayer_amen',
       prayer_id: prayerId,
       count: amenCount,
-      body: `${amenCount} mães disseram Amém na sua oração! 🙏`
+      body: `${amenCount} mães disseram Amém na sua oração! 🙏`,
     });
   }
 
@@ -380,23 +380,28 @@ class PrayersService {
   // SEARCH AND FILTERS
   // =====================================================
 
-  async searchPrayers(query: string, options: {
-    limit?: number;
-    offset?: number;
-    category?: string;
-  } = {}): Promise<PrayerPost[]> {
+  async searchPrayers(
+    query: string,
+    options: {
+      limit?: number;
+      offset?: number;
+      category?: string;
+    } = {}
+  ): Promise<PrayerPost[]> {
     const { limit = 20, offset = 0, category } = options;
 
     let searchQuery = supabase
       .from('prayer_posts')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!prayer_posts_user_id_fkey(
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .textSearch('content', query)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -422,14 +427,16 @@ class PrayersService {
   async getUrgentPrayers(limit: number = 10): Promise<PrayerPost[]> {
     const { data, error } = await supabase
       .from('prayer_posts')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!prayer_posts_user_id_fkey(
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('is_urgent', true)
       .order('created_at', { ascending: false })
       .limit(limit);
@@ -457,11 +464,15 @@ class PrayersService {
       return [];
     }
 
-    const categoryCounts = data?.reduce((acc, prayer) => {
-      const category = prayer.category || 'other';
-      acc[category] = (acc[category] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>) || {};
+    const categoryCounts =
+      data?.reduce(
+        (acc, prayer) => {
+          const category = prayer.category || 'other';
+          acc[category] = (acc[category] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ) || {};
 
     return Object.entries(categoryCounts)
       .map(([category, count]) => ({ category, count }))
@@ -479,11 +490,15 @@ class PrayersService {
       return [];
     }
 
-    const dailyCounts = data?.reduce((acc, prayer) => {
-      const date = prayer.created_at.split('T')[0];
-      acc[date] = (acc[date] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>) || {};
+    const dailyCounts =
+      data?.reduce(
+        (acc, prayer) => {
+          const date = prayer.created_at.split('T')[0];
+          acc[date] = (acc[date] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ) || {};
 
     return Object.entries(dailyCounts)
       .map(([date, count]) => ({ date, count }))

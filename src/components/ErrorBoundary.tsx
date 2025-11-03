@@ -182,7 +182,7 @@ export const FeedErrorBoundary: React.FC<{ children: ReactNode }> = ({ children 
               Recarregar
             </button>
             <button
-              onClick={() => window.location.href = '/store'}
+              onClick={() => (window.location.href = '/store')}
               className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-semibold flex items-center justify-center gap-2"
             >
               <Home className="w-4 h-4" />

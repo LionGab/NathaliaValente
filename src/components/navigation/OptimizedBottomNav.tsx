@@ -14,7 +14,7 @@ import {
   Heart,
   Users,
   Star,
-  Menu
+  Menu,
 } from 'lucide-react';
 
 interface OptimizedBottomNavProps {
@@ -32,7 +32,7 @@ export const OptimizedBottomNav = ({
   onCreatePost,
   onSearch,
   onNotifications,
-  onQuickMenu
+  onQuickMenu,
 }: OptimizedBottomNavProps) => {
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
 
@@ -44,36 +44,36 @@ export const OptimizedBottomNav = ({
       label: 'Início',
       color: 'text-pink-600 dark:text-pink-400',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
-      maternalColor: 'maternal-icon'
+      maternalColor: 'maternal-icon',
     },
     {
       id: 'feed',
       icon: Users,
       label: 'Comunidade',
       color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-blue-50 dark:bg-blue-900/20'
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
     },
     {
       id: 'chat',
       icon: MessageCircle,
       label: 'NathIA',
       color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
     },
     {
       id: 'store',
       icon: Star,
       label: 'Loja',
       color: 'text-orange-600 dark:text-orange-400',
-      bgColor: 'bg-orange-50 dark:bg-orange-900/20'
+      bgColor: 'bg-orange-50 dark:bg-orange-900/20',
     },
     {
       id: 'profile',
       icon: User,
       label: 'Perfil',
       color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20'
-    }
+      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+    },
   ];
 
   // Ações rápidas no menu expandido
@@ -82,33 +82,33 @@ export const OptimizedBottomNav = ({
       icon: Users,
       label: 'Grupos',
       color: 'text-blue-600 dark:text-blue-400',
-      onClick: () => onTabChange('groups')
+      onClick: () => onTabChange('groups'),
     },
     {
       icon: Star,
       label: 'Favoritos',
       color: 'text-yellow-600 dark:text-yellow-400',
-      onClick: () => onTabChange('favorites')
+      onClick: () => onTabChange('favorites'),
     },
     {
       icon: Search,
       label: 'Buscar',
       color: 'text-gray-600 dark:text-gray-400',
-      onClick: onSearch
+      onClick: onSearch,
     },
     {
       icon: Bell,
       label: 'Notificações',
       color: 'text-gray-600 dark:text-gray-400',
       onClick: onNotifications,
-      hasNotification: true
+      hasNotification: true,
     },
     {
       icon: Heart,
       label: 'Ferramentas',
       color: 'text-purple-600 dark:text-purple-400',
-      onClick: () => onTabChange('tools')
-    }
+      onClick: () => onTabChange('tools'),
+    },
   ];
 
   return (
@@ -134,7 +134,10 @@ export const OptimizedBottomNav = ({
               aria-label="Ver notificações"
             >
               <Bell className="w-5 h-5" aria-hidden="true" />
-              <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full" aria-hidden="true"></div>
+              <div
+                className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full"
+                aria-hidden="true"
+              ></div>
             </button>
 
             {/* Botão Criar Post - Central e Destacado com Design Maternal */}
@@ -150,7 +153,7 @@ export const OptimizedBottomNav = ({
             <button
               onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
               className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-600 dark:text-gray-400 touch-target"
-              aria-label={isQuickMenuOpen ? "Fechar menu rápido" : "Abrir menu rápido"}
+              aria-label={isQuickMenuOpen ? 'Fechar menu rápido' : 'Abrir menu rápido'}
               aria-expanded={isQuickMenuOpen}
             >
               <Menu className="w-5 h-5" aria-hidden="true" />
@@ -190,7 +193,10 @@ export const OptimizedBottomNav = ({
                       <Icon className="w-4 h-4" aria-hidden="true" />
                       <span className="text-sm font-medium">{action.label}</span>
                       {action.hasNotification && (
-                        <div className="w-2 h-2 bg-pink-500 rounded-full ml-auto" aria-hidden="true"></div>
+                        <div
+                          className="w-2 h-2 bg-pink-500 rounded-full ml-auto"
+                          aria-hidden="true"
+                        ></div>
                       )}
                     </button>
                   );
@@ -200,7 +206,11 @@ export const OptimizedBottomNav = ({
           )}
 
           {/* Tabs Principais - Apenas 3 */}
-          <div className="flex items-center justify-around" role="tablist" aria-label="Navegação principal">
+          <div
+            className="flex items-center justify-around"
+            role="tablist"
+            aria-label="Navegação principal"
+          >
             {mainTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = currentTab === tab.id;
@@ -209,21 +219,30 @@ export const OptimizedBottomNav = ({
                 <button
                   key={tab.id}
                   onClick={() => onTabChange(tab.id)}
-                  className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 min-w-0 flex-1 touch-target ${isActive
-                    ? `${tab.bgColor} ${tab.color} maternal-shadow`
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                    }`}
+                  className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 min-w-0 flex-1 touch-target ${
+                    isActive
+                      ? `${tab.bgColor} ${tab.color} maternal-shadow`
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  }`}
                   role="tab"
                   aria-selected={isActive}
                   aria-label={`${tab.label}${isActive ? ' - página atual' : ''}`}
                 >
                   <div className={`relative ${isActive ? 'animate-bounce' : ''}`}>
-                    <Icon className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`} aria-hidden="true" />
+                    <Icon
+                      className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
+                      aria-hidden="true"
+                    />
                     {isActive && (
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-current rounded-full animate-pulse" aria-hidden="true"></div>
+                      <div
+                        className="absolute -top-1 -right-1 w-2 h-2 bg-current rounded-full animate-pulse"
+                        aria-hidden="true"
+                      ></div>
                     )}
                   </div>
-                  <span className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}>
+                  <span
+                    className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}
+                  >
                     {tab.label}
                   </span>
                 </button>

@@ -102,8 +102,12 @@ export function useSwipe(handlers: SwipeHandlers, config: SwipeConfig = {}) {
       touchStart.current = null;
     };
 
-    document.addEventListener('touchstart', handleTouchStart, { passive: !finalConfig.preventScroll });
-    document.addEventListener('touchmove', handleTouchMove, { passive: !finalConfig.preventScroll });
+    document.addEventListener('touchstart', handleTouchStart, {
+      passive: !finalConfig.preventScroll,
+    });
+    document.addEventListener('touchmove', handleTouchMove, {
+      passive: !finalConfig.preventScroll,
+    });
     document.addEventListener('touchend', handleTouchEnd);
 
     return () => {

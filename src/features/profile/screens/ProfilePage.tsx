@@ -3,7 +3,28 @@ import { supabase, SavedItem } from '../../../lib/supabase';
 import { useAuth } from '../../../contexts/AuthContext';
 import { usePosts } from '../../../hooks';
 import { getCategoryColor } from '../../../constants/colors';
-import { Gem, Grid, Bookmark, Heart, MessageCircle, Settings, Edit3, Share2, MoreHorizontal, Star, Award, Users, Calendar, Palette, X, Shield, Baby, Camera, HelpCircle, LogOut } from 'lucide-react';
+import {
+  Gem,
+  Grid,
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Settings,
+  Edit3,
+  Share2,
+  MoreHorizontal,
+  Star,
+  Award,
+  Users,
+  Calendar,
+  Palette,
+  X,
+  Shield,
+  Baby,
+  Camera,
+  HelpCircle,
+  LogOut,
+} from 'lucide-react';
 import { useMockData } from '../../../hooks/useMockData';
 import { Avatar, AvatarType } from '../../../components/ui/Avatar';
 
@@ -18,11 +39,41 @@ export const ProfilePage = () => {
 
   // Mock achievements data
   const achievements = [
-    { id: 1, title: "Primeira Postagem", description: "Compartilhou sua primeira experiência", icon: "🌟", unlocked: true },
-    { id: 2, title: "Mãe Ativa", description: "5 posts sobre maternidade", icon: "💪", unlocked: true },
-    { id: 3, title: "Comunidade", description: "Interagiu com 10 posts", icon: "👥", unlocked: false },
-    { id: 4, title: "Inspiradora", description: "Recebeu 50 curtidas", icon: "✨", unlocked: false },
-    { id: 5, title: "Sábia", description: "Compartilhou 20 dicas úteis", icon: "🧠", unlocked: false }
+    {
+      id: 1,
+      title: 'Primeira Postagem',
+      description: 'Compartilhou sua primeira experiência',
+      icon: '🌟',
+      unlocked: true,
+    },
+    {
+      id: 2,
+      title: 'Mãe Ativa',
+      description: '5 posts sobre maternidade',
+      icon: '💪',
+      unlocked: true,
+    },
+    {
+      id: 3,
+      title: 'Comunidade',
+      description: 'Interagiu com 10 posts',
+      icon: '👥',
+      unlocked: false,
+    },
+    {
+      id: 4,
+      title: 'Inspiradora',
+      description: 'Recebeu 50 curtidas',
+      icon: '✨',
+      unlocked: false,
+    },
+    {
+      id: 5,
+      title: 'Sábia',
+      description: 'Compartilhou 20 dicas úteis',
+      icon: '🧠',
+      unlocked: false,
+    },
   ];
 
   // Use mock data for better experience
@@ -35,7 +86,8 @@ export const ProfilePage = () => {
   });
 
   // Use mock data if available, otherwise real data
-  const userPosts = mockPosts.length > 0 ? mockPosts.filter(post => post.user_id === user?.id) : realUserPosts;
+  const userPosts =
+    mockPosts.length > 0 ? mockPosts.filter((post) => post.user_id === user?.id) : realUserPosts;
   const loadingPosts = mockLoading || realLoadingPosts;
 
   const loading = loadingPosts || loadingSaved;
@@ -145,16 +197,24 @@ export const ProfilePage = () => {
                   <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <Shield className="w-5 h-5 text-blue-500" />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">Segurança & SOS</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Recursos de emergência</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        Segurança & SOS
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Recursos de emergência
+                      </div>
                     </div>
                   </button>
 
                   <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <Baby className="w-5 h-5 text-green-500" />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">Saúde & Bem-estar</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Dicas de saúde materno-infantil</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        Saúde & Bem-estar
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Dicas de saúde materno-infantil
+                      </div>
                     </div>
                   </button>
 
@@ -162,15 +222,21 @@ export const ProfilePage = () => {
                     <Camera className="w-5 h-5 text-purple-500" />
                     <div>
                       <div className="font-medium text-gray-900 dark:text-white">Produtos NAVA</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Moda exclusiva da Nathália</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Moda exclusiva da Nathália
+                      </div>
                     </div>
                   </button>
 
                   <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <Baby className="w-5 h-5 text-teal-500" />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">Cuidados OLLIN</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Beleza natural para mães</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        Cuidados OLLIN
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Beleza natural para mães
+                      </div>
                     </div>
                   </button>
 
@@ -180,15 +246,21 @@ export const ProfilePage = () => {
                     <Settings className="w-5 h-5 text-gray-500" />
                     <div>
                       <div className="font-medium text-gray-900 dark:text-white">Configurações</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Privacidade e notificações</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Privacidade e notificações
+                      </div>
                     </div>
                   </button>
 
                   <button className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <HelpCircle className="w-5 h-5 text-gray-500" />
                     <div>
-                      <div className="font-medium text-gray-900 dark:text-white">Ajuda & Suporte</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Central de ajuda</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        Ajuda & Suporte
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        Central de ajuda
+                      </div>
                     </div>
                   </button>
 
@@ -200,7 +272,9 @@ export const ProfilePage = () => {
                   >
                     <LogOut className="w-5 h-5 text-red-500" />
                     <div>
-                      <div className="font-medium text-red-600 dark:text-red-400">Sair da Conta</div>
+                      <div className="font-medium text-red-600 dark:text-red-400">
+                        Sair da Conta
+                      </div>
                       <div className="text-sm text-red-500 dark:text-red-400">Fazer logout</div>
                     </div>
                   </button>
@@ -247,20 +321,22 @@ export const ProfilePage = () => {
       <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6">
         <button
           onClick={() => setActiveTab('posts')}
-          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'posts'
-            ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-            }`}
+          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${
+            activeTab === 'posts'
+              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
+          }`}
         >
           <Grid className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
           <span className="text-sm sm:text-base">Publicações</span>
         </button>
         <button
           onClick={() => setActiveTab('saved')}
-          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${activeTab === 'saved'
-            ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
-            }`}
+          className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-medium transition-all touch-target ${
+            activeTab === 'saved'
+              ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg'
+          }`}
         >
           <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
           <span className="text-sm sm:text-base">Salvos</span>
@@ -276,7 +352,11 @@ export const ProfilePage = () => {
             >
               {post.image_url && (
                 <div className="relative">
-                  <img src={post.image_url} alt="Post" className="w-full h-40 sm:h-48 object-cover" />
+                  <img
+                    src={post.image_url}
+                    alt="Post"
+                    className="w-full h-40 sm:h-48 object-cover"
+                  />
                   {post.has_badge && (
                     <div className="absolute top-2 right-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-1.5 rounded-full shadow-lg">
                       <Award className="w-3 h-3" />
@@ -326,7 +406,9 @@ export const ProfilePage = () => {
                   Compartilhe sua experiência e inspire outras mães da comunidade
                 </p>
                 <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
+                  onClick={() =>
+                    window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))
+                  }
                   className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
                 >
                   Compartilhar Experiência
@@ -409,7 +491,9 @@ export const ProfilePage = () => {
                   Explore a comunidade e salve posts que te inspiram
                 </p>
                 <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))}
+                  onClick={() =>
+                    window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }))
+                  }
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
                 >
                   Explorar Comunidade
@@ -436,17 +520,33 @@ export const ProfilePage = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-              {(['exausta', 'oracao', 'radiante', 'vulneravel', 'pensativa', 'determinada', 'gravida', 'amamentando', 'hijab', 'blackpower', 'asiatica', 'cadeirante'] as AvatarType[]).map((avatarType) => (
+              {(
+                [
+                  'exausta',
+                  'oracao',
+                  'radiante',
+                  'vulneravel',
+                  'pensativa',
+                  'determinada',
+                  'gravida',
+                  'amamentando',
+                  'hijab',
+                  'blackpower',
+                  'asiatica',
+                  'cadeirante',
+                ] as AvatarType[]
+              ).map((avatarType) => (
                 <button
                   key={avatarType}
                   onClick={() => {
                     setUserAvatar(avatarType);
                     setShowAvatarSelector(false);
                   }}
-                  className={`p-2 rounded-lg border-2 transition-all ${userAvatar === avatarType
-                    ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-pink-300'
-                    }`}
+                  className={`p-2 rounded-lg border-2 transition-all ${
+                    userAvatar === avatarType
+                      ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/20'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-pink-300'
+                  }`}
                 >
                   <Avatar type={avatarType} size="md" />
                 </button>

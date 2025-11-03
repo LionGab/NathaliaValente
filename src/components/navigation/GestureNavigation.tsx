@@ -4,15 +4,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { 
-  Home, 
-  MessageCircle, 
-  User, 
-  Plus, 
-  ArrowLeft, 
-  ArrowRight,
-  RotateCcw
-} from 'lucide-react';
+import { Home, MessageCircle, User, Plus, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 
 interface GestureNavigationProps {
   currentTab: string;
@@ -29,7 +21,7 @@ export const GestureNavigation = ({
   onBack,
   onForward,
   onCreatePost,
-  onRefresh
+  onRefresh,
 }: GestureNavigationProps) => {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const [isGestureActive, setIsGestureActive] = useState(false);
@@ -57,13 +49,13 @@ export const GestureNavigation = ({
   // Handle touch move
   const handleTouchMove = (e: TouchEvent) => {
     if (!isGestureActive) return;
-    
+
     touchEndX.current = e.touches[0].clientX;
     touchEndY.current = e.touches[0].clientY;
-    
+
     const deltaX = touchEndX.current - touchStartX.current;
     const deltaY = touchEndY.current - touchStartY.current;
-    
+
     // Detecta swipe horizontal
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
       if (deltaX > 0) {
@@ -77,10 +69,10 @@ export const GestureNavigation = ({
   // Handle touch end
   const handleTouchEnd = () => {
     if (!isGestureActive) return;
-    
+
     const deltaX = touchEndX.current - touchStartX.current;
     const deltaY = touchEndY.current - touchStartY.current;
-    
+
     // Swipe horizontal para mudar tabs
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
       if (deltaX > 0 && currentIndex > 0) {
@@ -91,7 +83,7 @@ export const GestureNavigation = ({
         onTabChange(tabs[currentIndex + 1]);
       }
     }
-    
+
     setIsGestureActive(false);
     setSwipeDirection(null);
   };
@@ -136,22 +128,20 @@ export const GestureNavigation = ({
 
     return (
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
-        <div className={`flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 ${
-          swipeDirection === 'left' ? 'animate-slide-left' : 'animate-slide-right'
-        }`}>
+        <div
+          className={`flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 ${
+            swipeDirection === 'left' ? 'animate-slide-left' : 'animate-slide-right'
+          }`}
+        >
           {swipeDirection === 'left' ? (
             <>
               <ArrowRight className="w-4 h-4 text-pink-500" />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Próximo
-              </span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Próximo</span>
             </>
           ) : (
             <>
               <ArrowLeft className="w-4 h-4 text-pink-500" />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Anterior
-              </span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Anterior</span>
             </>
           )}
         </div>
@@ -173,7 +163,7 @@ export const GestureNavigation = ({
             <span className="text-xs">Swipe</span>
           </div>
         </div>
-        
+
         <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-20">
           <div className="flex flex-col items-center gap-2 text-gray-500">
             <ArrowRight className="w-6 h-6" />

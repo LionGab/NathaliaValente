@@ -14,7 +14,7 @@ export const ResponsiveContainer: React.FC<ResponsiveContainerProps> = ({
   className = '',
   mobileClassName = '',
   tabletClassName = '',
-  desktopClassName = ''
+  desktopClassName = '',
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -34,11 +34,7 @@ export const ResponsiveContainer: React.FC<ResponsiveContainerProps> = ({
     return responsiveClass.trim();
   };
 
-  return (
-    <div className={getResponsiveClassName()}>
-      {children}
-    </div>
-  );
+  return <div className={getResponsiveClassName()}>{children}</div>;
 };
 
 // Responsive Grid Component
@@ -57,7 +53,7 @@ export const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({
   children,
   cols = { mobile: 1, tablet: 2, desktop: 3 },
   gap = 'gap-4',
-  className = ''
+  className = '',
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -68,11 +64,7 @@ export const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({
     return `grid-cols-${cols.desktop || 3}`;
   };
 
-  return (
-    <div className={`grid ${getGridCols()} ${gap} ${className}`}>
-      {children}
-    </div>
-  );
+  return <div className={`grid ${getGridCols()} ${gap} ${className}`}>{children}</div>;
 };
 
 // Responsive Text Component
@@ -89,7 +81,7 @@ export const ResponsiveText: React.FC<ResponsiveTextProps> = ({
   mobileSize = 'text-sm',
   tabletSize = 'text-base',
   desktopSize = 'text-lg',
-  className = ''
+  className = '',
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -100,11 +92,7 @@ export const ResponsiveText: React.FC<ResponsiveTextProps> = ({
     return desktopSize;
   };
 
-  return (
-    <span className={`${getTextSize()} ${className}`}>
-      {children}
-    </span>
-  );
+  return <span className={`${getTextSize()} ${className}`}>{children}</span>;
 };
 
 // Responsive Image Component
@@ -129,7 +117,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
   className = '',
   mobileClassName = '',
   tabletClassName = '',
-  desktopClassName = ''
+  desktopClassName = '',
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -155,14 +143,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     return responsiveClass.trim();
   };
 
-  return (
-    <img
-      src={getImageSrc()}
-      alt={alt}
-      className={getImageClassName()}
-      loading="lazy"
-    />
-  );
+  return <img src={getImageSrc()} alt={alt} className={getImageClassName()} loading="lazy" />;
 };
 
 // Responsive Spacing Component
@@ -185,7 +166,7 @@ export const ResponsiveSpacing: React.FC<ResponsiveSpacingProps> = ({
   mobileMargin = '',
   tabletMargin = '',
   desktopMargin = '',
-  className = ''
+  className = '',
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -204,9 +185,5 @@ export const ResponsiveSpacing: React.FC<ResponsiveSpacingProps> = ({
     return spacingClass.trim();
   };
 
-  return (
-    <div className={getSpacingClasses()}>
-      {children}
-    </div>
-  );
+  return <div className={getSpacingClasses()}>{children}</div>;
 };

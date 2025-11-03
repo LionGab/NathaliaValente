@@ -7,10 +7,7 @@
 import { supabase } from '../../../lib/supabase';
 import { GroupsRepository } from '../repositories/groups.repository';
 import { GroupMembersRepository } from '../repositories/group-members.repository';
-import type {
-  GroupMember,
-  UseGroupMembersOptions
-} from '../../../types/groups';
+import type { GroupMember, UseGroupMembersOptions } from '../../../types/groups';
 
 /**
  * Service para lógica de negócio de Membros de Grupos.
@@ -30,10 +27,7 @@ export const GroupsMembersService = {
    * @param options - Opções de filtro
    * @returns Promise com array de membros
    */
-  async getMembers(
-    groupId: string,
-    options: UseGroupMembersOptions = {}
-  ): Promise<GroupMember[]> {
+  async getMembers(groupId: string, options: UseGroupMembersOptions = {}): Promise<GroupMember[]> {
     const { role, limit = 50, enabled = true } = options;
 
     if (!enabled) return [];
@@ -42,7 +36,7 @@ export const GroupsMembersService = {
       const members = await GroupMembersRepository.findByGroupId(groupId, {
         role,
         limit,
-        isBanned: false
+        isBanned: false,
       });
 
       return members as GroupMember[];
@@ -82,10 +76,7 @@ export const GroupsMembersService = {
       }
 
       // 3. Verificar se usuário já é membro
-      const existingMember = await GroupMembersRepository.findByGroupAndUser(
-        groupId,
-        user.user.id
-      );
+      const existingMember = await GroupMembersRepository.findByGroupAndUser(groupId, user.user.id);
 
       if (existingMember) {
         throw new Error('Você já é membro deste grupo');
@@ -102,7 +93,7 @@ export const GroupsMembersService = {
       const member = await GroupMembersRepository.create({
         group_id: groupId,
         user_id: user.user.id,
-        role: 'member'
+        role: 'member',
       });
 
       return member as GroupMember;
@@ -110,11 +101,12 @@ export const GroupsMembersService = {
       console.error('Error joining group:', error);
 
       // Re-throw business logic errors
-      if (error instanceof Error && (
-        error.message.includes('já é membro') ||
-        error.message.includes('limite máximo') ||
-        error.message.includes('não encontrado')
-      )) {
+      if (
+        error instanceof Error &&
+        (error.message.includes('já é membro') ||
+          error.message.includes('limite máximo') ||
+          error.message.includes('não encontrado'))
+      ) {
         throw error;
       }
 
@@ -180,17 +172,13 @@ export const GroupsMembersService = {
    * @param role - Nova role
    * @returns Promise com o membro atualizado
    */
-  async updateMemberRole(
-    groupId: string,
-    userId: string,
-    role: string
-  ): Promise<GroupMember> {
+  async updateMemberRole(groupId: string, userId: string, role: string): Promise<GroupMember> {
     try {
       // TODO: Validar que usuário atual é admin
       // TODO: Validar que não está alterando criador
 
       const member = await GroupMembersRepository.update(groupId, userId, {
-        role
+        role,
       });
 
       return member as GroupMember;
@@ -241,5 +229,5 @@ export const GroupsMembersService = {
       console.error('Error fetching user groups:', error);
       throw new Error('Erro ao buscar grupos do usuário');
     }
-  }
+  },
 };

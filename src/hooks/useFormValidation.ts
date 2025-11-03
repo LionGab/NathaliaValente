@@ -31,7 +31,9 @@ interface UseFormValidationReturn<T> {
   handleSubmit: (onSubmit: (data: T) => void | Promise<void>) => (e: React.FormEvent) => void;
   getFieldProps: (field: keyof T) => {
     value: any;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => void;
     onBlur: () => void;
     error: string | undefined;
     hasError: boolean;
@@ -43,7 +45,7 @@ export const useFormValidation = <T extends Record<string, any>>({
   initialValues,
   validateOnChange = true,
   validateOnBlur = true,
-  debounceMs = 300
+  debounceMs = 300,
 }: UseFormValidationOptions<T>): UseFormValidationReturn<T> => {
   const [values, setValues] = useState<T>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -54,7 +56,7 @@ export const useFormValidation = <T extends Record<string, any>>({
   // Validar formulário completo
   const validate = useCallback((): boolean => {
     const result = validateForm(schema, values);
-    
+
     if (result.isValid) {
       setErrors({});
       return true;
@@ -65,69 +67,75 @@ export const useFormValidation = <T extends Record<string, any>>({
   }, [schema, values]);
 
   // Validar campo específico
-  const validateField = useCallback((field: keyof T): boolean => {
-    try {
-      const fieldSchema = schema.shape[field as string];
-      if (fieldSchema) {
-        fieldSchema.parse(values[field]);
-        setErrors(prev => {
-          const newErrors = { ...prev };
-          delete newErrors[field as string];
-          return newErrors;
-        });
+  const validateField = useCallback(
+    (field: keyof T): boolean => {
+      try {
+        const fieldSchema = schema.shape[field as string];
+        if (fieldSchema) {
+          fieldSchema.parse(values[field]);
+          setErrors((prev) => {
+            const newErrors = { ...prev };
+            delete newErrors[field as string];
+            return newErrors;
+          });
+          return true;
+        }
         return true;
-      }
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldError = error.errors[0]?.message || 'Campo inválido';
-        setErrors(prev => ({
-          ...prev,
-          [field as string]: fieldError
-        }));
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const fieldError = error.errors[0]?.message || 'Campo inválido';
+          setErrors((prev) => ({
+            ...prev,
+            [field as string]: fieldError,
+          }));
+          return false;
+        }
         return false;
       }
-      return false;
-    }
-  }, [schema, values]);
+    },
+    [schema, values]
+  );
 
   // Definir valor de campo
-  const setValue = useCallback((field: keyof T, value: any) => {
-    setValues(prev => ({
-      ...prev,
-      [field]: value
-    }));
-    setIsDirty(true);
+  const setValue = useCallback(
+    (field: keyof T, value: any) => {
+      setValues((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+      setIsDirty(true);
 
-    // Validação em tempo real
-    if (validateOnChange) {
-      if (debounceMs > 0) {
-        if (debounceTimer) {
-          clearTimeout(debounceTimer);
-        }
-        
-        const timer = setTimeout(() => {
+      // Validação em tempo real
+      if (validateOnChange) {
+        if (debounceMs > 0) {
+          if (debounceTimer) {
+            clearTimeout(debounceTimer);
+          }
+
+          const timer = setTimeout(() => {
+            validateField(field);
+          }, debounceMs);
+
+          setDebounceTimer(timer);
+        } else {
           validateField(field);
-        }, debounceMs);
-        
-        setDebounceTimer(timer);
-      } else {
-        validateField(field);
+        }
       }
-    }
-  }, [validateOnChange, validateField, debounceMs, debounceTimer]);
+    },
+    [validateOnChange, validateField, debounceMs, debounceTimer]
+  );
 
   // Definir erro de campo
   const setError = useCallback((field: keyof T, error: string) => {
-    setErrors(prev => ({
+    setErrors((prev) => ({
       ...prev,
-      [field as string]: error
+      [field as string]: error,
     }));
   }, []);
 
   // Limpar erro de campo
   const clearError = useCallback((field: keyof T) => {
-    setErrors(prev => {
+    setErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors[field as string];
       return newErrors;
@@ -148,42 +156,54 @@ export const useFormValidation = <T extends Record<string, any>>({
   }, [initialValues]);
 
   // Handler de mudança de campo
-  const handleFieldChange = useCallback((field: keyof T) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setValue(field, value);
-  }, [setValue]);
+  const handleFieldChange = useCallback(
+    (field: keyof T) =>
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setValue(field, value);
+      },
+    [setValue]
+  );
 
   // Handler de blur de campo
-  const handleFieldBlur = useCallback((field: keyof T) => () => {
-    if (validateOnBlur) {
-      validateField(field);
-    }
-  }, [validateOnBlur, validateField]);
+  const handleFieldBlur = useCallback(
+    (field: keyof T) => () => {
+      if (validateOnBlur) {
+        validateField(field);
+      }
+    },
+    [validateOnBlur, validateField]
+  );
 
   // Props de campo para componentes
-  const getFieldProps = useCallback((field: keyof T) => ({
-    value: values[field],
-    onChange: handleFieldChange(field),
-    onBlur: handleFieldBlur(field),
-    error: errors[field as string],
-    hasError: !!errors[field as string]
-  }), [values, errors, handleFieldChange, handleFieldBlur]);
+  const getFieldProps = useCallback(
+    (field: keyof T) => ({
+      value: values[field],
+      onChange: handleFieldChange(field),
+      onBlur: handleFieldBlur(field),
+      error: errors[field as string],
+      hasError: !!errors[field as string],
+    }),
+    [values, errors, handleFieldChange, handleFieldBlur]
+  );
 
   // Handler de submit
-  const handleSubmit = useCallback((onSubmit: (data: T) => void | Promise<void>) => (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (isSubmitting) return;
+  const handleSubmit = useCallback(
+    (onSubmit: (data: T) => void | Promise<void>) => (e: React.FormEvent) => {
+      e.preventDefault();
 
-    const isValid = validate();
-    if (isValid) {
-      setIsSubmitting(true);
-      Promise.resolve(onSubmit(values))
-        .finally(() => {
+      if (isSubmitting) return;
+
+      const isValid = validate();
+      if (isValid) {
+        setIsSubmitting(true);
+        Promise.resolve(onSubmit(values)).finally(() => {
           setIsSubmitting(false);
         });
-    }
-  }, [isSubmitting, validate, values]);
+      }
+    },
+    [isSubmitting, validate, values]
+  );
 
   // Validação inicial
   useEffect(() => {
@@ -218,7 +238,7 @@ export const useFormValidation = <T extends Record<string, any>>({
     validateField,
     reset,
     handleSubmit,
-    getFieldProps
+    getFieldProps,
   };
 };
 
@@ -227,43 +247,45 @@ export const useLoginForm = () => {
   return useFormValidation({
     schema: z.object({
       email: z.string().email('Email inválido'),
-      password: z.string().min(1, 'Senha é obrigatória')
+      password: z.string().min(1, 'Senha é obrigatória'),
     }),
     initialValues: {
       email: '',
-      password: ''
+      password: '',
     },
     validateOnChange: true,
     validateOnBlur: true,
-    debounceMs: 300
+    debounceMs: 300,
   });
 };
 
 // Hook específico para cadastro
 export const useSignupForm = () => {
   return useFormValidation({
-    schema: z.object({
-      fullName: z.string().min(2, 'Nome deve ter no mínimo 2 caracteres'),
-      email: z.string().email('Email inválido'),
-      password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
-      confirmPassword: z.string(),
-      phone: z.string().optional(),
-      acceptTerms: z.boolean().refine(val => val === true, 'Você deve aceitar os termos')
-    }).refine(data => data.password === data.confirmPassword, {
-      message: 'Senhas não coincidem',
-      path: ['confirmPassword']
-    }),
+    schema: z
+      .object({
+        fullName: z.string().min(2, 'Nome deve ter no mínimo 2 caracteres'),
+        email: z.string().email('Email inválido'),
+        password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
+        confirmPassword: z.string(),
+        phone: z.string().optional(),
+        acceptTerms: z.boolean().refine((val) => val === true, 'Você deve aceitar os termos'),
+      })
+      .refine((data) => data.password === data.confirmPassword, {
+        message: 'Senhas não coincidem',
+        path: ['confirmPassword'],
+      }),
     initialValues: {
       fullName: '',
       email: '',
       password: '',
       confirmPassword: '',
       phone: '',
-      acceptTerms: false
+      acceptTerms: false,
     },
     validateOnChange: true,
     validateOnBlur: true,
-    debounceMs: 300
+    debounceMs: 300,
   });
 };
 
@@ -274,17 +296,17 @@ export const usePostForm = () => {
       content: z.string().min(1, 'Conteúdo é obrigatório').max(2000, 'Conteúdo muito longo'),
       imageUrl: z.string().url('URL inválida').optional(),
       groupId: z.string().uuid('ID inválido').optional(),
-      isPrivate: z.boolean().optional()
+      isPrivate: z.boolean().optional(),
     }),
     initialValues: {
       content: '',
       imageUrl: '',
       groupId: '',
-      isPrivate: false
+      isPrivate: false,
     },
     validateOnChange: true,
     validateOnBlur: true,
-    debounceMs: 500
+    debounceMs: 500,
   });
 };
 
@@ -294,10 +316,19 @@ export const useGroupForm = () => {
     schema: z.object({
       name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres').max(100, 'Nome muito longo'),
       description: z.string().max(1000, 'Descrição muito longa').optional(),
-      category: z.enum(['amamentacao', 'pos_parto', 'lifestyle', 'fe', 'saude', 'relacionamento', 'trabalho', 'outros']),
+      category: z.enum([
+        'amamentacao',
+        'pos_parto',
+        'lifestyle',
+        'fe',
+        'saude',
+        'relacionamento',
+        'trabalho',
+        'outros',
+      ]),
       isPrivate: z.boolean(),
       maxMembers: z.number().min(2, 'Mínimo 2 membros').max(1000, 'Máximo 1000 membros').optional(),
-      rules: z.string().max(2000, 'Regras muito longas').optional()
+      rules: z.string().max(2000, 'Regras muito longas').optional(),
     }),
     initialValues: {
       name: '',
@@ -305,11 +336,11 @@ export const useGroupForm = () => {
       category: 'amamentacao' as const,
       isPrivate: false,
       maxMembers: 100,
-      rules: ''
+      rules: '',
     },
     validateOnChange: true,
     validateOnBlur: true,
-    debounceMs: 500
+    debounceMs: 500,
   });
 };
 
@@ -322,7 +353,7 @@ export const useProfileForm = () => {
       phone: z.string().optional(),
       location: z.string().max(100, 'Localização muito longa').optional(),
       website: z.string().url('Website inválido').optional(),
-      isPublic: z.boolean().optional()
+      isPublic: z.boolean().optional(),
     }),
     initialValues: {
       fullName: '',
@@ -330,10 +361,10 @@ export const useProfileForm = () => {
       phone: '',
       location: '',
       website: '',
-      isPublic: true
+      isPublic: true,
     },
     validateOnChange: true,
     validateOnBlur: true,
-    debounceMs: 300
+    debounceMs: 300,
   });
 };

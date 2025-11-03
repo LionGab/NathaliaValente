@@ -42,7 +42,8 @@ export const GroupMembersRepository = {
 
     let queryBuilder = supabase
       .from('group_members')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_members_user_id_fkey (
           id,
@@ -50,7 +51,8 @@ export const GroupMembersRepository = {
           avatar_url,
           bio
         )
-      `)
+      `
+      )
       .eq('group_id', groupId)
       .eq('is_banned', isBanned)
       .order('joined_at', { ascending: false })
@@ -76,7 +78,8 @@ export const GroupMembersRepository = {
   async findByGroupAndUser(groupId: string, userId: string): Promise<GroupMemberRow | null> {
     const { data, error } = await supabase
       .from('group_members')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_members_user_id_fkey (
           id,
@@ -84,7 +87,8 @@ export const GroupMembersRepository = {
           avatar_url,
           bio
         )
-      `)
+      `
+      )
       .eq('group_id', groupId)
       .eq('user_id', userId)
       .single();
@@ -107,7 +111,8 @@ export const GroupMembersRepository = {
   async findByUserId(userId: string, limit = 50): Promise<GroupMemberRow[]> {
     const { data, error } = await supabase
       .from('group_members')
-      .select(`
+      .select(
+        `
         *,
         group:groups!group_members_group_id_fkey (
           id,
@@ -117,7 +122,8 @@ export const GroupMembersRepository = {
           is_private,
           cover_image_url
         )
-      `)
+      `
+      )
       .eq('user_id', userId)
       .eq('is_banned', false)
       .order('joined_at', { ascending: false })
@@ -137,7 +143,8 @@ export const GroupMembersRepository = {
     const { data: member, error } = await supabase
       .from('group_members')
       .insert(data)
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_members_user_id_fkey (
           id,
@@ -145,7 +152,8 @@ export const GroupMembersRepository = {
           avatar_url,
           bio
         )
-      `)
+      `
+      )
       .single();
 
     if (error) throw error;
@@ -160,17 +168,14 @@ export const GroupMembersRepository = {
    * @param data - Dados a serem atualizados
    * @returns Promise com o membro atualizado
    */
-  async update(
-    groupId: string,
-    userId: string,
-    data: GroupMemberUpdate
-  ): Promise<GroupMemberRow> {
+  async update(groupId: string, userId: string, data: GroupMemberUpdate): Promise<GroupMemberRow> {
     const { data: member, error } = await supabase
       .from('group_members')
       .update(data)
       .eq('group_id', groupId)
       .eq('user_id', userId)
-      .select(`
+      .select(
+        `
         *,
         user:profiles!group_members_user_id_fkey (
           id,
@@ -178,7 +183,8 @@ export const GroupMembersRepository = {
           avatar_url,
           bio
         )
-      `)
+      `
+      )
       .single();
 
     if (error) throw error;
@@ -218,5 +224,5 @@ export const GroupMembersRepository = {
 
     if (error) throw error;
     return count || 0;
-  }
+  },
 };

@@ -12,7 +12,7 @@ export const validateEmail = (email: string): ValidationResult => {
 
   return {
     isValid,
-    errors: isValid ? [] : ['Email inválido']
+    errors: isValid ? [] : ['Email inválido'],
   };
 };
 
@@ -34,7 +34,7 @@ export const validatePassword = (password: string): ValidationResult => {
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 };
 
@@ -44,7 +44,7 @@ export const validateFullName = (name: string): ValidationResult => {
 
   return {
     isValid,
-    errors: isValid ? [] : ['Nome deve ter entre 2 e 100 caracteres']
+    errors: isValid ? [] : ['Nome deve ter entre 2 e 100 caracteres'],
   };
 };
 
@@ -53,7 +53,7 @@ export const validateBio = (bio: string): ValidationResult => {
 
   return {
     isValid,
-    errors: isValid ? [] : ['Bio deve ter no máximo 500 caracteres']
+    errors: isValid ? [] : ['Bio deve ter no máximo 500 caracteres'],
   };
 };
 
@@ -67,7 +67,7 @@ export const sanitizeHtml = (html: string): string => {
     "'": '&#x27;',
     '/': '&#x2F;',
     '`': '&#x60;',
-    '=': '&#x3D;'
+    '=': '&#x3D;',
   };
 
   return html.replace(/[&<>"'`=\/]/g, (char) => htmlEntities[char]);
@@ -137,7 +137,7 @@ export const validateProfileUpdate = (data: any) => {
   return {
     isValid: errors.length === 0,
     errors,
-    cleanData
+    cleanData,
   };
 };
 
@@ -147,7 +147,7 @@ export const validatePostCaption = (caption: string): ValidationResult => {
 
   return {
     isValid,
-    errors: isValid ? [] : ['Legenda deve ter entre 1 e 1000 caracteres']
+    errors: isValid ? [] : ['Legenda deve ter entre 1 e 1000 caracteres'],
   };
 };
 
@@ -189,6 +189,6 @@ export const validatePostData = (data: any) => {
   return {
     isValid: errors.length === 0,
     errors,
-    cleanData
+    cleanData,
   };
 };

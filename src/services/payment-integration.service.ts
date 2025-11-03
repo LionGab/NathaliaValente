@@ -9,7 +9,13 @@ export interface PaymentIntent {
   id: string;
   amount: number;
   currency: string;
-  status: 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'processing' | 'succeeded' | 'canceled';
+  status:
+    | 'requires_payment_method'
+    | 'requires_confirmation'
+    | 'requires_action'
+    | 'processing'
+    | 'succeeded'
+    | 'canceled';
   client_secret: string;
 }
 
@@ -39,7 +45,7 @@ export class PaymentIntegrationService {
    */
   async createStripePaymentIntent(data: CreatePaymentData): Promise<PaymentIntent> {
     const { publishableKey, secretKey } = this.config.payments.stripe;
-    
+
     if (!secretKey) {
       throw new Error('Stripe secret key não configurada');
     }
@@ -50,7 +56,7 @@ export class PaymentIntegrationService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secretKey}`,
+        Authorization: `Bearer ${secretKey}`,
       },
       body: JSON.stringify({
         amount: Math.round(data.amount * 100), // Stripe usa centavos
@@ -67,7 +73,7 @@ export class PaymentIntegrationService {
     }
 
     const paymentIntent = await response.json();
-    
+
     return {
       id: paymentIntent.id,
       amount: paymentIntent.amount / 100, // Converter de centavos
@@ -80,9 +86,12 @@ export class PaymentIntegrationService {
   /**
    * Confirma um Payment Intent no Stripe
    */
-  async confirmStripePayment(paymentIntentId: string, paymentMethodId: string): Promise<PaymentIntent> {
+  async confirmStripePayment(
+    paymentIntentId: string,
+    paymentMethodId: string
+  ): Promise<PaymentIntent> {
     const { secretKey } = this.config.payments.stripe;
-    
+
     if (!secretKey) {
       throw new Error('Stripe secret key não configurada');
     }
@@ -91,7 +100,7 @@ export class PaymentIntegrationService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secretKey}`,
+        Authorization: `Bearer ${secretKey}`,
       },
       body: JSON.stringify({
         payment_intent_id: paymentIntentId,
@@ -104,7 +113,7 @@ export class PaymentIntegrationService {
     }
 
     const paymentIntent = await response.json();
-    
+
     return {
       id: paymentIntent.id,
       amount: paymentIntent.amount / 100,
@@ -117,9 +126,11 @@ export class PaymentIntegrationService {
   /**
    * Cria um pagamento no PayPal
    */
-  async createPayPalPayment(data: CreatePaymentData): Promise<{ id: string; approval_url: string }> {
+  async createPayPalPayment(
+    data: CreatePaymentData
+  ): Promise<{ id: string; approval_url: string }> {
     const { clientId } = this.config.payments.paypal;
-    
+
     if (!clientId) {
       throw new Error('PayPal client ID não configurado');
     }
@@ -144,7 +155,7 @@ export class PaymentIntegrationService {
     }
 
     const payment = await response.json();
-    
+
     return {
       id: payment.id,
       approval_url: payment.links.find((link: any) => link.rel === 'approval_url')?.href || '',
@@ -154,7 +165,10 @@ export class PaymentIntegrationService {
   /**
    * Executa um pagamento no PayPal
    */
-  async executePayPalPayment(paymentId: string, payerId: string): Promise<{ id: string; state: string }> {
+  async executePayPalPayment(
+    paymentId: string,
+    payerId: string
+  ): Promise<{ id: string; state: string }> {
     const response = await fetch('/api/payments/paypal/execute-payment', {
       method: 'POST',
       headers: {
@@ -171,7 +185,7 @@ export class PaymentIntegrationService {
     }
 
     const payment = await response.json();
-    
+
     return {
       id: payment.id,
       state: payment.state,
@@ -181,7 +195,9 @@ export class PaymentIntegrationService {
   /**
    * Cria um pagamento PIX (Brasil)
    */
-  async createPixPayment(data: CreatePaymentData): Promise<{ qr_code: string; copy_paste: string; expires_at: string }> {
+  async createPixPayment(
+    data: CreatePaymentData
+  ): Promise<{ qr_code: string; copy_paste: string; expires_at: string }> {
     const response = await fetch('/api/payments/pix/create', {
       method: 'POST',
       headers: {
@@ -199,7 +215,7 @@ export class PaymentIntegrationService {
     }
 
     const pix = await response.json();
-    
+
     return {
       qr_code: pix.qr_code,
       copy_paste: pix.copy_paste,
@@ -212,14 +228,14 @@ export class PaymentIntegrationService {
    */
   async getSavedPaymentMethods(customerId: string): Promise<PaymentMethod[]> {
     const { secretKey } = this.config.payments.stripe;
-    
+
     if (!secretKey) {
       throw new Error('Stripe secret key não configurada');
     }
 
     const response = await fetch(`/api/payments/stripe/payment-methods?customer=${customerId}`, {
       headers: {
-        'Authorization': `Bearer ${secretKey}`,
+        Authorization: `Bearer ${secretKey}`,
       },
     });
 
@@ -228,7 +244,7 @@ export class PaymentIntegrationService {
     }
 
     const data = await response.json();
-    
+
     return data.data.map((pm: any) => ({
       id: pm.id,
       type: pm.type,
@@ -244,7 +260,7 @@ export class PaymentIntegrationService {
    */
   async savePaymentMethod(customerId: string, paymentMethodId: string): Promise<PaymentMethod> {
     const { secretKey } = this.config.payments.stripe;
-    
+
     if (!secretKey) {
       throw new Error('Stripe secret key não configurada');
     }
@@ -253,7 +269,7 @@ export class PaymentIntegrationService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secretKey}`,
+        Authorization: `Bearer ${secretKey}`,
       },
       body: JSON.stringify({
         payment_method_id: paymentMethodId,
@@ -266,7 +282,7 @@ export class PaymentIntegrationService {
     }
 
     const pm = await response.json();
-    
+
     return {
       id: pm.id,
       type: pm.type,
@@ -282,7 +298,7 @@ export class PaymentIntegrationService {
    */
   async removePaymentMethod(paymentMethodId: string): Promise<void> {
     const { secretKey } = this.config.payments.stripe;
-    
+
     if (!secretKey) {
       throw new Error('Stripe secret key não configurada');
     }
@@ -291,7 +307,7 @@ export class PaymentIntegrationService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secretKey}`,
+        Authorization: `Bearer ${secretKey}`,
       },
       body: JSON.stringify({
         payment_method_id: paymentMethodId,
@@ -306,9 +322,12 @@ export class PaymentIntegrationService {
   /**
    * Obtém o status de um pagamento
    */
-  async getPaymentStatus(paymentId: string, provider: 'stripe' | 'paypal' | 'pix'): Promise<{ status: string; amount?: number; currency?: string }> {
+  async getPaymentStatus(
+    paymentId: string,
+    provider: 'stripe' | 'paypal' | 'pix'
+  ): Promise<{ status: string; amount?: number; currency?: string }> {
     const response = await fetch(`/api/payments/${provider}/status/${paymentId}`);
-    
+
     if (!response.ok) {
       throw new Error(`${provider} API error: ${response.status} ${response.statusText}`);
     }
@@ -319,7 +338,11 @@ export class PaymentIntegrationService {
   /**
    * Processa um reembolso
    */
-  async processRefund(paymentId: string, amount?: number, reason?: string): Promise<{ id: string; status: string; amount: number }> {
+  async processRefund(
+    paymentId: string,
+    amount?: number,
+    reason?: string
+  ): Promise<{ id: string; status: string; amount: number }> {
     const response = await fetch('/api/payments/refund', {
       method: 'POST',
       headers: {

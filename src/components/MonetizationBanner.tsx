@@ -6,10 +6,7 @@ interface MonetizationBannerProps {
   variant?: 'premium' | 'community' | 'exclusive';
 }
 
-export const MonetizationBanner = ({
-  onClose,
-  variant = 'premium'
-}: MonetizationBannerProps) => {
+export const MonetizationBanner = ({ onClose, variant = 'premium' }: MonetizationBannerProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,29 +22,29 @@ export const MonetizationBanner = ({
       case 'premium':
         return {
           icon: <Crown className="w-6 h-6 text-yellow-500" />,
-          title: "✨ Conteúdo Exclusivo",
-          subtitle: "Acesso antecipado a materiais especiais",
-          features: ["Vídeos privados", "Dicas exclusivas", "Q&A personalizado"],
-          cta: "Ver conteúdo",
-          gradient: "from-purple-500 to-pink-600"
+          title: '✨ Conteúdo Exclusivo',
+          subtitle: 'Acesso antecipado a materiais especiais',
+          features: ['Vídeos privados', 'Dicas exclusivas', 'Q&A personalizado'],
+          cta: 'Ver conteúdo',
+          gradient: 'from-purple-500 to-pink-600',
         };
       case 'community':
         return {
           icon: <Users className="w-6 h-6 text-blue-500" />,
-          title: "💬 Comunidade Exclusiva",
-          subtitle: "Conecte-se com outras mães",
-          features: ["Chat privado", "Suporte 24/7", "Eventos exclusivos"],
-          cta: "Entrar no grupo",
-          gradient: "from-blue-500 to-cyan-600"
+          title: '💬 Comunidade Exclusiva',
+          subtitle: 'Conecte-se com outras mães',
+          features: ['Chat privado', 'Suporte 24/7', 'Eventos exclusivos'],
+          cta: 'Entrar no grupo',
+          gradient: 'from-blue-500 to-cyan-600',
         };
       case 'exclusive':
         return {
           icon: <Star className="w-6 h-6 text-purple-500" />,
-          title: "✨ Conteúdo Exclusivo",
-          subtitle: "Acesso antecipado",
-          features: ["Vídeos privados", "Dicas exclusivas", "Q&A personalizado"],
-          cta: "Ver conteúdo",
-          gradient: "from-purple-500 to-pink-600"
+          title: '✨ Conteúdo Exclusivo',
+          subtitle: 'Acesso antecipado',
+          features: ['Vídeos privados', 'Dicas exclusivas', 'Q&A personalizado'],
+          cta: 'Ver conteúdo',
+          gradient: 'from-purple-500 to-pink-600',
         };
     }
   };

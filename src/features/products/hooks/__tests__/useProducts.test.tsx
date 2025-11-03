@@ -2,13 +2,17 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useProducts } from '../useProducts';
-import { mockProducts, mockSupabaseResponse, mockSupabaseError } from '../../../../test/mocks/supabase';
+import {
+  mockProducts,
+  mockSupabaseResponse,
+  mockSupabaseError,
+} from '../../../../test/mocks/supabase';
 
 // Mock do productService
 vi.mock('../../services/productService', () => ({
   productService: {
-    getProducts: vi.fn()
-  }
+    getProducts: vi.fn(),
+  },
 }));
 
 const createWrapper = () => {

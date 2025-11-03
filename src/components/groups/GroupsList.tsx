@@ -17,7 +17,7 @@ import {
   MessageCircle,
   Calendar,
   ChevronRight,
-  X
+  X,
 } from 'lucide-react';
 import { groupsMockService } from '../../services/groups-mock.service';
 import { Group, GroupCategory, GroupFilters } from '../../types/groups';
@@ -30,7 +30,7 @@ import {
   getCategoryColor,
   getCategoryIcon,
   formatGroupMemberCount,
-  formatGroupAge
+  formatGroupAge,
 } from '../../types/groups';
 
 interface GroupsListProps {
@@ -42,7 +42,7 @@ interface GroupsListProps {
 export const GroupsList: React.FC<GroupsListProps> = ({
   onGroupSelect,
   showCreateButton = true,
-  initialFilters = {}
+  initialFilters = {},
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<GroupCategory | 'Todos'>('Todos');
@@ -51,18 +51,21 @@ export const GroupsList: React.FC<GroupsListProps> = ({
   const [activeTab, setActiveTab] = useState<'discover' | 'popular' | 'recent'>('discover');
 
   // Filtros aplicados
-  const filters: GroupFilters = useMemo(() => ({
-    ...initialFilters,
-    category: selectedCategory === 'Todos' ? undefined : selectedCategory,
-    is_private: showPrivateOnly ? true : undefined,
-    search: searchQuery.trim() || undefined
-  }), [selectedCategory, showPrivateOnly, searchQuery, initialFilters]);
+  const filters: GroupFilters = useMemo(
+    () => ({
+      ...initialFilters,
+      category: selectedCategory === 'Todos' ? undefined : selectedCategory,
+      is_private: showPrivateOnly ? true : undefined,
+      search: searchQuery.trim() || undefined,
+    }),
+    [selectedCategory, showPrivateOnly, searchQuery, initialFilters]
+  );
 
   // Queries para diferentes tipos de grupos
   const {
     data: discoverGroups = [],
     isLoading: discoverLoading,
-    refetch: refetchDiscover
+    refetch: refetchDiscover,
   } = useQuery({
     queryKey: ['groups', 'discover', filters],
     queryFn: async () => {
@@ -77,41 +80,41 @@ export const GroupsList: React.FC<GroupsListProps> = ({
       }
       return await groupsMockService.getAllGroups();
     },
-    enabled: activeTab === 'discover'
+    enabled: activeTab === 'discover',
   });
 
-  const {
-    data: popularGroups = [],
-    isLoading: popularLoading
-  } = useQuery({
+  const { data: popularGroups = [], isLoading: popularLoading } = useQuery({
     queryKey: ['groups', 'popular'],
     queryFn: groupsMockService.getPopularGroups,
-    enabled: activeTab === 'popular'
+    enabled: activeTab === 'popular',
   });
 
-  const {
-    data: recentGroups = [],
-    isLoading: recentLoading
-  } = useQuery({
+  const { data: recentGroups = [], isLoading: recentLoading } = useQuery({
     queryKey: ['groups', 'recent'],
     queryFn: groupsMockService.getRecentGroups,
-    enabled: activeTab === 'recent'
+    enabled: activeTab === 'recent',
   });
 
   // Dados ativos baseado na aba
   const activeGroups = useMemo(() => {
     switch (activeTab) {
-      case 'popular': return popularGroups;
-      case 'recent': return recentGroups;
-      default: return discoverGroups;
+      case 'popular':
+        return popularGroups;
+      case 'recent':
+        return recentGroups;
+      default:
+        return discoverGroups;
     }
   }, [activeTab, discoverGroups, popularGroups, recentGroups]);
 
   const isLoading = useMemo(() => {
     switch (activeTab) {
-      case 'popular': return popularLoading;
-      case 'recent': return recentLoading;
-      default: return discoverLoading;
+      case 'popular':
+        return popularLoading;
+      case 'recent':
+        return recentLoading;
+      default:
+        return discoverLoading;
     }
   }, [activeTab, discoverLoading, popularLoading, recentLoading]);
 
@@ -161,11 +164,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
           </div>
 
           {showCreateButton && (
-            <Button
-              onClick={handleCreateGroup}
-              leftIcon={<Plus className="w-5 h-5" />}
-              size="lg"
-            >
+            <Button onClick={handleCreateGroup} leftIcon={<Plus className="w-5 h-5" />} size="lg">
               Criar Grupo
             </Button>
           )}
@@ -176,15 +175,16 @@ export const GroupsList: React.FC<GroupsListProps> = ({
           {[
             { id: 'discover', label: 'Descobrir', icon: Search },
             { id: 'popular', label: 'Populares', icon: Star },
-            { id: 'recent', label: 'Recentes', icon: Calendar }
+            { id: 'recent', label: 'Recentes', icon: Calendar },
           ].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id as any)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${activeTab === id
-                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all ${
+                activeTab === id
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
             >
               <Icon className="w-4 h-4" aria-hidden="true" />
               {label}
@@ -222,9 +222,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
             <div className="mb-4">
               <div className="flex items-center gap-2 mb-3">
                 <Filter className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                <span className="font-medium text-gray-700 dark:text-gray-300">
-                  Categorias:
-                </span>
+                <span className="font-medium text-gray-700 dark:text-gray-300">Categorias:</span>
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -232,10 +230,11 @@ export const GroupsList: React.FC<GroupsListProps> = ({
                   <button
                     key={category}
                     onClick={() => handleCategoryFilter(category as any)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-full font-medium transition-all ${selectedCategory === category
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                      }`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-full font-medium transition-all ${
+                      selectedCategory === category
+                        ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
                   >
                     {category !== 'Todos' && (
                       <span className="text-lg">{getCategoryIcon(category as GroupCategory)}</span>
@@ -302,8 +301,7 @@ export const GroupsList: React.FC<GroupsListProps> = ({
             <p className="text-gray-600 dark:text-gray-400 mb-6">
               {activeTab === 'discover'
                 ? 'Tente ajustar os filtros ou criar um novo grupo'
-                : 'Ainda não há grupos nesta categoria'
-              }
+                : 'Ainda não há grupos nesta categoria'}
             </p>
             {activeTab === 'discover' && (
               <div className="flex gap-3 justify-center">
@@ -311,7 +309,10 @@ export const GroupsList: React.FC<GroupsListProps> = ({
                   Limpar Filtros
                 </Button>
                 {showCreateButton && (
-                  <Button onClick={handleCreateGroup} leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}>
+                  <Button
+                    onClick={handleCreateGroup}
+                    leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
+                  >
                     Criar Grupo
                   </Button>
                 )}

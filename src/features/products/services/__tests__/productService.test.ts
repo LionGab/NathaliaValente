@@ -26,43 +26,33 @@ describe('ProductService', () => {
       const filters = { category: 'Roupas' };
       const result = await productService.getProducts(filters);
 
-      expect(result).toEqual(
-        mockProducts.filter(p => p.category === 'Roupas')
-      );
+      expect(result).toEqual(mockProducts.filter((p) => p.category === 'Roupas'));
     });
 
     it('deve retornar produtos filtrados por preÃ§o mÃ­nimo', async () => {
       const filters = { minPrice: 150 };
       const result = await productService.getProducts(filters);
 
-      expect(result).toEqual(
-        mockProducts.filter(p => p.price >= 150)
-      );
+      expect(result).toEqual(mockProducts.filter((p) => p.price >= 150));
     });
 
     it('deve retornar produtos filtrados por preÃ§o mÃ¡ximo', async () => {
       const filters = { maxPrice: 180 };
       const result = await productService.getProducts(filters);
 
-      expect(result).toEqual(
-        mockProducts.filter(p => p.price <= 180)
-      );
+      expect(result).toEqual(mockProducts.filter((p) => p.price <= 180));
     });
 
     it('deve retornar produtos com mÃºltiplos filtros', async () => {
-      const filters = { 
-        category: 'Bikinis', 
-        minPrice: 100, 
-        maxPrice: 200 
+      const filters = {
+        category: 'Bikinis',
+        minPrice: 100,
+        maxPrice: 200,
       };
       const result = await productService.getProducts(filters);
 
       expect(result).toEqual(
-        mockProducts.filter(p => 
-          p.category === 'Bikinis' && 
-          p.price >= 100 && 
-          p.price <= 200
-        )
+        mockProducts.filter((p) => p.category === 'Bikinis' && p.price >= 100 && p.price <= 200)
       );
     });
 
@@ -79,7 +69,7 @@ describe('ProductService', () => {
       const productId = '1';
       const result = await productService.getProductById(productId);
 
-      expect(result).toEqual(mockProducts.find(p => p.id === productId));
+      expect(result).toEqual(mockProducts.find((p) => p.id === productId));
     });
 
     it('deve retornar null quando produto nÃ£o existe', async () => {
@@ -108,7 +98,7 @@ describe('ProductService', () => {
         price: -10,
         image: '',
         category: '',
-        stock: -5
+        stock: -5,
       };
       const result = productService.validateProductData(invalidProduct);
 

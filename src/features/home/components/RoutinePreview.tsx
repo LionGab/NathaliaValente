@@ -11,13 +11,11 @@ export const RoutinePreview: React.FC = () => {
   const [completedCount, setCompletedCount] = useState(0);
 
   // Filtrar rotinas ativas para hoje
-  const todayRoutines = routines
-    .filter(routine => routine.active)
-    .slice(0, 3); // Apenas as próximas 3
+  const todayRoutines = routines.filter((routine) => routine.active).slice(0, 3); // Apenas as próximas 3
 
   const handleToggleRoutine = (id: string, completed: boolean) => {
     toggleRoutine.mutate({ id, completed: !completed });
-    setCompletedCount(prev => completed ? prev - 1 : prev + 1);
+    setCompletedCount((prev) => (completed ? prev - 1 : prev + 1));
   };
 
   if (isLoading) {
@@ -30,7 +28,10 @@ export const RoutinePreview: React.FC = () => {
           </div>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-2xl">
+              <div
+                key={i}
+                className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-2xl"
+              >
                 <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-2xl"></div>
                 <div className="flex-1">
                   <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
@@ -56,12 +57,12 @@ export const RoutinePreview: React.FC = () => {
           <motion.div
             animate={{
               scale: [1, 1.1, 1],
-              rotate: [0, 5, 0]
+              rotate: [0, 5, 0],
             }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut',
             }}
             className="text-6xl mb-4"
           >
@@ -98,9 +99,7 @@ export const RoutinePreview: React.FC = () => {
               <Clock className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Minha Rotina
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Minha Rotina</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {completedCount}/{todayRoutines.length} concluídas hoje
               </p>
@@ -127,7 +126,7 @@ export const RoutinePreview: React.FC = () => {
               className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(completedCount / todayRoutines.length) * 100}%` }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
             />
           </div>
         </div>
@@ -141,30 +140,39 @@ export const RoutinePreview: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${routine.completed
-                  ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-                  : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                  }`}
+                className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${
+                  routine.completed
+                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+                    : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                }`}
               >
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${routine.completed
-                    ? 'bg-green-100 dark:bg-green-900/40'
-                    : 'bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40'
-                    }`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${
+                    routine.completed
+                      ? 'bg-green-100 dark:bg-green-900/40'
+                      : 'bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40'
+                  }`}
                 >
-                  {routine.icon === 'feeding' ? '🍼' :
-                    routine.icon === 'bathing' ? '🛁' :
-                      routine.icon === 'sleeping' ? '😴' : '🎯'}
+                  {routine.icon === 'feeding'
+                    ? '🍼'
+                    : routine.icon === 'bathing'
+                      ? '🛁'
+                      : routine.icon === 'sleeping'
+                        ? '😴'
+                        : '🎯'}
                 </motion.div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
-                    <span className={`text-base font-semibold ${routine.completed
-                      ? 'text-green-700 dark:text-green-400 line-through'
-                      : 'text-gray-900 dark:text-white'
-                      }`}>
+                    <span
+                      className={`text-base font-semibold ${
+                        routine.completed
+                          ? 'text-green-700 dark:text-green-400 line-through'
+                          : 'text-gray-900 dark:text-white'
+                      }`}
+                    >
                       {routine.title}
                     </span>
                     {routine.completed && (
@@ -179,9 +187,7 @@ export const RoutinePreview: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-3 h-3 text-gray-500" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {routine.time}
-                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{routine.time}</span>
                     {routine.priority === 'high' && (
                       <div className="flex items-center gap-1 text-orange-500">
                         <Zap className="w-3 h-3" />
@@ -195,17 +201,18 @@ export const RoutinePreview: React.FC = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => handleToggleRoutine(routine.id, routine.completed)}
-                  className={`p-2 rounded-xl transition-all duration-300 ${routine.completed
-                    ? 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-900/60'
-                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    }`}
+                  className={`p-2 rounded-xl transition-all duration-300 ${
+                    routine.completed
+                      ? 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-900/60'
+                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
                   data-testid={`toggle-routine-${routine.id}`}
                 >
                   {routine.completed ? (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                     >
                       <CheckCircle className="w-6 h-6 text-green-500" />
                     </motion.div>

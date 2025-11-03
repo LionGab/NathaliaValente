@@ -13,7 +13,7 @@ export const RoutineCalendar: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState(new Date().getDay());
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const todayRoutines = routines.filter(r => isRoutineActiveToday(r));
+  const todayRoutines = routines.filter((r) => isRoutineActiveToday(r));
 
   const handleToggle = (id: string, completed: boolean) => {
     toggleMutation.mutate({ id, completed });
@@ -25,7 +25,7 @@ export const RoutineCalendar: React.FC = () => {
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3" />
           <div className="grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4].map(i => (
+            {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl" />
             ))}
           </div>
@@ -52,9 +52,7 @@ export const RoutineCalendar: React.FC = () => {
           </div>
         </div>
         {syncing && (
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            Sincronizando...
-          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">Sincronizando...</div>
         )}
       </div>
 
@@ -62,10 +60,8 @@ export const RoutineCalendar: React.FC = () => {
       {todayRoutines.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">📅</div>
-          <p className="text-gray-500 dark:text-gray-400 mb-4">
-            Nenhuma rotina agendada para hoje
-          </p>
-          <button 
+          <p className="text-gray-500 dark:text-gray-400 mb-4">Nenhuma rotina agendada para hoje</p>
+          <button
             onClick={() => setShowCreateModal(true)}
             className="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center gap-2 mx-auto"
           >
@@ -82,16 +78,13 @@ export const RoutineCalendar: React.FC = () => {
                 className="animate-fade-in-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <RoutineCard
-                  routine={routine}
-                  onToggle={handleToggle}
-                />
+                <RoutineCard routine={routine} onToggle={handleToggle} />
               </div>
             ))}
           </div>
 
           {/* Botão Adicionar */}
-          <button 
+          <button
             onClick={() => setShowCreateModal(true)}
             className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
           >
@@ -102,10 +95,7 @@ export const RoutineCalendar: React.FC = () => {
       )}
 
       {/* Modal para criar nova rotina */}
-      <CreateRoutineModal
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-      />
+      <CreateRoutineModal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} />
     </div>
   );
 };

@@ -4,15 +4,15 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  Heart, 
-  MessageCircle, 
-  MoreHorizontal, 
+import {
+  Heart,
+  MessageCircle,
+  MoreHorizontal,
   AlertTriangle,
   Clock,
   User,
   Eye,
-  EyeOff
+  EyeOff,
 } from 'lucide-react';
 import { PrayerPost as PrayerPostType } from '../../services/prayers.service';
 import { useAuth } from '../../contexts/AuthContext';
@@ -33,33 +33,33 @@ const categoryConfig = {
     label: 'Gratidão',
     icon: '🙏',
     color: 'text-green-600',
-    bgColor: 'bg-green-50 dark:bg-green-900/20'
+    bgColor: 'bg-green-50 dark:bg-green-900/20',
   },
   request: {
     label: 'Pedido',
     icon: '💜',
     color: 'text-purple-600',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
   },
   intercession: {
     label: 'Intercessão',
     icon: '🤲',
     color: 'text-yellow-600',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20'
+    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
   },
   praise: {
     label: 'Louvores',
     icon: '✨',
     color: 'text-red-600',
-    bgColor: 'bg-red-50 dark:bg-red-900/20'
-  }
+    bgColor: 'bg-red-50 dark:bg-red-900/20',
+  },
 };
 
 export const PrayerPost: React.FC<PrayerPostProps> = ({
   prayer,
   onAmenChange,
   onDelete,
-  showActions = true
+  showActions = true,
 }) => {
   const { user } = useAuth();
   const [isAmening, setIsAmening] = useState(false);
@@ -69,28 +69,30 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
   const [showMenu, setShowMenu] = useState(false);
 
   const isOwner = user?.id === prayer.user_id;
-  const category = categoryConfig[prayer.category as keyof typeof categoryConfig] || categoryConfig.request;
+  const category =
+    categoryConfig[prayer.category as keyof typeof categoryConfig] || categoryConfig.request;
   const isLongContent = prayer.content.length > 200;
-  const displayContent = showFullContent || !isLongContent ? prayer.content : prayer.content.substring(0, 200) + '...';
+  const displayContent =
+    showFullContent || !isLongContent ? prayer.content : prayer.content.substring(0, 200) + '...';
 
   const handleAmen = async () => {
     if (!user || isAmening) return;
 
     setIsAmening(true);
-    
+
     try {
       if (userAmened) {
         const success = await prayersService.removeAmen(prayer.id!, user.id);
         if (success) {
           setUserAmened(false);
-          setAmenCount(prev => Math.max(0, prev - 1));
+          setAmenCount((prev) => Math.max(0, prev - 1));
           onAmenChange?.(prayer.id!, amenCount - 1);
         }
       } else {
         const success = await prayersService.addAmen(prayer.id!, user.id);
         if (success) {
           setUserAmened(true);
-          setAmenCount(prev => prev + 1);
+          setAmenCount((prev) => prev + 1);
           onAmenChange?.(prayer.id!, amenCount + 1);
         }
       }
@@ -103,7 +105,7 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
 
   const handleDelete = async () => {
     if (!isOwner || !onDelete) return;
-    
+
     const confirmed = window.confirm('Tem certeza que deseja excluir esta oração?');
     if (confirmed) {
       onDelete(prayer.id!);
@@ -119,7 +121,7 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
     if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d`;
-    
+
     return date.toLocaleDateString('pt-BR');
   };
 
@@ -134,13 +136,9 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
                 <User className="w-5 h-5 text-white" />
               </div>
             ) : (
-              <Avatar
-                type="oracao"
-                size="sm"
-                aria-label={prayer.user?.full_name || 'Usuário'}
-              />
+              <Avatar type="oracao" size="sm" aria-label={prayer.user?.full_name || 'Usuário'} />
             )}
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white">
                 {prayer.is_anonymous ? 'Mãe Anônima' : prayer.user?.full_name || 'Usuário'}
@@ -154,7 +152,9 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
 
           <div className="flex items-center gap-2">
             {/* Categoria */}
-            <div className={`px-3 py-1 rounded-full text-xs font-medium ${category.bgColor} ${category.color}`}>
+            <div
+              className={`px-3 py-1 rounded-full text-xs font-medium ${category.bgColor} ${category.color}`}
+            >
               <span className="mr-1">{category.icon}</span>
               {category.label}
             </div>
@@ -175,7 +175,7 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
                 >
                   <MoreHorizontal className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 </button>
-                
+
                 {showMenu && (
                   <div className="absolute right-0 top-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10">
                     <button
@@ -196,7 +196,7 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
           <p className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
             {displayContent}
           </p>
-          
+
           {isLongContent && (
             <button
               onClick={() => setShowFullContent(!showFullContent)}
@@ -235,9 +235,7 @@ export const PrayerPost: React.FC<PrayerPostProps> = ({
                 <Heart className={`w-4 h-4 ${userAmened ? 'fill-current' : ''}`} />
               )}
               <span>Amém</span>
-              {amenCount > 0 && (
-                <span className="text-sm">({amenCount})</span>
-              )}
+              {amenCount > 0 && <span className="text-sm">({amenCount})</span>}
             </button>
 
             <div className="text-sm text-gray-600 dark:text-gray-400">
