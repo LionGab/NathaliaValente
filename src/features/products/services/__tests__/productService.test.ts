@@ -23,10 +23,10 @@ describe('ProductService', () => {
     });
 
     it('deve retornar produtos filtrados por categoria', async () => {
-      const filters = { category: 'Roupas' };
+      const filters = { category: 'roupas' };
       const result = await productService.getProducts(filters);
 
-      expect(result).toEqual(mockProducts.filter((p) => p.category === 'Roupas'));
+      expect(result).toEqual(mockProducts.filter((p) => p.category === 'roupas'));
     });
 
     it('deve retornar produtos filtrados por preÃ§o mÃ­nimo', async () => {
@@ -43,16 +43,16 @@ describe('ProductService', () => {
       expect(result).toEqual(mockProducts.filter((p) => p.price <= 180));
     });
 
-    it('deve retornar produtos com mÃºltiplos filtros', async () => {
+    it('deve retornar produtos com múltiplos filtros', async () => {
       const filters = {
-        category: 'Bikinis',
+        category: 'roupas',
         minPrice: 100,
         maxPrice: 200,
       };
       const result = await productService.getProducts(filters);
 
       expect(result).toEqual(
-        mockProducts.filter((p) => p.category === 'Bikinis' && p.price >= 100 && p.price <= 200)
+        mockProducts.filter((p) => p.category === 'roupas' && p.price >= 100 && p.price <= 200)
       );
     });
 
