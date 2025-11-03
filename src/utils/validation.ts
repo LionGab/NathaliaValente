@@ -1,11 +1,29 @@
-// Validation utilities for Supabase data
+/**
+ * Validation Utilities for Supabase Data
+ * Provides comprehensive data validation and sanitization functions
+ * Used across the application to ensure data integrity and security
+ */
 
+/**
+ * Result of a validation operation
+ */
 export interface ValidationResult {
+  /** Whether the validation passed */
   isValid: boolean;
+  /** Array of error messages if validation failed */
   errors: string[];
+  /** Sanitized/cleaned data if validation passed */
   cleanData?: any;
 }
 
+/**
+ * Validates an email address format
+ * @param {string} email - Email address to validate
+ * @returns {ValidationResult} Validation result with any errors
+ * @example
+ * validateEmail("user@example.com") // { isValid: true, errors: [] }
+ * validateEmail("invalid") // { isValid: false, errors: ["Email inválido"] }
+ */
 export const validateEmail = (email: string): ValidationResult => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isValid = emailRegex.test(email);
@@ -16,6 +34,12 @@ export const validateEmail = (email: string): ValidationResult => {
   };
 };
 
+/**
+ * Validates password strength
+ * Requires: minimum 8 characters, at least one uppercase, one lowercase, and one number
+ * @param {string} password - Password to validate
+ * @returns {ValidationResult} Validation result with specific requirement errors
+ */
 export const validatePassword = (password: string): ValidationResult => {
   const errors: string[] = [];
 
@@ -38,6 +62,11 @@ export const validatePassword = (password: string): ValidationResult => {
   };
 };
 
+/**
+ * Validates a full name
+ * @param {string} name - Full name to validate
+ * @returns {ValidationResult} Validation result
+ */
 export const validateFullName = (name: string): ValidationResult => {
   const trimmedName = name.trim();
   const isValid = trimmedName.length >= 2 && trimmedName.length <= 100;
@@ -48,6 +77,11 @@ export const validateFullName = (name: string): ValidationResult => {
   };
 };
 
+/**
+ * Validates user bio length
+ * @param {string} bio - Bio text to validate
+ * @returns {ValidationResult} Validation result
+ */
 export const validateBio = (bio: string): ValidationResult => {
   const isValid = bio.length <= 500;
 
@@ -57,6 +91,12 @@ export const validateBio = (bio: string): ValidationResult => {
   };
 };
 
+/**
+ * Sanitizes HTML to prevent XSS attacks
+ * Escapes dangerous characters that could be used for injection
+ * @param {string} html - HTML string to sanitize
+ * @returns {string} Sanitized HTML string
+ */
 export const sanitizeHtml = (html: string): string => {
   // Escape HTML entities to prevent XSS attacks
   const htmlEntities: { [key: string]: string } = {
@@ -73,6 +113,12 @@ export const sanitizeHtml = (html: string): string => {
   return html.replace(/[&<>"'`=\/]/g, (char) => htmlEntities[char]);
 };
 
+/**
+ * Validates and sanitizes profile update data
+ * Checks nickname, avatar emoji, onboarding goals, and timestamps
+ * @param {any} data - Profile data to validate
+ * @returns {ValidationResult} Validation result with cleaned data
+ */
 export const validateProfileUpdate = (data: any) => {
   const errors: string[] = [];
   const cleanData: any = {};
@@ -141,6 +187,11 @@ export const validateProfileUpdate = (data: any) => {
   };
 };
 
+/**
+ * Validates post caption
+ * @param {string} caption - Caption text to validate
+ * @returns {ValidationResult} Validation result
+ */
 export const validatePostCaption = (caption: string): ValidationResult => {
   const trimmedCaption = caption.trim();
   const isValid = trimmedCaption.length > 0 && caption.length <= 1000;
@@ -151,6 +202,11 @@ export const validatePostCaption = (caption: string): ValidationResult => {
   };
 };
 
+/**
+ * Validates complete post data including caption, category, and image URL
+ * @param {any} data - Post data to validate
+ * @returns {ValidationResult} Validation result with cleaned data
+ */
 export const validatePostData = (data: any) => {
   const errors: string[] = [];
   const cleanData: any = {};

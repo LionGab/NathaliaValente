@@ -8,12 +8,10 @@ import {
   Home,
   MessageCircle,
   Users,
-  Heart,
   User,
   Plus,
   Search,
   Bell,
-  BookHeart,
   Star,
 } from 'lucide-react';
 
@@ -32,8 +30,6 @@ export const ModernBottomNavigation = ({
   onSearch,
   onNotifications,
 }: ModernBottomNavigationProps) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const tabs = [
     {
       id: 'home',

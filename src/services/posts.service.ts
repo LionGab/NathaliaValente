@@ -1,6 +1,7 @@
 /**
  * Posts Service
- * Centralized business logic for posts
+ * Centralized business logic for posts management
+ * Handles CRUD operations, image uploads, and badge management
  */
 
 import { supabase } from '../lib/supabase';
@@ -12,7 +13,13 @@ import { supabaseWithRetry } from '../lib/apiClient';
 import { handleError } from '../lib/errorHandler';
 
 /**
- * Create a new post
+ * Creates a new post in the database
+ * @param {Object} data - Post creation data
+ * @param {string} data.userId - ID of the user creating the post
+ * @param {string} data.caption - Post caption/content
+ * @param {Category} data.category - Post category
+ * @param {string} [data.imageUrl] - Optional image URL
+ * @returns {Promise<{success: boolean, post?: Post, error?: string}>} Result with created post or error
  */
 export async function createPost(data: {
   userId: string;
@@ -68,7 +75,11 @@ export async function createPost(data: {
 }
 
 /**
- * Delete a post
+ * Deletes a post from the database
+ * Only allows deletion if the post belongs to the specified user
+ * @param {string} postId - ID of the post to delete
+ * @param {string} userId - ID of the user requesting deletion
+ * @returns {Promise<{success: boolean, error?: string}>} Result indicating success or failure
  */
 export async function deletePost(
   postId: string,
@@ -87,7 +98,14 @@ export async function deletePost(
 }
 
 /**
- * Update a post
+ * Updates an existing post
+ * Only allows updates if the post belongs to the specified user
+ * @param {string} postId - ID of the post to update
+ * @param {string} userId - ID of the user requesting the update
+ * @param {Object} data - Updated post data
+ * @param {string} [data.caption] - Updated caption
+ * @param {Category} [data.category] - Updated category
+ * @returns {Promise<{success: boolean, error?: string}>} Result indicating success or failure
  */
 export async function updatePost(
   postId: string,
@@ -115,8 +133,12 @@ export async function updatePost(
 }
 
 /**
- * Upload image to Supabase Storage
+ * Uploads an image to Supabase Storage
  * Automatically compresses images before upload to save bandwidth and storage
+ * Optimizes images to 1920x1080 max resolution with 85% quality
+ * @param {File} file - Image file to upload
+ * @param {string} userId - ID of the user uploading the image
+ * @returns {Promise<{success: boolean, url?: string, error?: string, compressionStats?: object}>} Result with public URL or error
  */
 export async function uploadPostImage(
   file: File,
@@ -170,7 +192,10 @@ export async function uploadPostImage(
 }
 
 /**
- * Add Nathy Badge to a post
+ * Adds Nathy Badge to a post
+ * The Nathy Badge is a special endorsement from Nathália
+ * @param {string} postId - ID of the post to badge
+ * @returns {Promise<{success: boolean, error?: string}>} Result indicating success or failure
  */
 export async function addNathyBadge(postId: string): Promise<{ success: boolean; error?: string }> {
   try {
@@ -188,7 +213,9 @@ export async function addNathyBadge(postId: string): Promise<{ success: boolean;
 }
 
 /**
- * Remove Nathy Badge from a post
+ * Removes Nathy Badge from a post
+ * @param {string} postId - ID of the post to remove badge from
+ * @returns {Promise<{success: boolean, error?: string}>} Result indicating success or failure
  */
 export async function removeNathyBadge(
   postId: string
