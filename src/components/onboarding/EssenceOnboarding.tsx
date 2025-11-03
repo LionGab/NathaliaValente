@@ -102,16 +102,16 @@ export const EssenceOnboarding: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen maternal-gradient dark:from-gray-900 dark:via-primary-950 dark:to-secondary-950 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating Orbs */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-pink-200/30 to-rose-300/20 dark:from-pink-800/20 dark:to-rose-900/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-primary-200/30 to-maternity-baby-300/20 dark:from-primary-800/20 dark:to-maternity-baby-900/10 rounded-full blur-3xl animate-float"></div>
         <div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-purple-200/30 to-violet-300/20 dark:from-purple-800/20 dark:to-violet-900/10 rounded-full blur-3xl animate-float"
+          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-secondary-200/30 to-maternity-nature-300/20 dark:from-secondary-800/20 dark:to-maternity-nature-900/10 rounded-full blur-3xl animate-float"
           style={{ animationDelay: '1s' }}
         ></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-200/20 to-cyan-300/10 dark:from-indigo-800/10 dark:to-cyan-900/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-accent-200/20 to-maternity-skin-300/10 dark:from-accent-800/10 dark:to-maternity-skin-900/5 rounded-full blur-3xl animate-pulse"></div>
 
         {/* Additional Floating Elements */}
         <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-orange-300/10 dark:from-yellow-800/10 dark:to-orange-900/5 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }}></div>
@@ -136,7 +136,7 @@ export const EssenceOnboarding: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.7 + step * 0.1 }}
               className={`relative w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${step <= currentStep
-                ? 'bg-gradient-to-r from-pink-500 to-purple-600 scale-110 shadow-lg shadow-pink-500/30'
+                ? 'bg-gradient-to-r from-primary-500 to-secondary-600 scale-110 maternal-shadow'
                 : 'bg-gray-300 dark:bg-gray-600'
                 }`}
             >
@@ -144,7 +144,7 @@ export const EssenceOnboarding: React.FC = () => {
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 animate-ping opacity-75"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500 to-secondary-600 animate-ping opacity-75"
                 />
               )}
             </motion.div>

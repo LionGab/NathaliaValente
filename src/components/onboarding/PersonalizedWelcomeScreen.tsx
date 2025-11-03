@@ -53,15 +53,15 @@ export const PersonalizedWelcomeScreen: React.FC = () => {
     const getArchetypeColor = () => {
         switch (onboardingData.selectedArchetype) {
             case 'guerreira':
-                return 'from-red-50 to-rose-50';
+                return 'from-error-50 to-primary-100';
             case 'resiliente':
-                return 'from-purple-50 to-violet-50';
+                return 'from-secondary-50 to-maternity-baby-100';
             case 'visionaria':
-                return 'from-blue-50 to-cyan-50';
+                return 'from-accent-50 to-maternity-nature-100';
             case 'cuidadora':
-                return 'from-green-50 to-emerald-50';
+                return 'from-success-50 to-maternity-nature-100';
             default:
-                return 'from-pink-50 to-purple-50';
+                return 'from-primary-50 to-secondary-100';
         }
     };
 
