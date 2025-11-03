@@ -51,14 +51,14 @@ export const EmotionalStateScreen: React.FC = () => {
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                    className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-xl shadow-pink-500/30"
+                    className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 maternal-shadow-lg"
                 >
                     <Heart className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.8 }}
-                        className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 animate-ping opacity-30"
+                        className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-500 to-secondary-600 animate-ping opacity-30"
                     />
                 </motion.div>
 
