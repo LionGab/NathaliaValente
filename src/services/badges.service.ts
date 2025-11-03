@@ -19,7 +19,15 @@ export interface Badge {
 }
 
 export interface BadgeRequirement {
-  type: 'posts_count' | 'comments_count' | 'likes_received' | 'days_active' | 'prayers_shared' | 'journal_entries' | 'streak_days' | 'special';
+  type:
+    | 'posts_count'
+    | 'comments_count'
+    | 'likes_received'
+    | 'days_active'
+    | 'prayers_shared'
+    | 'journal_entries'
+    | 'streak_days'
+    | 'special';
   value: number;
   description: string;
   metric?: string; // Para tracking específico
@@ -63,7 +71,7 @@ export interface BadgeStats {
 class BadgesService {
   private static instance: BadgesService;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): BadgesService {
     if (!BadgesService.instance) {
@@ -88,7 +96,7 @@ class BadgesService {
         rarity: 'common',
         color: '#10B981',
         requirements: [{ type: 'posts_count', value: 1, description: 'Fazer 1 post' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'social_butterfly',
@@ -99,7 +107,7 @@ class BadgesService {
         rarity: 'common',
         color: '#8B5CF6',
         requirements: [{ type: 'posts_count', value: 10, description: 'Fazer 10 posts' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'content_creator',
@@ -110,7 +118,7 @@ class BadgesService {
         rarity: 'rare',
         color: '#F59E0B',
         requirements: [{ type: 'posts_count', value: 50, description: 'Fazer 50 posts' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'helpful_commenter',
@@ -121,7 +129,7 @@ class BadgesService {
         rarity: 'common',
         color: '#06B6D4',
         requirements: [{ type: 'comments_count', value: 25, description: 'Fazer 25 comentários' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'community_cheerleader',
@@ -131,8 +139,10 @@ class BadgesService {
         category: 'participation',
         rarity: 'rare',
         color: '#EF4444',
-        requirements: [{ type: 'comments_count', value: 100, description: 'Fazer 100 comentários' }],
-        is_active: true
+        requirements: [
+          { type: 'comments_count', value: 100, description: 'Fazer 100 comentários' },
+        ],
+        is_active: true,
       },
 
       // FÉ
@@ -145,7 +155,7 @@ class BadgesService {
         rarity: 'common',
         color: '#10B981',
         requirements: [{ type: 'prayers_shared', value: 1, description: 'Compartilhar 1 oração' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'prayer_warrior',
@@ -155,8 +165,10 @@ class BadgesService {
         category: 'faith',
         rarity: 'rare',
         color: '#8B5CF6',
-        requirements: [{ type: 'prayers_shared', value: 10, description: 'Compartilhar 10 orações' }],
-        is_active: true
+        requirements: [
+          { type: 'prayers_shared', value: 10, description: 'Compartilhar 10 orações' },
+        ],
+        is_active: true,
       },
       {
         id: 'intercessor',
@@ -168,9 +180,9 @@ class BadgesService {
         color: '#F59E0B',
         requirements: [
           { type: 'prayers_shared', value: 25, description: 'Compartilhar 25 orações' },
-          { type: 'special', value: 50, description: 'Dizer 50 améns', metric: 'prayer_amens' }
+          { type: 'special', value: 50, description: 'Dizer 50 améns', metric: 'prayer_amens' },
         ],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'faith_journaler',
@@ -181,7 +193,7 @@ class BadgesService {
         rarity: 'rare',
         color: '#06B6D4',
         requirements: [{ type: 'journal_entries', value: 7, description: '7 entradas de journal' }],
-        is_active: true
+        is_active: true,
       },
 
       // APOIO
@@ -193,8 +205,10 @@ class BadgesService {
         category: 'support',
         rarity: 'common',
         color: '#EF4444',
-        requirements: [{ type: 'special', value: 1, description: 'Dar 1 curtida', metric: 'likes_given' }],
-        is_active: true
+        requirements: [
+          { type: 'special', value: 1, description: 'Dar 1 curtida', metric: 'likes_given' },
+        ],
+        is_active: true,
       },
       {
         id: 'supportive_friend',
@@ -204,8 +218,10 @@ class BadgesService {
         category: 'support',
         rarity: 'common',
         color: '#8B5CF6',
-        requirements: [{ type: 'special', value: 50, description: 'Dar 50 curtidas', metric: 'likes_given' }],
-        is_active: true
+        requirements: [
+          { type: 'special', value: 50, description: 'Dar 50 curtidas', metric: 'likes_given' },
+        ],
+        is_active: true,
       },
       {
         id: 'community_angel',
@@ -217,9 +233,9 @@ class BadgesService {
         color: '#F59E0B',
         requirements: [
           { type: 'special', value: 200, description: 'Dar 200 curtidas', metric: 'likes_given' },
-          { type: 'comments_count', value: 50, description: 'Fazer 50 comentários' }
+          { type: 'comments_count', value: 50, description: 'Fazer 50 comentários' },
         ],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'prayer_supporter',
@@ -229,8 +245,10 @@ class BadgesService {
         category: 'support',
         rarity: 'rare',
         color: '#10B981',
-        requirements: [{ type: 'special', value: 25, description: 'Dizer 25 améns', metric: 'prayer_amens' }],
-        is_active: true
+        requirements: [
+          { type: 'special', value: 25, description: 'Dizer 25 améns', metric: 'prayer_amens' },
+        ],
+        is_active: true,
       },
 
       // JORNADA
@@ -243,7 +261,7 @@ class BadgesService {
         rarity: 'common',
         color: '#F59E0B',
         requirements: [{ type: 'streak_days', value: 7, description: '7 dias consecutivos ativa' }],
-        is_active: true
+        is_active: true,
       },
       {
         id: 'dedicated_mom',
@@ -253,8 +271,10 @@ class BadgesService {
         category: 'journey',
         rarity: 'rare',
         color: '#8B5CF6',
-        requirements: [{ type: 'streak_days', value: 30, description: '30 dias consecutivos ativa' }],
-        is_active: true
+        requirements: [
+          { type: 'streak_days', value: 30, description: '30 dias consecutivos ativa' },
+        ],
+        is_active: true,
       },
       {
         id: 'journal_keeper',
@@ -264,8 +284,15 @@ class BadgesService {
         category: 'journey',
         rarity: 'rare',
         color: '#06B6D4',
-        requirements: [{ type: 'special', value: 14, description: '14 dias de journal', metric: 'journal_streak' }],
-        is_active: true
+        requirements: [
+          {
+            type: 'special',
+            value: 14,
+            description: '14 dias de journal',
+            metric: 'journal_streak',
+          },
+        ],
+        is_active: true,
       },
       {
         id: 'clubnath_veteran',
@@ -276,7 +303,7 @@ class BadgesService {
         rarity: 'epic',
         color: '#F59E0B',
         requirements: [{ type: 'days_active', value: 90, description: '90 dias ativa' }],
-        is_active: true
+        is_active: true,
       },
 
       // ESPECIAIS
@@ -288,8 +315,15 @@ class BadgesService {
         category: 'special',
         rarity: 'legendary',
         color: '#F59E0B',
-        requirements: [{ type: 'special', value: 1, description: 'Post aprovado pela Nath', metric: 'nath_approved' }],
-        is_active: true
+        requirements: [
+          {
+            type: 'special',
+            value: 1,
+            description: 'Post aprovado pela Nath',
+            metric: 'nath_approved',
+          },
+        ],
+        is_active: true,
       },
       {
         id: 'early_adopter',
@@ -299,9 +333,16 @@ class BadgesService {
         category: 'special',
         rarity: 'legendary',
         color: '#8B5CF6',
-        requirements: [{ type: 'special', value: 100, description: 'Entre as primeiras 100', metric: 'early_member' }],
-        is_active: true
-      }
+        requirements: [
+          {
+            type: 'special',
+            value: 100,
+            description: 'Entre as primeiras 100',
+            metric: 'early_member',
+          },
+        ],
+        is_active: true,
+      },
     ];
   }
 
@@ -317,16 +358,18 @@ class BadgesService {
 
   async getBadgeById(badgeId: string): Promise<Badge | null> {
     const badges = this.getBadgeDefinitions();
-    return badges.find(badge => badge.id === badgeId) || null;
+    return badges.find((badge) => badge.id === badgeId) || null;
   }
 
   async getUserBadges(userId: string): Promise<UserBadge[]> {
     const { data, error } = await supabase
       .from('user_badges')
-      .select(`
+      .select(
+        `
         *,
         badge:badges(*)
-      `)
+      `
+      )
       .eq('user_id', userId)
       .order('earned_at', { ascending: false });
 
@@ -341,11 +384,11 @@ class BadgesService {
   async getUserBadgeProgress(userId: string): Promise<BadgeProgress[]> {
     const badges = this.getBadgeDefinitions();
     const userBadges = await this.getUserBadges(userId);
-    const earnedBadgeIds = new Set(userBadges.map(ub => ub.badge_id));
+    const earnedBadgeIds = new Set(userBadges.map((ub) => ub.badge_id));
 
     const progressPromises = badges.map(async (badge) => {
       const progress = await this.calculateBadgeProgress(userId, badge);
-      const userBadge = userBadges.find(ub => ub.badge_id === badge.id);
+      const userBadge = userBadges.find((ub) => ub.badge_id === badge.id);
 
       return {
         badge_id: badge.id,
@@ -353,7 +396,7 @@ class BadgesService {
         progress: progress,
         requirements: badge.requirements,
         is_earned: earnedBadgeIds.has(badge.id),
-        earned_at: userBadge?.earned_at
+        earned_at: userBadge?.earned_at,
       };
     });
 
@@ -374,15 +417,13 @@ class BadgesService {
     }
 
     // Adicionar badge
-    const { error } = await supabase
-      .from('user_badges')
-      .insert({
-        user_id: userId,
-        badge_id: badgeId,
-        earned_at: new Date().toISOString(),
-        progress: 100,
-        is_earned: true
-      });
+    const { error } = await supabase.from('user_badges').insert({
+      user_id: userId,
+      badge_id: badgeId,
+      earned_at: new Date().toISOString(),
+      progress: 100,
+      is_earned: true,
+    });
 
     if (error) {
       console.error('Erro ao adicionar badge:', error);
@@ -411,7 +452,10 @@ class BadgesService {
     return Math.min(100, Math.round(totalProgress / requirements.length));
   }
 
-  private async calculateRequirementProgress(userId: string, requirement: BadgeRequirement): Promise<number> {
+  private async calculateRequirementProgress(
+    userId: string,
+    requirement: BadgeRequirement
+  ): Promise<number> {
     switch (requirement.type) {
       case 'posts_count':
         const { count: postsCount } = await supabase
@@ -474,7 +518,10 @@ class BadgesService {
     }
   }
 
-  private async calculateSpecialRequirement(userId: string, requirement: BadgeRequirement): Promise<number> {
+  private async calculateSpecialRequirement(
+    userId: string,
+    requirement: BadgeRequirement
+  ): Promise<number> {
     switch (requirement.metric) {
       case 'likes_given':
         const { count: likesGiven } = await supabase
@@ -535,10 +582,19 @@ class BadgesService {
   // BADGE CHECKING AND AWARDING
   // =====================================================
 
-  async checkAndAwardBadges(userId: string, action: {
-    type: 'post_created' | 'comment_created' | 'like_given' | 'prayer_shared' | 'journal_entry' | 'login';
-    data?: any;
-  }): Promise<string[]> {
+  async checkAndAwardBadges(
+    userId: string,
+    action: {
+      type:
+        | 'post_created'
+        | 'comment_created'
+        | 'like_given'
+        | 'prayer_shared'
+        | 'journal_entry'
+        | 'login';
+      data?: any;
+    }
+  ): Promise<string[]> {
     const badges = this.getBadgeDefinitions();
     const earnedBadges: string[] = [];
 
@@ -565,26 +621,26 @@ class BadgesService {
     const userBadges = await this.getUserBadges(userId);
     const progress = await this.getUserBadgeProgress(userId);
 
-    const earnedBadgeIds = new Set(userBadges.map(ub => ub.badge_id));
-    const progressBadges = progress.filter(p => !p.is_earned && p.progress > 0);
+    const earnedBadgeIds = new Set(userBadges.map((ub) => ub.badge_id));
+    const progressBadges = progress.filter((p) => !p.is_earned && p.progress > 0);
 
     const stats: BadgeStats = {
       total_badges: badges.length,
       earned_badges: userBadges.length,
       progress_badges: progressBadges.length,
-      rare_badges: userBadges.filter(ub => ub.badge?.rarity === 'rare').length,
-      epic_badges: userBadges.filter(ub => ub.badge?.rarity === 'epic').length,
-      legendary_badges: userBadges.filter(ub => ub.badge?.rarity === 'legendary').length,
+      rare_badges: userBadges.filter((ub) => ub.badge?.rarity === 'rare').length,
+      epic_badges: userBadges.filter((ub) => ub.badge?.rarity === 'epic').length,
+      legendary_badges: userBadges.filter((ub) => ub.badge?.rarity === 'legendary').length,
       recent_earned: userBadges
         .sort((a, b) => new Date(b.earned_at).getTime() - new Date(a.earned_at).getTime())
         .slice(0, 5)
-        .map(ub => ub.badge!)
+        .map((ub) => ub.badge!)
         .filter(Boolean),
       next_achievable: progressBadges
         .sort((a, b) => b.progress - a.progress)
         .slice(0, 3)
-        .map(p => badges.find(b => b.id === p.badge_id)!)
-        .filter(Boolean)
+        .map((p) => badges.find((b) => b.id === p.badge_id)!)
+        .filter(Boolean),
     };
 
     return stats;
@@ -605,7 +661,7 @@ class BadgesService {
       badge_name: badge.name,
       badge_icon: badge.icon,
       badge_rarity: badge.rarity,
-      body: `Parabéns! Você conquistou a badge "${badge.name}"! ${badge.icon}`
+      body: `Parabéns! Você conquistou a badge "${badge.name}"! ${badge.icon}`,
     });
   }
 
@@ -613,17 +669,17 @@ class BadgesService {
   // LEADERBOARD
   // =====================================================
 
-  async getBadgeLeaderboard(limit: number = 10): Promise<Array<{
-    user_id: string;
-    full_name: string;
-    total_badges: number;
-    rare_badges: number;
-    epic_badges: number;
-    legendary_badges: number;
-  }>> {
-    const { data, error } = await supabase
-      .from('user_badges')
-      .select(`
+  async getBadgeLeaderboard(limit: number = 10): Promise<
+    Array<{
+      user_id: string;
+      full_name: string;
+      total_badges: number;
+      rare_badges: number;
+      epic_badges: number;
+      legendary_badges: number;
+    }>
+  > {
+    const { data, error } = await supabase.from('user_badges').select(`
         user_id,
         badge:badges(rarity),
         user:profiles!user_badges_user_id_fkey(full_name)
@@ -635,16 +691,19 @@ class BadgesService {
     }
 
     // Agrupar por usuário
-    const userStats = new Map<string, {
-      user_id: string;
-      full_name: string;
-      total_badges: number;
-      rare_badges: number;
-      epic_badges: number;
-      legendary_badges: number;
-    }>();
+    const userStats = new Map<
+      string,
+      {
+        user_id: string;
+        full_name: string;
+        total_badges: number;
+        rare_badges: number;
+        epic_badges: number;
+        legendary_badges: number;
+      }
+    >();
 
-    data?.forEach(item => {
+    data?.forEach((item) => {
       const userId = item.user_id;
       const rarity = (item.badge as any)?.rarity;
       const fullName = (item.user as any)?.full_name || 'Usuário';
@@ -656,7 +715,7 @@ class BadgesService {
           total_badges: 0,
           rare_badges: 0,
           epic_badges: 0,
-          legendary_badges: 0
+          legendary_badges: 0,
         });
       }
 

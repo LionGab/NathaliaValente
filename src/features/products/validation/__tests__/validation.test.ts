@@ -1,10 +1,10 @@
 ﻿import { describe, it, expect } from 'vitest';
-import { 
-  validateProduct, 
-  validateCreateProduct, 
+import {
+  validateProduct,
+  validateCreateProduct,
   validateUpdateProduct,
   validateProductFilters,
-  safeValidate 
+  safeValidate,
 } from '../validation';
 import { mockProducts } from '../../../../test/mocks/supabase';
 
@@ -64,7 +64,7 @@ describe('Product Validation', () => {
         image: 'https://example.com/image.jpg',
         category: 'Roupas',
         stock: 10,
-        description: 'DescriÃ§Ã£o do produto'
+        description: 'DescriÃ§Ã£o do produto',
       };
       const result = validateCreateProduct.safeParse(validCreateProduct);
 
@@ -76,7 +76,7 @@ describe('Product Validation', () => {
         price: 99.99,
         image: 'https://example.com/image.jpg',
         category: 'Roupas',
-        stock: 10
+        stock: 10,
       };
       const result = validateCreateProduct.safeParse(invalidProduct);
 
@@ -89,7 +89,7 @@ describe('Product Validation', () => {
         price: 'invalid',
         image: 'https://example.com/image.jpg',
         category: 'Roupas',
-        stock: 10
+        stock: 10,
       };
       const result = validateCreateProduct.safeParse(invalidProduct);
 
@@ -102,7 +102,7 @@ describe('Product Validation', () => {
       const validUpdate = {
         id: '1',
         name: 'Produto Atualizado',
-        price: 149.99
+        price: 149.99,
       };
       const result = validateUpdateProduct.safeParse(validUpdate);
 
@@ -111,7 +111,7 @@ describe('Product Validation', () => {
 
     it('deve rejeitar atualizaÃ§Ã£o sem ID', () => {
       const invalidUpdate = {
-        name: 'Produto Atualizado'
+        name: 'Produto Atualizado',
       };
       const result = validateUpdateProduct.safeParse(invalidUpdate);
 
@@ -124,7 +124,7 @@ describe('Product Validation', () => {
       const validFilters = {
         category: 'Roupas',
         minPrice: 100,
-        maxPrice: 200
+        maxPrice: 200,
       };
       const result = validateProductFilters.safeParse(validFilters);
 
@@ -134,7 +134,7 @@ describe('Product Validation', () => {
     it('deve rejeitar filtros com preÃ§o mÃ­nimo maior que mÃ¡ximo', () => {
       const invalidFilters = {
         minPrice: 200,
-        maxPrice: 100
+        maxPrice: 100,
       };
       const result = validateProductFilters.safeParse(invalidFilters);
 
@@ -144,7 +144,7 @@ describe('Product Validation', () => {
     it('deve rejeitar filtros com preÃ§os negativos', () => {
       const invalidFilters = {
         minPrice: -10,
-        maxPrice: -5
+        maxPrice: -5,
       };
       const result = validateProductFilters.safeParse(invalidFilters);
 

@@ -13,11 +13,7 @@ import { PersonalizedWelcomeScreen } from './PersonalizedWelcomeScreen';
 import { trackUserJourney } from '../../lib/analytics';
 
 export const EssenceOnboarding: React.FC = () => {
-  const {
-    currentStep,
-    isOnboardingActive,
-    isOnboardingComplete
-  } = useEssenceOnboarding();
+  const { currentStep, isOnboardingActive, isOnboardingComplete } = useEssenceOnboarding();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,7 +41,7 @@ export const EssenceOnboarding: React.FC = () => {
           <motion.div
             className="w-24 h-24 maternal-button rounded-full flex items-center justify-center mx-auto mb-8 maternal-float"
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           >
             <span className="text-4xl">👶</span>
           </motion.div>
@@ -73,8 +69,14 @@ export const EssenceOnboarding: React.FC = () => {
           >
             <div className="flex space-x-2">
               <div className="w-3 h-3 bg-pink-400 rounded-full maternal-pulse"></div>
-              <div className="w-3 h-3 bg-purple-400 rounded-full maternal-pulse" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-3 h-3 bg-indigo-400 rounded-full maternal-pulse" style={{ animationDelay: '0.4s' }}></div>
+              <div
+                className="w-3 h-3 bg-purple-400 rounded-full maternal-pulse"
+                style={{ animationDelay: '0.2s' }}
+              ></div>
+              <div
+                className="w-3 h-3 bg-indigo-400 rounded-full maternal-pulse"
+                style={{ animationDelay: '0.4s' }}
+              ></div>
             </div>
           </motion.div>
         </motion.div>
@@ -114,8 +116,14 @@ export const EssenceOnboarding: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-accent-200/20 to-maternity-skin-300/10 dark:from-accent-800/10 dark:to-maternity-skin-900/5 rounded-full blur-3xl animate-pulse"></div>
 
         {/* Additional Floating Elements */}
-        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-orange-300/10 dark:from-yellow-800/10 dark:to-orange-900/5 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-gradient-to-br from-green-200/20 to-emerald-300/10 dark:from-green-800/10 dark:to-emerald-900/5 rounded-full blur-2xl animate-float" style={{ animationDelay: '3s' }}></div>
+        <div
+          className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-orange-300/10 dark:from-yellow-800/10 dark:to-orange-900/5 rounded-full blur-2xl animate-float"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-gradient-to-br from-green-200/20 to-emerald-300/10 dark:from-green-800/10 dark:to-emerald-900/5 rounded-full blur-2xl animate-float"
+          style={{ animationDelay: '3s' }}
+        ></div>
 
         {/* Subtle Grid Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)]"></div>
@@ -135,10 +143,11 @@ export const EssenceOnboarding: React.FC = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.7 + step * 0.1 }}
-              className={`relative w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${step <= currentStep
-                ? 'bg-gradient-to-r from-primary-500 to-secondary-600 scale-110 maternal-shadow'
-                : 'bg-gray-300 dark:bg-gray-600'
-                }`}
+              className={`relative w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${
+                step <= currentStep
+                  ? 'bg-gradient-to-r from-primary-500 to-secondary-600 scale-110 maternal-shadow'
+                  : 'bg-gray-300 dark:bg-gray-600'
+              }`}
             >
               {step <= currentStep && (
                 <motion.div
@@ -182,7 +191,7 @@ export const EssenceOnboarding: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
             className="w-full max-w-sm sm:max-w-md"
           >
             {renderStep()}

@@ -4,12 +4,12 @@
  */
 
 import { useState, useEffect } from 'react';
-import { 
-  Heart, 
-  Sparkles, 
-  Users, 
-  MessageCircle, 
-  BookHeart, 
+import {
+  Heart,
+  Sparkles,
+  Users,
+  MessageCircle,
+  BookHeart,
   Star,
   ArrowRight,
   Plus,
@@ -20,7 +20,7 @@ import {
   Play,
   Pause,
   Volume2,
-  VolumeX
+  VolumeX,
 } from 'lucide-react';
 import { Button } from './ui/Button';
 
@@ -31,11 +31,11 @@ interface ModernHomeScreenProps {
   onMenu: () => void;
 }
 
-export const ModernHomeScreen = ({ 
-  onCreatePost, 
-  onSearch, 
-  onNotifications, 
-  onMenu 
+export const ModernHomeScreen = ({
+  onCreatePost,
+  onSearch,
+  onNotifications,
+  onMenu,
 }: ModernHomeScreenProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isPlaying, setIsPlaying] = useState(false);
@@ -50,17 +50,17 @@ export const ModernHomeScreen = ({
   }, []);
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('pt-BR', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR', { 
-      weekday: 'long', 
-      day: 'numeric', 
-      month: 'long' 
+    return date.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
     });
   };
 
@@ -71,7 +71,7 @@ export const ModernHomeScreen = ({
       subtitle: 'Converse com outras mães',
       color: 'from-pink-500 to-rose-500',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
-      onClick: () => console.log('Chat')
+      onClick: () => console.log('Chat'),
     },
     {
       icon: BookHeart,
@@ -79,7 +79,7 @@ export const ModernHomeScreen = ({
       subtitle: 'Versículo do dia',
       color: 'from-purple-500 to-indigo-500',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-      onClick: () => console.log('Devocional')
+      onClick: () => console.log('Devocional'),
     },
     {
       icon: Users,
@@ -87,7 +87,7 @@ export const ModernHomeScreen = ({
       subtitle: 'Comunidades temáticas',
       color: 'from-blue-500 to-cyan-500',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-      onClick: () => console.log('Grupos')
+      onClick: () => console.log('Grupos'),
     },
     {
       icon: Star,
@@ -95,8 +95,8 @@ export const ModernHomeScreen = ({
       subtitle: 'Seus tesouros',
       color: 'from-yellow-500 to-orange-500',
       bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-      onClick: () => console.log('Favoritos')
-    }
+      onClick: () => console.log('Favoritos'),
+    },
   ];
 
   const recentPosts = [
@@ -108,7 +108,7 @@ export const ModernHomeScreen = ({
       time: '2h',
       likes: 12,
       comments: 3,
-      isLiked: false
+      isLiked: false,
     },
     {
       id: 2,
@@ -118,7 +118,7 @@ export const ModernHomeScreen = ({
       time: '4h',
       likes: 28,
       comments: 7,
-      isLiked: true
+      isLiked: true,
     },
     {
       id: 3,
@@ -128,8 +128,8 @@ export const ModernHomeScreen = ({
       time: '6h',
       likes: 15,
       comments: 4,
-      isLiked: false
-    }
+      isLiked: false,
+    },
   ];
 
   return (
@@ -184,18 +184,14 @@ export const ModernHomeScreen = ({
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-2xl font-bold mb-1">
-                  Bem-vinda de volta! 👋
-                </h2>
-                <p className="text-pink-100">
-                  Como está se sentindo hoje?
-                </p>
+                <h2 className="text-2xl font-bold mb-1">Bem-vinda de volta! 👋</h2>
+                <p className="text-pink-100">Como está se sentindo hoje?</p>
               </div>
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
                 <Heart className="w-8 h-8 text-white" />
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
@@ -231,15 +227,15 @@ export const ModernHomeScreen = ({
                   onClick={action.onClick}
                   className={`${action.bgColor} p-4 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105 group`}
                 >
-                  <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <Icon className="w-6 h-6 text-white" aria-hidden="true" />
                   </div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                     {action.title}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {action.subtitle}
-                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{action.subtitle}</p>
                 </button>
               );
             })}
@@ -249,15 +245,13 @@ export const ModernHomeScreen = ({
         {/* Recent Posts */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Posts recentes
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Posts recentes</h3>
             <button className="text-pink-600 dark:text-pink-400 text-sm font-medium flex items-center gap-1 hover:text-pink-700 dark:hover:text-pink-300 transition-colors">
               Ver todos
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-          
+
           <div className="space-y-4">
             {recentPosts.map((post) => (
               <div
@@ -270,22 +264,20 @@ export const ModernHomeScreen = ({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        {post.author}
-                      </h4>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {post.time}
-                      </span>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">{post.author}</h4>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{post.time}</span>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-3">
                       {post.content}
                     </p>
                     <div className="flex items-center gap-4">
-                      <button className={`flex items-center gap-1 text-sm transition-colors ${
-                        post.isLiked 
-                          ? 'text-pink-600 dark:text-pink-400' 
-                          : 'text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400'
-                      }`}>
+                      <button
+                        className={`flex items-center gap-1 text-sm transition-colors ${
+                          post.isLiked
+                            ? 'text-pink-600 dark:text-pink-400'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400'
+                        }`}
+                      >
                         <Heart className={`w-4 h-4 ${post.isLiked ? 'fill-current' : ''}`} />
                         {post.likes}
                       </button>

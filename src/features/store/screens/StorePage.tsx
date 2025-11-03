@@ -1,9 +1,23 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  TestTube2, ShoppingBag, Heart, Plus, Search, Filter,
-  Star, Eye, ShoppingCart, Share2, Clock,
-  Truck, Shield, Award, TrendingUp, Grid, List
+  TestTube2,
+  ShoppingBag,
+  Heart,
+  Plus,
+  Search,
+  Filter,
+  Star,
+  Eye,
+  ShoppingCart,
+  Share2,
+  Clock,
+  Truck,
+  Shield,
+  Award,
+  TrendingUp,
+  Grid,
+  List,
 } from 'lucide-react';
 import { SimpleNathTips } from '../../../components/SimpleNathTips';
 import { NAVAHeroSection } from '../../../components/NAVAHeroSection';
@@ -32,7 +46,7 @@ export const StorePage = () => {
     { id: 'amamentacao', name: 'Amamentação', icon: '🍼', count: 19 },
     { id: 'brinquedos', name: 'Brinquedos', icon: '🧸', count: 24 },
     { id: 'roupas', name: 'Roupas', icon: '👕', count: 67 },
-    { id: 'carrinho', name: 'Carrinho', icon: '🛒', count: 12 }
+    { id: 'carrinho', name: 'Carrinho', icon: '🛒', count: 12 },
   ];
 
   // Produtos para Desapega das Mamães
@@ -47,7 +61,7 @@ export const StorePage = () => {
       avatar: 'AS',
       backgroundColor: 'bg-gradient-to-br from-amber-50 to-orange-100',
       condition: 'Usado 6 meses, conservado',
-      category: 'enxoval'
+      category: 'enxoval',
     },
     {
       id: 2,
@@ -59,7 +73,7 @@ export const StorePage = () => {
       avatar: 'ML',
       backgroundColor: 'bg-gradient-to-br from-blue-50 to-indigo-100',
       condition: 'Até 13kg, conservado',
-      category: 'acessorios'
+      category: 'acessorios',
     },
     {
       id: 3,
@@ -71,7 +85,7 @@ export const StorePage = () => {
       avatar: 'JC',
       backgroundColor: 'bg-gradient-to-br from-gray-100 to-gray-200',
       condition: 'Usado 8 meses, excelente estado',
-      category: 'carrinho'
+      category: 'carrinho',
     },
     {
       id: 4,
@@ -83,7 +97,7 @@ export const StorePage = () => {
       avatar: 'CD',
       backgroundColor: 'bg-gradient-to-br from-purple-50 to-pink-100',
       condition: 'Pouco usado, limpo',
-      category: 'acessorios'
+      category: 'acessorios',
     },
     {
       id: 5,
@@ -95,7 +109,7 @@ export const StorePage = () => {
       avatar: 'PM',
       backgroundColor: 'bg-gradient-to-br from-green-50 to-emerald-100',
       condition: 'Novo, lacrado',
-      category: 'enxoval'
+      category: 'enxoval',
     },
     {
       id: 6,
@@ -107,47 +121,54 @@ export const StorePage = () => {
       avatar: 'FR',
       backgroundColor: 'bg-gradient-to-br from-rose-50 to-pink-100',
       condition: 'Usado 3 meses, conservado',
-      category: 'higiene'
+      category: 'higiene',
     },
   ];
 
   // Funções de callback
-  const handleAddToCart = useCallback((product: any) => {
-    triggerHaptic('light');
-    setCartItems(prev => [...prev, product]);
-    console.log('Produto adicionado ao carrinho:', product.name);
-  }, [triggerHaptic]);
+  const handleAddToCart = useCallback(
+    (product: any) => {
+      triggerHaptic('light');
+      setCartItems((prev) => [...prev, product]);
+      console.log('Produto adicionado ao carrinho:', product.name);
+    },
+    [triggerHaptic]
+  );
 
-  const handleToggleFavorite = useCallback((productId: number) => {
-    triggerHaptic('light');
-    setFavorites(prev =>
-      prev.includes(productId)
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  }, [triggerHaptic]);
+  const handleToggleFavorite = useCallback(
+    (productId: number) => {
+      triggerHaptic('light');
+      setFavorites((prev) =>
+        prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+      );
+    },
+    [triggerHaptic]
+  );
 
-  const handleShareProduct = useCallback((product: any) => {
-    triggerHaptic('light');
-    if (navigator.share) {
-      navigator.share({
-        title: product.name,
-        text: `Confira este produto: ${product.name}`,
-        url: window.location.href
-      });
-    } else {
-      console.log('Compartilhar:', product.name);
-    }
-  }, [triggerHaptic]);
+  const handleShareProduct = useCallback(
+    (product: any) => {
+      triggerHaptic('light');
+      if (navigator.share) {
+        navigator.share({
+          title: product.name,
+          text: `Confira este produto: ${product.name}`,
+          url: window.location.href,
+        });
+      } else {
+        console.log('Compartilhar:', product.name);
+      }
+    },
+    [triggerHaptic]
+  );
 
   // Filtrar produtos
-  const filteredProducts = desapegaProducts.filter(product => {
-    const matchesSearch = searchQuery === '' ||
+  const filteredProducts = desapegaProducts.filter((product) => {
+    const matchesSearch =
+      searchQuery === '' ||
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.author.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesCategory = selectedCategory === 'all' ||
-      product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -164,7 +185,9 @@ export const StorePage = () => {
                 <span className="hidden sm:inline">Loja Nossa Maternidade</span>
                 <span className="sm:hidden">Loja</span>
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mobile-text-sm">Produtos cuidadosamente selecionados para você</p>
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mobile-text-sm">
+                Produtos cuidadosamente selecionados para você
+              </p>
             </div>
 
             {/* Carrinho e Favoritos */}
@@ -187,11 +210,14 @@ export const StorePage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setFavorites(prev => prev.length > 0 ? [] : [1, 2, 3])}
+                onClick={() => setFavorites((prev) => (prev.length > 0 ? [] : [1, 2, 3]))}
                 className="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-xl hover:from-red-500/20 hover:to-pink-500/20 transition-all duration-200 border border-red-200 dark:border-red-800"
                 aria-label="Favoritos"
               >
-                <Heart className={`w-5 h-5 ${favorites.length > 0 ? 'fill-red-500 text-red-500' : 'text-red-600'}`} aria-hidden="true" />
+                <Heart
+                  className={`w-5 h-5 ${favorites.length > 0 ? 'fill-red-500 text-red-500' : 'text-red-600'}`}
+                  aria-hidden="true"
+                />
               </motion.button>
             </div>
           </div>
@@ -199,7 +225,10 @@ export const StorePage = () => {
           {/* Barra de busca e filtros - Mobile Optimized */}
           <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true" />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
+                aria-hidden="true"
+              />
               <input
                 type="text"
                 placeholder="Buscar produtos..."
@@ -253,7 +282,9 @@ export const StorePage = () => {
               >
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ordenar por:</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Ordenar por:
+                    </span>
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
@@ -282,19 +313,25 @@ export const StorePage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-200 ${selectedCategory === category.id
-                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                }`}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-200 ${
+                selectedCategory === category.id
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+              }`}
               aria-label={`Filtrar por ${category.name}`}
             >
-              <span className="text-lg" aria-hidden="true">{category.icon}</span>
+              <span className="text-lg" aria-hidden="true">
+                {category.icon}
+              </span>
               <span className="font-medium text-sm">{category.name}</span>
               {category.count > 0 && (
-                <span className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === category.id
-                  ? 'bg-white/20 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                  }`}>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    selectedCategory === category.id
+                      ? 'bg-white/20 text-white'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                  }`}
+                >
                   {category.count}
                 </span>
               )}
@@ -318,7 +355,8 @@ export const StorePage = () => {
               </h3>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-4xl mx-auto px-2">
-              O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN investiga mais de 600 doenças genéticas tratáveis.
+              O melhor para o seu bebê desde os primeiros dias de vida. O Babytest by OLLIN
+              investiga mais de 600 doenças genéticas tratáveis.
             </p>
           </div>
 
@@ -332,8 +370,12 @@ export const StorePage = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-white">
-              <p className="text-xs sm:text-sm font-medium mobile-text-sm">Teste de Triagem Neonatal</p>
-              <p className="text-xs opacity-90 mobile-text-sm">Prepare-se para a Maternidade com Confiança!</p>
+              <p className="text-xs sm:text-sm font-medium mobile-text-sm">
+                Teste de Triagem Neonatal
+              </p>
+              <p className="text-xs opacity-90 mobile-text-sm">
+                Prepare-se para a Maternidade com Confiança!
+              </p>
             </div>
           </div>
 
@@ -369,7 +411,9 @@ export const StorePage = () => {
               <div className="p-2 sm:p-3 bg-pink-500 rounded-xl">
                 <TestTube2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-pink-800 mobile-text">Alimentação</h3>
+              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-pink-800 mobile-text">
+                Alimentação
+              </h3>
             </div>
             <ul className="space-y-1.5 sm:space-y-2 text-pink-700 text-xs sm:text-sm mobile-text-sm">
               <li className="flex items-start gap-2">
@@ -773,18 +817,22 @@ export const StorePage = () => {
           </div>
 
           {/* Grid de produtos melhorado */}
-          <div className={`grid gap-6 ${viewMode === 'grid'
-            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-            : 'grid-cols-1'
-            }`}>
+          <div
+            className={`grid gap-6 ${
+              viewMode === 'grid'
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                : 'grid-cols-1'
+            }`}
+          >
             {filteredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className={`${product.backgroundColor} rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group ${viewMode === 'list' ? 'flex gap-4' : ''
-                  }`}
+                className={`${product.backgroundColor} rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group ${
+                  viewMode === 'list' ? 'flex gap-4' : ''
+                }`}
               >
                 <div className={`space-y-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
                   {/* Imagem do produto */}
@@ -792,10 +840,9 @@ export const StorePage = () => {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className={`object-cover rounded-xl ${viewMode === 'list'
-                        ? 'w-24 h-24'
-                        : 'w-full h-40'
-                        }`}
+                      className={`object-cover rounded-xl ${
+                        viewMode === 'list' ? 'w-24 h-24' : 'w-full h-40'
+                      }`}
                     />
                     <div className="absolute top-2 right-2 flex gap-1">
                       <motion.button
@@ -806,10 +853,11 @@ export const StorePage = () => {
                         aria-label={`${favorites.includes(product.id) ? 'Remover dos' : 'Adicionar aos'} favoritos`}
                       >
                         <Heart
-                          className={`w-4 h-4 ${favorites.includes(product.id)
-                            ? 'fill-red-500 text-red-500'
-                            : 'text-gray-600 dark:text-gray-400'
-                            }`}
+                          className={`w-4 h-4 ${
+                            favorites.includes(product.id)
+                              ? 'fill-red-500 text-red-500'
+                              : 'text-gray-600 dark:text-gray-400'
+                          }`}
                           aria-hidden="true"
                         />
                       </motion.button>
@@ -820,14 +868,26 @@ export const StorePage = () => {
                         className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full shadow-md hover:bg-white dark:hover:bg-gray-800 transition-colors"
                         aria-label="Compartilhar produto"
                       >
-                        <Share2 className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                        <Share2
+                          className="w-4 h-4 text-gray-600 dark:text-gray-400"
+                          aria-hidden="true"
+                        />
                       </motion.button>
                     </div>
 
                     {/* Badge de desconto */}
                     {product.originalPrice && (
                       <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        -{Math.round((1 - parseFloat(product.price.replace('R$ ', '').replace(',', '.')) / parseFloat(product.originalPrice.replace('R$ ', '').replace(',', '.'))) * 100)}%
+                        -
+                        {Math.round(
+                          (1 -
+                            parseFloat(product.price.replace('R$ ', '').replace(',', '.')) /
+                              parseFloat(
+                                product.originalPrice.replace('R$ ', '').replace(',', '.')
+                              )) *
+                            100
+                        )}
+                        %
                       </div>
                     )}
                   </div>
@@ -853,11 +913,26 @@ export const StorePage = () => {
                           {product.author}
                         </p>
                         <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+                          <Star
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                            aria-hidden="true"
+                          />
+                          <Star
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                            aria-hidden="true"
+                          />
+                          <Star
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                            aria-hidden="true"
+                          />
+                          <Star
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                            aria-hidden="true"
+                          />
+                          <Star
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                            aria-hidden="true"
+                          />
                           <span className="text-xs text-gray-500 ml-1">(4.9)</span>
                         </div>
                       </div>
@@ -866,9 +941,7 @@ export const StorePage = () => {
                     {/* Preços */}
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-green-600">
-                          {product.price}
-                        </span>
+                        <span className="text-2xl font-bold text-green-600">{product.price}</span>
                         {product.originalPrice && (
                           <span className="text-sm text-gray-500 line-through">
                             {product.originalPrice}
@@ -898,7 +971,10 @@ export const StorePage = () => {
                         className="p-3 bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                         aria-label="Ver detalhes"
                       >
-                        <Eye className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+                        <Eye
+                          className="w-4 h-4 text-gray-600 dark:text-gray-400"
+                          aria-hidden="true"
+                        />
                       </motion.button>
                     </div>
                   </div>
@@ -915,8 +991,12 @@ export const StorePage = () => {
                   <Truck className="w-5 h-5 text-green-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-green-800 dark:text-green-200">Entrega Segura</h4>
-                  <p className="text-sm text-green-600 dark:text-green-400">Rastreamento em tempo real</p>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">
+                    Entrega Segura
+                  </h4>
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Rastreamento em tempo real
+                  </p>
                 </div>
               </div>
 
@@ -925,7 +1005,9 @@ export const StorePage = () => {
                   <Shield className="w-5 h-5 text-blue-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-blue-800 dark:text-blue-200">Avaliações Verificadas</h4>
+                  <h4 className="font-semibold text-blue-800 dark:text-blue-200">
+                    Avaliações Verificadas
+                  </h4>
                   <p className="text-sm text-blue-600 dark:text-blue-400">Comunidade confiável</p>
                 </div>
               </div>
@@ -935,8 +1017,12 @@ export const StorePage = () => {
                   <Award className="w-5 h-5 text-purple-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-purple-800 dark:text-purple-200">Garantia de Qualidade</h4>
-                  <p className="text-sm text-purple-600 dark:text-purple-400">Produtos selecionados</p>
+                  <h4 className="font-semibold text-purple-800 dark:text-purple-200">
+                    Garantia de Qualidade
+                  </h4>
+                  <p className="text-sm text-purple-600 dark:text-purple-400">
+                    Produtos selecionados
+                  </p>
                 </div>
               </div>
             </div>
@@ -961,7 +1047,7 @@ export const StorePage = () => {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md max-h-[80vh] overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
@@ -975,13 +1061,19 @@ export const StorePage = () => {
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   aria-label="Fechar carrinho"
                 >
-                  <Plus className="w-5 h-5 text-gray-600 dark:text-gray-400 rotate-45" aria-hidden="true" />
+                  <Plus
+                    className="w-5 h-5 text-gray-600 dark:text-gray-400 rotate-45"
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
 
               {cartItems.length === 0 ? (
                 <div className="text-center py-8">
-                  <ShoppingCart className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" aria-hidden="true" />
+                  <ShoppingCart
+                    className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4"
+                    aria-hidden="true"
+                  />
                   <p className="text-gray-500 dark:text-gray-400">Seu carrinho está vazio</p>
                   <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
                     Adicione produtos para começar
@@ -990,7 +1082,10 @@ export const StorePage = () => {
               ) : (
                 <div className="space-y-4 max-h-60 overflow-y-auto">
                   {cartItems.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                    >
                       <img
                         src={item.image}
                         alt={item.name}
@@ -1003,7 +1098,7 @@ export const StorePage = () => {
                         <p className="text-green-600 font-semibold text-sm">{item.price}</p>
                       </div>
                       <button
-                        onClick={() => setCartItems(prev => prev.filter((_, i) => i !== index))}
+                        onClick={() => setCartItems((prev) => prev.filter((_, i) => i !== index))}
                         className="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                         aria-label="Remover item"
                       >
@@ -1019,10 +1114,14 @@ export const StorePage = () => {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-bold text-gray-800 dark:text-white">Total:</span>
                     <span className="text-xl font-bold text-green-600">
-                      R$ {cartItems.reduce((total, item) => {
-                        const price = parseFloat(item.price.replace('R$ ', '').replace(',', '.'));
-                        return total + price;
-                      }, 0).toFixed(2).replace('.', ',')}
+                      R${' '}
+                      {cartItems
+                        .reduce((total, item) => {
+                          const price = parseFloat(item.price.replace('R$ ', '').replace(',', '.'));
+                          return total + price;
+                        }, 0)
+                        .toFixed(2)
+                        .replace('.', ',')}
                     </span>
                   </div>
                   <motion.button
@@ -1050,10 +1149,11 @@ export const StorePage = () => {
         className="fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center z-40 group"
         aria-label="Adicionar item"
       >
-        <Plus className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+        <Plus
+          className="w-7 h-7 group-hover:scale-110 transition-transform duration-300"
+          aria-hidden="true"
+        />
       </motion.button>
     </div>
   );
 };
-
-

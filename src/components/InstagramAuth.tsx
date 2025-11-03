@@ -246,19 +246,21 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
         <div className="flex bg-neutral-100 dark:bg-neutral-800 rounded-xl sm:rounded-2xl p-1 mb-4 sm:mb-6">
           <button
             onClick={() => setAuthMode('login')}
-            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${authMode === 'login'
-              ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
-              : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
-              }`}
+            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
+              authMode === 'login'
+                ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
+            }`}
           >
             Entrar
           </button>
           <button
             onClick={() => setAuthMode('signup')}
-            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${authMode === 'signup'
-              ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
-              : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
-              }`}
+            className={`flex-1 py-2.5 sm:py-2 px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
+              authMode === 'signup'
+                ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-400 shadow-soft'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
+            }`}
           >
             Criar Conta
           </button>
@@ -341,10 +343,11 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, fullName: '' });
                   }
                 }}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${errors.fullName
-                  ? 'border-error-500 focus:border-error-500'
-                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                  }`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
+                  errors.fullName
+                    ? 'border-error-500 focus:border-error-500'
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="Seu nome completo"
               />
               {errors.fullName && (
@@ -370,15 +373,17 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, email: '' });
                   }
                 }}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${errors.email
-                  ? 'border-error-500 focus:border-error-500'
-                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                  }`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
+                  errors.email
+                    ? 'border-error-500 focus:border-error-500'
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="seu@email.com"
               />
               <Mail
-                className={`absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${errors.email ? 'text-error-500' : 'text-neutral-400'
-                  }`}
+                className={`absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${
+                  errors.email ? 'text-error-500' : 'text-neutral-400'
+                }`}
               />
             </div>
             {errors.email && (
@@ -403,21 +408,27 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
                     setErrors({ ...errors, password: '' });
                   }
                 }}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${errors.password
-                  ? 'border-error-500 focus:border-error-500'
-                  : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
-                  }`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 rounded-xl sm:rounded-2xl border-2 bg-white dark:bg-neutral-800 text-sm sm:text-base text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none transition-all duration-200 min-h-[44px] ${
+                  errors.password
+                    ? 'border-error-500 focus:border-error-500'
+                    : 'border-neutral-200 dark:border-neutral-700 focus:border-primary-500'
+                }`}
                 placeholder="Sua senha"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className={`absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 p-1 ${errors.password
-                  ? 'text-error-500'
-                  : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
-                  }`}
+                className={`absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 hover:scale-110 transition-all duration-200 p-1 ${
+                  errors.password
+                    ? 'text-error-500'
+                    : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'
+                }`}
               >
-                {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" />
+                ) : (
+                  <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
+                )}
               </button>
             </div>
             {errors.password && (
@@ -449,7 +460,9 @@ export const InstagramAuth = ({ onSuccess }: InstagramAuthProps) => {
           ) : (
             <>
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-sm sm:text-base">{authMode === 'signup' ? 'Criar Conta' : 'Entrar'}</span>
+              <span className="text-sm sm:text-base">
+                {authMode === 'signup' ? 'Criar Conta' : 'Entrar'}
+              </span>
             </>
           )}
         </button>

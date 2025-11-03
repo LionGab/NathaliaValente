@@ -14,38 +14,33 @@ const logoConfig = {
   community: {
     src: '/logos/clubnath-logo.png',
     alt: 'ClubNath - Comunidade de Mães',
-    title: 'ClubNath - Comunidade de Mães'
+    title: 'ClubNath - Comunidade de Mães',
   },
   nath: {
     src: '/logos/nathia-logo.jpg',
     alt: 'NathIA - Assistente IA',
-    title: 'NathIA - Assistente IA'
+    title: 'NathIA - Assistente IA',
   },
   clubnath: {
     src: '/logos/clubnath-logo.png',
     alt: 'ClubNath',
-    title: 'ClubNath'
+    title: 'ClubNath',
   },
   'mother-baby': {
     src: '/logos/clubnath-mother-baby.svg',
     alt: 'ClubNath - Mãe e Bebê',
-    title: 'ClubNath - Mãe e Bebê'
-  }
+    title: 'ClubNath - Mãe e Bebê',
+  },
 };
 
 const sizeClasses = {
   sm: 'w-8 h-8',
   md: 'w-12 h-12',
   lg: 'w-16 h-16',
-  xl: 'w-24 h-24'
+  xl: 'w-24 h-24',
 };
 
-export const Logo: React.FC<LogoProps> = ({
-  type,
-  size = 'md',
-  className,
-  onClick
-}) => {
+export const Logo: React.FC<LogoProps> = ({ type, size = 'md', className, onClick }) => {
   const config = logoConfig[type];
 
   return (
@@ -74,7 +69,10 @@ export const HeaderLogo: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 // Componente específico para a Nath
-export const NathLogo: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({ className, size = 'lg' }) => (
+export const NathLogo: React.FC<{ className?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({
+  className,
+  size = 'lg',
+}) => (
   <Logo
     type="nath"
     size={size}

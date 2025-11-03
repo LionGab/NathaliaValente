@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  User, 
-  Edit3, 
-  Camera, 
-  Heart, 
-  MessageCircle, 
-  Share2, 
-  Bookmark, 
+import {
+  User,
+  Edit3,
+  Camera,
+  Heart,
+  MessageCircle,
+  Share2,
+  Bookmark,
   Settings,
   Shield,
   Star,
@@ -27,7 +27,7 @@ import {
   Clock,
   Image as ImageIcon,
   Video,
-  FileText
+  FileText,
 } from 'lucide-react';
 
 interface UserProfile {
@@ -109,7 +109,7 @@ const mockProfile: UserProfile = {
     followers: 1234,
     following: 567,
     likes: 8920,
-    comments: 234
+    comments: 234,
   },
   badges: [
     {
@@ -118,7 +118,7 @@ const mockProfile: UserProfile = {
       description: 'Completou o primeiro mês de gestação',
       icon: '🤱',
       color: 'from-pink-500 to-rose-500',
-      earnedAt: new Date('2023-07-15')
+      earnedAt: new Date('2023-07-15'),
     },
     {
       id: '2',
@@ -126,7 +126,7 @@ const mockProfile: UserProfile = {
       description: 'Participou de 10 discussões na comunidade',
       icon: '💬',
       color: 'from-blue-500 to-cyan-500',
-      earnedAt: new Date('2023-08-20')
+      earnedAt: new Date('2023-08-20'),
     },
     {
       id: '3',
@@ -134,14 +134,14 @@ const mockProfile: UserProfile = {
       description: 'Ajudou 5 mães com conselhos úteis',
       icon: '💝',
       color: 'from-purple-500 to-violet-500',
-      earnedAt: new Date('2023-09-10')
-    }
+      earnedAt: new Date('2023-09-10'),
+    },
   ],
   preferences: {
     privacy: 'public',
     showEmail: false,
     showLocation: true,
-    allowMessages: true
+    allowMessages: true,
   },
   milestones: [
     {
@@ -151,7 +151,7 @@ const mockProfile: UserProfile = {
       date: new Date('2023-07-20'),
       type: 'pregnancy',
       image: '/images/ultrassom-1.jpg',
-      isPublic: true
+      isPublic: true,
     },
     {
       id: '2',
@@ -160,7 +160,7 @@ const mockProfile: UserProfile = {
       date: new Date('2024-01-15'),
       type: 'birth',
       image: '/images/nascimento-joao.jpg',
-      isPublic: true
+      isPublic: true,
     },
     {
       id: '3',
@@ -169,14 +169,15 @@ const mockProfile: UserProfile = {
       date: new Date('2024-02-10'),
       type: 'milestone',
       image: '/images/primeiro-sorriso.jpg',
-      isPublic: true
-    }
+      isPublic: true,
+    },
   ],
   stories: [
     {
       id: '1',
       title: 'Minha experiência com enjoos matinais',
-      content: 'Nos primeiros 3 meses, os enjoos foram intensos. Descobri que comer pequenas porções a cada 2 horas ajudou muito. Também beber água com limão e chá de gengibre. O que funcionou para vocês?',
+      content:
+        'Nos primeiros 3 meses, os enjoos foram intensos. Descobri que comer pequenas porções a cada 2 horas ajudou muito. Também beber água com limão e chá de gengibre. O que funcionou para vocês?',
       type: 'text',
       tags: ['enjoo', 'primeiro trimestre', 'dicas'],
       createdAt: new Date('2024-01-20'),
@@ -184,12 +185,13 @@ const mockProfile: UserProfile = {
       isPublic: true,
       likes: 45,
       comments: 12,
-      views: 234
+      views: 234,
     },
     {
       id: '2',
       title: 'Preparando o quarto do bebê',
-      content: 'Finalmente terminei de organizar o quartinho do João! Ficou lindo e aconchegante. Cada detalhe foi pensado com muito amor.',
+      content:
+        'Finalmente terminei de organizar o quartinho do João! Ficou lindo e aconchegante. Cada detalhe foi pensado com muito amor.',
       type: 'image',
       media: '/images/quarto-bebe.jpg',
       tags: ['quarto', 'decoração', 'preparação'],
@@ -198,14 +200,16 @@ const mockProfile: UserProfile = {
       isPublic: true,
       likes: 67,
       comments: 8,
-      views: 456
-    }
-  ]
+      views: 456,
+    },
+  ],
 };
 
 export const EnhancedProfileSection: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile>(mockProfile);
-  const [activeTab, setActiveTab] = useState<'stories' | 'milestones' | 'badges' | 'stats'>('stories');
+  const [activeTab, setActiveTab] = useState<'stories' | 'milestones' | 'badges' | 'stats'>(
+    'stories'
+  );
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [editingStory, setEditingStory] = useState<string | null>(null);
@@ -217,20 +221,18 @@ export const EnhancedProfileSection: React.FC = () => {
   };
 
   const handleTogglePrivacy = (storyId: string) => {
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
-      stories: prev.stories.map(story => 
-        story.id === storyId 
-          ? { ...story, isPublic: !story.isPublic }
-          : story
-      )
+      stories: prev.stories.map((story) =>
+        story.id === storyId ? { ...story, isPublic: !story.isPublic } : story
+      ),
     }));
   };
 
   const handleDeleteStory = (storyId: string) => {
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
-      stories: prev.stories.filter(story => story.id !== storyId)
+      stories: prev.stories.filter((story) => story.id !== storyId),
     }));
   };
 
@@ -266,14 +268,14 @@ export const EnhancedProfileSection: React.FC = () => {
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric'
+      year: 'numeric',
     });
   };
 
   const formatRelativeTime = (date: Date) => {
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) return 'Agora mesmo';
     if (diffInHours < 24) return `${diffInHours}h atrás`;
     if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d atrás`;
@@ -323,19 +325,13 @@ export const EnhancedProfileSection: React.FC = () => {
           <div className="flex items-start justify-between mb-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-                  {profile.name}
-                </h1>
+                <h1 className="text-2xl font-bold text-gray-800 dark:text-white">{profile.name}</h1>
                 {profile.verified && (
                   <Shield className="w-6 h-6 text-blue-500" aria-label="Verificado" />
                 )}
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-2">
-                {profile.username}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-3">
-                {profile.bio}
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">{profile.username}</p>
+              <p className="text-gray-700 dark:text-gray-300 mb-3">{profile.bio}</p>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-1">
                   <MapPin className="w-4 h-4" />
@@ -364,41 +360,31 @@ export const EnhancedProfileSection: React.FC = () => {
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {profile.stats.posts}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Histórias
-              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Histórias</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {profile.stats.followers.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Seguidores
-              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Seguidores</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {profile.stats.following}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Seguindo
-              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Seguindo</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {profile.stats.likes.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Curtidas
-              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Curtidas</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {profile.stats.comments}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Comentários
-              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Comentários</div>
             </div>
           </div>
 
@@ -432,7 +418,7 @@ export const EnhancedProfileSection: React.FC = () => {
             { id: 'stories', label: 'Minhas Histórias', icon: FileText },
             { id: 'milestones', label: 'Marcos', icon: Calendar },
             { id: 'badges', label: 'Conquistas', icon: Award },
-            { id: 'stats', label: 'Estatísticas', icon: TrendingUp }
+            { id: 'stats', label: 'Estatísticas', icon: TrendingUp },
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -489,9 +475,7 @@ export const EnhancedProfileSection: React.FC = () => {
                       {getStoryTypeIcon(story.type)}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800 dark:text-white">
-                        {story.title}
-                      </h3>
+                      <h3 className="font-semibold text-gray-800 dark:text-white">{story.title}</h3>
                       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                         <span>{formatRelativeTime(story.createdAt)}</span>
                         <span>•</span>
@@ -616,9 +600,7 @@ export const EnhancedProfileSection: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      {milestone.description}
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">{milestone.description}</p>
                     {milestone.image && (
                       <img
                         src={milestone.image}
@@ -649,15 +631,13 @@ export const EnhancedProfileSection: React.FC = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 text-center"
               >
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${badge.color} flex items-center justify-center text-3xl`}>
+                <div
+                  className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${badge.color} flex items-center justify-center text-3xl`}
+                >
                   {badge.icon}
                 </div>
-                <h3 className="font-bold text-gray-800 dark:text-white mb-2">
-                  {badge.name}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  {badge.description}
-                </p>
+                <h3 className="font-bold text-gray-800 dark:text-white mb-2">{badge.name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{badge.description}</p>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                   Conquistado em {formatDate(badge.earnedAt)}
                 </div>

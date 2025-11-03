@@ -1,6 +1,6 @@
 /**
  * ClubNath VIP - API Configuration Manager
- * 
+ *
  * Centraliza todas as configurações de APIs externas
  * e fornece métodos seguros para acessá-las.
  */
@@ -52,27 +52,27 @@ class APIConfigManager {
       openai: {
         apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
         baseURL: 'https://api.openai.com/v1',
-        model: 'gpt-4-turbo-preview'
+        model: 'gpt-4-turbo-preview',
       },
       anthropic: {
         apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY || '',
         baseURL: 'https://api.anthropic.com/v1',
-        model: 'claude-3-sonnet-20240229'
+        model: 'claude-3-sonnet-20240229',
       },
       gemini: {
         apiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
         baseURL: 'https://generativelanguage.googleapis.com/v1beta',
-        model: 'gemini-pro'
+        model: 'gemini-pro',
       },
       perplexity: {
         apiKey: import.meta.env.VITE_PERPLEXITY_API_KEY || '',
         baseURL: 'https://api.perplexity.ai',
-        model: 'llama-3.1-sonar-small-128k-online'
+        model: 'llama-3.1-sonar-small-128k-online',
       },
       supabase: {
         url: import.meta.env.VITE_SUPABASE_URL || '',
-        anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-      }
+        anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || '',
+      },
     };
   }
 
@@ -101,8 +101,8 @@ class APIConfigManager {
    * Obtém todas as APIs configuradas
    */
   public getConfiguredAPIs(): (keyof APIConfig)[] {
-    return (Object.keys(this.config) as (keyof APIConfig)[]).filter(
-      apiName => this.isAPIConfigured(apiName)
+    return (Object.keys(this.config) as (keyof APIConfig)[]).filter((apiName) =>
+      this.isAPIConfigured(apiName)
     );
   }
 
@@ -113,7 +113,7 @@ class APIConfigManager {
     const requiredAPIs: (keyof APIConfig)[] = ['supabase'];
     const missing: string[] = [];
 
-    requiredAPIs.forEach(apiName => {
+    requiredAPIs.forEach((apiName) => {
       if (!this.isAPIConfigured(apiName)) {
         missing.push(apiName);
       }
@@ -121,7 +121,7 @@ class APIConfigManager {
 
     return {
       isValid: missing.length === 0,
-      missing
+      missing,
     };
   }
 
@@ -159,7 +159,7 @@ export const isSupabaseConfigured = () => apiConfig.isAPIConfigured('supabase');
 // Validação de configuração
 export const validateAPIConfiguration = () => {
   const validation = apiConfig.validateRequiredAPIs();
-  
+
   if (!validation.isValid) {
     console.error('❌ APIs obrigatórias não configuradas:', validation.missing);
     console.error('💡 Configure as variáveis de ambiente necessárias no arquivo .env');

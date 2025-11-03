@@ -87,12 +87,14 @@ export function usePosts(options: UsePostsOptions = {}): UsePostsReturn {
         // Fallback to direct query if RPC functions fail
         let query = supabase
           .from('posts')
-          .select(`
+          .select(
+            `
             *,
             profiles!inner(full_name, avatar_url),
             likes(count),
             comments(count)
-          `)
+          `
+          )
           .order('created_at', { ascending: false })
           .limit(limit);
 

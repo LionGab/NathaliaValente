@@ -16,7 +16,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   strokeWidth = 6,
   color = '#ec4899',
   backgroundColor = '#f3f4f6',
-  children
+  children,
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -25,11 +25,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
-      <svg
-        width={size}
-        height={size}
-        className="transform -rotate-90"
-      >
+      <svg width={size} height={size} className="transform -rotate-90">
         {/* Background circle */}
         <circle
           cx={size / 2}
@@ -39,7 +35,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           strokeWidth={strokeWidth}
           fill="none"
         />
-        
+
         {/* Progress circle */}
         <motion.circle
           cx={size / 2}
@@ -52,15 +48,13 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           strokeDasharray={strokeDasharray}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          transition={{ duration: 1.5, ease: 'easeInOut' }}
         />
       </svg>
-      
+
       {/* Content inside the ring */}
       {children && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          {children}
-        </div>
+        <div className="absolute inset-0 flex items-center justify-center">{children}</div>
       )}
     </div>
   );

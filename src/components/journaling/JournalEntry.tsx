@@ -4,17 +4,17 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  Heart, 
-  Edit3, 
-  Trash2, 
-  MoreHorizontal, 
+import {
+  Heart,
+  Edit3,
+  Trash2,
+  MoreHorizontal,
   Clock,
   BookOpen,
   Tag,
   Lock,
   Globe,
-  Calendar
+  Calendar,
 } from 'lucide-react';
 import { JournalEntry as JournalEntryType } from '../../services/journaling.service';
 import { useAuth } from '../../contexts/AuthContext';
@@ -36,50 +36,50 @@ const moodConfig = {
     emoji: '😊',
     label: 'Feliz',
     color: 'text-yellow-600',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20'
+    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
   },
   neutral: {
     emoji: '😐',
     label: 'Neutro',
     color: 'text-gray-600',
-    bgColor: 'bg-gray-50 dark:bg-gray-900/20'
+    bgColor: 'bg-gray-50 dark:bg-gray-900/20',
   },
   sad: {
     emoji: '😢',
     label: 'Triste',
     color: 'text-blue-600',
-    bgColor: 'bg-blue-50 dark:bg-blue-900/20'
+    bgColor: 'bg-blue-50 dark:bg-blue-900/20',
   },
   anxious: {
     emoji: '😰',
     label: 'Ansiosa',
     color: 'text-orange-600',
-    bgColor: 'bg-orange-50 dark:bg-orange-900/20'
+    bgColor: 'bg-orange-50 dark:bg-orange-900/20',
   },
   tired: {
     emoji: '😴',
     label: 'Cansada',
     color: 'text-purple-600',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
   },
   grateful: {
     emoji: '🙏',
     label: 'Grata',
     color: 'text-green-600',
-    bgColor: 'bg-green-50 dark:bg-green-900/20'
+    bgColor: 'bg-green-50 dark:bg-green-900/20',
   },
   overwhelmed: {
     emoji: '😵',
     label: 'Sobrecarregada',
     color: 'text-red-600',
-    bgColor: 'bg-red-50 dark:bg-red-900/20'
+    bgColor: 'bg-red-50 dark:bg-red-900/20',
   },
   peaceful: {
     emoji: '😌',
     label: 'Pacífica',
     color: 'text-indigo-600',
-    bgColor: 'bg-indigo-50 dark:bg-indigo-900/20'
-  }
+    bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+  },
 };
 
 export const JournalEntry: React.FC<JournalEntryProps> = ({
@@ -87,7 +87,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
   onEdit,
   onDelete,
   showActions = true,
-  compact = false
+  compact = false,
 }) => {
   const { user } = useAuth();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -97,11 +97,12 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
   const isOwner = user?.id === entry.user_id;
   const mood = moodConfig[entry.mood as keyof typeof moodConfig] || moodConfig.neutral;
   const isLongContent = entry.content.length > 300;
-  const displayContent = showFullContent || !isLongContent ? entry.content : entry.content.substring(0, 300) + '...';
+  const displayContent =
+    showFullContent || !isLongContent ? entry.content : entry.content.substring(0, 300) + '...';
 
   const handleDelete = async () => {
     if (!isOwner || !onDelete) return;
-    
+
     const confirmed = window.confirm('Tem certeza que deseja excluir esta entrada de journal?');
     if (confirmed) {
       setIsDeleting(true);
@@ -127,7 +128,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
     if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d`;
-    
+
     return date.toLocaleDateString('pt-BR');
   };
 
@@ -136,7 +137,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
-      year: 'numeric'
+      year: 'numeric',
     });
   };
 
@@ -147,21 +148,17 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
           <div className={`p-2 rounded-lg ${mood.bgColor}`}>
             <span className="text-lg">{mood.emoji}</span>
           </div>
-          
+
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className={`text-sm font-medium ${mood.color}`}>
-                {mood.label}
-              </span>
+              <span className={`text-sm font-medium ${mood.color}`}>{mood.label}</span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
                 {formatTimeAgo(entry.created_at!)}
               </span>
             </div>
-            
-            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
-              {entry.content}
-            </p>
-            
+
+            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{entry.content}</p>
+
             {entry.prompt && (
               <div className="flex items-center gap-1 mt-2">
                 <BookOpen className="w-3 h-3 text-gray-400" />
@@ -182,12 +179,8 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
       <div className="p-4 sm:p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <Avatar
-              type="pensativa"
-              size="sm"
-              aria-label={entry.user?.full_name || 'Usuário'}
-            />
-            
+            <Avatar type="pensativa" size="sm" aria-label={entry.user?.full_name || 'Usuário'} />
+
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white">
                 {entry.user?.full_name || 'Usuário'}
@@ -203,7 +196,9 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
 
           <div className="flex items-center gap-2">
             {/* Mood */}
-            <div className={`px-3 py-1 rounded-full text-sm font-medium ${mood.bgColor} ${mood.color}`}>
+            <div
+              className={`px-3 py-1 rounded-full text-sm font-medium ${mood.bgColor} ${mood.color}`}
+            >
               <span className="mr-1">{mood.emoji}</span>
               {mood.label}
             </div>
@@ -226,7 +221,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
                 >
                   <MoreHorizontal className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 </button>
-                
+
                 {showMenu && (
                   <div className="absolute right-0 top-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10">
                     <button
@@ -247,11 +242,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
                       disabled={isDeleting}
                       className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                     >
-                      {isDeleting ? (
-                        <LoadingSpinner size="sm" />
-                      ) : (
-                        <Trash2 className="w-3 h-3" />
-                      )}
+                      {isDeleting ? <LoadingSpinner size="sm" /> : <Trash2 className="w-3 h-3" />}
                       Excluir
                     </button>
                   </div>
@@ -283,7 +274,7 @@ export const JournalEntry: React.FC<JournalEntryProps> = ({
           <p className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
             {displayContent}
           </p>
-          
+
           {isLongContent && (
             <button
               onClick={() => setShowFullContent(!showFullContent)}

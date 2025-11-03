@@ -1,6 +1,6 @@
 /**
  * ClubNath VIP - Error Tracking Service
- * 
+ *
  * Serviço centralizado para rastreamento de erros
  * com integração a serviços externos.
  */
@@ -39,7 +39,7 @@ class ErrorTrackingService {
       endpoint: '/api/errors', // Será implementado no futuro
       batchSize: 10,
       flushInterval: 5000, // 5 segundos
-      maxRetries: 3
+      maxRetries: 3,
     };
 
     this.setupEventListeners();
@@ -75,7 +75,7 @@ class ErrorTrackingService {
         url: window.location.href,
         userAgent: navigator.userAgent,
         stack: event.error?.stack,
-        context: 'unhandled_error'
+        context: 'unhandled_error',
       });
     });
 
@@ -89,7 +89,7 @@ class ErrorTrackingService {
         userAgent: navigator.userAgent,
         stack: event.reason?.stack,
         context: 'unhandled_promise_rejection',
-        data: { reason: event.reason }
+        data: { reason: event.reason },
       });
     });
   }
@@ -118,7 +118,7 @@ class ErrorTrackingService {
       ...errorData,
       userId: this.getUserId(),
       sessionId: this.getSessionId(),
-      timestamp: errorData.timestamp || new Date().toISOString()
+      timestamp: errorData.timestamp || new Date().toISOString(),
     };
 
     this.errorQueue.push(enrichedError);
@@ -144,7 +144,7 @@ class ErrorTrackingService {
       ...errorData,
       userId: this.getUserId(),
       sessionId: this.getSessionId(),
-      timestamp: errorData.timestamp || new Date().toISOString()
+      timestamp: errorData.timestamp || new Date().toISOString(),
     };
 
     // Enviar imediatamente usando sendBeacon
@@ -183,8 +183,8 @@ class ErrorTrackingService {
           errors,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
-          url: window.location.href
-        })
+          url: window.location.href,
+        }),
       });
 
       if (!response.ok) {
@@ -205,7 +205,7 @@ class ErrorTrackingService {
           errors: [error],
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
-          url: window.location.href
+          url: window.location.href,
         })
       );
 
@@ -254,7 +254,7 @@ class ErrorTrackingService {
     return {
       queueLength: this.errorQueue.length,
       isOnline: this.isOnline,
-      enabled: this.config.enabled
+      enabled: this.config.enabled,
     };
   }
 
@@ -296,7 +296,7 @@ export const trackWarning = (message: string, context?: string, data?: any) => {
     level: 'warning',
     timestamp: new Date().toISOString(),
     context,
-    data
+    data,
   });
 };
 
@@ -306,7 +306,7 @@ export const trackInfo = (message: string, context?: string, data?: any) => {
     level: 'info',
     timestamp: new Date().toISOString(),
     context,
-    data
+    data,
   });
 };
 

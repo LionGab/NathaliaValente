@@ -5,7 +5,6 @@ interface LazyImageProps {
   src: string;
   alt: string;
   className?: string;
-  placeholder?: string;
   onLoad?: () => void;
   onError?: () => void;
 }
@@ -16,7 +15,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   className = '',
   placeholder,
   onLoad,
-  onError
+  onError,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -33,7 +32,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       },
       {
         threshold: 0.1,
-        rootMargin: '50px'
+        rootMargin: '50px',
       }
     );
 
@@ -61,13 +60,13 @@ export const LazyImage: React.FC<LazyImageProps> = ({
           <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
         </div>
       )}
-      
+
       {isInView && !isLoaded && !hasError && (
         <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
           <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
         </div>
       )}
-      
+
       {isInView && hasError && (
         <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
           <div className="text-center text-gray-500">
@@ -76,7 +75,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
           </div>
         </div>
       )}
-      
+
       {isInView && (
         <img
           src={src}

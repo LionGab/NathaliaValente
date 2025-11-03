@@ -4,7 +4,16 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, AlertCircle, Settings, Zap, CreditCard, Brain, Database } from 'lucide-react';
+import {
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Settings,
+  Zap,
+  CreditCard,
+  Brain,
+  Database,
+} from 'lucide-react';
 import { apiConfig } from '../../lib/api-config';
 import { aiService } from '../../services/ai-integration.service';
 import { paymentService } from '../../services/payment-integration.service';
@@ -41,7 +50,10 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
       const response = await aiService.generateNathIAResponse('Olá, NathIA! Como você está?');
       return { success: true, response: response.content.substring(0, 100) + '...' };
     } catch (error) {
-      return { success: false, error: error instanceof Error ? error.message : 'Erro desconhecido' };
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erro desconhecido',
+      };
     }
   };
 
@@ -50,7 +62,10 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
       const config = paymentService.getPaymentConfigInfo();
       return { success: true, config };
     } catch (error) {
-      return { success: false, error: error instanceof Error ? error.message : 'Erro desconhecido' };
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erro desconhecido',
+      };
     }
   };
 
@@ -66,9 +81,7 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
               <Settings className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                Debug das APIs
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Debug das APIs</h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Status das integrações e configurações
               </p>
@@ -128,9 +141,7 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-4">
                 <div className="flex items-center gap-3 mb-3">
                   <Database className="w-5 h-5 text-green-500" />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    Supabase
-                  </h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Supabase</h3>
                   {debugInfo?.configuredAPIs?.supabase ? (
                     <CheckCircle className="w-5 h-5 text-green-500" />
                   ) : (
@@ -167,9 +178,7 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
                   NathIA e assistência virtual
                 </p>
                 <div className="space-y-1">
-                  <p className="text-xs text-gray-500">
-                    Primária: {debugInfo?.primaryAI || 'N/A'}
-                  </p>
+                  <p className="text-xs text-gray-500">Primária: {debugInfo?.primaryAI || 'N/A'}</p>
                   <p className="text-xs text-gray-500">
                     Configurada: {debugInfo?.configuredAPIs?.ai ? 'Sim' : 'Não'}
                   </p>
@@ -189,15 +198,15 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
                     <XCircle className="w-5 h-5 text-red-500" />
                   )}
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  Stripe e PayPal
-                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Stripe e PayPal</p>
                 <div className="space-y-1">
                   <p className="text-xs text-gray-500">
-                    Stripe: {debugInfo?.configuredAPIs?.payments ? 'Configurado' : 'Não configurado'}
+                    Stripe:{' '}
+                    {debugInfo?.configuredAPIs?.payments ? 'Configurado' : 'Não configurado'}
                   </p>
                   <p className="text-xs text-gray-500">
-                    PayPal: {debugInfo?.configuredAPIs?.payments ? 'Configurado' : 'Não configurado'}
+                    PayPal:{' '}
+                    {debugInfo?.configuredAPIs?.payments ? 'Configurado' : 'Não configurado'}
                   </p>
                 </div>
               </div>
@@ -214,18 +223,19 @@ export const APIDebugPanel: React.FC<APIDebugPanelProps> = ({ isOpen, onClose })
                   Recursos habilitados
                 </p>
                 <div className="space-y-1">
-                  {debugInfo?.features && Object.entries(debugInfo.features).map(([key, value]) => (
-                    <div key={key} className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500 capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                      </span>
-                      {value ? (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-red-500" />
-                      )}
-                    </div>
-                  ))}
+                  {debugInfo?.features &&
+                    Object.entries(debugInfo.features).map(([key, value]) => (
+                      <div key={key} className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500 capitalize">
+                          {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+                        </span>
+                        {value ? (
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-500" />
+                        )}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

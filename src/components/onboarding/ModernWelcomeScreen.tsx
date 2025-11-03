@@ -31,8 +31,14 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
             <Heart className="w-20 h-20 text-white fill-white" />
           </div>
           {/* Floating Elements */}
-          <div className="absolute -top-4 -right-4 w-8 h-8 bg-pink-300 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-300 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+          <div
+            className="absolute -top-4 -right-4 w-8 h-8 bg-pink-300 rounded-full animate-bounce"
+            style={{ animationDelay: '0.5s' }}
+          ></div>
+          <div
+            className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-300 rounded-full animate-bounce"
+            style={{ animationDelay: '1s' }}
+          ></div>
         </div>
 
         {/* Welcome Message */}
@@ -59,7 +65,9 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
         {/* Features Preview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
           <div className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💬</div>
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              💬
+            </div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Conecte-se</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Faça parte de uma comunidade acolhedora de mães
@@ -67,7 +75,9 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
           </div>
 
           <div className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🙏</div>
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              🙏
+            </div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Fortalecer sua fé</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Cresça espiritualmente no seu dia a dia
@@ -75,7 +85,9 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
           </div>
 
           <div className="group bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">✨</div>
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              ✨
+            </div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Seja você</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Um espaço seguro para ser autêntica
@@ -106,10 +118,16 @@ export const ModernWelcomeScreen = ({ onNext, onSkip }: ModernWelcomeScreenProps
       <div className="absolute top-20 left-20 text-6xl opacity-10 dark:opacity-5 animate-pulse">
         💕
       </div>
-      <div className="absolute bottom-20 right-20 text-6xl opacity-10 dark:opacity-5 animate-pulse" style={{ animationDelay: '1s' }}>
+      <div
+        className="absolute bottom-20 right-20 text-6xl opacity-10 dark:opacity-5 animate-pulse"
+        style={{ animationDelay: '1s' }}
+      >
         🌸
       </div>
-      <div className="absolute top-1/2 left-10 text-4xl opacity-10 dark:opacity-5 animate-pulse" style={{ animationDelay: '2s' }}>
+      <div
+        className="absolute top-1/2 left-10 text-4xl opacity-10 dark:opacity-5 animate-pulse"
+        style={{ animationDelay: '2s' }}
+      >
         ✨
       </div>
     </div>

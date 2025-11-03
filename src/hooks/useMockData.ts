@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { mockPosts, mockUsers, mockComments, mockCategories, mockDailyQuotes } from '../data/mockData';
+import {
+  mockPosts,
+  mockUsers,
+  mockComments,
+  mockCategories,
+  mockDailyQuotes,
+} from '../data/mockData';
 
 // Main hook that combines all mock data functionality
 export const useMockData = () => {
@@ -16,7 +22,7 @@ export const useMockData = () => {
     loading,
     likePost,
     addComment,
-    getNewQuote
+    getNewQuote,
   };
 };
 
@@ -25,16 +31,18 @@ export const useMockPosts = () => {
   const [loading, setLoading] = useState(false);
 
   const likePost = (postId: string) => {
-    setPosts(prev => prev.map(post => {
-      if (post.id === postId) {
-        return {
-          ...post,
-          likes_count: post.user_has_liked ? post.likes_count - 1 : post.likes_count + 1,
-          user_has_liked: !post.user_has_liked
-        };
-      }
-      return post;
-    }));
+    setPosts((prev) =>
+      prev.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            likes_count: post.user_has_liked ? post.likes_count - 1 : post.likes_count + 1,
+            user_has_liked: !post.user_has_liked,
+          };
+        }
+        return post;
+      })
+    );
   };
 
   const addComment = (postId: string, content: string, userId: string) => {
@@ -44,18 +52,20 @@ export const useMockPosts = () => {
       user_id: userId,
       content,
       created_at: new Date().toISOString(),
-      profiles: mockUsers.find(u => u.id === userId) || mockUsers[0]
+      profiles: mockUsers.find((u) => u.id === userId) || mockUsers[0],
     };
 
-    setPosts(prev => prev.map(post => {
-      if (post.id === postId) {
-        return {
-          ...post,
-          comments_count: post.comments_count + 1
-        };
-      }
-      return post;
-    }));
+    setPosts((prev) =>
+      prev.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            comments_count: post.comments_count + 1,
+          };
+        }
+        return post;
+      })
+    );
 
     return newComment;
   };
@@ -65,20 +75,20 @@ export const useMockPosts = () => {
     loading,
     likePost,
     addComment,
-    refetch: () => setPosts(mockPosts)
+    refetch: () => setPosts(mockPosts),
   };
 };
 
 export const useMockUsers = () => {
   return {
     users: mockUsers,
-    loading: false
+    loading: false,
   };
 };
 
 export const useMockComments = (postId: string) => {
   const [comments, setComments] = useState(
-    mockComments.filter(comment => comment.post_id === postId)
+    mockComments.filter((comment) => comment.post_id === postId)
   );
 
   const addComment = (content: string, userId: string) => {
@@ -88,24 +98,24 @@ export const useMockComments = (postId: string) => {
       user_id: userId,
       content,
       created_at: new Date().toISOString(),
-      profiles: mockUsers.find(u => u.id === userId) || mockUsers[0]
+      profiles: mockUsers.find((u) => u.id === userId) || mockUsers[0],
     };
 
-    setComments(prev => [...prev, newComment]);
+    setComments((prev) => [...prev, newComment]);
     return newComment;
   };
 
   return {
     comments,
     addComment,
-    loading: false
+    loading: false,
   };
 };
 
 export const useMockCategories = () => {
   return {
     categories: mockCategories,
-    loading: false
+    loading: false,
   };
 };
 
@@ -125,6 +135,6 @@ export const useMockDailyQuote = () => {
   return {
     quote,
     loading,
-    getNewQuote
+    getNewQuote,
   };
 };

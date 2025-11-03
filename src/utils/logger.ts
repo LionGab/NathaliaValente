@@ -93,7 +93,7 @@ class Logger {
         url: typeof window !== 'undefined' ? window.location.href : undefined,
         userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : undefined,
         data: options?.data,
-        context: options?.context
+        context: options?.context,
       };
 
       // Send to error tracking service
@@ -105,7 +105,7 @@ class Logger {
           url: window.location.href,
           userAgent: navigator.userAgent,
           context: options?.context,
-          data: options?.data
+          data: options?.data,
         });
       }
     } catch (trackingError) {

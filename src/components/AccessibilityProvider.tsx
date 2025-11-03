@@ -32,7 +32,7 @@ const defaultSettings: AccessibilitySettings = {
   highContrast: false,
   largeText: false,
   screenReader: false,
-  keyboardNavigation: false
+  keyboardNavigation: false,
 };
 
 export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -51,7 +51,7 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
   // Apply accessibility settings to document
   useEffect(() => {
     const root = document.documentElement;
-    
+
     // Reduced motion
     if (settings.reducedMotion) {
       root.style.setProperty('--animation-duration', '0.01ms');
@@ -101,7 +101,7 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
   useEffect(() => {
     const detectScreenReader = () => {
       // Check for common screen reader indicators
-      const hasScreenReader = 
+      const hasScreenReader =
         window.speechSynthesis ||
         navigator.userAgent.includes('NVDA') ||
         navigator.userAgent.includes('JAWS') ||
@@ -109,7 +109,7 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
         document.querySelector('[aria-live]');
 
       if (hasScreenReader && !settings.screenReader) {
-        setSettings(prev => ({ ...prev, screenReader: true }));
+        setSettings((prev) => ({ ...prev, screenReader: true }));
       }
     };
 
@@ -119,13 +119,13 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
   // Detect reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
+
     if (mediaQuery.matches && !settings.reducedMotion) {
-      setSettings(prev => ({ ...prev, reducedMotion: true }));
+      setSettings((prev) => ({ ...prev, reducedMotion: true }));
     }
 
     const handleChange = (e: MediaQueryListEvent) => {
-      setSettings(prev => ({ ...prev, reducedMotion: e.matches }));
+      setSettings((prev) => ({ ...prev, reducedMotion: e.matches }));
     };
 
     mediaQuery.addEventListener('change', handleChange);
@@ -136,7 +136,7 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
     key: K,
     value: AccessibilitySettings[K]
   ) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
   const resetSettings = () => {
@@ -184,7 +184,9 @@ export const useKeyboardNavigation = () => {
       if (e.key === 'Escape') {
         const modal = document.querySelector('[role="dialog"]');
         if (modal) {
-          const closeButton = modal.querySelector('[aria-label*="fechar"], [aria-label*="close"]') as HTMLElement;
+          const closeButton = modal.querySelector(
+            '[aria-label*="fechar"], [aria-label*="close"]'
+          ) as HTMLElement;
           closeButton?.click();
         }
       }

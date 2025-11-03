@@ -7,7 +7,7 @@ export const DailyVerseSkeleton: React.FC = () => {
       <div className="flex items-start gap-3">
         {/* Ícone */}
         <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-        
+
         {/* Conteúdo */}
         <div className="flex-1 space-y-3">
           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>

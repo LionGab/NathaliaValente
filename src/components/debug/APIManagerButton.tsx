@@ -18,7 +18,7 @@ export const APIManagerButton: React.FC = () => {
   }
 
   const hasErrors = !isConfigured.supabase || !isConfigured.ai || !isConfigured.payments;
-  const hasWarnings = Object.values(debugInfo?.features || {}).some(feature => !feature);
+  const hasWarnings = Object.values(debugInfo?.features || {}).some((feature) => !feature);
 
   return (
     <>
@@ -29,13 +29,13 @@ export const APIManagerButton: React.FC = () => {
           hasErrors
             ? 'bg-red-500 hover:bg-red-600 text-white'
             : hasWarnings
-            ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-            : 'bg-blue-500 hover:bg-blue-600 text-white'
+              ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
+              : 'bg-blue-500 hover:bg-blue-600 text-white'
         }`}
         title="Gerenciador de APIs"
       >
         <Settings className="w-6 h-6 mx-auto" />
-        
+
         {/* Indicador de Status */}
         <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold">
           {hasErrors ? (

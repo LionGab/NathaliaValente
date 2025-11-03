@@ -64,7 +64,9 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
               <div className="text-lg font-bold text-gray-900 dark:text-white">
                 {debugInfo?.configuredAPIs?.ai ? '✅' : '❌'}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Inteligência Artificial</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Inteligência Artificial
+              </div>
             </div>
             <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 text-center">
               <CreditCard className="w-8 h-8 text-green-500 mx-auto mb-2" />
@@ -137,7 +139,9 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Supabase URL:</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Supabase URL:
+                      </span>
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {debugInfo?.configuredAPIs?.supabase ? '✅' : '❌'}
                       </span>
@@ -162,16 +166,17 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
                     Funcionalidades Ativas
                   </h4>
                   <div className="space-y-2">
-                    {debugInfo?.features && Object.entries(debugInfo.features).map(([key, value]) => (
-                      <div key={key} className="flex justify-between">
-                        <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
-                          {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                        </span>
-                        <span className="text-sm font-medium text-gray-900 dark:text-white">
-                          {value ? '✅' : '❌'}
-                        </span>
-                      </div>
-                    ))}
+                    {debugInfo?.features &&
+                      Object.entries(debugInfo.features).map(([key, value]) => (
+                        <div key={key} className="flex justify-between">
+                          <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+                            {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+                          </span>
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {value ? '✅' : '❌'}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -203,7 +208,9 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <Database className="w-4 h-4 text-blue-500" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Conexão Supabase</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Conexão Supabase
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Brain className="w-4 h-4 text-purple-500" />
@@ -211,19 +218,21 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
                     </div>
                     <div className="flex items-center gap-2">
                       <CreditCard className="w-4 h-4 text-green-500" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Sistemas de Pagamento</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Sistemas de Pagamento
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Zap className="w-4 h-4 text-yellow-500" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Validação Geral</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Validação Geral
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    Status Atual
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Status Atual</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-600 dark:text-gray-400">Ambiente:</span>
@@ -232,7 +241,9 @@ export const APIManager: React.FC<APIManagerProps> = ({ isOpen, onClose }) => {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Desenvolvimento:</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Desenvolvimento:
+                      </span>
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {debugInfo?.isDevelopment ? 'Sim' : 'Não'}
                       </span>

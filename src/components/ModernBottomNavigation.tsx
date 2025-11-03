@@ -4,17 +4,15 @@
  */
 
 import { useState } from 'react';
-import { 
-  Home, 
-  MessageCircle, 
-  Users, 
-  Heart, 
+import {
+  Home,
+  MessageCircle,
+  Users,
   User,
   Plus,
   Search,
   Bell,
-  BookHeart,
-  Star
+  Star,
 } from 'lucide-react';
 
 interface ModernBottomNavigationProps {
@@ -25,51 +23,49 @@ interface ModernBottomNavigationProps {
   onNotifications: () => void;
 }
 
-export const ModernBottomNavigation = ({ 
-  currentTab, 
-  onTabChange, 
-  onCreatePost, 
-  onSearch, 
-  onNotifications 
+export const ModernBottomNavigation = ({
+  currentTab,
+  onTabChange,
+  onCreatePost,
+  onSearch,
+  onNotifications,
 }: ModernBottomNavigationProps) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const tabs = [
     {
       id: 'home',
       icon: Home,
       label: 'Início',
       color: 'text-pink-600 dark:text-pink-400',
-      bgColor: 'bg-pink-50 dark:bg-pink-900/20'
+      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
     },
     {
       id: 'chat',
       icon: MessageCircle,
       label: 'Chat',
       color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
     },
     {
       id: 'groups',
       icon: Users,
       label: 'Grupos',
       color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-blue-50 dark:bg-blue-900/20'
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
     },
     {
       id: 'favorites',
       icon: Star,
       label: 'Favoritos',
       color: 'text-yellow-600 dark:text-yellow-400',
-      bgColor: 'bg-yellow-50 dark:bg-yellow-900/20'
+      bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
     },
     {
       id: 'profile',
       icon: User,
       label: 'Perfil',
       color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20'
-    }
+      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+    },
   ];
 
   const quickActions = [
@@ -77,15 +73,15 @@ export const ModernBottomNavigation = ({
       icon: Search,
       label: 'Buscar',
       onClick: onSearch,
-      color: 'text-gray-600 dark:text-gray-400'
+      color: 'text-gray-600 dark:text-gray-400',
     },
     {
       icon: Bell,
       label: 'Notificações',
       onClick: onNotifications,
       color: 'text-gray-600 dark:text-gray-400',
-      hasNotification: true
-    }
+      hasNotification: true,
+    },
   ];
 
   return (
@@ -110,7 +106,7 @@ export const ModernBottomNavigation = ({
                 </button>
               );
             })}
-            
+
             {/* Create Post Button */}
             <button
               onClick={onCreatePost}
@@ -125,7 +121,7 @@ export const ModernBottomNavigation = ({
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = currentTab === tab.id;
-              
+
               return (
                 <button
                   key={tab.id}
@@ -137,12 +133,16 @@ export const ModernBottomNavigation = ({
                   }`}
                 >
                   <div className={`relative ${isActive ? 'animate-bounce' : ''}`}>
-                    <Icon className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`} />
+                    <Icon
+                      className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}
+                    />
                     {isActive && (
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-current rounded-full animate-pulse"></div>
                     )}
                   </div>
-                  <span className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}>
+                  <span
+                    className={`text-xs font-medium truncate ${isActive ? 'font-semibold' : ''}`}
+                  >
                     {tab.label}
                   </span>
                 </button>

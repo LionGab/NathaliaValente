@@ -20,7 +20,7 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
   onClose,
   onRetry,
   autoClose = true,
-  duration = 5000
+  duration = 5000,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -119,10 +119,8 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
         `}
       >
         <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">
-            {getErrorIcon(error.code)}
-          </div>
-          
+          <div className="flex-shrink-0">{getErrorIcon(error.code)}</div>
+
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-medium text-gray-900">
@@ -131,9 +129,15 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
                 {error.code === 'PERMISSION_ERROR' && 'Acesso Negado'}
                 {error.code === 'VALIDATION_ERROR' && 'Erro de Validação'}
                 {error.code === 'API_ERROR' && 'Erro na API'}
-                {!['NETWORK_ERROR', 'AUTH_ERROR', 'PERMISSION_ERROR', 'VALIDATION_ERROR', 'API_ERROR'].includes(error.code) && 'Erro'}
+                {![
+                  'NETWORK_ERROR',
+                  'AUTH_ERROR',
+                  'PERMISSION_ERROR',
+                  'VALIDATION_ERROR',
+                  'API_ERROR',
+                ].includes(error.code) && 'Erro'}
               </h4>
-              
+
               <button
                 onClick={handleClose}
                 className="flex-shrink-0 ml-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -141,11 +145,9 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
                 <X className="w-4 h-4" />
               </button>
             </div>
-            
-            <p className="mt-1 text-sm text-gray-600">
-              {error.message}
-            </p>
-            
+
+            <p className="mt-1 text-sm text-gray-600">{error.message}</p>
+
             {error.details && import.meta.env.DEV && (
               <details className="mt-2">
                 <summary className="text-xs text-gray-500 cursor-pointer">
@@ -156,7 +158,7 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
                 </pre>
               </details>
             )}
-            
+
             {onRetry && (
               <div className="mt-3 flex space-x-2">
                 <button
@@ -166,7 +168,7 @@ export const ErrorToast: React.FC<ErrorToastProps> = ({
                   <RefreshCw className="w-3 h-3 mr-1" />
                   {getRetryText(error.code)}
                 </button>
-                
+
                 <button
                   onClick={handleClose}
                   className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
@@ -200,16 +202,12 @@ export const useErrorToast = () => {
   };
 
   const ErrorToastComponent = () => (
-    <ErrorToast
-      error={error}
-      onClose={hideError}
-      onRetry={retryFunction || undefined}
-    />
+    <ErrorToast error={error} onClose={hideError} onRetry={retryFunction || undefined} />
   );
 
   return {
     showError,
     hideError,
-    ErrorToastComponent
+    ErrorToastComponent,
   };
 };

@@ -55,10 +55,7 @@ const notificationConfig = {
   },
 };
 
-export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
-  notification,
-  onClose,
-}) => {
+export const ErrorNotification: React.FC<ErrorNotificationProps> = ({ notification, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
@@ -113,9 +110,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
             <h4 className={`font-semibold text-sm ${config.titleColor} mb-1`}>
               {notification.title}
             </h4>
-            <p className={`text-sm ${config.textColor} leading-relaxed`}>
-              {notification.message}
-            </p>
+            <p className={`text-sm ${config.textColor} leading-relaxed`}>{notification.message}</p>
 
             {/* Action Button */}
             {notification.action && (
@@ -165,11 +160,7 @@ export const NotificationContainer: React.FC<NotificationContainerProps> = ({
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2 max-w-sm">
       {notifications.map((notification) => (
-        <ErrorNotification
-          key={notification.id}
-          notification={notification}
-          onClose={onClose}
-        />
+        <ErrorNotification key={notification.id} notification={notification} onClose={onClose} />
       ))}
     </div>
   );

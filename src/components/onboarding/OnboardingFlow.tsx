@@ -75,7 +75,7 @@ export const OnboardingFlow = () => {
 
       // Validate data before sending to Supabase
       const validation = validateProfileUpdate(updateData);
-      
+
       if (!validation.isValid) {
         console.error('Validation errors:', validation.errors);
         throw new Error('Invalid data: ' + validation.errors.join(', '));
@@ -98,7 +98,9 @@ export const OnboardingFlow = () => {
       console.error('Failed to complete onboarding:', error);
       // Even if there's an error, we'll allow them to proceed
       // They can always update their profile later
-      alert('Houve um problema ao salvar suas preferências, mas você já pode começar a usar o app!');
+      alert(
+        'Houve um problema ao salvar suas preferências, mas você já pode começar a usar o app!'
+      );
 
       // Force a profile refresh anyway
       await refreshProfile();

@@ -26,11 +26,11 @@ interface ProductDetailModalProps {
   onAddToCart?: (product: any) => void;
 }
 
-export const ProductDetailModal = ({ 
-  product, 
-  isOpen, 
-  onClose, 
-  onAddToCart 
+export const ProductDetailModal = ({
+  product,
+  isOpen,
+  onClose,
+  onAddToCart,
 }: ProductDetailModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -39,15 +39,11 @@ export const ProductDetailModal = ({
   if (!isOpen) return null;
 
   const handlePreviousImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? product.images.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
   };
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === product.images.length - 1 ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
   };
 
   const handleAddToCart = () => {
@@ -56,7 +52,7 @@ export const ProductDetailModal = ({
         ...product,
         selectedSize,
         selectedColor,
-        quantity: 1
+        quantity: 1,
       });
     }
   };
@@ -72,9 +68,7 @@ export const ProductDetailModal = ({
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
-          <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
-            {product.name}
-          </h2>
+          <h2 className="text-xl font-bold text-neutral-900 dark:text-white">{product.name}</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
@@ -87,12 +81,12 @@ export const ProductDetailModal = ({
           {/* Image Gallery */}
           <div className="lg:w-1/2 relative bg-neutral-50 dark:bg-neutral-800">
             <div className="relative h-64 lg:h-full">
-                <OptimizedImage
-                  src={product.images[currentImageIndex]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              
+              <OptimizedImage
+                src={product.images[currentImageIndex]}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+
               {/* Navigation arrows */}
               {product.images.length > 1 && (
                 <>
@@ -119,9 +113,7 @@ export const ProductDetailModal = ({
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={`w-2 h-2 rounded-full transition-colors ${
-                        index === currentImageIndex 
-                          ? 'bg-white' 
-                          : 'bg-white/50'
+                        index === currentImageIndex ? 'bg-white' : 'bg-white/50'
                       }`}
                     />
                   ))}
@@ -137,8 +129,8 @@ export const ProductDetailModal = ({
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
-                      index === currentImageIndex 
-                        ? 'border-primary-500' 
+                      index === currentImageIndex
+                        ? 'border-primary-500'
                         : 'border-transparent hover:border-neutral-300'
                     }`}
                   >
@@ -203,9 +195,7 @@ export const ProductDetailModal = ({
 
               {/* Description */}
               <div>
-                <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">
-                  Descrição
-                </h3>
+                <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">Descrição</h3>
                 <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
                   {product.description}
                 </p>
@@ -214,9 +204,7 @@ export const ProductDetailModal = ({
               {/* Sizes */}
               {product.sizes && product.sizes.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">
-                    Tamanhos
-                  </h3>
+                  <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">Tamanhos</h3>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size) => (
                       <button
@@ -238,9 +226,7 @@ export const ProductDetailModal = ({
               {/* Colors */}
               {product.colors && product.colors.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">
-                    Cores
-                  </h3>
+                  <h3 className="font-semibold text-neutral-900 dark:text-white mb-2">Cores</h3>
                   <div className="flex flex-wrap gap-2">
                     {product.colors.map((color) => (
                       <button
@@ -261,12 +247,18 @@ export const ProductDetailModal = ({
 
               {/* Stock status */}
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  product.inStock ? 'bg-green-500' : 'bg-red-500'
-                }`} />
-                <span className={`text-sm ${
-                  product.inStock ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                }`}>
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    product.inStock ? 'bg-green-500' : 'bg-red-500'
+                  }`}
+                />
+                <span
+                  className={`text-sm ${
+                    product.inStock
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  }`}
+                >
                   {product.inStock ? 'Em estoque' : 'Fora de estoque'}
                 </span>
               </div>
@@ -291,10 +283,7 @@ export const ProductDetailModal = ({
                       <ShoppingBag className="w-4 h-4 mr-2" />
                       Adicionar ao Carrinho
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="px-4"
-                    >
+                    <Button variant="outline" className="px-4">
                       <Heart className="w-4 h-4" />
                     </Button>
                   </>

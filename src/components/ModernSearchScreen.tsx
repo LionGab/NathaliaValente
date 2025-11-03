@@ -4,18 +4,18 @@
  */
 
 import { useState, useEffect } from 'react';
-import { 
-  Search, 
-  X, 
-  Filter, 
-  Clock, 
-  TrendingUp, 
-  Users, 
+import {
+  Search,
+  X,
+  Filter,
+  Clock,
+  TrendingUp,
+  Users,
   MessageCircle,
   Heart,
   Star,
   ArrowLeft,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 
 interface ModernSearchScreenProps {
@@ -31,14 +31,14 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
     'sono do bebê',
     'dicas de organização',
     'versículo do dia',
-    'roupas de maternidade'
+    'roupas de maternidade',
   ]);
   const [trendingTopics, setTrendingTopics] = useState([
     { id: 1, title: 'Primeira gravidez', count: 234, category: 'Gravidez' },
     { id: 2, title: 'Amamentação', count: 189, category: 'Bebê' },
     { id: 3, title: 'Organização', count: 156, category: 'Lifestyle' },
     { id: 4, title: 'Fé e maternidade', count: 143, category: 'Espiritualidade' },
-    { id: 5, title: 'Exercícios pós-parto', count: 98, category: 'Saúde' }
+    { id: 5, title: 'Exercícios pós-parto', count: 98, category: 'Saúde' },
   ]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -58,7 +58,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
             content: 'Compartilhando minha experiência com amamentação...',
             likes: 24,
             comments: 8,
-            time: '2h'
+            time: '2h',
           },
           {
             id: 2,
@@ -66,7 +66,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
             title: 'Grupo: Amamentação & Apoio',
             members: 156,
             description: 'Comunidade para trocar experiências sobre amamentação',
-            category: 'Amamentação'
+            category: 'Amamentação',
           },
           {
             id: 3,
@@ -74,8 +74,8 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
             name: 'Ana Costa',
             avatar: '👩‍👦',
             bio: 'Mãe de 2 filhos, compartilhando dicas de organização',
-            followers: 89
-          }
+            followers: 89,
+          },
         ];
         setSearchResults(mockResults);
         setIsSearching(false);
@@ -119,7 +119,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          
+
           <div className="flex-1 relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="w-5 h-5 text-gray-400" />
@@ -141,7 +141,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
               </button>
             )}
           </div>
-          
+
           <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
             <Filter className="w-6 h-6" />
           </button>
@@ -157,9 +157,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Buscas recentes
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Buscas recentes</h3>
               </div>
               <div className="space-y-2">
                 {recentSearches.map((search, index) => (
@@ -181,9 +179,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-5 h-5 text-pink-500" />
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Tópicos em alta
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Tópicos em alta</h3>
               </div>
               <div className="space-y-3">
                 {trendingTopics.map((topic) => (
@@ -227,7 +223,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
                     Resultados para "{query}"
                   </h3>
                 </div>
-                
+
                 {searchResults.map((result) => {
                   const Icon = getResultIcon(result.type);
                   return (
@@ -266,9 +262,7 @@ export const ModernSearchScreen = ({ onClose, onResultSelect }: ModernSearchScre
                                 {result.members} membros
                               </span>
                             )}
-                            {result.time && (
-                              <span>{result.time}</span>
-                            )}
+                            {result.time && <span>{result.time}</span>}
                           </div>
                         </div>
                       </div>

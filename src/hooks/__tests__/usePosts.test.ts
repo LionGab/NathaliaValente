@@ -190,7 +190,7 @@ describe('usePosts', () => {
 
       // Mock de erro em ambos RPC e fallback
       vi.mocked(supabase.rpc).mockRejectedValue(new Error('Network error'));
-      
+
       const mockQuery = {
         select: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
@@ -384,7 +384,7 @@ describe('usePosts', () => {
       const { result } = renderHook(() => usePosts({ enabled: false }));
 
       // Aguardar um pouco para garantir que nÃ£o hÃ¡ chamadas
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect(result.current.loading).toBe(false);
       expect(result.current.posts).toEqual([]);

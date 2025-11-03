@@ -20,7 +20,7 @@ export const PrivacySettingsPage: React.FC = () => {
     allow_direct_messages: 'followers_only',
     show_online_status: true,
     allow_profile_discovery: true,
-    data_retention_days: 365
+    data_retention_days: 365,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -40,7 +40,8 @@ export const PrivacySettingsPage: React.FC = () => {
         .eq('user_id', user.id)
         .single();
 
-      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 = no rows returned
         console.error('Erro ao carregar configurações:', error);
         return;
       }
@@ -52,7 +53,7 @@ export const PrivacySettingsPage: React.FC = () => {
           allow_direct_messages: data.allow_direct_messages || 'followers_only',
           show_online_status: data.show_online_status ?? true,
           allow_profile_discovery: data.allow_profile_discovery ?? true,
-          data_retention_days: data.data_retention_days || 365
+          data_retention_days: data.data_retention_days || 365,
         });
       }
     } catch (error) {
@@ -67,13 +68,11 @@ export const PrivacySettingsPage: React.FC = () => {
 
     setIsSaving(true);
     try {
-      const { error } = await supabase
-        .from('privacy_settings')
-        .upsert({
-          user_id: user.id,
-          ...settings,
-          updated_at: new Date().toISOString()
-        });
+      const { error } = await supabase.from('privacy_settings').upsert({
+        user_id: user.id,
+        ...settings,
+        updated_at: new Date().toISOString(),
+      });
 
       if (error) throw error;
 
@@ -96,7 +95,7 @@ export const PrivacySettingsPage: React.FC = () => {
         supabase.from('comments').select('*').eq('user_id', user.id),
         supabase.from('post_likes').select('*').eq('user_id', user.id),
         supabase.from('saved_items').select('*').eq('user_id', user.id),
-        supabase.from('chat_messages').select('*').eq('user_id', user.id)
+        supabase.from('chat_messages').select('*').eq('user_id', user.id),
       ]);
 
       const userData = {
@@ -106,7 +105,7 @@ export const PrivacySettingsPage: React.FC = () => {
         likes: likes.data,
         saved_items: savedItems.data,
         chat_messages: chatMessages.data,
-        exported_at: new Date().toISOString()
+        exported_at: new Date().toISOString(),
       };
 
       // Download as JSON file
@@ -136,7 +135,7 @@ export const PrivacySettingsPage: React.FC = () => {
         supabase.from('saved_items').delete().eq('user_id', user.id),
         supabase.from('chat_messages').delete().eq('user_id', user.id),
         supabase.from('privacy_settings').delete().eq('user_id', user.id),
-        supabase.from('profiles').delete().eq('id', user.id)
+        supabase.from('profiles').delete().eq('id', user.id),
       ]);
 
       // Sign out user
@@ -171,7 +170,7 @@ export const PrivacySettingsPage: React.FC = () => {
           <Eye className="w-5 h-5" />
           Visibilidade de Conteúdo
         </h2>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -179,10 +178,15 @@ export const PrivacySettingsPage: React.FC = () => {
             </label>
             <select
               value={settings.default_post_visibility}
-              onChange={(e) => setSettings(prev => ({ 
-                ...prev, 
-                default_post_visibility: e.target.value as 'public' | 'followers_only' | 'private' 
-              }))}
+              onChange={(e) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  default_post_visibility: e.target.value as
+                    | 'public'
+                    | 'followers_only'
+                    | 'private',
+                }))
+              }
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
             >
               <option value="public">Público - Qualquer pessoa pode ver</option>
@@ -197,7 +201,9 @@ export const PrivacySettingsPage: React.FC = () => {
               <p className="text-sm text-gray-600">Outras pessoas podem comentar suas postagens</p>
             </div>
             <button
-              onClick={() => setSettings(prev => ({ ...prev, allow_comments: !prev.allow_comments }))}
+              onClick={() =>
+                setSettings((prev) => ({ ...prev, allow_comments: !prev.allow_comments }))
+              }
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                 settings.allow_comments ? 'bg-pink-500' : 'bg-gray-200'
               }`}
@@ -218,7 +224,7 @@ export const PrivacySettingsPage: React.FC = () => {
           <Users className="w-5 h-5" />
           Interações Sociais
         </h2>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -226,10 +232,12 @@ export const PrivacySettingsPage: React.FC = () => {
             </label>
             <select
               value={settings.allow_direct_messages}
-              onChange={(e) => setSettings(prev => ({ 
-                ...prev, 
-                allow_direct_messages: e.target.value as 'everyone' | 'followers_only' | 'none' 
-              }))}
+              onChange={(e) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  allow_direct_messages: e.target.value as 'everyone' | 'followers_only' | 'none',
+                }))
+              }
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
             >
               <option value="everyone">Qualquer pessoa</option>
@@ -241,10 +249,14 @@ export const PrivacySettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium text-gray-900">Mostrar status online</h3>
-              <p className="text-sm text-gray-600">Outras pessoas podem ver quando você está ativa</p>
+              <p className="text-sm text-gray-600">
+                Outras pessoas podem ver quando você está ativa
+              </p>
             </div>
             <button
-              onClick={() => setSettings(prev => ({ ...prev, show_online_status: !prev.show_online_status }))}
+              onClick={() =>
+                setSettings((prev) => ({ ...prev, show_online_status: !prev.show_online_status }))
+              }
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                 settings.show_online_status ? 'bg-pink-500' : 'bg-gray-200'
               }`}
@@ -260,10 +272,17 @@ export const PrivacySettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium text-gray-900">Permitir descoberta de perfil</h3>
-              <p className="text-sm text-gray-600">Seu perfil pode aparecer em sugestões para outras pessoas</p>
+              <p className="text-sm text-gray-600">
+                Seu perfil pode aparecer em sugestões para outras pessoas
+              </p>
             </div>
             <button
-              onClick={() => setSettings(prev => ({ ...prev, allow_profile_discovery: !prev.allow_profile_discovery }))}
+              onClick={() =>
+                setSettings((prev) => ({
+                  ...prev,
+                  allow_profile_discovery: !prev.allow_profile_discovery,
+                }))
+              }
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                 settings.allow_profile_discovery ? 'bg-pink-500' : 'bg-gray-200'
               }`}
@@ -284,7 +303,7 @@ export const PrivacySettingsPage: React.FC = () => {
           <Lock className="w-5 h-5" />
           Gerenciamento de Dados
         </h2>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -292,10 +311,12 @@ export const PrivacySettingsPage: React.FC = () => {
             </label>
             <select
               value={settings.data_retention_days}
-              onChange={(e) => setSettings(prev => ({ 
-                ...prev, 
-                data_retention_days: parseInt(e.target.value) 
-              }))}
+              onChange={(e) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  data_retention_days: parseInt(e.target.value),
+                }))
+              }
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
             >
               <option value={30}>30 dias</option>
@@ -317,7 +338,7 @@ export const PrivacySettingsPage: React.FC = () => {
               <Download className="w-4 h-4" />
               Exportar Meus Dados
             </button>
-            
+
             <button
               onClick={() => setShowDeleteConfirm(true)}
               className="flex-1 py-3 px-4 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"

@@ -12,21 +12,21 @@ const sizeClasses = {
   sm: 'w-4 h-4',
   md: 'w-6 h-6',
   lg: 'w-8 h-8',
-  xl: 'w-12 h-12'
+  xl: 'w-12 h-12',
 };
 
 const colorClasses = {
   primary: 'text-primary-500',
   secondary: 'text-secondary-500',
   white: 'text-white',
-  gray: 'text-neutral-500'
+  gray: 'text-neutral-500',
 };
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 'md',
   color = 'primary',
   className,
-  text
+  text,
 }) => {
   const loadingText = text || 'Carregando...';
 
@@ -47,9 +47,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       />
       <span className="sr-only">{loadingText}</span>
       {text && (
-        <p className={cn('text-sm font-medium animate-fade-in', colorClasses[color])}>
-          {text}
-        </p>
+        <p className={cn('text-sm font-medium animate-fade-in', colorClasses[color])}>{text}</p>
       )}
     </div>
   );

@@ -4,16 +4,16 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  Bell, 
-  BellOff, 
-  CheckCircle, 
-  Heart, 
-  MessageCircle, 
-  Sun, 
+import {
+  Bell,
+  BellOff,
+  CheckCircle,
+  Heart,
+  MessageCircle,
+  Sun,
   Moon,
   ArrowRight,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import { notificationsService } from '../../services/notifications.service';
 import { Button } from '../ui/Button';
@@ -30,32 +30,32 @@ const notificationBenefits = [
     icon: <Sun className="w-6 h-6" />,
     title: 'Frase do Dia',
     description: 'Sua dose diária de inspiração às 8h',
-    color: 'text-yellow-500'
+    color: 'text-yellow-500',
   },
   {
     icon: <MessageCircle className="w-6 h-6" />,
     title: 'Conexões Sociais',
     description: 'Saiba quando alguém interage com você',
-    color: 'text-blue-500'
+    color: 'text-blue-500',
   },
   {
     icon: <Heart className="w-6 h-6" />,
     title: 'Apoio Emocional',
     description: 'Lembretes gentis para seu bem-estar',
-    color: 'text-pink-500'
+    color: 'text-pink-500',
   },
   {
     icon: <Moon className="w-6 h-6" />,
     title: 'Horário Silencioso',
     description: 'Não te incomodamos durante seu descanso',
-    color: 'text-purple-500'
-  }
+    color: 'text-purple-500',
+  },
 ];
 
 export const NotificationOnboarding: React.FC<NotificationOnboardingProps> = ({
   onComplete,
   onSkip,
-  userName
+  userName,
 }) => {
   const [isRequesting, setIsRequesting] = useState(false);
   const [permission, setPermission] = useState<NotificationPermission>('default');
@@ -63,17 +63,17 @@ export const NotificationOnboarding: React.FC<NotificationOnboardingProps> = ({
 
   const requestPermission = async () => {
     setIsRequesting(true);
-    
+
     try {
       const newPermission = await notificationsService.requestPermission();
       setPermission(newPermission);
-      
+
       if (newPermission === 'granted') {
         setShowSuccess(true);
-        
+
         // Agendar notificações diárias
         await notificationsService.scheduleDailyNotifications(userName);
-        
+
         setTimeout(() => {
           onComplete();
         }, 2000);
@@ -111,7 +111,7 @@ export const NotificationOnboarding: React.FC<NotificationOnboardingProps> = ({
               <Sparkles className="w-4 h-4 text-yellow-800" />
             </div>
           </div>
-          
+
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Fique Conectada, {userName}! 💜
           </h1>
@@ -123,7 +123,7 @@ export const NotificationOnboarding: React.FC<NotificationOnboardingProps> = ({
         {/* Benefits Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {notificationBenefits.map((benefit, index) => (
-            <div 
+            <div
               key={index}
               className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700"
             >
@@ -135,9 +135,7 @@ export const NotificationOnboarding: React.FC<NotificationOnboardingProps> = ({
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                     {benefit.title}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {benefit.description}
-                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{benefit.description}</p>
                 </div>
               </div>
             </div>

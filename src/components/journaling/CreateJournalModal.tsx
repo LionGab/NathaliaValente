@@ -4,16 +4,7 @@
 // =====================================================
 
 import React, { useState, useEffect } from 'react';
-import { 
-  X, 
-  BookOpen, 
-  Heart, 
-  Send,
-  Sparkles,
-  Shuffle,
-  Clock,
-  Target
-} from 'lucide-react';
+import { X, BookOpen, Heart, Send, Sparkles, Shuffle, Clock, Target } from 'lucide-react';
 import { journalingService, JournalEntry, JournalPrompt } from '../../services/journaling.service';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
@@ -33,7 +24,7 @@ const moodOptions = [
     label: 'Feliz',
     color: 'text-yellow-600',
     bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-    borderColor: 'border-yellow-200 dark:border-yellow-800'
+    borderColor: 'border-yellow-200 dark:border-yellow-800',
   },
   {
     id: 'grateful',
@@ -41,7 +32,7 @@ const moodOptions = [
     label: 'Grata',
     color: 'text-green-600',
     bgColor: 'bg-green-50 dark:bg-green-900/20',
-    borderColor: 'border-green-200 dark:border-green-800'
+    borderColor: 'border-green-200 dark:border-green-800',
   },
   {
     id: 'peaceful',
@@ -49,7 +40,7 @@ const moodOptions = [
     label: 'Pacífica',
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-    borderColor: 'border-indigo-200 dark:border-indigo-800'
+    borderColor: 'border-indigo-200 dark:border-indigo-800',
   },
   {
     id: 'neutral',
@@ -57,7 +48,7 @@ const moodOptions = [
     label: 'Neutro',
     color: 'text-gray-600',
     bgColor: 'bg-gray-50 dark:bg-gray-900/20',
-    borderColor: 'border-gray-200 dark:border-gray-800'
+    borderColor: 'border-gray-200 dark:border-gray-800',
   },
   {
     id: 'tired',
@@ -65,7 +56,7 @@ const moodOptions = [
     label: 'Cansada',
     color: 'text-purple-600',
     bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    borderColor: 'border-purple-200 dark:border-purple-800'
+    borderColor: 'border-purple-200 dark:border-purple-800',
   },
   {
     id: 'anxious',
@@ -73,7 +64,7 @@ const moodOptions = [
     label: 'Ansiosa',
     color: 'text-orange-600',
     bgColor: 'bg-orange-50 dark:bg-orange-900/20',
-    borderColor: 'border-orange-200 dark:border-orange-800'
+    borderColor: 'border-orange-200 dark:border-orange-800',
   },
   {
     id: 'sad',
@@ -81,7 +72,7 @@ const moodOptions = [
     label: 'Triste',
     color: 'text-blue-600',
     bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-    borderColor: 'border-blue-200 dark:border-blue-800'
+    borderColor: 'border-blue-200 dark:border-blue-800',
   },
   {
     id: 'overwhelmed',
@@ -89,20 +80,29 @@ const moodOptions = [
     label: 'Sobrecarregada',
     color: 'text-red-600',
     bgColor: 'bg-red-50 dark:bg-red-900/20',
-    borderColor: 'border-red-200 dark:border-red-800'
-  }
+    borderColor: 'border-red-200 dark:border-red-800',
+  },
 ];
 
 const commonTags = [
-  'Gratidão', 'Reflexão', 'Crescimento', 'Fé', 'Maternidade',
-  'Desafios', 'Alegria', 'Esperança', 'Paz', 'Amor', 'Família'
+  'Gratidão',
+  'Reflexão',
+  'Crescimento',
+  'Fé',
+  'Maternidade',
+  'Desafios',
+  'Alegria',
+  'Esperança',
+  'Paz',
+  'Amor',
+  'Família',
 ];
 
 export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
   isOpen,
   onClose,
   onJournalCreated,
-  initialPrompt
+  initialPrompt,
 }) => {
   const { user } = useAuth();
   const [content, setContent] = useState('');
@@ -126,7 +126,7 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
     try {
       const prompts = await journalingService.getJournalPrompts({ limit: 20 });
       setAvailablePrompts(prompts);
-      
+
       // Selecionar prompt aleatório se não houver um inicial
       if (!selectedPrompt && prompts.length > 0) {
         const randomIndex = Math.floor(Math.random() * prompts.length);
@@ -147,16 +147,12 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
   };
 
   const handleTagToggle = (tag: string) => {
-    setTags(prev => 
-      prev.includes(tag) 
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
+    setTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!user) {
       setError('Você precisa estar logada para criar uma entrada de journal');
       return;
@@ -182,7 +178,7 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
         mood: mood as any,
         prompt_id: selectedPrompt?.id,
         tags,
-        is_private: isPrivate
+        is_private: isPrivate,
       });
 
       if (newEntry) {
@@ -209,7 +205,7 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
     onClose();
   };
 
-  const selectedMood = moodOptions.find(m => m.id === mood) || moodOptions[3];
+  const selectedMood = moodOptions.find((m) => m.id === mood) || moodOptions[3];
 
   if (!isOpen) return null;
 
@@ -239,7 +235,10 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)]"
+        >
           {/* Prompt Selection */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
@@ -308,9 +307,11 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
                   }`}
                 >
                   <div className="text-2xl mb-1">{moodOption.emoji}</div>
-                  <div className={`text-xs font-medium ${
-                    mood === moodOption.id ? moodOption.color : 'text-gray-700 dark:text-gray-300'
-                  }`}>
+                  <div
+                    className={`text-xs font-medium ${
+                      mood === moodOption.id ? moodOption.color : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
                     {moodOption.label}
                   </div>
                 </button>
@@ -337,9 +338,7 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
                 {content.length}/5000 caracteres
               </p>
               {content.length < 10 && content.length > 0 && (
-                <p className="text-xs text-orange-500">
-                  Mínimo 10 caracteres
-                </p>
+                <p className="text-xs text-orange-500">Mínimo 10 caracteres</p>
               )}
             </div>
           </div>
@@ -383,10 +382,9 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
                     {isPrivate ? 'Entrada Privada' : 'Entrada Pública'}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {isPrivate 
-                      ? 'Apenas você pode ver esta entrada' 
-                      : 'Outras mães podem ver esta entrada (sem identificação)'
-                    }
+                    {isPrivate
+                      ? 'Apenas você pode ver esta entrada'
+                      : 'Outras mães podem ver esta entrada (sem identificação)'}
                   </p>
                 </div>
               </div>
@@ -411,12 +409,7 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
 
           {/* Ações */}
           <div className="flex gap-3">
-            <Button
-              type="button"
-              onClick={handleClose}
-              variant="outline"
-              className="flex-1"
-            >
+            <Button type="button" onClick={handleClose} variant="outline" className="flex-1">
               Cancelar
             </Button>
             <Button
@@ -441,8 +434,8 @@ export const CreateJournalModal: React.FC<CreateJournalModalProps> = ({
                 💜 Dica do ClubNath
               </h3>
               <p className="text-sm text-pink-800 dark:text-pink-300">
-                O journaling é uma prática poderosa de autocuidado. Não se preocupe com a perfeição - 
-                o importante é expressar seus sentimentos e refletir sobre sua jornada.
+                O journaling é uma prática poderosa de autocuidado. Não se preocupe com a perfeição
+                - o importante é expressar seus sentimentos e refletir sobre sua jornada.
               </p>
             </div>
           </div>

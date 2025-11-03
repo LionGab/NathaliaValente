@@ -4,7 +4,18 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Heart, Sparkles, AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  ArrowRight,
+  Heart,
+  Sparkles,
+  AlertCircle,
+  CheckCircle,
+} from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface ModernSignUpScreenProps {
@@ -15,18 +26,18 @@ interface ModernSignUpScreenProps {
   error?: string;
 }
 
-export const ModernSignUpScreen = ({ 
-  onSignUp, 
-  onSocialSignUp, 
-  onLogin, 
+export const ModernSignUpScreen = ({
+  onSignUp,
+  onSocialSignUp,
+  onLogin,
   isLoading = false,
-  error 
+  error,
 }: ModernSignUpScreenProps) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -57,31 +68,43 @@ export const ModernSignUpScreen = ({
   }, [formData]);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (Object.keys(errors).length > 0) return;
     if (!formData.name || !formData.email || !formData.password) return;
 
     await onSignUp({
       name: formData.name,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
     });
   };
 
-  const canSubmit = formData.name && formData.email && formData.password && formData.confirmPassword && Object.keys(errors).length === 0 && !isLoading;
+  const canSubmit =
+    formData.name &&
+    formData.email &&
+    formData.password &&
+    formData.confirmPassword &&
+    Object.keys(errors).length === 0 &&
+    !isLoading;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-200/20 dark:bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/10 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '1s' }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/10 dark:bg-indigo-500/5 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '2s' }}
+        ></div>
       </div>
 
       <div className="w-full max-w-md relative z-10">
@@ -96,10 +119,8 @@ export const ModernSignUpScreen = ({
               <Sparkles className="w-3 h-3 text-white" />
             </div>
           </div>
-          
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Junte-se a nós
-          </h1>
+
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Junte-se a nós</h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Faça parte da nossa comunidade de mães
           </p>
@@ -115,9 +136,11 @@ export const ModernSignUpScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'name' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <User
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'name' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type="text"
@@ -130,8 +153,8 @@ export const ModernSignUpScreen = ({
                     errors.name
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'name'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 {formData.name && !errors.name && (
@@ -155,9 +178,11 @@ export const ModernSignUpScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'email' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <Mail
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'email' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type="email"
@@ -170,8 +195,8 @@ export const ModernSignUpScreen = ({
                     errors.email
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'email'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 {formData.email && !errors.email && (
@@ -195,9 +220,11 @@ export const ModernSignUpScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'password' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <Lock
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'password' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -210,8 +237,8 @@ export const ModernSignUpScreen = ({
                     errors.password
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'password'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 <button
@@ -237,9 +264,11 @@ export const ModernSignUpScreen = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`w-5 h-5 transition-colors duration-200 ${
-                    isFocused === 'confirmPassword' ? 'text-pink-500' : 'text-gray-400'
-                  }`} />
+                  <Lock
+                    className={`w-5 h-5 transition-colors duration-200 ${
+                      isFocused === 'confirmPassword' ? 'text-pink-500' : 'text-gray-400'
+                    }`}
+                  />
                 </div>
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -252,8 +281,8 @@ export const ModernSignUpScreen = ({
                     errors.confirmPassword
                       ? 'border-red-300 bg-red-50 dark:bg-red-900/20'
                       : isFocused === 'confirmPassword'
-                      ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
-                      : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
+                        ? 'border-pink-400 bg-pink-50 dark:bg-pink-900/20'
+                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700'
                   }`}
                 />
                 <button
@@ -261,7 +290,11 @@ export const ModernSignUpScreen = ({
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.confirmPassword && (
@@ -339,9 +372,7 @@ export const ModernSignUpScreen = ({
               <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
                 <span className="text-black text-xs font-bold">🍎</span>
               </div>
-              <span className="font-semibold group-hover:text-gray-200">
-                Apple
-              </span>
+              <span className="font-semibold group-hover:text-gray-200">Apple</span>
             </button>
 
             <button
@@ -351,9 +382,7 @@ export const ModernSignUpScreen = ({
               <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
                 <span className="text-blue-600 text-xs font-bold">f</span>
               </div>
-              <span className="font-semibold group-hover:text-blue-100">
-                Facebook
-              </span>
+              <span className="font-semibold group-hover:text-blue-100">Facebook</span>
             </button>
           </div>
 

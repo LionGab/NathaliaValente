@@ -4,13 +4,7 @@
  */
 
 import { useState } from 'react';
-import { 
-  User, 
-  Plus, 
-  Heart, 
-  Users, 
-  Star
-} from 'lucide-react';
+import { User, Plus, Heart, Users, Star } from 'lucide-react';
 
 interface SmartHeaderProps {
   onProfileClick: () => void;
@@ -18,11 +12,7 @@ interface SmartHeaderProps {
   onQuickAction: (action: string) => void;
 }
 
-export const SmartHeader = ({ 
-  onProfileClick, 
-  onCreatePost, 
-  onQuickAction 
-}: SmartHeaderProps) => {
+export const SmartHeader = ({ onProfileClick, onCreatePost, onQuickAction }: SmartHeaderProps) => {
   const [showQuickActions, setShowQuickActions] = useState(false);
 
   // Ações rápidas contextuais
@@ -31,28 +21,27 @@ export const SmartHeader = ({
       icon: Plus,
       label: 'Criar Post',
       color: 'bg-pink-500 hover:bg-pink-600',
-      onClick: onCreatePost
+      onClick: onCreatePost,
     },
     {
       icon: Heart,
       label: 'Favoritos',
       color: 'bg-red-500 hover:bg-red-600',
-      onClick: () => onQuickAction('favorites')
+      onClick: () => onQuickAction('favorites'),
     },
     {
       icon: Users,
       label: 'Grupos',
       color: 'bg-blue-500 hover:bg-blue-600',
-      onClick: () => onQuickAction('groups')
+      onClick: () => onQuickAction('groups'),
     },
     {
       icon: Star,
       label: 'Destaques',
       color: 'bg-yellow-500 hover:bg-yellow-600',
-      onClick: () => onQuickAction('highlights')
-    }
+      onClick: () => onQuickAction('highlights'),
+    },
   ];
-
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl shadow-sm">
@@ -77,10 +66,8 @@ export const SmartHeader = ({
             </div>
           </div>
 
-
           {/* Actions */}
           <div className="flex items-center gap-2">
-
             {/* Quick Actions Toggle */}
             <button
               onClick={() => setShowQuickActions(!showQuickActions)}

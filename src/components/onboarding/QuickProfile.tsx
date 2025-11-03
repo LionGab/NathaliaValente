@@ -18,7 +18,8 @@ export const QuickProfile = ({ fullName, onNext, onBack }: QuickProfileProps) =>
   const [nicknameOption, setNicknameOption] = useState<'first' | 'custom'>('first');
 
   const handleNext = () => {
-    const finalNickname = nicknameOption === 'first' ? firstName : customNickname.trim() || firstName;
+    const finalNickname =
+      nicknameOption === 'first' ? firstName : customNickname.trim() || firstName;
     onNext({
       nickname: finalNickname,
       avatarEmoji: selectedEmoji,
@@ -78,11 +79,13 @@ export const QuickProfile = ({ fullName, onNext, onBack }: QuickProfileProps) =>
             </label>
 
             {/* First Name Option */}
-            <label className="flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:bg-nath-pink-50 dark:hover:bg-claude-gray-800 ${
+            <label
+              className="flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:bg-nath-pink-50 dark:hover:bg-claude-gray-800 ${
               nicknameOption === 'first'
                 ? 'border-nath-pink-400 bg-nath-pink-50 dark:bg-nath-pink-900/20'
                 : 'border-claude-gray-200 dark:border-claude-gray-700'
-            }">
+            }"
+            >
               <input
                 type="radio"
                 name="nickname"
@@ -98,11 +101,13 @@ export const QuickProfile = ({ fullName, onNext, onBack }: QuickProfileProps) =>
             </label>
 
             {/* Custom Name Option */}
-            <label className={`flex items-start gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:bg-nath-pink-50 dark:hover:bg-claude-gray-800 ${
-              nicknameOption === 'custom'
-                ? 'border-nath-pink-400 bg-nath-pink-50 dark:bg-nath-pink-900/20'
-                : 'border-claude-gray-200 dark:border-claude-gray-700'
-            }`}>
+            <label
+              className={`flex items-start gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:bg-nath-pink-50 dark:hover:bg-claude-gray-800 ${
+                nicknameOption === 'custom'
+                  ? 'border-nath-pink-400 bg-nath-pink-50 dark:bg-nath-pink-900/20'
+                  : 'border-claude-gray-200 dark:border-claude-gray-700'
+              }`}
+            >
               <input
                 type="radio"
                 name="nickname"
@@ -130,10 +135,7 @@ export const QuickProfile = ({ fullName, onNext, onBack }: QuickProfileProps) =>
           </div>
 
           {/* Next Button */}
-          <button
-            onClick={handleNext}
-            className="btn-primary w-full py-4 text-base"
-          >
+          <button onClick={handleNext} className="btn-primary w-full py-4 text-base">
             Próximo →
           </button>
         </div>

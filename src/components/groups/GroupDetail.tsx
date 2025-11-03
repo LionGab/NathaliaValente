@@ -29,7 +29,7 @@ import {
   Bell,
   BellOff,
   Volume2,
-  VolumeX
+  VolumeX,
 } from 'lucide-react';
 import { groupsService } from '../../services/groups.service';
 import { Group, GroupPost, ReactionType, GroupMember } from '../../types/groups';
@@ -43,7 +43,7 @@ import {
   REACTION_EMOJIS,
   REACTION_LABELS,
   canManageGroup,
-  canModerateGroup
+  canModerateGroup,
 } from '../../types/groups';
 import { useAuth } from '../../contexts/AuthContext';
 import { useHapticFeedback } from '../../hooks/useGestures';
@@ -55,12 +55,7 @@ interface GroupDetailProps {
   onInvite?: (groupId: string) => void;
 }
 
-export const GroupDetail: React.FC<GroupDetailProps> = ({
-  groupId,
-  onBack,
-  onEdit,
-  onInvite
-}) => {
+export const GroupDetail: React.FC<GroupDetailProps> = ({ groupId, onBack, onEdit, onInvite }) => {
   const { user } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
   const queryClient = useQueryClient();
@@ -73,17 +68,17 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
   // Queries
   const { data: group, isLoading: groupLoading } = useQuery({
     queryKey: ['group', groupId],
-    queryFn: () => groupsService.getGroup(groupId)
+    queryFn: () => groupsService.getGroup(groupId),
   });
 
   const { data: posts = [], isLoading: postsLoading } = useQuery({
     queryKey: ['group-posts', groupId],
-    queryFn: () => groupsService.getGroupPosts(groupId, { groupId, limit: 50 })
+    queryFn: () => groupsService.getGroupPosts(groupId, { groupId, limit: 50 }),
   });
 
   const { data: members = [] } = useQuery({
     queryKey: ['group-members', groupId],
-    queryFn: () => groupsService.getGroupMembers(groupId, { groupId, limit: 100 })
+    queryFn: () => groupsService.getGroupMembers(groupId, { groupId, limit: 100 }),
   });
 
   // Mutations
@@ -93,7 +88,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
       queryClient.invalidateQueries({ queryKey: ['group-posts', groupId] });
       setNewPost('');
       triggerHaptic('light');
-    }
+    },
   });
 
   const reactToPostMutation = useMutation({
@@ -102,7 +97,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['group-posts', groupId] });
       triggerHaptic('light');
-    }
+    },
   });
 
   const joinGroupMutation = useMutation({
@@ -111,7 +106,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       queryClient.invalidateQueries({ queryKey: ['group-members', groupId] });
       triggerHaptic('medium');
-    }
+    },
   });
 
   const leaveGroupMutation = useMutation({
@@ -121,7 +116,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
       queryClient.invalidateQueries({ queryKey: ['group-members', groupId] });
       triggerHaptic('medium');
       onBack?.();
-    }
+    },
   });
 
   // Auto-scroll para novas mensagens
@@ -157,7 +152,7 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
         await navigator.share({
           title: group.name,
           text: group.description,
-          url: window.location.href
+          url: window.location.href,
         });
         triggerHaptic('light');
       } catch (error) {
@@ -198,24 +193,15 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="flex items-center gap-4">
-          <Button
-            onClick={onBack}
-            variant="ghost"
-            size="icon"
-            className="p-2"
-          >
+          <Button onClick={onBack} variant="ghost" size="icon" className="p-2">
             <ArrowLeft className="w-5 h-5" />
           </Button>
 
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xl">{getCategoryIcon(group.category)}</span>
-              <h1 className="text-lg font-bold text-gray-900 dark:text-white">
-                {group.name}
-              </h1>
-              {group.is_private && (
-                <div className="w-2 h-2 bg-orange-500 rounded-full" />
-              )}
+              <h1 className="text-lg font-bold text-gray-900 dark:text-white">{group.name}</h1>
+              {group.is_private && <div className="w-2 h-2 bg-orange-500 rounded-full" />}
             </div>
 
             <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
@@ -246,21 +232,12 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
               </Button>
             )}
 
-            <Button
-              onClick={handleShareGroup}
-              variant="ghost"
-              size="icon"
-              className="p-2"
-            >
+            <Button onClick={handleShareGroup} variant="ghost" size="icon" className="p-2">
               <Share2 className="w-5 h-5" />
             </Button>
 
             <div className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="p-2"
-              >
+              <Button variant="ghost" size="icon" className="p-2">
                 <MoreVertical className="w-5 h-5" />
               </Button>
             </div>
@@ -281,20 +258,22 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                 </p>
 
                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getCategoryColor(group.category)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r ${getCategoryColor(group.category)}`}
+                  >
                     {group.category}
                   </span>
                   <span>Criado {formatGroupAge(group.created_at)}</span>
-                  {group.creator && (
-                    <span>por {group.creator.full_name}</span>
-                  )}
+                  {group.creator && <span>por {group.creator.full_name}</span>}
                 </div>
               </div>
 
               {!isMember && (
                 <Button
                   onClick={handleJoinGroup}
-                  disabled={joinGroupMutation.isPending || group.current_members >= group.max_members}
+                  disabled={
+                    joinGroupMutation.isPending || group.current_members >= group.max_members
+                  }
                   className="ml-4"
                 >
                   {group.current_members >= group.max_members ? 'Grupo Cheio' : 'Entrar no Grupo'}
@@ -340,7 +319,9 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                   post={post}
                   onReact={handleReactToPost}
                   showReactions={showReactions === post.id}
-                  onShowReactions={() => setShowReactions(showReactions === post.id ? null : post.id)}
+                  onShowReactions={() =>
+                    setShowReactions(showReactions === post.id ? null : post.id)
+                  }
                   canModerate={canModerate}
                 />
               ))
@@ -379,21 +360,11 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="p-2"
-                  >
+                  <Button type="button" variant="ghost" size="icon" className="p-2">
                     <Image className="w-5 h-5" />
                   </Button>
 
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="p-2"
-                  >
+                  <Button type="button" variant="ghost" size="icon" className="p-2">
                     <Smile className="w-5 h-5" />
                   </Button>
 
@@ -451,16 +422,17 @@ export const GroupDetail: React.FC<GroupDetailProps> = ({
                         <span className="font-medium text-gray-900 dark:text-white text-sm">
                           {member.user?.full_name}
                         </span>
-                        {member.role === 'admin' && (
-                          <Crown className="w-4 h-4 text-yellow-500" />
-                        )}
+                        {member.role === 'admin' && <Crown className="w-4 h-4 text-yellow-500" />}
                         {member.role === 'moderator' && (
                           <Shield className="w-4 h-4 text-blue-500" />
                         )}
                       </div>
                       <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {member.role === 'admin' ? 'Administradora' :
-                          member.role === 'moderator' ? 'Moderadora' : 'Membro'}
+                        {member.role === 'admin'
+                          ? 'Administradora'
+                          : member.role === 'moderator'
+                            ? 'Moderadora'
+                            : 'Membro'}
                       </span>
                     </div>
                   </div>
@@ -504,7 +476,7 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
   onReact,
   showReactions,
   onShowReactions,
-  canModerate
+  canModerate,
 }) => {
   const { user } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
@@ -536,9 +508,7 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
             <span className="font-semibold text-gray-900 dark:text-white text-sm">
               {post.user?.full_name}
             </span>
-            {post.is_pinned && (
-              <Pin className="w-4 h-4 text-yellow-500" />
-            )}
+            {post.is_pinned && <Pin className="w-4 h-4 text-yellow-500" />}
           </div>
           <span className="text-xs text-gray-500 dark:text-gray-400">
             {new Date(post.created_at).toLocaleString('pt-BR')}
@@ -559,9 +529,7 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
 
       {/* Conteúdo do Post */}
       <div className="mb-4">
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          {post.content}
-        </p>
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{post.content}</p>
 
         {post.media_url && (
           <div className="mt-3 rounded-xl overflow-hidden">
@@ -577,21 +545,23 @@ const GroupPostItem: React.FC<GroupPostItemProps> = ({
       {/* Reações */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {Object.entries(post.reactions_count || {}).map(([reaction, count]) => (
-            count > 0 && (
-              <button
-                key={reaction}
-                onClick={() => handleReact(reaction as ReactionType)}
-                className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all ${post.user_reaction === reaction
-                  ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
-                  : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+          {Object.entries(post.reactions_count || {}).map(
+            ([reaction, count]) =>
+              count > 0 && (
+                <button
+                  key={reaction}
+                  onClick={() => handleReact(reaction as ReactionType)}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all ${
+                    post.user_reaction === reaction
+                      ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
+                      : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
-              >
-                <span>{REACTION_EMOJIS[reaction as ReactionType]}</span>
-                <span>{count}</span>
-              </button>
-            )
-          ))}
+                >
+                  <span>{REACTION_EMOJIS[reaction as ReactionType]}</span>
+                  <span>{count}</span>
+                </button>
+              )
+          )}
 
           <Button
             onClick={onShowReactions}

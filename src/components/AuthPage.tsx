@@ -28,10 +28,11 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
         const { error } = await signUp(email, password, fullName);
         if (error) {
           // Mensagem amigável para e-mail já cadastrado ou erro comum
-          const errorMessage = error && typeof error === 'object' && 'message' in error 
-            ? String(error.message) 
-            : 'Erro ao criar conta.';
-          
+          const errorMessage =
+            error && typeof error === 'object' && 'message' in error
+              ? String(error.message)
+              : 'Erro ao criar conta.';
+
           if (errorMessage.toLowerCase().includes('user already registered')) {
             setError('Este e-mail já está cadastrado. Tente fazer login ou recuperar a senha.');
           } else {
@@ -48,10 +49,11 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
       } else {
         const { error } = await signIn(email, password);
         if (error) {
-          const errorMessage = error && typeof error === 'object' && 'message' in error 
-            ? String(error.message) 
-            : 'Erro ao entrar.';
-          
+          const errorMessage =
+            error && typeof error === 'object' && 'message' in error
+              ? String(error.message)
+              : 'Erro ao entrar.';
+
           if (errorMessage.toLowerCase().includes('invalid login credentials')) {
             setError('E-mail ou senha incorretos.');
           } else {
@@ -178,7 +180,7 @@ export const AuthPage = ({ onInstagramLogin }: AuthPageProps) => {
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-claude-gray-400" />
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

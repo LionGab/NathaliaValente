@@ -18,7 +18,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   onToggleFavorite,
   isFavorite = false,
-  variant = 'default'
+  variant = 'default',
 }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -26,7 +26,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: 'BRL',
     }).format(price);
   };
 
@@ -64,7 +64,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full h-32 object-cover"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
-          <div className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}>
+          <div
+            className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}
+          >
             {badge.text}
           </div>
           {product.discount && (
@@ -113,7 +115,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-          <div className={`absolute top-3 left-3 ${badge.bg} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
+          <div
+            className={`absolute top-3 left-3 ${badge.bg} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}
+          >
             {badge.text}
           </div>
           {product.discount && (
@@ -128,8 +132,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
 
           {/* Hover Actions */}
-          <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
-            }`}>
+          <div
+            className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-opacity duration-300 ${
+              isHovered ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
             <button
               onClick={() => onViewDetails(product)}
               className="bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
@@ -138,10 +145,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </button>
             <button
               onClick={() => onToggleFavorite(product.id)}
-              className={`p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ${isFavorite
-                  ? 'bg-red-500 text-white'
-                  : 'bg-white/90 hover:bg-white text-gray-900'
-                }`}
+              className={`p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ${
+                isFavorite ? 'bg-red-500 text-white' : 'bg-white/90 hover:bg-white text-gray-900'
+              }`}
             >
               <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
             </button>
@@ -162,10 +168,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < Math.floor(product.rating || 0)
+                  className={`w-4 h-4 ${
+                    i < Math.floor(product.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
-                    }`}
+                  }`}
                 />
               ))}
             </div>
@@ -185,18 +192,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 </span>
               )}
             </div>
-            {!product.inStock && (
-              <span className="text-sm text-red-500 font-medium">Esgotado</span>
-            )}
+            {!product.inStock && <span className="text-sm text-red-500 font-medium">Esgotado</span>}
           </div>
 
           <button
             onClick={() => onAddToCart(product)}
             disabled={!product.inStock}
-            className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${product.inStock
+            className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${
+              product.inStock
                 ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white hover:from-primary-600 hover:to-secondary-600 shadow-lg hover:shadow-xl'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
+            }`}
           >
             <ShoppingCart className="w-5 h-5 inline mr-2" />
             {product.inStock ? 'Adicionar ao Carrinho' : 'Produto Esgotado'}
@@ -216,7 +222,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           className="w-full h-48 object-cover"
           sizes="(max-width: 768px) 50vw, 25vw"
         />
-        <div className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}>
+        <div
+          className={`absolute top-2 left-2 ${badge.bg} text-white text-xs font-bold px-2 py-1 rounded-full`}
+        >
           {badge.text}
         </div>
         {product.discount && (

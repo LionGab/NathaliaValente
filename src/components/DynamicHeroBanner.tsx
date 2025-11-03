@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Calendar, 
-  Users, 
-  Heart, 
-  Star, 
-  ChevronLeft, 
+import {
+  Calendar,
+  Users,
+  Heart,
+  Star,
+  ChevronLeft,
   ChevronRight,
   Clock,
   MapPin,
-  User
+  User,
 } from 'lucide-react';
 
 interface CommunityHighlight {
@@ -34,7 +34,7 @@ const mockHighlights: CommunityHighlight[] = [
     date: '15/02/2024',
     location: 'Online',
     category: 'Amamentação',
-    likes: 45
+    likes: 45,
   },
   {
     id: '2',
@@ -43,7 +43,7 @@ const mockHighlights: CommunityHighlight[] = [
     description: '"A comunidade me ajudou a superar a ansiedade na gravidez"',
     author: 'Maria Silva',
     category: 'Depoimento',
-    likes: 32
+    likes: 32,
   },
   {
     id: '3',
@@ -51,7 +51,7 @@ const mockHighlights: CommunityHighlight[] = [
     title: 'Dica da Semana',
     description: 'Exercícios de respiração para aliviar dores nas costas',
     category: 'Bem-estar',
-    likes: 28
+    likes: 28,
   },
   {
     id: '4',
@@ -59,8 +59,8 @@ const mockHighlights: CommunityHighlight[] = [
     title: 'Conquista Coletiva',
     description: '1000+ mães conectadas esta semana!',
     category: 'Comunidade',
-    likes: 156
-  }
+    likes: 156,
+  },
 ];
 
 export const DynamicHeroBanner: React.FC = () => {
@@ -121,13 +121,15 @@ export const DynamicHeroBanner: React.FC = () => {
   return (
     <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-2xl">
       {/* Background with gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${getColorScheme(currentHighlight.type)} opacity-90`} />
-      
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${getColorScheme(currentHighlight.type)} opacity-90`}
+      />
+
       {/* Background pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
 
@@ -206,7 +208,7 @@ export const DynamicHeroBanner: React.FC = () => {
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
-          
+
           <button
             onClick={nextSlide}
             onMouseEnter={() => setIsAutoPlaying(false)}
@@ -228,9 +230,7 @@ export const DynamicHeroBanner: React.FC = () => {
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
             className={`w-2 h-2 rounded-full transition-all duration-200 ${
-              index === currentIndex 
-                ? 'bg-white scale-125' 
-                : 'bg-white/50 hover:bg-white/75'
+              index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
             }`}
             aria-label={`Ir para slide ${index + 1}`}
           />

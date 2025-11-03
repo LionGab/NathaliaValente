@@ -4,15 +4,7 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  X, 
-  Heart, 
-  AlertTriangle, 
-  Eye, 
-  EyeOff,
-  Send,
-  Sparkles
-} from 'lucide-react';
+import { X, Heart, AlertTriangle, Eye, EyeOff, Send, Sparkles } from 'lucide-react';
 import { prayersService, PrayerPost } from '../../services/prayers.service';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
@@ -32,7 +24,7 @@ const prayerCategories = [
     description: 'Expressar gratidão e reconhecimento',
     color: 'text-green-600',
     bgColor: 'bg-green-50 dark:bg-green-900/20',
-    borderColor: 'border-green-200 dark:border-green-800'
+    borderColor: 'border-green-200 dark:border-green-800',
   },
   {
     id: 'request',
@@ -41,7 +33,7 @@ const prayerCategories = [
     description: 'Solicitar ajuda e orientação',
     color: 'text-purple-600',
     bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    borderColor: 'border-purple-200 dark:border-purple-800'
+    borderColor: 'border-purple-200 dark:border-purple-800',
   },
   {
     id: 'intercession',
@@ -50,7 +42,7 @@ const prayerCategories = [
     description: 'Orar por outras pessoas',
     color: 'text-yellow-600',
     bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-    borderColor: 'border-yellow-200 dark:border-yellow-800'
+    borderColor: 'border-yellow-200 dark:border-yellow-800',
   },
   {
     id: 'praise',
@@ -59,14 +51,14 @@ const prayerCategories = [
     description: 'Adorar e celebrar',
     color: 'text-red-600',
     bgColor: 'bg-red-50 dark:bg-red-900/20',
-    borderColor: 'border-red-200 dark:border-red-800'
-  }
+    borderColor: 'border-red-200 dark:border-red-800',
+  },
 ];
 
 export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
   isOpen,
   onClose,
-  onPrayerCreated
+  onPrayerCreated,
 }) => {
   const { user } = useAuth();
   const [content, setContent] = useState('');
@@ -76,11 +68,11 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const selectedCategory = prayerCategories.find(cat => cat.id === category);
+  const selectedCategory = prayerCategories.find((cat) => cat.id === category);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!user) {
       setError('Você precisa estar logada para compartilhar uma oração');
       return;
@@ -105,7 +97,7 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
         content: content.trim(),
         category: category as any,
         is_anonymous: isAnonymous,
-        is_urgent: isUrgent
+        is_urgent: isUrgent,
       });
 
       if (newPrayer) {
@@ -179,15 +171,15 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-lg">{cat.icon}</span>
-                    <span className={`font-medium ${
-                      category === cat.id ? cat.color : 'text-gray-700 dark:text-gray-300'
-                    }`}>
+                    <span
+                      className={`font-medium ${
+                        category === cat.id ? cat.color : 'text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
                       {cat.label}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
-                    {cat.description}
-                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{cat.description}</p>
                 </button>
               ))}
             </div>
@@ -212,9 +204,7 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
                 {content.length}/1000 caracteres
               </p>
               {content.length < 10 && content.length > 0 && (
-                <p className="text-xs text-orange-500">
-                  Mínimo 10 caracteres
-                </p>
+                <p className="text-xs text-orange-500">Mínimo 10 caracteres</p>
               )}
             </div>
           </div>
@@ -231,9 +221,7 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
                   )}
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">
-                    Oração Anônima
-                  </h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Oração Anônima</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Sua identidade não será revelada
                   </p>
@@ -256,9 +244,7 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
                   <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">
-                    Oração Urgente
-                  </h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white">Oração Urgente</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Para situações que precisam de oração imediata
                   </p>
@@ -285,12 +271,7 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
 
           {/* Ações */}
           <div className="flex gap-3">
-            <Button
-              type="button"
-              onClick={handleClose}
-              variant="outline"
-              className="flex-1"
-            >
+            <Button type="button" onClick={handleClose} variant="outline" className="flex-1">
               Cancelar
             </Button>
             <Button
@@ -315,7 +296,8 @@ export const CreatePrayerModal: React.FC<CreatePrayerModalProps> = ({
                 💜 Dica do ClubNath
               </h3>
               <p className="text-sm text-pink-800 dark:text-pink-300">
-                Suas orações são abraçadas por toda a comunidade. Cada "Amém" é um abraço virtual de uma mãe que está orando com você.
+                Suas orações são abraçadas por toda a comunidade. Cada "Amém" é um abraço virtual de
+                uma mãe que está orando com você.
               </p>
             </div>
           </div>

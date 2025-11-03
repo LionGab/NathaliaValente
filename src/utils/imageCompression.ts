@@ -21,10 +21,7 @@ const DEFAULT_OPTIONS: CompressionOptions = {
  * Compress an image file
  * Returns a new File object with compressed image
  */
-export async function compressImage(
-  file: File,
-  options: CompressionOptions = {}
-): Promise<File> {
+export async function compressImage(file: File, options: CompressionOptions = {}): Promise<File> {
   const opts = { ...DEFAULT_OPTIONS, ...options };
 
   return new Promise((resolve, reject) => {

@@ -98,9 +98,7 @@ export class NotificationService {
   /**
    * Update user's notification preferences
    */
-  static async updatePreferences(
-    preferences: Partial<NotificationPreferences>
-  ): Promise<boolean> {
+  static async updatePreferences(preferences: Partial<NotificationPreferences>): Promise<boolean> {
     try {
       const {
         data: { user },
@@ -145,10 +143,7 @@ export class NotificationService {
   /**
    * Set quiet hours
    */
-  static async setQuietHours(
-    startTime: string | null,
-    endTime: string | null
-  ): Promise<boolean> {
+  static async setQuietHours(startTime: string | null, endTime: string | null): Promise<boolean> {
     return this.updatePreferences({
       quiet_hours_start: startTime,
       quiet_hours_end: endTime,
@@ -158,9 +153,7 @@ export class NotificationService {
   /**
    * Update followed categories for content notifications
    */
-  static async updateFollowedCategories(
-    categories: string[]
-  ): Promise<boolean> {
+  static async updateFollowedCategories(categories: string[]): Promise<boolean> {
     return this.updatePreferences({
       followed_categories: categories,
     });
@@ -468,16 +461,11 @@ export class NotificationService {
    * Send a notification (typically called from server/admin)
    * For client-side, this would be triggered by user actions (comments, likes, etc.)
    */
-  static async sendNotification(
-    request: SendNotificationRequest
-  ): Promise<unknown> {
+  static async sendNotification(request: SendNotificationRequest): Promise<unknown> {
     try {
-      const { data, error } = await supabase.functions.invoke(
-        'send-notification',
-        {
-          body: request,
-        }
-      );
+      const { data, error } = await supabase.functions.invoke('send-notification', {
+        body: request,
+      });
 
       if (error) {
         console.error('Error sending notification:', error);
@@ -530,11 +518,7 @@ export class NotificationService {
   /**
    * Get notification permission status
    */
-  static getPermissionStatus():
-    | 'granted'
-    | 'denied'
-    | 'default'
-    | 'unsupported' {
+  static getPermissionStatus(): 'granted' | 'denied' | 'default' | 'unsupported' {
     if (!('Notification' in window)) {
       return 'unsupported';
     }

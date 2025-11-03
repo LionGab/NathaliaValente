@@ -18,7 +18,7 @@ export const ProductPreview: React.FC = () => {
   const hasMore = products.length > visibleCount;
 
   const handleLike = (productId: string) => {
-    setLikedProducts(prev => {
+    setLikedProducts((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(productId)) {
         newSet.delete(productId);
@@ -60,9 +60,7 @@ export const ProductPreview: React.FC = () => {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                 Produtos em Destaque
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Coleção exclusiva NAVA
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Coleção exclusiva NAVA</p>
             </div>
           </div>
           <Button
@@ -112,12 +110,15 @@ export const ProductPreview: React.FC = () => {
                           e.stopPropagation();
                           handleLike(product.id);
                         }}
-                        className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${likedProducts.has(product.id)
-                          ? 'bg-red-500 text-white'
-                          : 'bg-white/80 text-gray-700 hover:bg-red-500 hover:text-white'
-                          }`}
+                        className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
+                          likedProducts.has(product.id)
+                            ? 'bg-red-500 text-white'
+                            : 'bg-white/80 text-gray-700 hover:bg-red-500 hover:text-white'
+                        }`}
                       >
-                        <Heart className={`w-4 h-4 ${likedProducts.has(product.id) ? 'fill-current' : ''}`} />
+                        <Heart
+                          className={`w-4 h-4 ${likedProducts.has(product.id) ? 'fill-current' : ''}`}
+                        />
                       </motion.button>
 
                       <motion.button
@@ -192,7 +193,7 @@ export const ProductPreview: React.FC = () => {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => setVisibleCount(prev => Math.min(prev + 2, products.length))}
+              onClick={() => setVisibleCount((prev) => Math.min(prev + 2, products.length))}
               className="text-pink-600 border-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900/20 px-8 py-3 rounded-2xl font-medium transition-all duration-300 hover:scale-105"
             >
               Ver mais produtos

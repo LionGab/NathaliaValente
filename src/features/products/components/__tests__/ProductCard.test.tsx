@@ -12,8 +12,8 @@ vi.mock('../../../../contexts/CartContext', () => ({
   useCart: () => ({
     addToCart: mockAddToCart,
     removeFromCart: mockRemoveFromCart,
-    isInCart: mockIsInCart
-  })
+    isInCart: mockIsInCart,
+  }),
 }));
 
 // Mock do componente Button
@@ -22,7 +22,7 @@ vi.mock('../../../../components/ui/Button', () => ({
     <button onClick={onClick} {...props}>
       {children}
     </button>
-  )
+  ),
 }));
 
 // Mock do componente Card
@@ -31,14 +31,12 @@ vi.mock('../../../../components/ui/Card', () => ({
     <div className={className} {...props}>
       {children}
     </div>
-  )
+  ),
 }));
 
 // Mock do componente OptimizedImage
 vi.mock('../../../../components/ui/OptimizedImage', () => ({
-  OptimizedImage: ({ src, alt, ...props }: any) => (
-    <img src={src} alt={alt} {...props} />
-  )
+  OptimizedImage: ({ src, alt, ...props }: any) => <img src={src} alt={alt} {...props} />,
 }));
 
 describe('ProductCard', () => {

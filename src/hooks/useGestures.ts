@@ -8,12 +8,7 @@ interface GestureConfig {
 }
 
 export const useSwipeGesture = (config: GestureConfig = {}) => {
-  const {
-    threshold = 50,
-    velocity = 0.3,
-    damping = 20,
-    stiffness = 300
-  } = config;
+  const { threshold = 50, velocity = 0.3, damping = 20, stiffness = 300 } = config;
 
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
@@ -35,19 +30,12 @@ export const useSwipeGesture = (config: GestureConfig = {}) => {
     y,
     onSwipeStart,
     onSwipeMove,
-    onSwipeEnd
+    onSwipeEnd,
   };
 };
 
-export const usePullToRefresh = (
-  onRefresh: () => Promise<void>,
-  config: GestureConfig = {}
-) => {
-  const {
-    threshold = 80,
-    damping = 25,
-    stiffness = 300
-  } = config;
+export const usePullToRefresh = (onRefresh: () => Promise<void>, config: GestureConfig = {}) => {
+  const { threshold = 80, damping = 25, stiffness = 300 } = config;
 
   const [y, setY] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -59,17 +47,20 @@ export const usePullToRefresh = (
     }
   }, []);
 
-  const handleTouchMove = useCallback((event: TouchEvent) => {
-    if (window.scrollY === 0 && !isRefreshing) {
-      const currentY = event.touches[0].clientY;
-      const deltaY = currentY - startY.current;
-      
-      if (deltaY > 0) {
-        event.preventDefault();
-        setY(deltaY * 0.5); // Dampen the pull
+  const handleTouchMove = useCallback(
+    (event: TouchEvent) => {
+      if (window.scrollY === 0 && !isRefreshing) {
+        const currentY = event.touches[0].clientY;
+        const deltaY = currentY - startY.current;
+
+        if (deltaY > 0) {
+          event.preventDefault();
+          setY(deltaY * 0.5); // Dampen the pull
+        }
       }
-    }
-  }, [isRefreshing]);
+    },
+    [isRefreshing]
+  );
 
   const handleTouchEnd = useCallback(async () => {
     if (y > threshold && !isRefreshing) {
@@ -77,7 +68,7 @@ export const usePullToRefresh = (
       await onRefresh();
       setIsRefreshing(false);
     }
-    
+
     setY(0);
   }, [y, threshold, onRefresh, isRefreshing]);
 
@@ -95,7 +86,7 @@ export const usePullToRefresh = (
 
   return {
     y,
-    isRefreshing
+    isRefreshing,
   };
 };
 
@@ -106,19 +97,25 @@ export const useInfiniteScroll = (
 ) => {
   const observerRef = useRef<IntersectionObserver>();
 
-  const lastElementRef = useCallback((node: HTMLElement | null) => {
-    if (observerRef.current) observerRef.current.disconnect();
-    
-    observerRef.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        callback();
-      }
-    }, {
-      rootMargin: `${threshold}px`
-    });
-    
-    if (node) observerRef.current.observe(node);
-  }, [callback, hasMore, threshold]);
+  const lastElementRef = useCallback(
+    (node: HTMLElement | null) => {
+      if (observerRef.current) observerRef.current.disconnect();
+
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasMore) {
+            callback();
+          }
+        },
+        {
+          rootMargin: `${threshold}px`,
+        }
+      );
+
+      if (node) observerRef.current.observe(node);
+    },
+    [callback, hasMore, threshold]
+  );
 
   return lastElementRef;
 };
@@ -129,7 +126,7 @@ export const useHapticFeedback = () => {
       const patterns = {
         light: [10],
         medium: [20],
-        heavy: [30]
+        heavy: [30],
       };
       navigator.vibrate(patterns[type]);
     }
@@ -138,19 +135,19 @@ export const useHapticFeedback = () => {
   return { triggerHaptic };
 };
 
-export const useLongPress = (
-  onLongPress: () => void,
-  delay: number = 500
-) => {
+export const useLongPress = (onLongPress: () => void, delay: number = 500) => {
   const timeoutRef = useRef<NodeJS.Timeout>();
   const targetRef = useRef<EventTarget>();
 
-  const start = useCallback((event: React.MouseEvent | React.TouchEvent) => {
-    targetRef.current = event.target;
-    timeoutRef.current = setTimeout(() => {
-      onLongPress();
-    }, delay);
-  }, [onLongPress, delay]);
+  const start = useCallback(
+    (event: React.MouseEvent | React.TouchEvent) => {
+      targetRef.current = event.target;
+      timeoutRef.current = setTimeout(() => {
+        onLongPress();
+      }, delay);
+    },
+    [onLongPress, delay]
+  );
 
   const clear = useCallback(() => {
     if (timeoutRef.current) {
@@ -163,6 +160,6 @@ export const useLongPress = (
     onTouchStart: start,
     onMouseUp: clear,
     onMouseLeave: clear,
-    onTouchEnd: clear
+    onTouchEnd: clear,
   };
 };

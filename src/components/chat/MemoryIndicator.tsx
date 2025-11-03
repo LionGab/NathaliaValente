@@ -4,28 +4,24 @@
 // =====================================================
 
 import React, { useState } from 'react';
-import { 
-  Brain, 
-  Heart, 
-  Clock, 
-  Settings, 
-  Trash2, 
+import {
+  Brain,
+  Heart,
+  Clock,
+  Settings,
+  Trash2,
   Download,
   Eye,
   EyeOff,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { chatHistoryService } from '../../services/chat-history.service';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
-import { 
-  formatChatDate, 
-  getMemoryIndicatorText,
-  shouldUseMemory 
-} from '../../types/chat-history';
+import { formatChatDate, getMemoryIndicatorText, shouldUseMemory } from '../../types/chat-history';
 
 interface MemoryIndicatorProps {
   onManageMemory?: () => void;
@@ -36,7 +32,7 @@ interface MemoryIndicatorProps {
 export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
   onManageMemory,
   compact = false,
-  showDetails = false
+  showDetails = false,
 }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -47,13 +43,13 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
   const { data: context, isLoading: contextLoading } = useQuery({
     queryKey: ['chat-context', user?.id],
     queryFn: () => chatHistoryService.getChatContext(user!.id),
-    enabled: !!user
+    enabled: !!user,
   });
 
   const { data: preferences, isLoading: preferencesLoading } = useQuery({
     queryKey: ['memory-preferences', user?.id],
     queryFn: () => chatHistoryService.getMemoryPreferences(user!.id),
-    enabled: !!user
+    enabled: !!user,
   });
 
   // Mutations
@@ -62,27 +58,27 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chat-context', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['chat-history', user?.id] });
-    }
+    },
   });
 
   const toggleMemoryMutation = useMutation({
-    mutationFn: (enabled: boolean) => 
+    mutationFn: (enabled: boolean) =>
       chatHistoryService.updateMemoryPreferences(user!.id, { memory_enabled: enabled }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['memory-preferences', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['chat-context', user?.id] });
-    }
+    },
   });
 
   const handleExportHistory = async () => {
     if (!user) return;
-    
+
     setIsExporting(true);
     try {
       const historyData = await chatHistoryService.exportChatHistory(user.id, 'json');
       const blob = new Blob([historyData], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      
+
       const a = document.createElement('a');
       a.href = url;
       a.download = `chat-history-${new Date().toISOString().split('T')[0]}.json`;
@@ -98,10 +94,14 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
   };
 
   const handleClearHistory = async () => {
-    if (!window.confirm('Tem certeza que deseja apagar todo o histórico de conversas? Esta ação não pode ser desfeita.')) {
+    if (
+      !window.confirm(
+        'Tem certeza que deseja apagar todo o histórico de conversas? Esta ação não pode ser desfeita.'
+      )
+    ) {
       return;
     }
-    
+
     await clearHistoryMutation.mutateAsync();
   };
 
@@ -114,9 +114,7 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
     return (
       <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
         <LoadingSpinner size="sm" />
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          Carregando memória...
-        </span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">Carregando memória...</span>
       </div>
     );
   }
@@ -126,21 +124,24 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
   }
 
   const hasMemory = context.recent_messages.length > 0 || context.recent_summaries.length > 0;
-  const topicsCount = context.recent_summaries.reduce((acc, summary) => acc + summary.topics.length, 0);
+  const topicsCount = context.recent_summaries.reduce(
+    (acc, summary) => acc + summary.topics.length,
+    0
+  );
   const lastInteraction = context.recent_messages[0]?.created_at;
 
   if (compact) {
     return (
       <div className="flex items-center gap-2">
-        <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
-          hasMemory && preferences.memory_enabled
-            ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
-            : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
-        }`}>
+        <div
+          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
+            hasMemory && preferences.memory_enabled
+              ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
+              : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+          }`}
+        >
           <Brain className="w-3 h-3" />
-          <span>
-            {preferences.memory_enabled ? 'Memória Ativa' : 'Memória Desativada'}
-          </span>
+          <span>{preferences.memory_enabled ? 'Memória Ativa' : 'Memória Desativada'}</span>
         </div>
       </div>
     );
@@ -151,21 +152,23 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className={`p-2 rounded-full ${
-            hasMemory && preferences.memory_enabled
-              ? 'bg-pink-100 dark:bg-pink-900/30'
-              : 'bg-gray-100 dark:bg-gray-700'
-          }`}>
-            <Brain className={`w-5 h-5 ${
+          <div
+            className={`p-2 rounded-full ${
               hasMemory && preferences.memory_enabled
-                ? 'text-pink-600 dark:text-pink-400'
-                : 'text-gray-500 dark:text-gray-400'
-            }`} />
+                ? 'bg-pink-100 dark:bg-pink-900/30'
+                : 'bg-gray-100 dark:bg-gray-700'
+            }`}
+          >
+            <Brain
+              className={`w-5 h-5 ${
+                hasMemory && preferences.memory_enabled
+                  ? 'text-pink-600 dark:text-pink-400'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
+            />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">
-              Memória do NathIA
-            </h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Memória do NathIA</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {getMemoryIndicatorText(hasMemory && preferences.memory_enabled, topicsCount)}
             </p>
@@ -185,17 +188,9 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
               <EyeOff className="w-4 h-4" />
             )}
           </Button>
-          
-          <Button
-            onClick={() => setShowSettings(!showSettings)}
-            variant="ghost"
-            size="sm"
-          >
-            {showSettings ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+
+          <Button onClick={() => setShowSettings(!showSettings)} variant="ghost" size="sm">
+            {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </div>
       </div>
@@ -209,16 +204,14 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
               {context.recent_messages.length} mensagens
             </span>
           </div>
-          
+
           {topicsCount > 0 && (
             <div className="flex items-center gap-1">
               <Brain className="w-4 h-4 text-purple-500" />
-              <span className="text-gray-600 dark:text-gray-400">
-                {topicsCount} tópicos
-              </span>
+              <span className="text-gray-600 dark:text-gray-400">{topicsCount} tópicos</span>
             </div>
           )}
-          
+
           {lastInteraction && (
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4 text-blue-500" />
@@ -235,9 +228,7 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
         <div className="border-t border-pink-200 dark:border-pink-800 pt-3 space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white">
-                Memória Ativada
-              </p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Memória Ativada</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 NathIA lembra de conversas anteriores
               </p>
@@ -266,9 +257,9 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
               <input
                 type="checkbox"
                 checked={preferences.personalized_responses}
-                onChange={(e) => 
-                  chatHistoryService.updateMemoryPreferences(user!.id, { 
-                    personalized_responses: e.target.checked 
+                onChange={(e) =>
+                  chatHistoryService.updateMemoryPreferences(user!.id, {
+                    personalized_responses: e.target.checked,
                   })
                 }
                 className="sr-only peer"
@@ -288,7 +279,7 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
             >
               {isExporting ? 'Exportando...' : 'Exportar'}
             </Button>
-            
+
             <Button
               onClick={handleClearHistory}
               variant="outline"
@@ -345,17 +336,17 @@ export const MemoryIndicator: React.FC<MemoryIndicatorProps> = ({
 
 export const MemoryIndicatorCompact: React.FC = () => {
   const { user } = useAuth();
-  
+
   const { data: context } = useQuery({
     queryKey: ['chat-context', user?.id],
     queryFn: () => chatHistoryService.getChatContext(user!.id),
-    enabled: !!user
+    enabled: !!user,
   });
 
   const { data: preferences } = useQuery({
     queryKey: ['memory-preferences', user?.id],
     queryFn: () => chatHistoryService.getMemoryPreferences(user!.id),
-    enabled: !!user
+    enabled: !!user,
   });
 
   if (!context || !preferences) return null;
@@ -364,15 +355,15 @@ export const MemoryIndicatorCompact: React.FC = () => {
   const isActive = preferences.memory_enabled && hasMemory;
 
   return (
-    <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
-      isActive
-        ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
-        : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
-    }`}>
+    <div
+      className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all ${
+        isActive
+          ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-400'
+          : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+      }`}
+    >
       <Brain className="w-3 h-3" />
-      <span>
-        {isActive ? 'NathIA lembra de você 💜' : 'Memória desativada'}
-      </span>
+      <span>{isActive ? 'NathIA lembra de você 💜' : 'Memória desativada'}</span>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export const HeroCard: React.FC = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <Card
         className="h-40 max-h-40 bg-gradient-to-br from-purple-600 via-pink-500 to-rose-400 p-6 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 flex flex-col justify-between group overflow-hidden relative"
@@ -22,7 +22,7 @@ export const HeroCard: React.FC = () => {
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+          transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
         >
           <Sparkles className="absolute top-4 right-4 w-8 h-8 opacity-30 group-hover:opacity-60 transition-all duration-300 text-white" />
         </motion.div>
@@ -31,12 +31,12 @@ export const HeroCard: React.FC = () => {
         <motion.div
           animate={{
             y: [0, -10, 0],
-            rotate: [0, 5, 0]
+            rotate: [0, 5, 0],
           }}
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
           className="absolute top-6 left-6 w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"
         >

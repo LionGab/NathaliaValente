@@ -2,14 +2,14 @@ export enum RoutineIcon {
   Feeding = 'feeding',
   Bathing = 'bathing',
   Sleeping = 'sleeping',
-  Activities = 'activities'
+  Activities = 'activities',
 }
 
 export enum RoutineFrequency {
   Daily = 'daily',
   Weekdays = 'weekdays',
   Weekends = 'weekends',
-  Custom = 'custom'
+  Custom = 'custom',
 }
 
 export interface Routine {
@@ -58,7 +58,7 @@ export const getIconEmoji = (icon: RoutineIcon): string => {
     [RoutineIcon.Feeding]: '🍼',
     [RoutineIcon.Bathing]: '🛁',
     [RoutineIcon.Sleeping]: '😴',
-    [RoutineIcon.Activities]: '🎨'
+    [RoutineIcon.Activities]: '🎨',
   };
   return emojiMap[icon];
 };
@@ -68,7 +68,7 @@ export const getIconLabel = (icon: RoutineIcon): string => {
     [RoutineIcon.Feeding]: 'Alimentação',
     [RoutineIcon.Bathing]: 'Banho',
     [RoutineIcon.Sleeping]: 'Sono',
-    [RoutineIcon.Activities]: 'Atividades'
+    [RoutineIcon.Activities]: 'Atividades',
   };
   return labelMap[icon];
 };

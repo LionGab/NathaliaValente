@@ -10,7 +10,7 @@ import { logger } from '../../../utils/logger';
 const generateNathIAResponse = async (message: string, context: any) => {
   return {
     response: `Olá! Recebi sua mensagem: "${message}". Como posso ajudá-la hoje?`,
-    suggestions: ['Dicas de maternidade', 'Cuidados com o bebê', 'Rotina diária']
+    suggestions: ['Dicas de maternidade', 'Cuidados com o bebê', 'Rotina diária'],
   };
 };
 
@@ -23,18 +23,17 @@ export const ChatPage = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickSuggestions = [
-    "Como lidar com birras?",
-    "Dicas para sono do bebê",
-    "Me sinto sobrecarregada",
-    "Como organizar a rotina?",
-    "Dicas de alimentação",
-    "Como lidar com culpa materna?",
-    "Quero um estudo bíblico",
-    "Versículo para hoje",
-    "Oração para mães",
-    "Reflexão espiritual"
+    'Como lidar com birras?',
+    'Dicas para sono do bebê',
+    'Me sinto sobrecarregada',
+    'Como organizar a rotina?',
+    'Dicas de alimentação',
+    'Como lidar com culpa materna?',
+    'Quero um estudo bíblico',
+    'Versículo para hoje',
+    'Oração para mães',
+    'Reflexão espiritual',
   ];
-
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -57,16 +56,17 @@ export const ChatPage = () => {
 
   useEffect(() => {
     fetchMessages();
-    
+
     // Adicionar mensagem de boas-vindas se não houver mensagens
     if (messages.length === 0) {
       const welcomeMessage: ChatMessage = {
         id: Date.now().toString(),
         user_id: user?.id || '',
-        message: "Oi, mamãe! 💕 Estou aqui para te apoiar em cada momento da sua jornada. Posso te ajudar com dicas de maternidade, cuidados com o bebê, organização da rotina ou qualquer coisa que esteja no seu coração. Como você está se sentindo hoje?",
+        message:
+          'Oi, mamãe! 💕 Estou aqui para te apoiar em cada momento da sua jornada. Posso te ajudar com dicas de maternidade, cuidados com o bebê, organização da rotina ou qualquer coisa que esteja no seu coração. Como você está se sentindo hoje?',
         is_user: false,
         created_at: new Date().toISOString(),
-        suggestions: quickSuggestions.slice(0, 4)
+        suggestions: quickSuggestions.slice(0, 4),
       };
       setMessages([welcomeMessage]);
     }
@@ -151,10 +151,7 @@ export const ChatPage = () => {
       // Remove last AI message
       const lastAIMessage = messages[messages.length - 1];
       if (lastAIMessage && !lastAIMessage.is_user) {
-        await supabase
-          .from('chat_messages')
-          .delete()
-          .eq('id', lastAIMessage.id);
+        await supabase.from('chat_messages').delete().eq('id', lastAIMessage.id);
       }
 
       // Generate new response
@@ -238,10 +235,11 @@ export const ChatPage = () => {
             className={`flex ${message.is_user ? 'justify-end' : 'justify-start'} mb-4`}
           >
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 ${message.is_user
-                ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                : 'bg-white dark:bg-neutral-700 text-gray-800 dark:text-white shadow-md border border-gray-100 dark:border-neutral-600'
-                }`}
+              className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                message.is_user
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
+                  : 'bg-white dark:bg-neutral-700 text-gray-800 dark:text-white shadow-md border border-gray-100 dark:border-neutral-600'
+              }`}
             >
               {!message.is_user && (
                 <div className="flex items-center gap-2 mb-2">
@@ -294,8 +292,14 @@ export const ChatPage = () => {
               </div>
               <div className="flex items-center gap-1 mt-2">
                 <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div
+                  className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                  style={{ animationDelay: '0.1s' }}
+                ></div>
+                <div
+                  className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                  style={{ animationDelay: '0.2s' }}
+                ></div>
               </div>
             </div>
           </div>
@@ -339,4 +343,3 @@ export const ChatPage = () => {
     </div>
   );
 };
-

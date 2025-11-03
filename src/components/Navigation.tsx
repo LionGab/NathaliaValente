@@ -26,20 +26,25 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`relative flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl transition-all duration-300 touch-target group ${isActive
-                  ? 'text-white'
-                  : 'text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
-                  }`}
+                className={`relative flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl transition-all duration-300 touch-target group ${
+                  isActive
+                    ? 'text-white'
+                    : 'text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400'
+                }`}
               >
                 {isActive && (
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-500 to-secondary-500 rounded-2xl shadow-medium animate-scale-in" />
                 )}
 
-                <div className={`relative p-2 rounded-xl transition-all duration-300 ${isActive ? '' : 'group-hover:bg-primary-50 dark:group-hover:bg-primary-950/30'
-                  }`}>
+                <div
+                  className={`relative p-2 rounded-xl transition-all duration-300 ${
+                    isActive ? '' : 'group-hover:bg-primary-50 dark:group-hover:bg-primary-950/30'
+                  }`}
+                >
                   <Icon
-                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
-                      }`}
+                    className={`w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ${
+                      isActive ? 'scale-110' : 'group-hover:scale-110'
+                    }`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                   {item.badge && (
@@ -50,8 +55,9 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
                 </div>
 
                 <span
-                  className={`relative text-[10px] sm:text-xs font-medium transition-all duration-300 ${isActive ? 'text-white' : 'group-hover:font-semibold'
-                    }`}
+                  className={`relative text-[10px] sm:text-xs font-medium transition-all duration-300 ${
+                    isActive ? 'text-white' : 'group-hover:font-semibold'
+                  }`}
                 >
                   {item.label}
                 </span>

@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { X, Image as ImageIcon, Upload, ShoppingBag } from 'lucide-react';
-import {
-  validateProduct,
-  safeValidate,
-  type Product
-} from '../features/products/validation';
+import { validateProduct, safeValidate, type Product } from '../features/products/validation';
 
 type CreatePostModalProps = {
   onClose: () => void;
@@ -117,7 +113,10 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 glass backdrop-blur-xl border-b border-claude-gray-200/50 dark:border-claude-gray-800/50 px-6 py-5 flex items-center justify-between">
-          <h2 id="create-post-title" className="text-2xl font-bold text-claude-gray-900 dark:text-white">
+          <h2
+            id="create-post-title"
+            className="text-2xl font-bold text-claude-gray-900 dark:text-white"
+          >
             Nova publicação
           </h2>
           <button
@@ -125,7 +124,10 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
             className="p-2.5 hover:bg-claude-gray-100 dark:hover:bg-claude-gray-800 rounded-2xl transition-all duration-200 touch-target"
             aria-label="Fechar modal"
           >
-            <X className="w-5 h-5 text-claude-gray-600 dark:text-claude-gray-400" aria-hidden="true" />
+            <X
+              className="w-5 h-5 text-claude-gray-600 dark:text-claude-gray-400"
+              aria-hidden="true"
+            />
           </button>
         </div>
 
@@ -140,10 +142,11 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
-                  className={`py-3.5 px-5 rounded-2xl font-semibold transition-all duration-200 touch-target ${category === cat
-                    ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
-                    : 'bg-claude-gray-100 dark:bg-claude-gray-800 text-claude-gray-700 dark:text-claude-gray-300 hover:bg-claude-gray-200 dark:hover:bg-claude-gray-700'
-                    }`}
+                  className={`py-3.5 px-5 rounded-2xl font-semibold transition-all duration-200 touch-target ${
+                    category === cat
+                      ? 'bg-gradient-to-r from-claude-orange-500 to-claude-orange-600 text-white shadow-claude'
+                      : 'bg-claude-gray-100 dark:bg-claude-gray-800 text-claude-gray-700 dark:text-claude-gray-300 hover:bg-claude-gray-200 dark:hover:bg-claude-gray-700'
+                  }`}
                   aria-pressed={category === cat}
                   aria-label={`Selecionar categoria ${cat}`}
                 >
@@ -158,7 +161,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
             <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <ShoppingBag className="w-5 h-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900 dark:text-white">Informações do Produto</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Informações do Produto
+                </h3>
               </div>
 
               {/* Erros de validação do produto */}
@@ -198,7 +203,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                     step="0.01"
                     min="0"
                     value={productData.price || ''}
-                    onChange={(e) => handleProductDataChange('price', parseFloat(e.target.value) || 0)}
+                    onChange={(e) =>
+                      handleProductDataChange('price', parseFloat(e.target.value) || 0)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="0.00"
                   />
@@ -233,7 +240,9 @@ export const CreatePostModal = ({ onClose, onPostCreated }: CreatePostModalProps
                     type="number"
                     min="0"
                     value={productData.currentStock || ''}
-                    onChange={(e) => handleProductDataChange('currentStock', parseInt(e.target.value) || 0)}
+                    onChange={(e) =>
+                      handleProductDataChange('currentStock', parseInt(e.target.value) || 0)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="0"
                   />

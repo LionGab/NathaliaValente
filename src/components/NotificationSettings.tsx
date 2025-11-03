@@ -16,7 +16,7 @@ import {
   CheckCircle,
   Settings,
   Moon,
-  Sun
+  Sun,
 } from 'lucide-react';
 import { notificationsService, NotificationPreferences } from '../services/notifications.service';
 import { useAuth } from '../contexts/AuthContext';
@@ -80,7 +80,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
 
     const updatedPreferences = {
       ...preferences,
-      [key]: value
+      [key]: value,
     };
 
     setPreferences(updatedPreferences);
@@ -89,7 +89,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
       setSaving(true);
       await notificationsService.updateNotificationPreferences({
         user_id: user.id,
-        [key]: value
+        [key]: value,
       });
     } catch (error) {
       console.error('Erro ao atualizar preferência:', error);
@@ -136,57 +136,57 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
       title: 'Frase do Dia',
       description: 'Receba sua dose diária de inspiração às 8h',
       icon: <Sun className="w-5 h-5" />,
-      color: 'text-yellow-500'
+      color: 'text-yellow-500',
     },
     {
       key: 'feed_highlights' as keyof NotificationPreferences,
       title: 'Destaques do Feed',
       description: 'Veja o que está rolando no ClubNath às 20h',
       icon: <MessageCircle className="w-5 h-5" />,
-      color: 'text-blue-500'
+      color: 'text-blue-500',
     },
     {
       key: 'social_interactions' as keyof NotificationPreferences,
       title: 'Interações Sociais',
       description: 'Curtidas, comentários e novas conexões',
       icon: <Heart className="w-5 h-5" />,
-      color: 'text-pink-500'
+      color: 'text-pink-500',
     },
     {
       key: 'prayer_notifications' as keyof NotificationPreferences,
       title: 'Orações Compartilhadas',
       description: 'Quando alguém compartilha um pedido de oração',
       icon: <Heart className="w-5 h-5" />,
-      color: 'text-purple-500'
+      color: 'text-purple-500',
     },
     {
       key: 'journal_reminders' as keyof NotificationPreferences,
       title: 'Lembretes de Journaling',
       description: 'Reflita sobre seu dia às 21h',
       icon: <BookOpen className="w-5 h-5" />,
-      color: 'text-green-500'
+      color: 'text-green-500',
     },
     {
       key: 'engagement_reminders' as keyof NotificationPreferences,
       title: 'Lembretes de Engajamento',
       description: 'Sentimos sua falta quando você fica ausente',
       icon: <Bell className="w-5 h-5" />,
-      color: 'text-orange-500'
+      color: 'text-orange-500',
     },
     {
       key: 'sos_followup' as keyof NotificationPreferences,
       title: 'Follow-up SOS',
       description: 'Acompanhamento após usar o botão de crise',
       icon: <AlertTriangle className="w-5 h-5" />,
-      color: 'text-red-500'
+      color: 'text-red-500',
     },
     {
       key: 'premium_offers' as keyof NotificationPreferences,
       title: 'Ofertas Premium',
       description: 'Promoções e benefícios exclusivos',
       icon: <Crown className="w-5 h-5" />,
-      color: 'text-yellow-600'
-    }
+      color: 'text-yellow-600',
+    },
   ];
 
   return (
@@ -198,9 +198,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
             <Settings className="w-6 h-6 text-pink-600 dark:text-pink-400" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Notificações
-            </h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Notificações</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Personalize como você quer ser notificada
             </p>
@@ -229,8 +227,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {permission === 'granted'
                   ? 'Você receberá notificações personalizadas'
-                  : 'Ative as notificações para não perder nada'
-                }
+                  : 'Ative as notificações para não perder nada'}
               </p>
             </div>
           </div>
@@ -270,12 +267,8 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
                   {type.icon}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">
-                    {type.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {type.description}
-                  </p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{type.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{type.description}</p>
                 </div>
               </div>
 
@@ -301,9 +294,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onCl
             <Moon className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">
-              Horário Silencioso
-            </h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Horário Silencioso</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Não receber notificações durante este período
             </p>

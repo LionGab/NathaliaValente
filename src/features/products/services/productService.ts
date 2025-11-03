@@ -7,7 +7,7 @@ import {
   type Product,
   type CreateProductInput,
   type UpdateProductInput,
-  type ProductFilters
+  type ProductFilters,
 } from '../validation';
 
 /**
@@ -17,6 +17,54 @@ import {
 export class ProductService {
   private baseUrl: string;
   private apiKey: string;
+  
+  // Mock products for development
+  private mockProducts: Product[] = [
+    {
+      id: '1',
+      name: 'Bikini Premium Nathália',
+      price: 165.0,
+      image: 'https://i.imgur.com/L2xyl98.jpg',
+      category: 'roupas',
+      stock: 30,
+      description: 'Bikini premium com design exclusivo da Nathália Valente',
+      rating: 4.9,
+      reviews: 85,
+    },
+    {
+      id: '2',
+      name: 'Conjunto Bikini Nathy',
+      price: 165.0,
+      image: 'https://i.imgur.com/n2QJJ5y.jpg',
+      category: 'roupas',
+      stock: 25,
+      description: 'Conjunto completo da coleção NAVA',
+      rating: 4.8,
+      reviews: 120,
+    },
+    {
+      id: '3',
+      name: 'Kit Básico NAVA',
+      price: 199.9,
+      image: 'https://i.imgur.com/TjCevtA.jpg',
+      category: 'roupas',
+      stock: 50,
+      description: 'Kit completo com peças essenciais',
+      rating: 4.7,
+      reviews: 65,
+    },
+    {
+      id: '4',
+      name: 'Produto OLLIN',
+      price: 89.9,
+      image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
+      category: 'cuidados',
+      stock: 100,
+      description: 'Cuidados especiais para mães',
+      rating: 4.6,
+      reviews: 200,
+    },
+  ];
 
   constructor(baseUrl: string = '/api/products', apiKey: string = '') {
     this.baseUrl = baseUrl;
@@ -39,65 +87,19 @@ export class ProductService {
         validatedFilters = filterResult.data;
       }
 
-      // Retornar dados mockados para desenvolvimento
-      const mockProducts: Product[] = [
-        {
-          id: '1',
-          name: 'Bikini Premium Nathália',
-          price: 165.00,
-          image: 'https://i.imgur.com/L2xyl98.jpg',
-          category: 'roupas',
-          stock: 30,
-          description: 'Bikini premium com design exclusivo da Nathália Valente',
-          rating: 4.9,
-          reviews: 85
-        },
-        {
-          id: '2',
-          name: 'Conjunto Bikini Nathy',
-          price: 165.00,
-          image: 'https://i.imgur.com/n2QJJ5y.jpg',
-          category: 'roupas',
-          stock: 25,
-          description: 'Conjunto completo da coleção NAVA',
-          rating: 4.8,
-          reviews: 120
-        },
-        {
-          id: '3',
-          name: 'Kit Básico NAVA',
-          price: 199.90,
-          image: 'https://i.imgur.com/TjCevtA.jpg',
-          category: 'roupas',
-          stock: 50,
-          description: 'Kit completo com peças essenciais',
-          rating: 4.7,
-          reviews: 65
-        },
-        {
-          id: '4',
-          name: 'Produto OLLIN',
-          price: 89.90,
-          image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop',
-          category: 'cuidados',
-          stock: 100,
-          description: 'Cuidados especiais para mães',
-          rating: 4.6,
-          reviews: 200
-        }
-      ];
-
       // Aplicar filtros se fornecidos
-      let filteredProducts = mockProducts;
+      let filteredProducts = this.mockProducts;
       if (validatedFilters) {
         if (validatedFilters.category) {
-          filteredProducts = filteredProducts.filter(p => p.category === validatedFilters!.category);
+          filteredProducts = filteredProducts.filter(
+            (p) => p.category === validatedFilters!.category
+          );
         }
         if (validatedFilters.minPrice !== undefined) {
-          filteredProducts = filteredProducts.filter(p => p.price >= validatedFilters!.minPrice!);
+          filteredProducts = filteredProducts.filter((p) => p.price >= validatedFilters!.minPrice!);
         }
         if (validatedFilters.maxPrice !== undefined) {
-          filteredProducts = filteredProducts.filter(p => p.price <= validatedFilters!.maxPrice!);
+          filteredProducts = filteredProducts.filter((p) => p.price <= validatedFilters!.maxPrice!);
         }
       }
 
@@ -119,17 +121,12 @@ export class ProductService {
         throw new Error('ID do produto é obrigatório');
       }
 
-      const response = await this.makeRequest('GET', `/${id}`);
-
-      if (response.status === 404) {
+      // Use mock data for now
+      const product = this.mockProducts.find((p) => p.id === id);
+      
+      if (!product) {
         return null;
       }
-
-      if (!response.ok) {
-        throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
-      }
-
-      const product = await response.json();
 
       // Validar produto antes de retornar
       const result = safeValidate(validateProduct, product);
@@ -235,28 +232,36 @@ export class ProductService {
    * Valida dados de produto sem enviar para API
    * Útil para validação em tempo real em formulários
    */
-  validateProductData(data: unknown): { success: true; data: Product } | { success: false; errors: string[] } {
+  validateProductData(
+    data: unknown
+  ): { success: true; data: Product } | { success: false; errors: string[] } {
     return safeValidate(validateProduct, data);
   }
 
   /**
    * Valida dados de criação de produto
    */
-  validateCreateProductData(data: unknown): { success: true; data: CreateProductInput } | { success: false; errors: string[] } {
+  validateCreateProductData(
+    data: unknown
+  ): { success: true; data: CreateProductInput } | { success: false; errors: string[] } {
     return safeValidate(validateCreateProduct, data);
   }
 
   /**
    * Valida dados de atualização de produto
    */
-  validateUpdateProductData(data: unknown): { success: true; data: UpdateProductInput } | { success: false; errors: string[] } {
+  validateUpdateProductData(
+    data: unknown
+  ): { success: true; data: UpdateProductInput } | { success: false; errors: string[] } {
     return safeValidate(validateUpdateProduct, data);
   }
 
   /**
    * Valida filtros de busca
    */
-  validateFilters(filters: unknown): { success: true; data: ProductFilters } | { success: false; errors: string[] } {
+  validateFilters(
+    filters: unknown
+  ): { success: true; data: ProductFilters } | { success: false; errors: string[] } {
     return safeValidate(validateProductFilters, filters);
   }
 
@@ -270,7 +275,7 @@ export class ProductService {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.apiKey ? `Bearer ${this.apiKey}` : '',
+        Authorization: this.apiKey ? `Bearer ${this.apiKey}` : '',
       },
     };
 
@@ -287,6 +292,8 @@ export const productService = new ProductService();
 
 // Funções utilitárias para validação rápida
 export const validateProductQuick = (data: unknown) => productService.validateProductData(data);
-export const validateCreateProductQuick = (data: unknown) => productService.validateCreateProductData(data);
-export const validateUpdateProductQuick = (data: unknown) => productService.validateUpdateProductData(data);
+export const validateCreateProductQuick = (data: unknown) =>
+  productService.validateCreateProductData(data);
+export const validateUpdateProductQuick = (data: unknown) =>
+  productService.validateUpdateProductData(data);
 export const validateFiltersQuick = (data: unknown) => productService.validateFilters(data);

@@ -89,9 +89,7 @@ export const GoalsSelection = ({ onNext, onBack }: GoalsSelectionProps) => {
           </h2>
           <p className="text-claude-gray-600 dark:text-claude-gray-400">
             Selecione até 3 objetivos{' '}
-            <span className="text-nath-pink-500 font-semibold">
-              ({selectedGoals.length}/3)
-            </span>
+            <span className="text-nath-pink-500 font-semibold">({selectedGoals.length}/3)</span>
           </p>
         </div>
 
@@ -109,8 +107,8 @@ export const GoalsSelection = ({ onNext, onBack }: GoalsSelectionProps) => {
                   isSelected
                     ? 'border-nath-pink-400 bg-gradient-to-r from-nath-pink-50 to-nath-lavender-50 dark:from-nath-pink-900/20 dark:to-nath-lavender-900/20 shadow-claude scale-[1.02]'
                     : isDisabled
-                    ? 'border-claude-gray-200 dark:border-claude-gray-800 bg-claude-gray-50 dark:bg-claude-gray-900 opacity-50 cursor-not-allowed'
-                    : 'border-claude-gray-200 dark:border-claude-gray-700 bg-white dark:bg-claude-gray-800 hover:border-nath-pink-300 hover:shadow-claude-sm'
+                      ? 'border-claude-gray-200 dark:border-claude-gray-800 bg-claude-gray-50 dark:bg-claude-gray-900 opacity-50 cursor-not-allowed'
+                      : 'border-claude-gray-200 dark:border-claude-gray-700 bg-white dark:bg-claude-gray-800 hover:border-nath-pink-300 hover:shadow-claude-sm'
                 }`}
               >
                 <div className="flex items-start gap-4">

@@ -35,15 +35,17 @@ export const GroupsRepository = {
    * @param options - Opções de filtro e paginação
    * @returns Promise com array de grupos
    */
-  async findAll(options: {
-    query?: string;
-    category?: string;
-    isPrivate?: boolean;
-    limit?: number;
-    offset?: number;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-  } = {}): Promise<GroupRow[]> {
+  async findAll(
+    options: {
+      query?: string;
+      category?: string;
+      isPrivate?: boolean;
+      limit?: number;
+      offset?: number;
+      sortBy?: string;
+      sortOrder?: 'asc' | 'desc';
+    } = {}
+  ): Promise<GroupRow[]> {
     const {
       query,
       category,
@@ -51,19 +53,21 @@ export const GroupsRepository = {
       limit = 20,
       offset = 0,
       sortBy = 'created_at',
-      sortOrder = 'desc'
+      sortOrder = 'desc',
     } = options;
 
     let queryBuilder = supabase
       .from('groups')
-      .select(`
+      .select(
+        `
         *,
         creator:profiles!groups_creator_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .range(offset, offset + limit - 1)
       .order(sortBy, { ascending: sortOrder === 'asc' });
 
@@ -95,14 +99,16 @@ export const GroupsRepository = {
   async findById(id: string): Promise<GroupRow | null> {
     const { data, error } = await supabase
       .from('groups')
-      .select(`
+      .select(
+        `
         *,
         creator:profiles!groups_creator_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('id', id)
       .single();
 
@@ -124,14 +130,16 @@ export const GroupsRepository = {
   async findByCreatorId(creatorId: string, limit = 50): Promise<GroupRow[]> {
     const { data, error } = await supabase
       .from('groups')
-      .select(`
+      .select(
+        `
         *,
         creator:profiles!groups_creator_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .eq('creator_id', creatorId)
       .order('created_at', { ascending: false })
       .limit(limit);
@@ -166,14 +174,16 @@ export const GroupsRepository = {
     const { data: group, error } = await supabase
       .from('groups')
       .insert(data)
-      .select(`
+      .select(
+        `
         *,
         creator:profiles!groups_creator_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) throw error;
@@ -192,17 +202,19 @@ export const GroupsRepository = {
       .from('groups')
       .update({
         ...data,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', id)
-      .select(`
+      .select(
+        `
         *,
         creator:profiles!groups_creator_id_fkey (
           id,
           full_name,
           avatar_url
         )
-      `)
+      `
+      )
       .single();
 
     if (error) throw error;
@@ -216,10 +228,7 @@ export const GroupsRepository = {
    * @returns Promise void
    */
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('groups')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('groups').delete().eq('id', id);
 
     if (error) throw error;
   },
@@ -245,5 +254,5 @@ export const GroupsRepository = {
     }
 
     return data;
-  }
+  },
 };

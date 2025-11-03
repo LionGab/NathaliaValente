@@ -94,7 +94,9 @@ export const FeatureTour = ({ selectedGoals, onComplete, onBack }: FeatureTourPr
               >
                 <div className="flex items-start gap-4">
                   {/* Icon */}
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} shadow-claude flex-shrink-0`}>
+                  <div
+                    className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} shadow-claude flex-shrink-0`}
+                  >
                     <Icon className="w-6 h-6 text-white" aria-hidden="true" />
                   </div>
 

@@ -53,8 +53,8 @@ export const useSupabaseNotifications = () => {
 
       if (error) throw error;
 
-      setNotifications(prev => 
-        prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n))
       );
     } catch (error) {
       console.error('Erro ao marcar notificação como lida:', error);
@@ -74,7 +74,7 @@ export const useSupabaseNotifications = () => {
 
       if (error) throw error;
 
-      setNotifications(prev => prev.filter(n => n.id !== notificationId));
+      setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
     } catch (error) {
       console.error('Erro ao remover notificação:', error);
     }
@@ -93,22 +93,24 @@ export const useSupabaseNotifications = () => {
 
       if (error) throw error;
 
-      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     } catch (error) {
       console.error('Erro ao marcar todas as notificações como lidas:', error);
     }
   };
 
   // Criar notificação local (para testes)
-  const createLocalNotification = (notification: Omit<Notification, 'id' | 'created_at' | 'read'>) => {
+  const createLocalNotification = (
+    notification: Omit<Notification, 'id' | 'created_at' | 'read'>
+  ) => {
     const newNotification: Notification = {
       ...notification,
       id: Date.now().toString(),
       created_at: new Date().toISOString(),
-      read: false
+      read: false,
     };
 
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev) => [newNotification, ...prev]);
   };
 
   // Escutar notificações em tempo real
@@ -127,11 +129,11 @@ export const useSupabaseNotifications = () => {
           event: 'INSERT',
           schema: 'public',
           table: 'notifications',
-          filter: `user_id=eq.${user.id}`
+          filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
           const newNotification = payload.new as Notification;
-          setNotifications(prev => [newNotification, ...prev]);
+          setNotifications((prev) => [newNotification, ...prev]);
         }
       )
       .on(
@@ -140,12 +142,12 @@ export const useSupabaseNotifications = () => {
           event: 'UPDATE',
           schema: 'public',
           table: 'notifications',
-          filter: `user_id=eq.${user.id}`
+          filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
           const updatedNotification = payload.new as Notification;
-          setNotifications(prev => 
-            prev.map(n => n.id === updatedNotification.id ? updatedNotification : n)
+          setNotifications((prev) =>
+            prev.map((n) => (n.id === updatedNotification.id ? updatedNotification : n))
           );
         }
       )
@@ -155,11 +157,11 @@ export const useSupabaseNotifications = () => {
           event: 'DELETE',
           schema: 'public',
           table: 'notifications',
-          filter: `user_id=eq.${user.id}`
+          filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
           const deletedId = payload.old.id;
-          setNotifications(prev => prev.filter(n => n.id !== deletedId));
+          setNotifications((prev) => prev.filter((n) => n.id !== deletedId));
         }
       )
       .subscribe();
@@ -176,6 +178,6 @@ export const useSupabaseNotifications = () => {
     markAsRead,
     removeNotification,
     markAllAsRead,
-    createLocalNotification
+    createLocalNotification,
   };
 };

@@ -12,7 +12,7 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   },
   {
     id: '2',
@@ -25,7 +25,7 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: new Date().toISOString(), // Já completado
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   },
   {
     id: '3',
@@ -38,7 +38,7 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   },
   {
     id: '4',
@@ -51,7 +51,7 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   },
   {
     id: '5',
@@ -64,7 +64,7 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   },
   {
     id: '6',
@@ -77,6 +77,6 @@ export const mockRoutines: Routine[] = [
     active: true,
     completed_at: null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  }
+    updated_at: new Date().toISOString(),
+  },
 ];

@@ -455,9 +455,7 @@ export function calculateRecentEngagement(
   days: number = 7
 ): number {
   const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
-  const recent = notificationHistory.filter(
-    (n) => n.sent_at && new Date(n.sent_at) > cutoff
-  );
+  const recent = notificationHistory.filter((n) => n.sent_at && new Date(n.sent_at) > cutoff);
 
   if (recent.length === 0) return 1; // Assume good engagement if no data
 
@@ -505,9 +503,7 @@ export function assessSupportNeeds(
 
   // Check for concerning keywords
   const hasConcerningContent = recentEntries.some((entry) =>
-    config.concerningKeywords.some((keyword) =>
-      entry.content.toLowerCase().includes(keyword)
-    )
+    config.concerningKeywords.some((keyword) => entry.content.toLowerCase().includes(keyword))
   );
 
   // Level 1: Gentle suggestion (7+ days negative)

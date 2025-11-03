@@ -40,55 +40,79 @@ export const PerformanceDebug = () => {
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-claude-gray-600 dark:text-claude-gray-400">Load Time:</span>
-              <span className={`font-mono ${
-                metrics.loadTime > 3000 ? 'text-red-500' : 
-                metrics.loadTime > 1500 ? 'text-yellow-500' : 
-                'text-green-500'
-              }`}>
+              <span
+                className={`font-mono ${
+                  metrics.loadTime > 3000
+                    ? 'text-red-500'
+                    : metrics.loadTime > 1500
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                }`}
+              >
                 {metrics.loadTime}ms
               </span>
             </div>
 
             <div className="flex justify-between">
               <span className="text-claude-gray-600 dark:text-claude-gray-400">Memory Usage:</span>
-              <span className={`font-mono ${
-                metrics.memoryUsage > 100 ? 'text-red-500' : 
-                metrics.memoryUsage > 50 ? 'text-yellow-500' : 
-                'text-green-500'
-              }`}>
+              <span
+                className={`font-mono ${
+                  metrics.memoryUsage > 100
+                    ? 'text-red-500'
+                    : metrics.memoryUsage > 50
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                }`}
+              >
                 {metrics.memoryUsage}MB
               </span>
             </div>
 
             <div className="flex justify-between">
-              <span className="text-claude-gray-600 dark:text-claude-gray-400">Network Requests:</span>
-              <span className={`font-mono ${
-                metrics.networkRequests > 50 ? 'text-red-500' : 
-                metrics.networkRequests > 25 ? 'text-yellow-500' : 
-                'text-green-500'
-              }`}>
+              <span className="text-claude-gray-600 dark:text-claude-gray-400">
+                Network Requests:
+              </span>
+              <span
+                className={`font-mono ${
+                  metrics.networkRequests > 50
+                    ? 'text-red-500'
+                    : metrics.networkRequests > 25
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                }`}
+              >
                 {metrics.networkRequests}
               </span>
             </div>
 
             <div className="flex justify-between">
-              <span className="text-claude-gray-600 dark:text-claude-gray-400">Cache Hit Rate:</span>
-              <span className={`font-mono ${
-                metrics.cacheHitRate < 50 ? 'text-red-500' : 
-                metrics.cacheHitRate < 80 ? 'text-yellow-500' : 
-                'text-green-500'
-              }`}>
+              <span className="text-claude-gray-600 dark:text-claude-gray-400">
+                Cache Hit Rate:
+              </span>
+              <span
+                className={`font-mono ${
+                  metrics.cacheHitRate < 50
+                    ? 'text-red-500'
+                    : metrics.cacheHitRate < 80
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                }`}
+              >
                 {metrics.cacheHitRate}%
               </span>
             </div>
 
             <div className="flex justify-between">
               <span className="text-claude-gray-600 dark:text-claude-gray-400">Render Time:</span>
-              <span className={`font-mono ${
-                metrics.renderTime > 16 ? 'text-red-500' : 
-                metrics.renderTime > 8 ? 'text-yellow-500' : 
-                'text-green-500'
-              }`}>
+              <span
+                className={`font-mono ${
+                  metrics.renderTime > 16
+                    ? 'text-red-500'
+                    : metrics.renderTime > 8
+                      ? 'text-yellow-500'
+                      : 'text-green-500'
+                }`}
+              >
                 {metrics.renderTime}ms
               </span>
             </div>

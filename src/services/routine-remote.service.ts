@@ -15,11 +15,7 @@ export class RoutineRemoteService {
   }
 
   async getById(id: string): Promise<Routine | null> {
-    const { data, error } = await supabase
-      .from('routines')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data, error } = await supabase.from('routines').select('*').eq('id', id).single();
 
     if (error) {
       if (error.code === 'PGRST116') return null; // Not found
@@ -33,7 +29,7 @@ export class RoutineRemoteService {
       .from('routines')
       .insert({
         user_id: userId,
-        ...input
+        ...input,
       })
       .select()
       .single();
@@ -56,10 +52,7 @@ export class RoutineRemoteService {
   }
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('routines')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('routines').delete().eq('id', id);
 
     if (error) throw new Error(`Failed to delete routine: ${error.message}`);
   }
@@ -67,7 +60,7 @@ export class RoutineRemoteService {
   async toggleComplete(id: string, completed: boolean): Promise<Routine> {
     return this.update({
       id,
-      completed_at: completed ? new Date().toISOString() : null
+      completed_at: completed ? new Date().toISOString() : null,
     });
   }
 
@@ -80,7 +73,7 @@ export class RoutineRemoteService {
           event: '*',
           schema: 'public',
           table: 'routines',
-          filter: `user_id=eq.${userId}`
+          filter: `user_id=eq.${userId}`,
         },
         callback
       )

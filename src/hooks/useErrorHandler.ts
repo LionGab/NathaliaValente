@@ -50,7 +50,7 @@ export const useErrorHandler = (): UseErrorHandlerReturn => {
     handleError: handleErrorCallback,
     clearError,
     retry,
-    errorStats
+    errorStats,
   };
 };
 
@@ -69,9 +69,9 @@ export const useErrorHandlerWithRetry = (
   const retryWithBackoff = useCallback(() => {
     if (retryCount < maxRetries) {
       const delay = retryDelay * Math.pow(2, retryCount); // Exponential backoff
-      
+
       const timeout = setTimeout(() => {
-        setRetryCount(prev => prev + 1);
+        setRetryCount((prev) => prev + 1);
         baseHandler.retry();
       }, delay);
 
@@ -98,7 +98,7 @@ export const useErrorHandlerWithRetry = (
     ...baseHandler,
     retry: retryWithBackoff,
     retryCount,
-    canRetry
+    canRetry,
   };
 };
 
@@ -108,26 +108,35 @@ export const useErrorHandlerWithRetry = (
 export const useAPIErrorHandler = () => {
   const baseHandler = useErrorHandler();
 
-  const handleAPIError = useCallback((error: any, endpoint: string) => {
-    const appError = errorHandler.handleAPIError(error, endpoint);
-    baseHandler.handleError(appError);
-  }, [baseHandler]);
+  const handleAPIError = useCallback(
+    (error: any, endpoint: string) => {
+      const appError = errorHandler.handleAPIError(error, endpoint);
+      baseHandler.handleError(appError);
+    },
+    [baseHandler]
+  );
 
-  const handleAuthError = useCallback((error: any) => {
-    const appError = errorHandler.handleAuthError(error);
-    baseHandler.handleError(appError);
-  }, [baseHandler]);
+  const handleAuthError = useCallback(
+    (error: any) => {
+      const appError = errorHandler.handleAuthError(error);
+      baseHandler.handleError(appError);
+    },
+    [baseHandler]
+  );
 
-  const handleNetworkError = useCallback((error: any) => {
-    const appError = errorHandler.handleNetworkError(error);
-    baseHandler.handleError(appError);
-  }, [baseHandler]);
+  const handleNetworkError = useCallback(
+    (error: any) => {
+      const appError = errorHandler.handleNetworkError(error);
+      baseHandler.handleError(appError);
+    },
+    [baseHandler]
+  );
 
   return {
     ...baseHandler,
     handleAPIError,
     handleAuthError,
-    handleNetworkError
+    handleNetworkError,
   };
 };
 
@@ -139,14 +148,14 @@ export const useFormErrorHandler = () => {
   const baseHandler = useErrorHandler();
 
   const setFieldError = useCallback((field: string, message: string) => {
-    setFieldErrors(prev => ({
+    setFieldErrors((prev) => ({
       ...prev,
-      [field]: message
+      [field]: message,
     }));
   }, []);
 
   const clearFieldError = useCallback((field: string) => {
-    setFieldErrors(prev => {
+    setFieldErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors[field];
       return newErrors;
@@ -165,6 +174,6 @@ export const useFormErrorHandler = () => {
     setFieldError,
     clearFieldError,
     clearAllFieldErrors,
-    hasFieldErrors
+    hasFieldErrors,
   };
 };
