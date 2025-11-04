@@ -22,10 +22,13 @@ import { AccessibilityProvider } from './components/AccessibilityProvider';
 import { LoadingScreen } from './components/LoadingScreen';
 import { NotificationContainer } from './components/ErrorNotification';
 import { useSupabaseNotifications } from './hooks/useSupabaseNotifications';
-import { EssenceOnboardingProvider, useEssenceOnboarding } from './contexts/EssenceOnboardingContext';
+import {
+  EssenceOnboardingProvider,
+  useEssenceOnboarding,
+} from './contexts/EssenceOnboardingContext';
 import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 import { FeedbackButton } from './components/FeedbackButton';
-import { performanceMonitor, trackPageLoad } from './lib/performance';
+import { trackPageLoad } from './lib/performance';
 
 // Import direto para evitar problemas de lazy loading
 import HomePage from './features/home/screens/HomePageSimple';
@@ -157,6 +160,7 @@ function AppContent() {
   // Show main app
   if (authState === 'app' && user) {
     const renderPage = () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const LoadingSpinner = () => (
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="flex flex-col items-center gap-4">
@@ -211,19 +215,20 @@ function AppContent() {
     };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-neutral-900 dark:via-primary-950 dark:to-secondary-950 transition-colors duration-500 mobile-content relative overflow-hidden">
-        {/* Modern Background Elements */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-primary-200/20 dark:bg-primary-800/10 rounded-full blur-3xl animate-float"></div>
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 mobile-content relative">
+        {/* Subtle Background Pattern */}
+        <div className="fixed inset-0 pointer-events-none opacity-30">
           <div
-            className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-200/20 dark:bg-secondary-800/10 rounded-full blur-3xl animate-float"
-            style={{ animationDelay: '1s' }}
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.03) 1px, transparent 0)',
+              backgroundSize: '24px 24px',
+            }}
           ></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-200/10 dark:bg-accent-800/5 rounded-full blur-3xl animate-pulse"></div>
         </div>
 
         <div className="relative z-10">
-
           {/* Header removido - cada página tem seu próprio header */}
 
           <main className="pt-2 pb-20 animate-fade-in overscroll-none">{renderPage()}</main>
@@ -260,13 +265,10 @@ function AppContent() {
           <NotificationContainer notifications={notifications} onClose={removeNotification} />
 
           {/* Botão de Feedback Maternal */}
-          <FeedbackButton
-            userWeek={user?.gestational_week || 0}
-            userId={user?.id}
-          />
+          <FeedbackButton userWeek={user?.gestational_week || 0} userId={user?.id} />
 
           {/* Toast Container */}
-          <ToastContainer toasts={[]} onClose={() => { }} />
+          <ToastContainer toasts={[]} onClose={() => {}} />
         </div>
       </div>
     );

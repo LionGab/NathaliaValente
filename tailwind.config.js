@@ -5,117 +5,118 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Esquema de Cores Acolhedor para Mães - Nossa Maternidade
+        // Sistema de Cores Minimalista - ClubNath VIP
+        // Inspirado em: Flo, Ovia, Linear, Vercel
         primary: {
-          50: '#fdf2f8',   // Rosa muito claro - fundos suaves
-          100: '#fce7f3',  // Rosa claro - elementos de destaque suave
-          200: '#fbcfe8',  // Rosa médio-claro - hover states
-          300: '#f9a8d4',  // Rosa médio - elementos interativos
-          400: '#f472b6',  // Rosa vibrante - CTAs principais
-          500: '#ec4899',  // Rosa principal - marca
-          600: '#db2777',  // Rosa escuro - texto em contraste
-          700: '#be185d',  // Rosa muito escuro - elementos de destaque
-          800: '#9d174d',  // Rosa escuro profundo
-          900: '#831843',  // Rosa mais escuro - texto principal
+          50: '#fdf8f6',   // Areia muito clara - backgrounds principais
+          100: '#f9f1ed',  // Blush suave - cards e containers
+          200: '#f3e4dd',  // Rosa areia - hover states
+          300: '#e8cec1',  // Terracota suave - borders
+          400: '#d4a896',  // Rosé suave - elementos interativos
+          500: '#c08774',  // Rosé médio - cor principal (MUITO MAIS SUAVE)
+          600: '#a67563',  // Terracota médio - textos importantes
+          700: '#8b6352',  // Terracota escuro - headings
+          800: '#6d4f42',  // Marrom suave - textos escuros
+          900: '#4a3529',  // Marrom profundo - títulos
         },
         secondary: {
-          50: '#faf5ff',   // Lavanda muito claro
-          100: '#f3e8ff',  // Lavanda claro
-          200: '#e9d5ff',  // Lavanda médio-claro
-          300: '#d8b4fe',  // Lavanda médio
-          400: '#c084fc',  // Lavanda vibrante
-          500: '#a855f7',  // Lavanda principal
-          600: '#9333ea',  // Lavanda escuro
-          700: '#7c3aed',  // Lavanda muito escuro
-          800: '#6b21a8',  // Lavanda escuro profundo
-          900: '#581c87',  // Lavanda mais escuro
+          50: '#faf9fb',   // Lavanda gelo - muito sutil
+          100: '#f4f2f7',  // Lavanda nuvem
+          200: '#e9e5f0',  // Lavanda suave
+          300: '#d4cde3',  // Lilás areia
+          400: '#b8aed0',  // Lilás suave
+          500: '#9d8fbc',  // Lilás médio (MUITO MAIS SUAVE)
+          600: '#8577a8',  // Lilás profundo
+          700: '#6e6290',  // Roxo suave
+          800: '#584f73',  // Roxo médio
+          900: '#3d3650',  // Roxo profundo
         },
         accent: {
-          50: '#eff6ff',   // Azul muito claro
-          100: '#dbeafe',  // Azul claro
-          200: '#bfdbfe',  // Azul médio-claro
-          300: '#93c5fd',  // Azul médio
-          400: '#60a5fa',  // Azul vibrante
-          500: '#3b82f6',  // Azul principal
-          600: '#2563eb',  // Azul escuro
-          700: '#1d4ed8',  // Azul muito escuro
-          800: '#1e40af',  // Azul escuro profundo
-          900: '#1e3a8a',  // Azul mais escuro
+          50: '#f7f9fb',   // Cinza azulado muito claro
+          100: '#eff3f7',  // Cinza azulado
+          200: '#dfe7ef',  // Azul gelo
+          300: '#c4d5e3',  // Azul nuvem
+          400: '#a0b9d1',  // Azul suave
+          500: '#7d9cbe',  // Azul médio (MUITO MAIS SUAVE)
+          600: '#6484a8',  // Azul profundo
+          700: '#526d8e',  // Azul escuro
+          800: '#405671',  // Azul muito escuro
+          900: '#2d3d4f',  // Azul profundo
         },
         neutral: {
-          0: '#ffffff',
-          50: '#fafaf9',   // Branco quente
-          100: '#f5f5f4',  // Cinza muito claro
-          200: '#e7e5e4',  // Cinza claro
-          300: '#d6d3d1',  // Cinza médio-claro
-          400: '#a8a29e',  // Cinza médio
-          500: '#78716c',  // Cinza médio-escuro
-          600: '#57534e',  // Cinza escuro
-          700: '#44403c',  // Cinza muito escuro
-          800: '#292524',  // Cinza escuro profundo
-          900: '#1c1917',  // Cinza mais escuro
+          0: '#ffffff',    // Branco puro
+          50: '#fafafa',   // Off-white - background principal
+          100: '#f5f5f5',  // Cinza gelo - cards
+          200: '#eeeeee',  // Cinza claro - dividers
+          300: '#e0e0e0',  // Cinza médio-claro - borders
+          400: '#bdbdbd',  // Cinza médio - placeholders
+          500: '#9e9e9e',  // Cinza - textos secundários
+          600: '#757575',  // Cinza escuro - textos
+          700: '#616161',  // Cinza muito escuro - headings
+          800: '#424242',  // Quase preto - títulos
+          900: '#212121',  // Preto suave - textos principais
         },
         success: {
-          50: '#f0fdf4',   // Verde muito claro
-          100: '#dcfce7',  // Verde claro
-          200: '#bbf7d0',  // Verde médio-claro
-          300: '#86efac',  // Verde médio
-          400: '#4ade80',  // Verde vibrante
-          500: '#22c55e',  // Verde principal
-          600: '#16a34a',  // Verde escuro
-          700: '#15803d',  // Verde muito escuro
-          800: '#166534',  // Verde escuro profundo
-          900: '#14532d',  // Verde mais escuro
+          50: '#f6faf7',   // Verde gelo
+          100: '#e8f5ec',  // Verde nuvem
+          200: '#d1ebd9',  // Verde suave
+          300: '#a8d9ba',  // Verde claro
+          400: '#7ec497',  // Verde médio
+          500: '#5dad7b',  // Verde principal (SUAVE)
+          600: '#4a9164',  // Verde profundo
+          700: '#3d7653',  // Verde escuro
+          800: '#315c43',  // Verde muito escuro
+          900: '#254232',  // Verde profundo
         },
         warning: {
-          50: '#fffbeb',   // Amarelo muito claro
-          100: '#fef3c7',  // Amarelo claro
-          200: '#fde68a',  // Amarelo médio-claro
-          300: '#fcd34d',  // Amarelo médio
-          400: '#fbbf24',  // Amarelo vibrante
-          500: '#f59e0b',  // Amarelo principal
-          600: '#d97706',  // Amarelo escuro
-          700: '#b45309',  // Amarelo muito escuro
-          800: '#92400e',  // Amarelo escuro profundo
-          900: '#78350f',  // Amarelo mais escuro
+          50: '#fdfaf5',   // Âmbar gelo
+          100: '#faf4e8',  // Âmbar nuvem
+          200: '#f5e8d1',  // Âmbar suave
+          300: '#ecd5a8',  // Âmbar claro
+          400: '#dfbe7e',  // Âmbar médio
+          500: '#d1a65c',  // Âmbar principal (SUAVE)
+          600: '#b88e4b',  // Âmbar profundo
+          700: '#99763e',  // Âmbar escuro
+          800: '#795d32',  // Âmbar muito escuro
+          900: '#594526',  // Âmbar profundo
         },
         error: {
-          50: '#fef2f2',   // Vermelho muito claro
-          100: '#fee2e2',  // Vermelho claro
-          200: '#fecaca',  // Vermelho médio-claro
-          300: '#fca5a5',  // Vermelho médio
-          400: '#f87171',  // Vermelho vibrante
-          500: '#ef4444',  // Vermelho principal
-          600: '#dc2626',  // Vermelho escuro
-          700: '#b91c1c',  // Vermelho muito escuro
-          800: '#991b1b',  // Vermelho escuro profundo
-          900: '#7f1d1d',  // Vermelho mais escuro
+          50: '#fdf6f6',   // Coral gelo
+          100: '#faecec',  // Coral nuvem
+          200: '#f5d8d8',  // Coral suave
+          300: '#ecb8b8',  // Coral claro
+          400: '#df9090',  // Coral médio
+          500: '#d16d6d',  // Coral principal (SUAVE)
+          600: '#b85a5a',  // Coral profundo
+          700: '#994a4a',  // Coral escuro
+          800: '#7a3b3b',  // Coral muito escuro
+          900: '#5b2d2d',  // Coral profundo
         },
-        // Cores Especiais para Maternidade
+        // Cores Especiais Minimalistas para Maternidade
         maternity: {
           skin: {
-            50: '#fef7f0',   // Pele muito clara
-            100: '#fdeee0',  // Pele clara
-            200: '#fbdcc0',  // Pele médio-clara
-            300: '#f8c5a0',  // Pele média
-            400: '#f5a980',  // Pele mais escura
-            500: '#f28c60',  // Pele principal
+            50: '#fdfaf8',   // Pele porcelana
+            100: '#faf4f0',  // Pele nuvem
+            200: '#f5e8dd',  // Pele areia
+            300: '#ead5c4',  // Pele suave
+            400: '#d9baa3',  // Pele rosada
+            500: '#c8a184',  // Pele principal (SUAVE)
           },
           baby: {
-            50: '#fef7ff',   // Bebê muito claro
-            100: '#fceeff',  // Bebê claro
-            200: '#f8d7ff',  // Bebê médio-claro
-            300: '#f2bfff',  // Bebê médio
-            400: '#e899ff',  // Bebê vibrante
-            500: '#dd73ff',  // Bebê principal
+            50: '#fdfafc',   // Bebê nuvem
+            100: '#faf5f9',  // Bebê gelo
+            200: '#f5eaf4',  // Bebê suave
+            300: '#ead5e8',  // Bebê claro
+            400: '#d9b8d6',  // Bebê rosé
+            500: '#c89cc4',  // Bebê principal (SUAVE)
           },
           nature: {
-            50: '#f0fdf4',   // Natureza muito clara
-            100: '#dcfce7',  // Natureza clara
-            200: '#bbf7d0',  // Natureza médio-clara
-            300: '#86efac',  // Natureza média
-            400: '#4ade80',  // Natureza vibrante
-            500: '#22c55e',  // Natureza principal
+            50: '#f8faf8',   // Natureza gelo
+            100: '#f0f5f0',  // Natureza nuvem
+            200: '#e1ebe1',  // Natureza suave
+            300: '#c8d9c8',  // Natureza clara
+            400: '#a7c3a7',  // Natureza média
+            500: '#8aad8a',  // Natureza principal (SUAVE)
           }
         }
       },
