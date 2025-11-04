@@ -159,21 +159,24 @@ export const isSupabaseConfigured = () => apiConfig.isAPIConfigured('supabase');
 // Validação de configuração
 export const validateAPIConfiguration = () => {
   const validation = apiConfig.validateRequiredAPIs();
-  
-  if (!validation.isValid) {
-    console.error('❌ APIs obrigatórias não configuradas:', validation.missing);
-    console.error('💡 Configure as variáveis de ambiente necessárias no arquivo .env');
-  } else {
-    console.log('✅ Todas as APIs obrigatórias estão configuradas');
-  }
 
-  const configuredAPIs = apiConfig.getConfiguredAPIs();
-  console.log('🔧 APIs configuradas:', configuredAPIs);
+  // Logs apenas em desenvolvimento
+  if (import.meta.env.DEV) {
+    if (!validation.isValid) {
+      console.error('❌ APIs obrigatórias não configuradas:', validation.missing);
+      console.error('💡 Configure as variáveis de ambiente necessárias no arquivo .env');
+    } else {
+      console.log('✅ Todas as APIs obrigatórias estão configuradas');
+    }
+
+    const configuredAPIs = apiConfig.getConfiguredAPIs();
+    console.log('🔧 APIs configuradas:', configuredAPIs);
+  }
 
   return validation;
 };
 
-// Auto-validação na inicialização
-if (typeof window !== 'undefined') {
+// Auto-validação na inicialização (apenas em DEV)
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
   validateAPIConfiguration();
 }

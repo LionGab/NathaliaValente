@@ -1,22 +1,30 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Configuração segura do Supabase com fallback
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5NzQ4MDAsImV4cCI6MjA1MDU1MDgwMH0.placeholder';
+// Configuração segura do Supabase - APENAS variáveis de ambiente
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Validação CRÍTICA: Falhar se credenciais ausentes
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    '🚨 ERRO DE CONFIGURAÇÃO: Variáveis de ambiente do Supabase não encontradas!\n' +
+    'Por favor, configure:\n' +
+    '  - VITE_SUPABASE_URL\n' +
+    '  - VITE_SUPABASE_ANON_KEY\n' +
+    'Veja .env.example para mais detalhes.'
+  );
+}
 
 // Validação da URL do Supabase
-let finalUrl = supabaseUrl;
-let finalKey = supabaseAnonKey;
-
-if (supabaseUrl === 'your_supabase_project_url' || !supabaseUrl.startsWith('http')) {
-  console.warn('⚠️ SUPABASE: URL inválida detectada, usando configuração de fallback');
-  // Usar uma URL válida para desenvolvimento
-  finalUrl = 'https://bbcwitnbnosyfpfjtzkr.supabase.co';
-  finalKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiY3dpdG5ibm9zeWZwZmp0emtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5NzQ4MDAsImV4cCI6MjA1MDU1MDgwMH0.placeholder';
+if (!supabaseUrl.startsWith('https://')) {
+  throw new Error(
+    `🚨 SUPABASE: URL inválida! Deve começar com https://\n` +
+    `URL recebida: ${supabaseUrl}`
+  );
 }
 
 // Criar cliente Supabase com configuração mobile-optimized
-export const supabase = createClient(finalUrl, finalKey, {
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
@@ -30,14 +38,9 @@ export const supabase = createClient(finalUrl, finalKey, {
   }
 });
 
-// Validação das variáveis de ambiente
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('⚠️ SUPABASE: Usando configuração padrão');
-}
-
 // Log apenas em desenvolvimento
-if (import.meta.env.DEV && finalUrl) {
-  console.log('✅ Supabase configurado:', finalUrl);
+if (import.meta.env.DEV) {
+  console.log('✅ Supabase configurado:', supabaseUrl);
 }
 
 export type Profile = {
