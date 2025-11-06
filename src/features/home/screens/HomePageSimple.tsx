@@ -391,9 +391,30 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
   const handleQuickQuestion = useCallback((question: string) => {
     setInputValue(question);
     setTimeout(() => {
-      handleSend();
+      const userMessage = {
+        id: messages.length + 1,
+        type: 'user' as const,
+        text: question,
+        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, userMessage]);
+      triggerHaptic('light');
+
+      setIsTyping(true);
+      setTimeout(() => {
+        const response = getResponse(question);
+        const botResponse = {
+          id: messages.length + 2,
+          type: 'bot' as const,
+          text: response,
+          time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        };
+        setMessages(prev => [...prev, botResponse]);
+        setIsTyping(false);
+        triggerHaptic('light');
+      }, 1500);
     }, 100);
-  }, []);
+  }, [messages, getResponse, triggerHaptic]);
 
   return (
     <div className="space-y-4">
