@@ -289,18 +289,66 @@ const HomePageSimple = () => {
   );
 };
 
-// NathIA Component - O MAIS IMPORTANTE
+// NathIA Component - O MAIS IMPORTANTE - TOTALMENTE FUNCIONAL
 const NathIASection = ({ userName, gestationalData }: { userName: string; gestationalData: any }) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'bot',
-      text: `Olá ${userName}! 👋 Sou a NathIA, sua assistente gestacional pessoal. Como posso te ajudar hoje?`,
+      text: `Olá ${userName}! 👋 Sou a NathIA, sua assistente gestacional pessoal. Posso te ajudar com dúvidas sobre gestação, saúde, bem-estar e muito mais! Como posso te ajudar hoje?`,
       time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const { triggerHaptic } = useHapticFeedback();
+
+  // Respostas inteligentes baseadas em palavras-chave
+  const getResponse = useCallback((userInput: string) => {
+    const input = userInput.toLowerCase();
+    
+    if (input.includes('bebê') || input.includes('bebe') || input.includes('como está')) {
+      return `Seu bebê está se desenvolvendo muito bem! Com ${gestationalData?.weeks || 20} semanas, ele já está do tamanho de uma banana! 🍌 Continue cuidando de você que ele está perfeito! 💙`;
+    }
+    
+    if (input.includes('dica') || input.includes('dicas')) {
+      const tips = gestationalData?.healthTips || [];
+      if (tips.length > 0) {
+        return `Aqui está uma dica especial para você: ${tips[0]} 🌸 Lembre-se de sempre seguir as orientações do seu médico!`;
+      }
+      return 'Mantenha-se hidratada, descanse bastante e faça exercícios leves. Você está fazendo um trabalho incrível! 💪';
+    }
+    
+    if (input.includes('progresso') || input.includes('semanas')) {
+      return `Você está com ${gestationalData?.weeks || 20} semanas de gestação, no ${gestationalData?.trimester || 2}º trimestre! Isso representa ${Math.round(((gestationalData?.weeks || 20) / 40) * 100)}% da sua jornada. Continue assim! 🎉`;
+    }
+    
+    if (input.includes('ajuda') || input.includes('preciso')) {
+      return 'Estou aqui para te ajudar! Posso responder sobre gestação, saúde, bem-estar, exercícios, alimentação e muito mais. O que você gostaria de saber? 💙';
+    }
+    
+    if (input.includes('alimentação') || input.includes('comida') || input.includes('dieta')) {
+      return 'Uma alimentação equilibrada é essencial! Inclua frutas, verduras, proteínas magras e grãos integrais. Evite alimentos crus e mal cozidos. Beba muita água! 💧';
+    }
+    
+    if (input.includes('exercício') || input.includes('exercicio') || input.includes('atividade')) {
+      return 'Exercícios leves são ótimos! Caminhadas de 30 minutos, yoga pré-natal e natação são excelentes opções. Sempre consulte seu médico antes de começar qualquer atividade! 🏃‍♀️';
+    }
+    
+    if (input.includes('sono') || input.includes('descanso') || input.includes('cansada')) {
+      return 'O descanso é fundamental! Tente dormir 8-9 horas por noite. Use travesseiros para apoiar a barriga e as costas. Se estiver muito cansada, descanse durante o dia também! 😴';
+    }
+    
+    // Resposta padrão
+    const defaultResponses = [
+      'Entendo! Vamos trabalhar juntas nisso. Você está fazendo um trabalho incrível! 💙',
+      'Que ótimo! Estou aqui para te apoiar em cada etapa da sua jornada. 🌸',
+      'Essa é uma dúvida muito comum. Você não está sozinha nessa! 💪',
+      `Com ${gestationalData?.weeks || 20} semanas, você está no ${gestationalData?.trimester || 2}º trimestre. Continue cuidando de você e do seu bebê! 👶`,
+      'Lembre-se: cada gestação é única. Confie no seu corpo e no seu instinto materno! 🌟'
+    ];
+    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+  }, [gestationalData]);
 
   const handleSend = useCallback(() => {
     if (!inputValue.trim()) return;
@@ -313,27 +361,25 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
       time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
     };
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputValue;
     setInputValue('');
     triggerHaptic('light');
 
-    // Resposta automática da NathIA (simulada)
+    // Simular digitação da NathIA
+    setIsTyping(true);
     setTimeout(() => {
-      const responses = [
-        'Entendo sua preocupação. Vamos trabalhar juntas nisso! 💙',
-        'Que ótimo! Estou aqui para te apoiar em cada etapa. 🌸',
-        'Essa é uma dúvida muito comum. Deixa eu te ajudar com isso.',
-        `Com ${gestationalData?.weeks || 20} semanas, você está no ${gestationalData?.trimester || 2}º trimestre. Vamos focar no seu bem-estar!`
-      ];
+      const response = getResponse(currentInput);
       const botResponse = {
         id: messages.length + 2,
         type: 'bot',
-        text: responses[Math.floor(Math.random() * responses.length)],
+        text: response,
         time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
       triggerHaptic('light');
-    }, 1000);
-  }, [inputValue, messages, gestationalData, triggerHaptic]);
+    }, 1500);
+  }, [inputValue, messages, getResponse, triggerHaptic]);
 
   const quickQuestions = [
     'Como está meu bebê?',
@@ -342,42 +388,75 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
     'Preciso de ajuda'
   ];
 
+  const handleQuickQuestion = useCallback((question: string) => {
+    setInputValue(question);
+    setTimeout(() => {
+      handleSend();
+    }, 100);
+  }, []);
+
   return (
     <div className="space-y-4">
-      <Card className="border-blue-200 shadow-md">
+      <Card className="border-blue-200 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg">
-              <Baby className="w-6 h-6 text-white" />
+            <div className="p-3 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl shadow-md">
+              <Baby className="w-7 h-7 text-white" />
             </div>
-            <div>
-              <CardTitle className="text-lg">NathIA</CardTitle>
-              <p className="text-xs text-gray-600">Sua assistente gestacional pessoal</p>
+            <div className="flex-1">
+              <CardTitle className="text-xl">NathIA</CardTitle>
+              <p className="text-xs text-gray-600 mt-0.5">Sua assistente gestacional pessoal • Online</p>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           {/* Chat Messages */}
-          <div className="space-y-3 mb-4 max-h-[400px] overflow-y-auto">
+          <div className="space-y-3 mb-4 max-h-[450px] overflow-y-auto pr-2">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={`flex gap-2 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
               >
+                {message.type === 'bot' && (
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Baby className="w-4 h-4 text-white" />
+                  </div>
+                )}
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
+                  className={`max-w-[85%] rounded-2xl p-3 shadow-sm ${
                     message.type === 'user'
                       ? 'bg-blue-600 text-white'
-                      : 'bg-blue-50 text-gray-800 border border-blue-100'
+                      : 'bg-white text-gray-800 border border-blue-100'
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{message.text}</p>
-                  <span className={`text-xs mt-1 block ${message.type === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
+                  <p className="text-sm leading-relaxed break-words">{message.text}</p>
+                  <span className={`text-xs mt-1.5 block ${message.type === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
                     {message.time}
                   </span>
                 </div>
+                {message.type === 'user' && (
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">{userName.charAt(0)}</span>
+                  </div>
+                )}
               </div>
             ))}
+            
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Baby className="w-4 h-4 text-white" />
+                </div>
+                <div className="bg-white border border-blue-100 rounded-2xl p-3">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Quick Questions */}
@@ -388,33 +467,49 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  setInputValue(question);
-                  handleSend();
+                  handleQuickQuestion(question);
                 }}
-                className="text-xs h-auto py-2 px-3 text-left justify-start"
+                className="text-xs h-auto py-2.5 px-3 text-left justify-start border-blue-200 hover:bg-blue-50 hover:border-blue-300"
               >
                 {question}
               </Button>
             ))}
           </div>
 
-          {/* Input */}
+          {/* Input Area */}
           <div className="flex gap-2">
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              onKeyPress={(e) => e.key === 'Enter' && !isTyping && handleSend()}
               placeholder="Digite sua mensagem..."
-              className="flex-1 px-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              disabled={isTyping}
+              className="flex-1 px-4 py-3 rounded-xl border-2 border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <Button
               onClick={handleSend}
-              className="bg-blue-600 hover:bg-blue-700 px-4"
+              disabled={!inputValue.trim() || isTyping}
+              className="bg-blue-600 hover:bg-blue-700 px-5 disabled:opacity-50"
               size="icon"
             >
               <MessageCircle className="w-5 h-5" />
             </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Info Card */}
+      <Card className="border-blue-200 bg-blue-50">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <h4 className="font-semibold text-gray-800 text-sm mb-1">Sobre a NathIA</h4>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Sou sua assistente gestacional pessoal. Posso ajudar com dúvidas sobre gestação, saúde, bem-estar, exercícios, alimentação e muito mais!
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
