@@ -36,43 +36,43 @@ export const OptimizedBottomNav = ({
 }: OptimizedBottomNavProps) => {
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
 
-  // 5 tabs principais organizadas com design maternal
+  // 5 tabs principais organizadas com design maternal - AZUL como cor principal!
   const mainTabs = [
     {
       id: 'home',
       icon: Home,
       label: 'Início',
-      color: 'text-pink-600 dark:text-pink-400',
-      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
+      color: 'text-blue-600 dark:text-blue-400',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
       maternalColor: 'maternal-icon'
     },
     {
       id: 'feed',
       icon: Users,
       label: 'Comunidade',
-      color: 'text-blue-600 dark:text-blue-400',
+      color: 'text-blue-500 dark:text-blue-400',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20'
     },
     {
       id: 'chat',
       icon: MessageCircle,
       label: 'NathIA',
-      color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20'
+      color: 'text-blue-700 dark:text-blue-500',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20'
     },
     {
       id: 'store',
       icon: Star,
       label: 'Loja',
-      color: 'text-orange-600 dark:text-orange-400',
-      bgColor: 'bg-orange-50 dark:bg-orange-900/20'
+      color: 'text-cyan-600 dark:text-cyan-400',
+      bgColor: 'bg-cyan-50 dark:bg-cyan-900/20'
     },
     {
       id: 'profile',
       icon: User,
       label: 'Perfil',
-      color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20'
+      color: 'text-blue-600 dark:text-blue-400',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20'
     }
   ];
 
@@ -134,13 +134,13 @@ export const OptimizedBottomNav = ({
               aria-label="Ver notificações"
             >
               <Bell className="w-5 h-5" aria-hidden="true" />
-              <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full" aria-hidden="true"></div>
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full" aria-hidden="true"></div>
             </button>
 
-            {/* Botão Criar Post - Central e Destacado com Design Maternal */}
+            {/* Botão Criar Post - Central e Destacado com Design Maternal - AZUL! */}
             <button
               onClick={onCreatePost}
-              className="w-14 h-14 maternal-button rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center touch-target maternal-float"
+              className="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center touch-target maternal-float"
               aria-label="Criar nova publicação"
             >
               <Plus className="w-7 h-7" aria-hidden="true" />
@@ -190,7 +190,7 @@ export const OptimizedBottomNav = ({
                       <Icon className="w-4 h-4" aria-hidden="true" />
                       <span className="text-sm font-medium">{action.label}</span>
                       {action.hasNotification && (
-                        <div className="w-2 h-2 bg-pink-500 rounded-full ml-auto" aria-hidden="true"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full ml-auto" aria-hidden="true"></div>
                       )}
                     </button>
                   );

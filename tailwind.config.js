@@ -8,16 +8,16 @@ export default {
         // Sistema de Cores Minimalista - ClubNath VIP
         // Inspirado em: Flo, Ovia, Linear, Vercel
         primary: {
-          50: '#fdf8f6',   // Areia muito clara - backgrounds principais
-          100: '#f9f1ed',  // Blush suave - cards e containers
-          200: '#f3e4dd',  // Rosa areia - hover states
-          300: '#e8cec1',  // Terracota suave - borders
-          400: '#d4a896',  // Rosé suave - elementos interativos
-          500: '#c08774',  // Rosé médio - cor principal (MUITO MAIS SUAVE)
-          600: '#a67563',  // Terracota médio - textos importantes
-          700: '#8b6352',  // Terracota escuro - headings
-          800: '#6d4f42',  // Marrom suave - textos escuros
-          900: '#4a3529',  // Marrom profundo - títulos
+          50: '#eff6ff',   // Azul muito claro - backgrounds principais
+          100: '#dbeafe',  // Azul céu suave - cards e containers
+          200: '#bfdbfe',  // Azul nuvem - hover states
+          300: '#93c5fd',  // Azul suave - borders
+          400: '#60a5fa',  // Azul médio-claro - elementos interativos
+          500: '#3b82f6',  // Azul principal - cor principal (ELA GOSTA MUITO DE AZUL!)
+          600: '#2563eb',  // Azul profundo - textos importantes
+          700: '#1d4ed8',  // Azul escuro - headings
+          800: '#1e40af',  // Azul muito escuro - textos escuros
+          900: '#1e3a8a',  // Azul profundo - títulos
         },
         secondary: {
           50: '#faf9fb',   // Lavanda gelo - muito sutil

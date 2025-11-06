@@ -29,7 +29,7 @@ const HomePageSimple = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Dados de notificações inteligentes
+  // Dados de notificações inteligentes - AZUL como tema principal!
   const smartNotifications = [
     {
       id: 1,
@@ -38,7 +38,7 @@ const HomePageSimple = () => {
       message: '5 minutos para relaxar e conectar com seu bebê',
       time: '09:00',
       icon: Moon,
-      color: 'from-purple-500 to-purple-600'
+      color: 'from-blue-500 to-blue-600'
     },
     {
       id: 2,
@@ -47,7 +47,7 @@ const HomePageSimple = () => {
       message: 'Beba mais água! Hidratação é essencial na gestação',
       time: '10:30',
       icon: Sparkles,
-      color: 'from-blue-500 to-blue-600'
+      color: 'from-blue-400 to-cyan-500'
     },
     {
       id: 3,
@@ -56,7 +56,7 @@ const HomePageSimple = () => {
       message: 'Você completou 7 dias seguidos de exercícios',
       time: '14:00',
       icon: Award,
-      color: 'from-green-500 to-green-600'
+      color: 'from-blue-600 to-blue-700'
     }
   ];
 
@@ -97,24 +97,24 @@ const HomePageSimple = () => {
       title: 'Comunidade',
       subtitle: 'Conecte-se com outras mães',
       icon: Users,
-      color: 'from-green-500 to-green-600',
-      bgColor: 'bg-gradient-to-br from-green-500 to-green-600'
+      color: 'from-blue-400 to-blue-500',
+      bgColor: 'bg-gradient-to-br from-blue-400 to-blue-500'
     },
     {
       id: 'nathia',
       title: 'NathIA',
       subtitle: 'Sua assistente gestacional',
       icon: Baby,
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-gradient-to-br from-purple-500 to-purple-600'
+      color: 'from-blue-600 to-blue-700',
+      bgColor: 'bg-gradient-to-br from-blue-600 to-blue-700'
     },
     {
       id: 'support',
       title: 'Apoio',
       subtitle: 'Dicas e orientações',
       icon: Shield,
-      color: 'from-orange-500 to-orange-600',
-      bgColor: 'bg-gradient-to-br from-orange-500 to-orange-600'
+      color: 'from-blue-500 to-cyan-500',
+      bgColor: 'bg-gradient-to-br from-blue-500 to-cyan-500'
     }
   ];
 
@@ -126,7 +126,7 @@ const HomePageSimple = () => {
       <div className="max-w-full mx-auto px-4 py-4 mobile-bottom-nav">
         {/* Hero Card Melhorado - Hierarquia Visual Clara */}
         <div className="mb-6 group animate-fade-in-up">
-          <div className="bg-gradient-to-br from-pink-300 via-rose-200 to-orange-200 rounded-3xl p-6 text-gray-800 shadow-2xl relative overflow-hidden border border-pink-200/50">
+          <div className="bg-gradient-to-br from-blue-300 via-blue-200 to-cyan-200 rounded-3xl p-6 text-gray-800 shadow-2xl relative overflow-hidden border border-blue-200/50">
             {/* Background Pattern Melhorado */}
             <div className="absolute inset-0 opacity-10" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E")`
@@ -141,7 +141,7 @@ const HomePageSimple = () => {
                     <h1 className="text-3xl font-bold text-gray-800 leading-tight tracking-tight">
                       Olá, {profile?.full_name?.split(' ')[0] || 'Mamãe'}! 👶
                     </h1>
-                    <div className="text-sm text-pink-600 font-semibold bg-pink-100 px-3 py-1.5 rounded-full border border-pink-200">
+                    <div className="text-sm text-blue-600 font-semibold bg-blue-100 px-3 py-1.5 rounded-full border border-blue-200">
                       {currentTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
@@ -149,19 +149,19 @@ const HomePageSimple = () => {
                   {/* Dados gestacionais com visual melhorado */}
                   {gestationalData && (
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                      <div className="bg-pink-100 rounded-2xl px-4 py-2.5 border border-pink-200 shadow-lg">
-                        <span className="text-sm font-bold text-pink-700 tracking-wide">
+                      <div className="bg-blue-100 rounded-2xl px-4 py-2.5 border border-blue-200 shadow-lg">
+                        <span className="text-sm font-bold text-blue-700 tracking-wide">
                           {gestationalData.weeks} semanas
                         </span>
                       </div>
-                      <div className="bg-purple-100 rounded-2xl px-4 py-2.5 border border-purple-200 shadow-lg">
-                        <span className="text-sm font-bold text-purple-700 tracking-wide">
+                      <div className="bg-blue-200 rounded-2xl px-4 py-2.5 border border-blue-300 shadow-lg">
+                        <span className="text-sm font-bold text-blue-800 tracking-wide">
                           {gestationalData.trimester}º trimestre
                         </span>
                       </div>
-                      <div className="bg-orange-100 rounded-2xl px-4 py-2.5 border border-orange-200 shadow-lg flex items-center gap-1.5">
-                        <Target className="w-3.5 h-3.5 text-orange-600" aria-hidden="true" />
-                        <span className="text-sm font-bold text-orange-700 tracking-wide">
+                      <div className="bg-cyan-100 rounded-2xl px-4 py-2.5 border border-cyan-200 shadow-lg flex items-center gap-1.5">
+                        <Target className="w-3.5 h-3.5 text-cyan-600" aria-hidden="true" />
+                        <span className="text-sm font-bold text-cyan-700 tracking-wide">
                           {todayProgress}% hoje
                         </span>
                       </div>
@@ -250,7 +250,7 @@ const HomePageSimple = () => {
                       triggerHaptic('light');
                       window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
                     }}
-                    className="bg-pink-500 text-white px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg text-sm tracking-wide hover:bg-pink-600 hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 touch-target"
+                    className="bg-blue-500 text-white px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg text-sm tracking-wide hover:bg-blue-600 hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 touch-target"
                     aria-label="Compartilhar experiência"
                   >
                     <Heart className="w-4 h-4" aria-hidden="true" />
@@ -280,10 +280,10 @@ const HomePageSimple = () => {
             className="mb-6 animate-fade-in-up"
             style={{ animationDelay: '0.2s' }}
           >
-            <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl p-5 shadow-lg border border-pink-200 hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-5 shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-gradient-to-r from-pink-400 to-purple-400 rounded-xl">
+                  <div className="p-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-xl">
                     <BookOpen className="w-5 h-5 text-white" aria-hidden="true" />
                   </div>
                   <div>
@@ -293,7 +293,7 @@ const HomePageSimple = () => {
                     <p className="text-gray-600 text-sm font-medium">Personalizadas para você</p>
                   </div>
                 </div>
-                <div className="text-sm text-pink-700 font-bold bg-pink-200 px-4 py-2 rounded-full border border-pink-300 shadow-md">
+                <div className="text-sm text-blue-700 font-bold bg-blue-200 px-4 py-2 rounded-full border border-blue-300 shadow-md">
                   {gestationalData.weeks} semanas
                 </div>
               </div>
@@ -303,10 +303,10 @@ const HomePageSimple = () => {
                 {gestationalData.healthTips.slice(0, 2).map((tip, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-200 group border border-pink-200 animate-fade-in-left"
+                    className="flex items-start gap-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-200 group border border-blue-200 animate-fade-in-left"
                     style={{ animationDelay: `${0.3 + index * 0.1}s` }}
                   >
-                    <div className="p-1.5 bg-green-400 rounded-full group-hover:bg-green-500 transition-colors">
+                    <div className="p-1.5 bg-blue-400 rounded-full group-hover:bg-blue-500 transition-colors">
                       <CheckCircle className="w-4 h-4 text-white" aria-hidden="true" />
                     </div>
                     <span className="text-sm text-gray-700 leading-relaxed font-semibold flex-1">{tip}</span>
@@ -319,7 +319,7 @@ const HomePageSimple = () => {
                   triggerHaptic('light');
                   window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'tools' } }));
                 }}
-                className="w-full mt-4 bg-pink-500 text-white text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-pink-600 hover:scale-102 active:scale-98 transition-all duration-200 shadow-md touch-target"
+                className="w-full mt-4 bg-blue-500 text-white text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-600 hover:scale-102 active:scale-98 transition-all duration-200 shadow-md touch-target"
                 aria-label="Ver todas as dicas personalizadas"
               >
                 Ver todas as dicas
@@ -502,7 +502,7 @@ const HomePageSimple = () => {
                 triggerHaptic('medium');
                 window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'feed' } }));
               }}
-              className="bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 text-white px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-105 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-3 group relative overflow-hidden touch-target"
+              className="bg-gradient-to-r from-blue-500 via-blue-600 to-cyan-500 text-white px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-105 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-3 group relative overflow-hidden touch-target"
               aria-label="Criar nova publicação - Compartilhar Experiência"
             >
               {/* Background pattern animado */}
