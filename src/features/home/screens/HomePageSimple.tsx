@@ -110,12 +110,12 @@ const HomePageSimple = () => {
   ], []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pb-safe">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pb-safe safe-left safe-right">
       <Header />
 
-      <div className="max-w-full mx-auto px-4 py-4 pb-24">
-        {/* Tabs de Navegação - Mobile First */}
-        <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="max-w-full mx-auto px-4 py-4 pb-24 safe-left safe-right">
+        {/* Tabs de Navegação - Mobile First com Touch Targets */}
+        <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <Button
             variant={activeTab === 'home' ? 'default' : 'ghost'}
             size="sm"
@@ -123,7 +123,9 @@ const HomePageSimple = () => {
               setActiveTab('home');
               triggerHaptic('light');
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap touch-target-sm active:scale-98 min-w-[80px] justify-center"
+            aria-label="Home"
+            aria-pressed={activeTab === 'home'}
           >
             Home
           </Button>
@@ -134,7 +136,9 @@ const HomePageSimple = () => {
               setActiveTab('nathia');
               triggerHaptic('light');
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap touch-target-sm active:scale-98 min-w-[80px] justify-center"
+            aria-label="NathIA"
+            aria-pressed={activeTab === 'nathia'}
           >
             NathIA
           </Button>
@@ -145,7 +149,9 @@ const HomePageSimple = () => {
               setActiveTab('mundo');
               triggerHaptic('light');
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap touch-target-sm active:scale-98 min-w-[100px] justify-center"
+            aria-label="Mundo Nath"
+            aria-pressed={activeTab === 'mundo'}
           >
             Mundo Nath
           </Button>
@@ -156,7 +162,9 @@ const HomePageSimple = () => {
               setActiveTab('habits');
               triggerHaptic('light');
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap touch-target-sm active:scale-98 min-w-[90px] justify-center"
+            aria-label="Hábitos"
+            aria-pressed={activeTab === 'habits'}
           >
             Hábitos
           </Button>
@@ -167,7 +175,9 @@ const HomePageSimple = () => {
               setActiveTab('trendings');
               triggerHaptic('light');
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap touch-target-sm active:scale-98 min-w-[100px] justify-center"
+            aria-label="Trendings"
+            aria-pressed={activeTab === 'trendings'}
           >
             Trendings
           </Button>
@@ -480,7 +490,7 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
             )}
           </div>
 
-          {/* Quick Questions */}
+          {/* Quick Questions - Mobile First */}
           <div className="grid grid-cols-2 gap-2 mb-4">
             {quickQuestions.map((question) => (
               <Button
@@ -490,14 +500,15 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
                 onClick={() => {
                   handleQuickQuestion(question);
                 }}
-                className="text-xs h-auto py-2.5 px-3 text-left justify-start border-blue-200 hover:bg-blue-50 hover:border-blue-300"
+                className="text-xs sm:text-xs h-auto py-3 sm:py-2.5 px-3 text-left justify-start border-blue-200 hover:bg-blue-50 hover:border-blue-300 active:scale-98 touch-target-sm"
+                aria-label={question}
               >
                 {question}
               </Button>
             ))}
           </div>
 
-          {/* Input Area */}
+          {/* Input Area - Mobile First */}
           <div className="flex gap-2">
             <input
               type="text"
@@ -506,13 +517,16 @@ const NathIASection = ({ userName, gestationalData }: { userName: string; gestat
               onKeyPress={(e) => e.key === 'Enter' && !isTyping && handleSend()}
               placeholder="Digite sua mensagem..."
               disabled={isTyping}
-              className="flex-1 px-4 py-3 rounded-xl border-2 border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-3.5 sm:py-3 rounded-xl border-2 border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed touch-target-sm"
+              aria-label="Digite sua mensagem para NathIA"
+              autoComplete="off"
             />
             <Button
               onClick={handleSend}
               disabled={!inputValue.trim() || isTyping}
-              className="bg-blue-600 hover:bg-blue-700 px-5 disabled:opacity-50"
+              className="bg-blue-600 hover:bg-blue-700 px-5 sm:px-5 disabled:opacity-50 touch-target-sm active:scale-98"
               size="icon"
+              aria-label="Enviar mensagem"
             >
               <MessageCircle className="w-5 h-5" />
             </Button>
@@ -591,13 +605,13 @@ const MundoNathSection = () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 mt-3 pt-3 border-t border-pink-200">
-                <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors">
-                  <Heart className="w-4 h-4" />
-                  <span className="text-xs">{post.likes}</span>
+                <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 active:text-blue-700 transition-colors touch-target-sm" aria-label={`${post.likes} curtidas`}>
+                  <Heart className="w-5 h-5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-xs">{post.likes}</span>
                 </button>
-                <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors">
-                  <MessageCircle className="w-4 h-4" />
-                  <span className="text-xs">{post.comments}</span>
+                <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 active:text-blue-700 transition-colors touch-target-sm" aria-label={`${post.comments} comentários`}>
+                  <MessageCircle className="w-5 h-5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-xs">{post.comments}</span>
                 </button>
                 <span className="text-xs text-gray-400 ml-auto">{post.time}</span>
               </div>
@@ -664,11 +678,13 @@ const HabitTrackerSection = ({ habits, onToggleHabit }: { habits: any[]; onToggl
             <button
               key={habit.id}
               onClick={() => onToggleHabit(habit.id)}
-              className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+              className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all touch-target ${
                 habit.completed
                   ? 'bg-green-50 border-green-200'
                   : 'bg-gray-50 border-gray-200 hover:border-blue-300'
               } active:scale-[0.98]`}
+              aria-label={`${habit.name} - ${habit.completed ? 'Completo' : 'Incompleto'}`}
+              aria-pressed={habit.completed}
             >
               <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${
                 habit.completed ? 'bg-green-500' : 'bg-gray-300'

@@ -702,9 +702,14 @@
   /* Dynamic viewport height for mobile browsers */
 }
 
-/* Modern Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
 
 ::-webkit-scrollbar-track {
