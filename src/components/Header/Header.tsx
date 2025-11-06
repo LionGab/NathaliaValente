@@ -99,7 +99,7 @@ export const Header: React.FC = () => {
                   <img
                     src={profile.avatar_url}
                     alt={profile.full_name}
-                    className="w-8 h-8 rounded-full object-cover ring-2 ring-pink-200 dark:ring-pink-800"
+                    className="w-8 h-8 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-800"
                   />
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-semibold text-sm">
@@ -113,7 +113,7 @@ export const Header: React.FC = () => {
                   <p className="text-xs text-gray-600 dark:text-gray-400">Nível {userStats.level}</p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-400" aria-hidden="true" />
-              </motion.button>
+              </button>
 
               {/* Dropdown do Meu Espaço */}
               {showUserMenu && (
@@ -125,12 +125,12 @@ export const Header: React.FC = () => {
                           <img
                             src={profile.avatar_url}
                             alt={profile.full_name}
-                            className="w-12 h-12 rounded-full object-cover ring-2 ring-pink-200 dark:ring-pink-800"
+                            className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-800"
                           />
                         ) : (
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-semibold text-lg">
-                    {profile?.full_name?.charAt(0) || 'M'}
-                  </div>
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-semibold text-lg">
+                            {profile?.full_name?.charAt(0) || 'M'}
+                          </div>
                         )}
                         <div className="flex-1">
                           <h3 className="font-bold text-gray-800 dark:text-white">
