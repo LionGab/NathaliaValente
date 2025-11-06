@@ -189,15 +189,53 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Separate vendor code
-        manualChunks: {
+        manualChunks: (id) => {
           // React core
-          'vendor-react': ['react', 'react-dom'],
-
-          // UI library
-          'vendor-ui': ['lucide-react'],
-
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'vendor-react';
+          }
+          
+          // Framer Motion (pesado, separar)
+          if (id.includes('framer-motion')) {
+            return 'vendor-framer-motion';
+          }
+          
+          // Lucide React (grande, separar)
+          if (id.includes('lucide-react')) {
+            return 'vendor-lucide';
+          }
+          
           // Supabase
-          'vendor-supabase': ['@supabase/supabase-js'],
+          if (id.includes('@supabase')) {
+            return 'vendor-supabase';
+          }
+          
+          // React Query
+          if (id.includes('@tanstack/react-query')) {
+            return 'vendor-react-query';
+          }
+          
+          // Features por domínio para melhor cache
+          if (id.includes('/features/home/')) {
+            return 'feature-home';
+          }
+          if (id.includes('/features/feed/')) {
+            return 'feature-feed';
+          }
+          if (id.includes('/features/chat/')) {
+            return 'feature-chat';
+          }
+          if (id.includes('/features/profile/')) {
+            return 'feature-profile';
+          }
+          if (id.includes('/features/store/')) {
+            return 'feature-store';
+          }
+          
+          // Componentes compartilhados
+          if (id.includes('/components/')) {
+            return 'components';
+          }
         },
 
         // Optimize chunk names for better caching
@@ -222,11 +260,21 @@ export default defineConfig({
 
   // Dependency optimization
   optimizeDeps: {
-    // Exclude large libraries from pre-bundling
-    exclude: ['lucide-react'],
+    // Exclude large libraries from pre-bundling (carregar sob demanda)
+    exclude: ['lucide-react', 'framer-motion'],
 
     // Include dependencies that should be pre-bundled
-    include: ['react', 'react-dom', '@supabase/supabase-js'],
+    include: [
+      'react',
+      'react-dom',
+      '@supabase/supabase-js',
+      '@tanstack/react-query',
+    ],
+    
+    // Force optimization for better tree-shaking
+    esbuildOptions: {
+      target: 'es2020',
+    },
   },
 
   // HTML optimization

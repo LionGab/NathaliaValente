@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { QueryProvider } from './contexts/QueryProvider';
@@ -30,14 +30,14 @@ import { EssenceOnboarding } from './components/onboarding/EssenceOnboarding';
 import { FeedbackButton } from './components/FeedbackButton';
 import { trackPageLoad } from './lib/performance';
 
-// Import direto para evitar problemas de lazy loading
-import HomePage from './features/home/screens/HomePageSimple';
-import { FeedPage } from './features/feed/screens/FeedPage';
-import { ChatPage } from './features/chat/screens/ChatPage';
-import { StorePage } from './features/store/screens/StorePage';
-import { ForumPage } from './components/ForumPage';
-import { ProfilePage } from './features/profile/screens/ProfilePage';
-import { ToolsPage } from './features/tools/screens/ToolsPage';
+// Lazy loading de todas as páginas para melhor performance
+const HomePage = lazy(() => import('./features/home/screens/HomePageSimple'));
+const FeedPage = lazy(() => import('./features/feed/screens/FeedPage').then(m => ({ default: m.FeedPage })));
+const ChatPage = lazy(() => import('./features/chat/screens/ChatPage').then(m => ({ default: m.ChatPage })));
+const StorePage = lazy(() => import('./features/store/screens/StorePage').then(m => ({ default: m.StorePage })));
+const ForumPage = lazy(() => import('./components/ForumPage').then(m => ({ default: m.ForumPage })));
+const ProfilePage = lazy(() => import('./features/profile/screens/ProfilePage').then(m => ({ default: m.ProfilePage })));
+const ToolsPage = lazy(() => import('./features/tools/screens/ToolsPage').then(m => ({ default: m.ToolsPage })));
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -172,46 +172,65 @@ function AppContent() {
         </div>
       );
 
-      switch (currentPage) {
-        case 'home':
-          trackPageLoad('home');
-          return <HomePage />;
-        case 'feed':
-          trackPageLoad('feed');
-          return (
-            <FeedErrorBoundary>
-              <FeedPage />
-            </FeedErrorBoundary>
-          );
-        case 'chat':
-          return (
-            <ChatErrorBoundary>
-              <ChatPage />
-            </ChatErrorBoundary>
-          );
-        case 'store':
-          return (
-            <StoreErrorBoundary>
-              <StorePage />
-            </StoreErrorBoundary>
-          );
-        case 'profile':
-          return (
-            <ProfileErrorBoundary>
-              <ProfilePage />
-            </ProfileErrorBoundary>
-          );
-        case 'forum':
-          return (
-            <GroupsErrorBoundary>
-              <ForumPage />
-            </GroupsErrorBoundary>
-          );
-        case 'tools':
-          return <ToolsPage />;
-        default:
-          return <HomePage />;
-      }
+      const PageContent = () => {
+        switch (currentPage) {
+          case 'home':
+            trackPageLoad('home');
+            return <HomePage />;
+          case 'feed':
+            trackPageLoad('feed');
+            return (
+              <FeedErrorBoundary>
+                <FeedPage />
+              </FeedErrorBoundary>
+            );
+          case 'chat':
+            return (
+              <ChatErrorBoundary>
+                <ChatPage />
+              </ChatErrorBoundary>
+            );
+          case 'store':
+            return (
+              <StoreErrorBoundary>
+                <StorePage />
+              </StoreErrorBoundary>
+            );
+          case 'profile':
+            return (
+              <ProfileErrorBoundary>
+                <ProfilePage />
+              </ProfileErrorBoundary>
+            );
+          case 'forum':
+            return (
+              <GroupsErrorBoundary>
+                <ForumPage />
+              </GroupsErrorBoundary>
+            );
+          case 'tools':
+            return <ToolsPage />;
+          default:
+            return <HomePage />;
+        }
+      };
+
+      return (
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-[50vh]">
+              <div className="flex flex-col items-center gap-4">
+                <div className="spinner-modern w-12 h-12"></div>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 animate-pulse">
+                  Carregando...
+                </p>
+              </div>
+            </div>
+          }
+        >
+          <PageContent />
+        </Suspense>
+      );
     };
 
     return (
