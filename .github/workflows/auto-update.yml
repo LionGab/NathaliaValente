@@ -24,7 +24,7 @@ jobs:
         run: npm update # Change this if using a different package manager
 
       - name: Create Pull Request for Dependency Updates
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v7
         with:
           title: 'Automated Dependency Update'
           body: 'This pull request updates the dependencies.'
